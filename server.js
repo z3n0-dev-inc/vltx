@@ -26,6 +26,8 @@ const MONGO_URI = process.env.MONGO_URI ||
 const mongoClient = new MongoClient(MONGO_URI, {
   serverSelectionTimeoutMS: 8000,
   connectTimeoutMS: 10000,
+  tls: true,
+  tlsAllowInvalidCertificates: false,
 });
 let db = null;
 
