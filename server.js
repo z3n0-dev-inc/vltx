@@ -44,7 +44,7 @@ function uploadToCloudinary(buffer, options) {
 
 // ── Middleware ────────────────────────────────────────────────────────────────
 app.use(express.json({ limit: '5mb' }));
-app.use(express.static(path.join(__dirname, 'public')));
+app.use(express.static(__dirname)); // serve from root
 
 // ── API: Save profile ─────────────────────────────────────────────────────────
 app.post('/api/profile', async (req, res) => {
@@ -143,7 +143,7 @@ app.post('/api/upload/music', upload.single('file'), async (req, res) => {
   try {
     const result = await uploadToCloudinary(req.file.buffer, {
       folder: 'vltx/music',
-      resource_type: 'video', // Cloudinary uses "video" for audio files
+      resource_type: 'video',
     });
     const name = path.parse(req.file.originalname).name;
     res.json({ url: result.secure_url, name });
@@ -154,22 +154,22 @@ app.post('/api/upload/music', upload.single('file'), async (req, res) => {
 });
 
 // ── Static pages ──────────────────────────────────────────────────────────────
-app.get('/',          (req, res) => res.sendFile(path.join(__dirname, 'public', 'index.html')));
-app.get('/customize', (req, res) => res.sendFile(path.join(__dirname, 'public', 'customize.html')));
+app.get('/',          (req, res) => res.sendFile(path.join(__dirname, 'index.html')));
+app.get('/customize', (req, res) => res.sendFile(path.join(__dirname, 'customize.html')));
 
 // ── Profile pages /:username ──────────────────────────────────────────────────
-const RESERVED = ['api', 'uploads', 'favicon.ico', 'customize', '404'];
+const RESERVED = ['api', 'favicon.ico', 'customize', '404', 'index.html', 'profile.html', 'server.js', 'package.json'];
 app.get('/:username', async (req, res) => {
   const key = req.params.username.toLowerCase();
   if (RESERVED.some(r => key.startsWith(r)))
-    return res.status(404).sendFile(path.join(__dirname, 'public', '404.html'));
+    return res.status(404).sendFile(path.join(__dirname, '404.html'));
   try {
     const database = await getDB();
     const p = await database.collection('profiles').findOne({ username: key });
-    if (!p) return res.sendFile(path.join(__dirname, 'public', '404.html'));
-    res.sendFile(path.join(__dirname, 'public', 'profile.html'));
+    if (!p) return res.sendFile(path.join(__dirname, '404.html'));
+    res.sendFile(path.join(__dirname, 'profile.html'));
   } catch {
-    res.sendFile(path.join(__dirname, 'public', '404.html'));
+    res.sendFile(path.join(__dirname, '404.html'));
   }
 });
 
