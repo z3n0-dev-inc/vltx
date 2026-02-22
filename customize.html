@@ -1,0 +1,1041 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Customize — VLTX</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;700;800&family=Outfit:wght@300;400;500;600&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+/* =============================================
+   VLTX CUSTOMIZER v2 — ALL BUGS FIXED
+============================================= */
+:root{
+  --bg:#050508;--sur:#0c0c14;--sur2:#111119;
+  --brd:rgba(255,255,255,.07);
+  --acc:#7c3aed;--acc2:#06b6d4;
+  --txt:#e8e8f0;--mut:#6b6b85;
+  --dan:#f43f5e;--suc:#22c55e;
+  --pw:360px;
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+html,body{height:100%;overflow:hidden;}
+body{background:var(--bg);color:var(--txt);font-family:'Outfit',sans-serif;display:flex;flex-direction:column;}
+
+/* ── Top bar ── */
+.topbar{
+height:54px;flex-shrink:0;background:var(–sur);
+border-bottom:1px solid var(–brd);
+display:flex;align-items:center;padding:0 18px;gap:14px;z-index:50;
+}
+.tlogo{font-family:‘Syne’,sans-serif;font-weight:800;font-size:1.15rem;background:linear-gradient(135deg,#fff,var(–acc));-webkit-background-clip:text;-webkit-text-fill-color:transparent;text-decoration:none;margin-right:6px;}
+.ttitle{font-size:.83rem;color:var(–mut);border-left:1px solid var(–brd);padding-left:14px;}
+.tsp{flex:1;}
+.tbtn{padding:8px 16px;border-radius:8px;font-size:.82rem;font-weight:600;border:none;cursor:pointer;font-family:‘Outfit’,sans-serif;transition:all .2s;}
+.tbtn.ghost{background:transparent;color:var(–mut);border:1px solid var(–brd);}
+.tbtn.ghost:hover{color:var(–txt);border-color:rgba(255,255,255,.18);}
+.tbtn.acc{background:var(–acc);color:#fff;box-shadow:0 0 18px rgba(124,58,237,.4);}
+.tbtn.acc:hover{opacity:.85;transform:translateY(-1px);}
+.tbtn.suc{background:var(–suc);color:#000;font-weight:700;}
+.tbtn.suc:hover{opacity:.9;}
+
+/* ── Main layout ── */
+.main{flex:1;display:flex;overflow:hidden;}
+
+/* ── Section nav ── */
+.snav{
+width:210px;flex-shrink:0;background:var(–sur);
+border-right:1px solid var(–brd);overflow-y:auto;padding:14px 8px;
+}
+.snav::-webkit-scrollbar{width:3px;}
+.snav::-webkit-scrollbar-thumb{background:rgba(255,255,255,.07);}
+.sg{font-size:.63rem;letter-spacing:.12em;text-transform:uppercase;color:var(–mut);padding:10px 10px 5px;margin-top:6px;}
+.sg:first-child{margin-top:0;}
+.ni{
+display:flex;align-items:center;gap:9px;
+padding:9px 11px;border-radius:8px;font-size:.86rem;color:var(–mut);
+cursor:pointer;transition:all .15s;border:1px solid transparent;margin-bottom:2px;
+}
+.ni:hover{background:rgba(255,255,255,.04);color:var(–txt);}
+.ni.on{background:rgba(124,58,237,.12);border-color:rgba(124,58,237,.25);color:var(–txt);}
+.nd{width:6px;height:6px;border-radius:50%;background:rgba(255,255,255,.18);flex-shrink:0;margin-left:auto;transition:background .2s;}
+.ni.on .nd{background:var(–acc);}
+.nicon{font-size:.95rem;width:18px;text-align:center;}
+
+/* ── Preview area ── */
+.prev{
+flex:1;display:flex;flex-direction:column;overflow:hidden;
+background:repeating-conic-gradient(rgba(255,255,255,.015) 0% 25%,transparent 0% 50%) 0 0/24px 24px;
+position:relative;
+}
+.prevtop{
+background:rgba(5,5,8,.82);backdrop-filter:blur(10px);
+border-bottom:1px solid var(–brd);
+padding:9px 18px;display:flex;align-items:center;gap:10px;flex-shrink:0;z-index:10;
+}
+.pdots{display:flex;gap:5px;}
+.pdot{width:10px;height:10px;border-radius:50%;}
+.purl{flex:1;background:rgba(255,255,255,.05);border:1px solid var(–brd);padding:4px 12px;border-radius:6px;font-size:.76rem;color:var(–mut);font-family:‘Space Mono’,monospace;}
+.devbtns{display:flex;gap:4px;}
+.devbtn{padding:5px 9px;border-radius:6px;border:none;cursor:pointer;background:rgba(255,255,255,.05);color:var(–mut);font-size:.8rem;transition:all .2s;}
+.devbtn.on{background:rgba(124,58,237,.2);color:var(–acc);}
+
+.prevscroll{flex:1;overflow-y:auto;display:flex;align-items:flex-start;justify-content:center;padding:36px 18px;}
+.prevscroll::-webkit-scrollbar{width:3px;}
+.prevscroll::-webkit-scrollbar-thumb{background:rgba(255,255,255,.07);}
+
+/* ── The actual preview card ── */
+#pc{
+width:100%;max-width:440px;border-radius:22px;
+overflow:hidden;border:1px solid rgba(255,255,255,.09);
+box-shadow:0 40px 80px rgba(0,0,0,.5);
+transition:all .3s ease;
+background:rgba(15,15,26,.88);
+backdrop-filter:blur(20px);
+color:#f0f0fa;
+}
+.pb{height:140px;position:relative;overflow:hidden;}
+.pb canvas{position:absolute;inset:0;width:100%;height:100%;display:block;}
+.paw{position:relative;width:86px;height:86px;margin:-43px auto 0;z-index:5;display:flex;justify-content:center;}
+.pav{
+width:86px;height:86px;border-radius:50%;
+background:linear-gradient(135deg,#a855f7,#22d3ee);
+display:flex;align-items:center;justify-content:center;
+font-size:2.2rem;border:3px solid rgba(168,85,247,.5);
+box-shadow:0 0 0 3px rgba(168,85,247,.12),0 0 22px rgba(168,85,247,.35);
+}
+.pbody{padding:12px 20px 20px;}
+.pname{text-align:center;font-family:‘Syne’,sans-serif;font-size:1.4rem;font-weight:800;letter-spacing:-.02em;background:linear-gradient(135deg,#fff 25%,#a855f7 65%,#22d3ee 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
+.pbio{text-align:center;font-size:.85rem;color:rgba(240,240,250,.55);margin-top:7px;line-height:1.6;}
+.ptags{display:flex;gap:5px;flex-wrap:wrap;justify-content:center;margin-top:9px;}
+.ptag{font-size:.7rem;padding:2px 9px;border-radius:100px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.08);color:rgba(240,240,250,.55);}
+.plinks{display:grid;grid-template-columns:1fr 1fr;gap:7px;margin-top:14px;}
+.plink{padding:9px 11px;border-radius:9px;font-size:.78rem;font-weight:500;display:flex;align-items:center;gap:7px;text-decoration:none;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);color:#f0f0fa;}
+
+/* live bar */
+.livebar{
+padding:9px 18px;background:var(–sur);border-top:1px solid var(–brd);
+display:flex;align-items:center;gap:18px;font-size:.77rem;flex-shrink:0;
+}
+.lindic{display:flex;align-items:center;gap:6px;color:var(–suc);}
+.ldot{width:6px;height:6px;background:var(–suc);border-radius:50%;animation:lp 2s ease-in-out infinite;}
+@keyframes lp{0%,100%{opacity:1;}50%{opacity:.4;}}
+.lstat{color:var(–mut);}
+.lstat strong{color:var(–txt);}
+
+/* ── Right panel ── */
+.rpanel{
+width:var(–pw);flex-shrink:0;background:var(–sur);
+border-left:1px solid var(–brd);overflow-y:auto;display:flex;flex-direction:column;
+}
+.rpanel::-webkit-scrollbar{width:3px;}
+.rpanel::-webkit-scrollbar-thumb{background:rgba(255,255,255,.07);}
+
+.psec{display:none;padding:18px;animation:pIn .22s ease;}
+.psec.on{display:block;}
+@keyframes pIn{from{opacity:0;transform:translateX(8px);}to{opacity:1;transform:none;}}
+
+.pstitle{font-family:‘Syne’,sans-serif;font-size:.95rem;font-weight:700;margin-bottom:18px;display:flex;align-items:center;gap:8px;}
+
+/* ── Controls ── */
+.cg{margin-bottom:20px;}
+.cl{font-size:.74rem;font-weight:600;letter-spacing:.04em;text-transform:uppercase;color:var(–mut);margin-bottom:7px;display:flex;align-items:center;justify-content:space-between;}
+.cv{color:var(–txt);font-size:.78rem;font-weight:500;text-transform:none;letter-spacing:0;font-family:‘Space Mono’,monospace;}
+
+.ci{width:100%;background:var(–sur2);border:1px solid var(–brd);color:var(–txt);padding:9px 13px;border-radius:9px;font-size:.86rem;font-family:‘Outfit’,sans-serif;outline:none;transition:border-color .2s;}
+.ci:focus{border-color:rgba(124,58,237,.5);}
+.ci::placeholder{color:var(–mut);}
+textarea.ci{resize:vertical;min-height:72px;}
+
+.cc{display:flex;gap:7px;align-items:center;}
+.cc input[type=color]{width:38px;height:38px;border:1px solid var(–brd);border-radius:7px;padding:2px;background:var(–sur2);cursor:pointer;flex-shrink:0;}
+.cc .ci{flex:1;}
+
+/* Range */
+.cr{width:100%;appearance:none;height:4px;background:linear-gradient(90deg,var(–acc) var(–v,50%),rgba(255,255,255,.1) var(–v,50%));border-radius:2px;cursor:pointer;outline:none;}
+.cr::-webkit-slider-thumb{appearance:none;width:15px;height:15px;background:var(–acc);border-radius:50%;box-shadow:0 0 7px rgba(124,58,237,.5);transition:transform .15s;}
+.cr::-webkit-slider-thumb:hover{transform:scale(1.2);}
+
+/* Toggle */
+.ctr{display:flex;align-items:center;justify-content:space-between;margin-bottom:11px;}
+.ctl{font-size:.86rem;color:var(–txt);}
+.ctsl{font-size:.73rem;color:var(–mut);display:block;}
+.tog{position:relative;display:inline-block;width:40px;height:22px;flex-shrink:0;}
+.tog input{opacity:0;width:0;height:0;}
+.togs{position:absolute;inset:0;border-radius:100px;background:rgba(255,255,255,.1);cursor:pointer;transition:background .2s;}
+.togs::before{content:’’;position:absolute;height:16px;width:16px;border-radius:50%;left:3px;top:3px;background:#fff;transition:transform .2s;}
+.tog input:checked+.togs{background:var(–acc);}
+.tog input:checked+.togs::before{transform:translateX(18px);}
+
+/* Chips */
+.chips{display:flex;flex-wrap:wrap;gap:5px;}
+.chip{
+padding:5px 13px;border-radius:100px;
+background:rgba(255,255,255,.05);border:1px solid var(–brd);
+font-size:.78rem;color:var(–mut);cursor:pointer;transition:all .15s;
+}
+.chip:hover{color:var(–txt);border-color:rgba(255,255,255,.18);}
+.chip.on{background:rgba(124,58,237,.15);border-color:rgba(124,58,237,.4);color:var(–txt);}
+
+/* Links */
+.ll{display:flex;flex-direction:column;gap:7px;margin-bottom:11px;}
+.li{background:var(–sur2);border:1px solid var(–brd);border-radius:9px;padding:9px 13px;display:flex;align-items:center;gap:9px;transition:border-color .15s;}
+.li:hover{border-color:rgba(255,255,255,.14);}
+.li-icon{font-size:1rem;cursor:grab;}
+.li-label{flex:1;font-size:.84rem;}
+.li-del{background:none;border:none;color:var(–mut);cursor:pointer;font-size:.8rem;padding:2px 6px;border-radius:4px;transition:color .15s;}
+.li-del:hover{color:var(–dan);}
+
+.addbtn{width:100%;padding:9px;border-radius:9px;background:rgba(124,58,237,.08);border:1px dashed rgba(124,58,237,.3);color:var(–acc);font-size:.83rem;font-weight:600;cursor:pointer;transition:background .2s;font-family:‘Outfit’,sans-serif;}
+.addbtn:hover{background:rgba(124,58,237,.15);}
+
+.cdiv{height:1px;background:var(–brd);margin:16px 0;}
+
+/* Presets */
+.presets{display:grid;grid-template-columns:repeat(5,1fr);gap:5px;margin-bottom:9px;}
+.preset{height:34px;border-radius:7px;cursor:pointer;border:2px solid transparent;transition:border-color .15s,transform .15s;}
+.preset:hover{transform:scale(1.08);}
+.preset.on{border-color:#fff;}
+
+/* Tabs */
+.ctabs{display:flex;gap:2px;background:var(–sur2);border-radius:9px;padding:3px;margin-bottom:16px;}
+.ctab{flex:1;padding:6px;border-radius:7px;font-size:.78rem;font-weight:600;text-align:center;cursor:pointer;transition:all .18s;color:var(–mut);border:none;background:none;font-family:‘Outfit’,sans-serif;}
+.ctab.on{background:var(–acc);color:#fff;}
+.ctcont{display:none;}
+.ctcont.on{display:block;}
+
+/* Effect grid */
+.egrid{display:grid;grid-template-columns:repeat(3,1fr);gap:7px;}
+.eopt{aspect-ratio:1;border-radius:11px;border:1px solid var(–brd);background:var(–sur2);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:5px;cursor:pointer;transition:all .2s;font-size:1.3rem;padding:8px;}
+.eopt:hover{border-color:rgba(124,58,237,.4);background:rgba(124,58,237,.06);}
+.eopt.on{border-color:var(–acc);background:rgba(124,58,237,.12);}
+.eopt span{font-size:.68rem;color:var(–mut);text-align:center;}
+
+/* Modal */
+.modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.72);backdrop-filter:blur(8px);z-index:200;display:none;align-items:center;justify-content:center;}
+.modal-overlay.open{display:flex;}
+.modal{background:var(–sur);border:1px solid var(–brd);border-radius:18px;padding:28px;max-width:470px;width:100%;animation:pIn .3s ease;}
+.modal h3{font-family:‘Syne’,sans-serif;font-size:1.2rem;font-weight:800;margin-bottom:10px;}
+.modal p{color:var(–mut);font-size:.88rem;line-height:1.6;margin-bottom:18px;}
+.mcode{background:var(–bg);border:1px solid var(–brd);border-radius:9px;padding:12px 16px;font-family:‘Space Mono’,monospace;font-size:.8rem;color:var(–acc2);margin-bottom:18px;word-break:break-all;cursor:pointer;transition:border-color .2s;}
+.mcode:hover{border-color:rgba(6,182,212,.4);}
+.mact{display:flex;gap:9px;justify-content:flex-end;}
+
+/* Add-link modal */
+.al-form{display:flex;flex-direction:column;gap:10px;margin-bottom:18px;}
+.al-form input{width:100%;background:var(–sur2);border:1px solid var(–brd);color:var(–txt);padding:10px 13px;border-radius:9px;font-size:.86rem;font-family:‘Outfit’,sans-serif;outline:none;transition:border-color .2s;}
+.al-form input:focus{border-color:rgba(124,58,237,.5);}
+.al-form input::placeholder{color:var(–mut);}
+
+/* Toast */
+.toast{position:fixed;bottom:18px;right:18px;background:var(–sur2);border:1px solid rgba(124,58,237,.3);color:var(–txt);padding:11px 18px;border-radius:9px;font-size:.84rem;font-weight:500;transform:translateY(70px);opacity:0;transition:all .38s cubic-bezier(.16,1,.3,1);z-index:9999;box-shadow:0 20px 40px rgba(0,0,0,.5);pointer-events:none;}
+.toast.show{transform:translateY(0);opacity:1;}
+</style>
+
+</head>
+<body>
+
+<div class="toast" id="toast"></div>
+
+<!-- TOP BAR -->
+
+<div class="topbar">
+  <a class="tlogo" href="index.html">VLTX</a>
+  <span class="ttitle">Profile Editor</span>
+  <div class="tsp"></div>
+  <button class="tbtn ghost" onclick="openShareModal()">🔗 Share</button>
+  <button class="tbtn ghost" onclick="window.open('profile.html','_blank')">👁 Preview</button>
+  <button class="tbtn suc" onclick="save()">✦ Save</button>
+</div>
+
+<div class="main">
+
+  <!-- LEFT NAV -->
+
+  <div class="snav">
+    <div class="sg">Profile</div>
+    <div class="ni on" id="ni-identity" onclick="showSec('identity')"><span class="nicon">👤</span>Identity<div class="nd"></div></div>
+    <div class="ni" id="ni-bio" onclick="showSec('bio')"><span class="nicon">✍️</span>Bio & Tags<div class="nd"></div></div>
+    <div class="ni" id="ni-links" onclick="showSec('links')"><span class="nicon">🔗</span>Links<div class="nd"></div></div>
+    <div class="sg">Appearance</div>
+    <div class="ni" id="ni-colors" onclick="showSec('colors')"><span class="nicon">🎨</span>Colors<div class="nd"></div></div>
+    <div class="ni" id="ni-background" onclick="showSec('background')"><span class="nicon">🌌</span>Background<div class="nd"></div></div>
+    <div class="ni" id="ni-fonts" onclick="showSec('fonts')"><span class="nicon">🖋️</span>Fonts<div class="nd"></div></div>
+    <div class="ni" id="ni-layout" onclick="showSec('layout')"><span class="nicon">📐</span>Layout<div class="nd"></div></div>
+    <div class="sg">Effects</div>
+    <div class="ni" id="ni-effects" onclick="showSec('effects')"><span class="nicon">✨</span>Animations<div class="nd"></div></div>
+    <div class="ni" id="ni-cursor" onclick="showSec('cursor')"><span class="nicon">🖱️</span>Cursor<div class="nd"></div></div>
+    <div class="ni" id="ni-particles" onclick="showSec('particles')"><span class="nicon">🌟</span>Particles<div class="nd"></div></div>
+    <div class="sg">Media</div>
+    <div class="ni" id="ni-music" onclick="showSec('music')"><span class="nicon">🎵</span>Music Player<div class="nd"></div></div>
+    <div class="ni" id="ni-video" onclick="showSec('video')"><span class="nicon">🎬</span>Video BG<div class="nd"></div></div>
+    <div class="sg">Extras</div>
+    <div class="ni" id="ni-discord" onclick="showSec('discord')"><span class="nicon">💬</span>Discord<div class="nd"></div></div>
+    <div class="ni" id="ni-seo" onclick="showSec('seo')"><span class="nicon">🔍</span>SEO & Meta<div class="nd"></div></div>
+  </div>
+
+  <!-- CENTER PREVIEW -->
+
+  <div class="prev">
+    <div class="prevtop">
+      <div class="pdots">
+        <div class="pdot" style="background:#f43f5e"></div>
+        <div class="pdot" style="background:#fbbf24"></div>
+        <div class="pdot" style="background:#22c55e"></div>
+      </div>
+      <div class="purl">vltx.io/<span id="purlname">yourname</span></div>
+      <div class="devbtns">
+        <button class="devbtn on" onclick="setDev('desktop',this)" title="Desktop">🖥</button>
+        <button class="devbtn" onclick="setDev('mobile',this)" title="Mobile">📱</button>
+      </div>
+    </div>
+
+```
+<div class="prevscroll">
+  <div id="pc">
+    <div class="pb"><canvas id="pvc"></canvas></div>
+    <div class="paw"><div class="pav" id="pav">👾</div></div>
+    <div class="pbody">
+      <div class="pname" id="pname">Your Name</div>
+      <div class="pbio" id="pbio">your bio goes here...</div>
+      <div class="ptags" id="ptags"></div>
+      <div class="plinks" id="plinks">
+        <a class="plink" href="#"><span>🐦</span>Twitter</a>
+        <a class="plink" href="#"><span>📷</span>Instagram</a>
+        <a class="plink" href="#"><span>💬</span>Discord</a>
+        <a class="plink" href="#"><span>🎵</span>Spotify</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="livebar">
+  <div class="lindic"><div class="ldot"></div>Live Preview</div>
+  <div class="lstat">Changes apply <strong>instantly</strong></div>
+  <div class="lstat" style="margin-left:auto">vltx.io/<strong><span id="lurlname">yourname</span></strong></div>
+</div>
+```
+
+  </div>
+
+  <!-- RIGHT PANEL -->
+
+  <div class="rpanel">
+
+```
+<!-- IDENTITY -->
+<div class="psec on" id="sec-identity">
+  <div class="pstitle"><span>👤</span>Identity</div>
+  <div class="cg">
+    <div class="cl">Username / URL</div>
+    <input class="ci" type="text" id="in-user" placeholder="yourname" oninput="up()">
+    <div style="font-size:.73rem;color:var(--mut);margin-top:5px;">vltx.io/<span id="upreview">yourname</span></div>
+  </div>
+  <div class="cg">
+    <div class="cl">Display Name</div>
+    <input class="ci" type="text" id="in-name" placeholder="Your Display Name" oninput="up()">
+  </div>
+  <div class="cg">
+    <div class="cl">Avatar Emoji</div>
+    <div style="display:grid;grid-template-columns:74px 1fr;gap:10px;align-items:center;">
+      <div id="avprev" style="width:74px;height:74px;border-radius:50%;background:linear-gradient(135deg,var(--acc),var(--acc2));display:flex;align-items:center;justify-content:center;font-size:2rem;border:2px solid rgba(255,255,255,.1);">👾</div>
+      <div>
+        <input class="ci" type="text" id="in-av" placeholder="👾 or image URL" oninput="up()" style="margin-bottom:7px;">
+        <div class="chips">
+          <div class="chip" onclick="setAv('👾')">👾</div>
+          <div class="chip" onclick="setAv('🔥')">🔥</div>
+          <div class="chip" onclick="setAv('💀')">💀</div>
+          <div class="chip" onclick="setAv('🌙')">🌙</div>
+          <div class="chip" onclick="setAv('⚡')">⚡</div>
+          <div class="chip" onclick="setAv('✨')">✨</div>
+          <div class="chip" onclick="setAv('🎮')">🎮</div>
+          <div class="chip" onclick="setAv('🐉')">🐉</div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="cg">
+    <div class="cl">Pronouns</div>
+    <div class="chips" style="margin-bottom:7px;">
+      <div class="chip" onclick="setpron('he/him')">he/him</div>
+      <div class="chip" onclick="setpron('she/her')">she/her</div>
+      <div class="chip" onclick="setpron('they/them')">they/them</div>
+      <div class="chip" onclick="setpron('')">none</div>
+    </div>
+    <input class="ci" type="text" id="in-pron" placeholder="or type custom..." oninput="up()">
+  </div>
+</div>
+
+<!-- BIO -->
+<div class="psec" id="sec-bio">
+  <div class="pstitle"><span>✍️</span>Bio & Tags</div>
+  <div class="cg">
+    <div class="cl">Bio</div>
+    <textarea class="ci" id="in-bio" placeholder="Write something cool..." oninput="up()"></textarea>
+  </div>
+  <div class="cg">
+    <div class="cl">Typewriter Phrases</div>
+    <div style="font-size:.76rem;color:var(--mut);margin-bottom:7px;">Phrases cycle automatically with typewriter effect</div>
+    <div id="tw-phrases">
+      <input class="ci" type="text" placeholder="Phrase 1..." value="full time lurker. part time god." style="margin-bottom:5px;" oninput="up()">
+      <input class="ci" type="text" placeholder="Phrase 2..." style="margin-bottom:5px;" oninput="up()">
+    </div>
+    <button class="addbtn" onclick="addPhrase()" style="margin-top:4px;">+ Add phrase</button>
+  </div>
+  <div class="cg">
+    <div class="cl">Tags / Badges</div>
+    <input class="ci" type="text" id="in-tags" placeholder="🌙 night owl, 🎮 gamer, 🎨 artist" oninput="up()">
+    <div style="font-size:.73rem;color:var(--mut);margin-top:5px;">Separate with commas</div>
+  </div>
+  <div class="cg">
+    <div class="cl">Typewriter Speed <span class="cv" id="twspeedv">75ms</span></div>
+    <input type="range" class="cr" min="30" max="200" value="75" style="--v:30%" oninput="rng(this,'twspeedv','ms')">
+  </div>
+</div>
+
+<!-- LINKS -->
+<div class="psec" id="sec-links">
+  <div class="pstitle"><span>🔗</span>Links</div>
+  <div style="font-size:.8rem;color:var(--mut);margin-bottom:14px;">Click ✕ to remove. Add as many as you want.</div>
+  <div class="ll" id="link-list">
+    <div class="li"><span class="li-icon">⋮⋮</span><span class="li-label">🐦 Twitter</span><button class="li-del" onclick="delLink(this)">✕</button></div>
+    <div class="li"><span class="li-icon">⋮⋮</span><span class="li-label">📷 Instagram</span><button class="li-del" onclick="delLink(this)">✕</button></div>
+    <div class="li"><span class="li-icon">⋮⋮</span><span class="li-label">💬 Discord Server</span><button class="li-del" onclick="delLink(this)">✕</button></div>
+    <div class="li"><span class="li-icon">⋮⋮</span><span class="li-label">🎵 Spotify</span><button class="li-del" onclick="delLink(this)">✕</button></div>
+  </div>
+  <button class="addbtn" onclick="openAddLink()">+ Add link</button>
+  <div class="cdiv"></div>
+  <div class="cg">
+    <div class="cl">Button Style</div>
+    <div class="chips">
+      <div class="chip on" onclick="chip(this)">Rounded</div>
+      <div class="chip" onclick="chip(this)">Pill</div>
+      <div class="chip" onclick="chip(this)">Square</div>
+      <div class="chip" onclick="chip(this)">Outline</div>
+    </div>
+  </div>
+  <div class="cg">
+    <div class="cl">Layout</div>
+    <div class="chips">
+      <div class="chip on" onclick="chip(this)">2 columns</div>
+      <div class="chip" onclick="chip(this)">1 column</div>
+      <div class="chip" onclick="chip(this)">List</div>
+    </div>
+  </div>
+  <div class="ctr"><div class="ctl">Show click counts</div><label class="tog"><input type="checkbox"><span class="togs"></span></label></div>
+</div>
+
+<!-- COLORS -->
+<div class="psec" id="sec-colors">
+  <div class="pstitle"><span>🎨</span>Colors & Theme</div>
+  <div class="cg">
+    <div class="cl">Theme Presets</div>
+    <div class="presets">
+      <div class="preset on" style="background:linear-gradient(135deg,#0d0014,#0a0a2a);" onclick="applyPreset(this,'dark-purple')" title="Dark Purple"></div>
+      <div class="preset" style="background:linear-gradient(135deg,#0a1628,#001a1a);" onclick="applyPreset(this,'ocean')" title="Ocean"></div>
+      <div class="preset" style="background:linear-gradient(135deg,#1a0a00,#2a0010);" onclick="applyPreset(this,'inferno')" title="Inferno"></div>
+      <div class="preset" style="background:linear-gradient(135deg,#001200,#0a1400);" onclick="applyPreset(this,'matrix')" title="Matrix"></div>
+      <div class="preset" style="background:linear-gradient(135deg,#1a1a1a,#2a2a2a);" onclick="applyPreset(this,'mono')" title="Mono"></div>
+      <div class="preset" style="background:linear-gradient(135deg,#ffe4e1,#ffc0cb);" onclick="applyPreset(this,'pastel')" title="Pastel"></div>
+      <div class="preset" style="background:#fff;" onclick="applyPreset(this,'light')" title="Light"></div>
+      <div class="preset" style="background:conic-gradient(red,orange,yellow,green,blue,purple,red);" onclick="applyPreset(this,'rainbow')" title="Rainbow"></div>
+      <div class="preset" style="background:linear-gradient(135deg,#0a0a1a,#14001a);" onclick="applyPreset(this,'galaxy')" title="Galaxy"></div>
+      <div class="preset" style="background:linear-gradient(135deg,#0a0500,#051a00);" onclick="applyPreset(this,'toxic')" title="Toxic"></div>
+    </div>
+  </div>
+  <div class="cdiv"></div>
+  <div class="cg">
+    <div class="cl">Accent Color</div>
+    <div class="cc">
+      <input type="color" value="#7c3aed" id="col-acc" oninput="document.getElementById('col-acc-txt').value=this.value;setAccent(this.value)">
+      <input class="ci" type="text" id="col-acc-txt" value="#7c3aed" oninput="setAccent(this.value)">
+    </div>
+  </div>
+  <div class="cg">
+    <div class="cl">Card Background</div>
+    <div class="cc">
+      <input type="color" value="#0d0d1a" id="col-card" oninput="document.getElementById('col-card-txt').value=this.value;setCardBg(this.value)">
+      <input class="ci" type="text" id="col-card-txt" value="#0d0d1a" oninput="setCardBg(this.value)">
+    </div>
+  </div>
+  <div class="cg">
+    <div class="cl">Text Color</div>
+    <div class="cc">
+      <input type="color" value="#f0f0fa" id="col-txt" oninput="document.getElementById('col-txt-txt').value=this.value;setTxtColor(this.value)">
+      <input class="ci" type="text" id="col-txt-txt" value="#f0f0fa" oninput="setTxtColor(this.value)">
+    </div>
+  </div>
+  <div class="cg">
+    <div class="cl">Card Opacity <span class="cv" id="opv">85%</span></div>
+    <input type="range" class="cr" min="20" max="100" value="85" style="--v:75%" oninput="rng(this,'opv','%');setOpacity(this.value)">
+  </div>
+  <div class="cg">
+    <div class="cl">Blur Amount <span class="cv" id="blurv">20px</span></div>
+    <input type="range" class="cr" min="0" max="80" value="20" style="--v:25%" oninput="rng(this,'blurv','px');setBlur(this.value)">
+  </div>
+  <div class="cg">
+    <div class="cl">Glow Intensity <span class="cv" id="glowv">40%</span></div>
+    <input type="range" class="cr" min="0" max="100" value="40" style="--v:40%" oninput="rng(this,'glowv','%');setGlow(this.value)">
+  </div>
+  <div class="ctr"><div class="ctl">Gradient card fill</div><label class="tog"><input type="checkbox" onchange="setGradCard(this.checked)"><span class="togs"></span></label></div>
+  <div class="ctr"><div class="ctl">Spinning border</div><label class="tog"><input type="checkbox" checked><span class="togs"></span></label></div>
+</div>
+
+<!-- BACKGROUND -->
+<div class="psec" id="sec-background">
+  <div class="pstitle"><span>🌌</span>Background</div>
+  <div class="ctabs">
+    <button class="ctab on" onclick="ctab(this,'bgt-solid')">Solid</button>
+    <button class="ctab" onclick="ctab(this,'bgt-gradient')">Gradient</button>
+    <button class="ctab" onclick="ctab(this,'bgt-image')">Image</button>
+    <button class="ctab" onclick="ctab(this,'bgt-video')">Video</button>
+  </div>
+  <div class="ctcont on" id="bgt-solid">
+    <div class="cg"><div class="cl">Background Color</div><div class="cc"><input type="color" value="#050508" oninput="setBg(this.value)"><input class="ci" type="text" value="#050508" oninput="setBg(this.value)"></div></div>
+  </div>
+  <div class="ctcont" id="bgt-gradient">
+    <div class="cg"><div class="cl">Start Color</div><div class="cc"><input type="color" value="#0d0520"><input class="ci" type="text" value="#0d0520"></div></div>
+    <div class="cg"><div class="cl">End Color</div><div class="cc"><input type="color" value="#050508"><input class="ci" type="text" value="#050508"></div></div>
+    <div class="cg"><div class="cl">Angle <span class="cv" id="gangv">135°</span></div><input type="range" class="cr" min="0" max="360" value="135" style="--v:37.5%" oninput="rng(this,'gangv','°')"></div>
+  </div>
+  <div class="ctcont" id="bgt-image">
+    <div class="cg"><div class="cl">Image URL</div><input class="ci" type="text" placeholder="https://..."></div>
+    <div class="cg"><div class="cl">Image Fit</div><div class="chips"><div class="chip on" onclick="chip(this)">Cover</div><div class="chip" onclick="chip(this)">Contain</div><div class="chip" onclick="chip(this)">Repeat</div></div></div>
+    <div class="cg"><div class="cl">Opacity <span class="cv" id="bgiov">80%</span></div><input type="range" class="cr" min="10" max="100" value="80" style="--v:77.8%" oninput="rng(this,'bgiov','%')"></div>
+    <div class="cg"><div class="cl">Blur <span class="cv" id="bgibv">0px</span></div><input type="range" class="cr" min="0" max="20" value="0" style="--v:0%" oninput="rng(this,'bgibv','px')"></div>
+  </div>
+  <div class="ctcont" id="bgt-video">
+    <div class="cg"><div class="cl">Video URL</div><input class="ci" type="text" placeholder="YouTube URL or direct MP4"></div>
+    <div class="cg"><div class="cl">Opacity <span class="cv" id="vopv">20%</span></div><input type="range" class="cr" min="5" max="80" value="20" style="--v:19.1%" oninput="rng(this,'vopv','%')"></div>
+    <div class="ctr"><div class="ctl">Loop</div><label class="tog"><input type="checkbox" checked><span class="togs"></span></label></div>
+    <div class="ctr"><div class="ctl">Mute</div><label class="tog"><input type="checkbox" checked><span class="togs"></span></label></div>
+  </div>
+  <div class="cdiv"></div>
+  <div class="cg">
+    <div class="cl">Banner Style</div>
+    <div class="chips"><div class="chip on" onclick="chip(this)">Starfield</div><div class="chip" onclick="chip(this)">Aurora</div><div class="chip" onclick="chip(this)">Gradient</div><div class="chip" onclick="chip(this)">Image</div><div class="chip" onclick="chip(this)">None</div></div>
+  </div>
+</div>
+
+<!-- FONTS -->
+<div class="psec" id="sec-fonts">
+  <div class="pstitle"><span>🖋️</span>Fonts</div>
+  <div class="cg">
+    <div class="cl">Name Font</div>
+    <div class="chips">
+      <div class="chip on" onclick="setFont(this,'Syne')">Syne</div>
+      <div class="chip" onclick="setFont(this,'Bebas Neue')">Bebas</div>
+      <div class="chip" onclick="setFont(this,'Georgia')">Georgia</div>
+      <div class="chip" onclick="setFont(this,'Outfit')">Outfit</div>
+      <div class="chip" onclick="setFont(this,'monospace')">Mono</div>
+    </div>
+  </div>
+  <div class="cg">
+    <div class="cl">Body Font</div>
+    <div class="chips">
+      <div class="chip on" onclick="chip(this)">Outfit</div>
+      <div class="chip" onclick="chip(this)">DM Sans</div>
+      <div class="chip" onclick="chip(this)">Lato</div>
+      <div class="chip" onclick="chip(this)">Nunito</div>
+    </div>
+  </div>
+  <div class="cg">
+    <div class="cl">Name Size <span class="cv" id="nfsizev">1.4rem</span></div>
+    <input type="range" class="cr" min="16" max="48" value="22" style="--v:18.75%" oninput="setNameSize(this)">
+  </div>
+  <div class="cg">
+    <div class="cl">Name Effect</div>
+    <div class="chips">
+      <div class="chip on" onclick="chip(this)">Gradient</div>
+      <div class="chip" onclick="chip(this)">Glow</div>
+      <div class="chip" onclick="chip(this)">Shimmer</div>
+      <div class="chip" onclick="chip(this)">Neon</div>
+      <div class="chip" onclick="chip(this)">None</div>
+    </div>
+  </div>
+</div>
+
+<!-- LAYOUT -->
+<div class="psec" id="sec-layout">
+  <div class="pstitle"><span>📐</span>Layout</div>
+  <div class="cg">
+    <div class="cl">Card Width <span class="cv" id="cwv">440px</span></div>
+    <input type="range" class="cr" min="300" max="660" value="440" style="--v:38.9%" oninput="setCardW(this)">
+  </div>
+  <div class="cg">
+    <div class="cl">Border Radius <span class="cv" id="brv">22px</span></div>
+    <input type="range" class="cr" min="0" max="40" value="22" style="--v:55%" oninput="rng(this,'brv','px');document.getElementById('pc').style.borderRadius=this.value+'px'">
+  </div>
+  <div class="cg">
+    <div class="cl">Avatar Size</div>
+    <div class="chips">
+      <div class="chip" onclick="setAvatarSize('68px')">Small</div>
+      <div class="chip on" onclick="setAvatarSize('86px')">Medium</div>
+      <div class="chip" onclick="setAvatarSize('108px')">Large</div>
+      <div class="chip" onclick="setAvatarSize('128px')">XL</div>
+    </div>
+  </div>
+  <div class="ctr"><div class="ctl">Show banner</div><label class="tog"><input type="checkbox" checked onchange="document.querySelector('.pb').style.display=this.checked?'':'none'"><span class="togs"></span></label></div>
+  <div class="ctr"><div class="ctl">Show link buttons</div><label class="tog"><input type="checkbox" checked onchange="document.getElementById('plinks').style.display=this.checked?'':'none'"><span class="togs"></span></label></div>
+  <div class="ctr"><div class="ctl">Show tags</div><label class="tog"><input type="checkbox" checked onchange="document.getElementById('ptags').style.display=this.checked?'':'none'"><span class="togs"></span></label></div>
+</div>
+
+<!-- EFFECTS -->
+<div class="psec" id="sec-effects">
+  <div class="pstitle"><span>✨</span>Animations</div>
+  <div class="cg">
+    <div class="cl">Page Load</div>
+    <div class="chips"><div class="chip on" onclick="chip(this)">Slide Up</div><div class="chip" onclick="chip(this)">Fade In</div><div class="chip" onclick="chip(this)">Zoom</div><div class="chip" onclick="chip(this)">Glitch</div><div class="chip" onclick="chip(this)">None</div></div>
+  </div>
+  <div class="cg">
+    <div class="cl">Avatar Animation</div>
+    <div class="chips"><div class="chip on" onclick="chip(this)">Float</div><div class="chip" onclick="chip(this)">Pulse</div><div class="chip" onclick="chip(this)">Spin</div><div class="chip" onclick="chip(this)">Bounce</div><div class="chip" onclick="chip(this)">None</div></div>
+  </div>
+  <div class="cg">
+    <div class="cl">Card Hover</div>
+    <div class="chips"><div class="chip on" onclick="chip(this)">3D Tilt</div><div class="chip" onclick="chip(this)">Lift</div><div class="chip" onclick="chip(this)">Glow</div><div class="chip" onclick="chip(this)">None</div></div>
+  </div>
+  <div class="cg">
+    <div class="cl">Button Hover</div>
+    <div class="chips"><div class="chip on" onclick="chip(this)">Lift + Glow</div><div class="chip" onclick="chip(this)">Fill</div><div class="chip" onclick="chip(this)">Slide</div><div class="chip" onclick="chip(this)">Ripple</div></div>
+  </div>
+  <div class="ctr"><div><div class="ctl">Name shimmer loop</div></div><label class="tog"><input type="checkbox" checked><span class="togs"></span></label></div>
+  <div class="ctr"><div><div class="ctl">Banner animation</div></div><label class="tog"><input type="checkbox" checked><span class="togs"></span></label></div>
+</div>
+
+<!-- CURSOR -->
+<div class="psec" id="sec-cursor">
+  <div class="pstitle"><span>🖱️</span>Cursor</div>
+  <div class="cg">
+    <div class="cl">Cursor Style</div>
+    <div class="egrid">
+      <div class="eopt on" onclick="eopt(this)">🔵<span>Dot</span></div>
+      <div class="eopt" onclick="eopt(this)">⭕<span>Ring</span></div>
+      <div class="eopt" onclick="eopt(this)">✚<span>Cross</span></div>
+      <div class="eopt" onclick="eopt(this)">✨<span>Sparkle</span></div>
+      <div class="eopt" onclick="eopt(this)">🔥<span>Fire</span></div>
+      <div class="eopt" onclick="eopt(this)">💻<span>Default</span></div>
+    </div>
+  </div>
+  <div class="cg">
+    <div class="cl">Cursor Color</div>
+    <div class="cc"><input type="color" value="#7c3aed"><input class="ci" type="text" value="#7c3aed"></div>
+  </div>
+  <div class="cg">
+    <div class="cl">Trail Length <span class="cv" id="trlv">8</span></div>
+    <input type="range" class="cr" min="0" max="30" value="8" style="--v:26.7%" oninput="rng(this,'trlv','')">
+  </div>
+</div>
+
+<!-- PARTICLES -->
+<div class="psec" id="sec-particles">
+  <div class="pstitle"><span>🌟</span>Particles</div>
+  <div class="cg">
+    <div class="cl">Particle Type</div>
+    <div class="egrid">
+      <div class="eopt on" onclick="eopt(this)">🚫<span>None</span></div>
+      <div class="eopt" onclick="eopt(this)">⭐<span>Stars</span></div>
+      <div class="eopt" onclick="eopt(this)">❄️<span>Snow</span></div>
+      <div class="eopt" onclick="eopt(this)">🌸<span>Sakura</span></div>
+      <div class="eopt" onclick="eopt(this)">💚<span>Matrix</span></div>
+      <div class="eopt" onclick="eopt(this)">🫧<span>Bubbles</span></div>
+      <div class="eopt" onclick="eopt(this)">🪲<span>Fireflies</span></div>
+      <div class="eopt" onclick="eopt(this)">🎊<span>Confetti</span></div>
+      <div class="eopt" onclick="eopt(this)">🕸<span>Network</span></div>
+    </div>
+  </div>
+  <div class="cg">
+    <div class="cl">Count <span class="cv" id="pcntv">60</span></div>
+    <input type="range" class="cr" min="10" max="200" value="60" style="--v:26.3%" oninput="rng(this,'pcntv','')">
+  </div>
+  <div class="cg">
+    <div class="cl">Speed <span class="cv" id="pspv">1.0x</span></div>
+    <input type="range" class="cr" min="1" max="30" value="10" style="--v:31%" oninput="this.closest('.cg').querySelector('.cv').textContent=(this.value/10).toFixed(1)+'x';rngPct(this)">
+  </div>
+  <div class="cg">
+    <div class="cl">Color</div>
+    <div class="cc"><input type="color" value="#7c3aed"><input class="ci" type="text" value="#7c3aed"></div>
+  </div>
+</div>
+
+<!-- MUSIC -->
+<div class="psec" id="sec-music">
+  <div class="pstitle"><span>🎵</span>Music Player</div>
+  <div class="ctr"><div><div class="ctl">Enable music player</div><span class="ctsl">Show player on profile</span></div><label class="tog"><input type="checkbox" checked><span class="togs"></span></label></div>
+  <div class="ctr"><div><div class="ctl">Autoplay on load</div><span class="ctsl">Music starts automatically</span></div><label class="tog"><input type="checkbox"><span class="togs"></span></label></div>
+  <div class="cdiv"></div>
+  <div class="cg"><div class="cl">Track 1 — Title</div><input class="ci" type="text" placeholder="Song — Artist" value="Paradox — Hxllywood"></div>
+  <div class="cg"><div class="cl">Track 1 — Audio URL</div><input class="ci" type="text" placeholder="https://...mp3 (direct link)"></div>
+  <button class="addbtn" style="margin-bottom:16px;">+ Add track</button>
+  <div class="cg">
+    <div class="cl">Player Style</div>
+    <div class="chips"><div class="chip on" onclick="chip(this)">Default</div><div class="chip" onclick="chip(this)">Minimal</div><div class="chip" onclick="chip(this)">Large</div><div class="chip" onclick="chip(this)">Vinyl</div></div>
+  </div>
+  <div class="ctr"><div class="ctl">Progress bar</div><label class="tog"><input type="checkbox" checked><span class="togs"></span></label></div>
+</div>
+
+<!-- VIDEO BG -->
+<div class="psec" id="sec-video">
+  <div class="pstitle"><span>🎬</span>Video Background</div>
+  <div class="ctr"><div><div class="ctl">Enable video background</div></div><label class="tog"><input type="checkbox"><span class="togs"></span></label></div>
+  <div class="cg"><div class="cl">Video URL</div><input class="ci" type="text" placeholder="YouTube or MP4 link"><div style="font-size:.73rem;color:var(--mut);margin-top:5px;">Supports YouTube, Vimeo, direct MP4</div></div>
+  <div class="cg"><div class="cl">Overlay Color</div><div class="cc"><input type="color" value="#050508"><input class="ci" type="text" value="#050508"></div></div>
+  <div class="cg"><div class="cl">Overlay Opacity <span class="cv" id="vovv">80%</span></div><input type="range" class="cr" min="20" max="99" value="80" style="--v:76.3%" oninput="rng(this,'vovv','%')"></div>
+  <div class="ctr"><div class="ctl">Loop</div><label class="tog"><input type="checkbox" checked><span class="togs"></span></label></div>
+</div>
+
+<!-- DISCORD -->
+<div class="psec" id="sec-discord">
+  <div class="pstitle"><span>💬</span>Discord Status</div>
+  <div class="ctr"><div><div class="ctl">Show Discord presence</div><span class="ctsl">Real-time status on profile</span></div><label class="tog"><input type="checkbox" checked><span class="togs"></span></label></div>
+  <div class="cg"><div class="cl">Discord User ID</div><input class="ci" type="text" placeholder="Your 18-digit Discord ID"><div style="font-size:.73rem;color:var(--mut);margin-top:5px;">Developer Mode → right-click name → Copy ID</div></div>
+  <div class="ctr"><div class="ctl">Show activity</div><label class="tog"><input type="checkbox" checked><span class="togs"></span></label></div>
+  <div class="ctr"><div class="ctl">Show Spotify listening</div><label class="tog"><input type="checkbox" checked><span class="togs"></span></label></div>
+</div>
+
+<!-- SEO -->
+<div class="psec" id="sec-seo">
+  <div class="pstitle"><span>🔍</span>SEO & Meta</div>
+  <div class="cg"><div class="cl">Page Title</div><input class="ci" type="text" placeholder="phantom — vltx.io"></div>
+  <div class="cg"><div class="cl">Meta Description</div><textarea class="ci" placeholder="Short description for search results..." style="min-height:60px;"></textarea></div>
+  <div class="cg"><div class="cl">OG Image URL</div><input class="ci" type="text" placeholder="https://... (shown when link is shared)"></div>
+  <div class="ctr"><div class="ctl">Allow search indexing</div><label class="tog"><input type="checkbox" checked><span class="togs"></span></label></div>
+  <div class="ctr"><div class="ctl">Hide view count publicly</div><label class="tog"><input type="checkbox"><span class="togs"></span></label></div>
+</div>
+```
+
+  </div><!-- /rpanel -->
+</div><!-- /main -->
+
+<!-- SHARE MODAL -->
+
+<div class="modal-overlay" id="shareModal">
+  <div class="modal">
+    <h3>🔗 Your profile link</h3>
+    <p>Upload these files to GitHub and enable Pages in Settings. Your profile will be live 24/7, completely free.</p>
+    <div class="mcode" id="mlink" onclick="copyLink()">vltx.io/<span id="muser">yourname</span></div>
+    <div style="font-size:.8rem;color:var(--mut);margin-bottom:16px;">💡 Click to copy · GitHub Pages = free 24/7 hosting</div>
+    <div class="mact">
+      <button class="tbtn ghost" onclick="closeModal()">Close</button>
+      <button class="tbtn acc" onclick="copyLink()">📋 Copy Link</button>
+    </div>
+  </div>
+</div>
+
+<!-- ADD LINK MODAL (replaces broken prompt()) -->
+
+<div class="modal-overlay" id="addLinkModal">
+  <div class="modal">
+    <h3>🔗 Add a link</h3>
+    <div class="al-form">
+      <input type="text" id="al-label" placeholder="Label (e.g. 🐦 Twitter)" autofocus>
+      <input type="text" id="al-url" placeholder="URL (e.g. https://twitter.com/you)">
+    </div>
+    <div class="mact">
+      <button class="tbtn ghost" onclick="closeAddLink()">Cancel</button>
+      <button class="tbtn acc" onclick="confirmAddLink()">Add Link</button>
+    </div>
+  </div>
+</div>
+
+<script>
+/* ================================================================
+   VLTX Customizer v2 — Clean JS, all bugs fixed
+================================================================ */
+
+// ── NAV SECTION SWITCHING ──
+function showSec(id){
+  document.querySelectorAll('.psec').forEach(s=>s.classList.remove('on'));
+  document.querySelectorAll('.ni').forEach(n=>n.classList.remove('on'));
+  document.getElementById('sec-'+id).classList.add('on');
+  document.getElementById('ni-'+id).classList.add('on');
+}
+
+
+// ── LIVE PREVIEW UPDATE ──
+function up(){
+  const user=(document.getElementById('in-user')||{}).value||'yourname';
+  const name=(document.getElementById('in-name')||{}).value||'Your Name';
+  const bio=(document.getElementById('in-bio')||{}).value||'your bio goes here...';
+  const tags=(document.getElementById('in-tags')||{}).value||'';
+  const av=(document.getElementById('in-av')||{}).value||'👾';
+
+  // URL display
+  ['purlname','lurlname','upreview','muser'].forEach(id=>{
+    const el=document.getElementById(id);if(el)el.textContent=user||'yourname';
+  });
+
+  // Name
+  const pname=document.getElementById('pname');
+  if(pname)pname.textContent=name||'Your Name';
+
+  // Bio
+  const pbio=document.getElementById('pbio');
+  if(pbio)pbio.textContent=bio;
+
+  // Avatar
+  const pav=document.getElementById('pav');
+  if(pav){
+    if(av.startsWith('http')||av.startsWith('/')){
+      pav.style.backgroundImage=`url(${av})`;pav.style.backgroundSize='cover';pav.textContent='';
+    } else {
+      pav.style.backgroundImage='';pav.textContent=av||'👾';
+    }
+  }
+  const aprev=document.getElementById('avprev');
+  if(aprev&&!av.startsWith('http'))aprev.textContent=av||'👾';
+
+  // Tags
+  const pt=document.getElementById('ptags');
+  if(pt){
+    pt.innerHTML='';
+    if(tags.trim()){
+      tags.split(',').slice(0,6).forEach(t=>{
+        const s=document.createElement('span');
+        s.className='ptag';s.textContent=t.trim();pt.appendChild(s);
+      });
+    }
+  }
+}
+
+
+// ── RANGE SLIDER ──
+function rngPct(input){
+  const v=(input.value-input.min)/(input.max-input.min)*100;
+  input.style.setProperty('--v',v+'%');
+}
+function rng(input,valId,unit){
+  const el=document.getElementById(valId);
+  if(el)el.textContent=input.value+unit;
+  rngPct(input);
+}
+
+
+// ── CHIP SELECTION (single group — finds siblings) ──
+function chip(el){
+  el.closest('.chips').querySelectorAll('.chip').forEach(c=>c.classList.remove('on'));
+  el.classList.add('on');
+}
+
+// ── EFFECT OPTION (single group in same egrid) ──
+function eopt(el){
+  el.closest('.egrid').querySelectorAll('.eopt').forEach(e=>e.classList.remove('on'));
+  el.classList.add('on');
+  toast('✦ Applied: '+el.querySelector('span').textContent);
+}
+
+
+// ── STYLE CONTROLS ──
+function setAccent(v){
+  try{document.getElementById('pc').style.setProperty('--acc',v);}catch(e){}
+}
+function setCardBg(v){
+  const pc=document.getElementById('pc');
+  if(pc)pc.style.background=v;
+}
+function setTxtColor(v){
+  const pb=document.querySelector('.pbody');
+  if(pb)pb.style.color=v;
+}
+function setOpacity(v){
+  const pc=document.getElementById('pc');
+  if(pc)pc.style.background=`rgba(15,15,26,${v/100})`;
+}
+function setBlur(v){
+  const pc=document.getElementById('pc');
+  if(pc){pc.style.backdropFilter=`blur(${v}px)`;pc.style.webkitBackdropFilter=`blur(${v}px)`;}
+}
+function setGlow(v){
+  const pc=document.getElementById('pc');
+  if(pc)pc.style.boxShadow=`0 0 ${v/2}px rgba(124,58,237,${v/200}),0 40px 80px rgba(0,0,0,.5)`;
+}
+function setGradCard(on){
+  const pc=document.getElementById('pc');
+  if(pc)pc.style.background=on?'linear-gradient(135deg,rgba(13,13,26,.9),rgba(20,5,40,.9))':'rgba(15,15,26,.88)';
+}
+function setBg(v){document.querySelector('.prev').style.background=v;}
+function setCardW(input){
+  rng(input,'cwv','px');
+  const pc=document.getElementById('pc');
+  if(pc)pc.style.maxWidth=input.value+'px';
+}
+function setNameSize(input){
+  rng(input,'nfsizev','px');
+  document.getElementById('nfsizev').textContent=(input.value/16).toFixed(1)+'rem';
+  const pn=document.getElementById('pname');
+  if(pn)pn.style.fontSize=input.value+'px';
+}
+function setFont(el,font){
+  chip(el);
+  const pn=document.getElementById('pname');
+  if(pn)pn.style.fontFamily=font;
+}
+function setAv(e){
+  document.getElementById('in-av').value=e;
+  document.getElementById('pav').textContent=e;
+  document.getElementById('avprev').textContent=e;
+}
+function setpron(p){document.getElementById('in-pron').value=p;}
+function setAvatarSize(sz){
+  const pav=document.getElementById('pav'),paw=document.querySelector('.paw');
+  if(pav){pav.style.width=sz;pav.style.height=sz;pav.style.fontSize=parseInt(sz)*.52+'px';}
+  if(paw){paw.style.width=sz;paw.style.height=sz;paw.style.marginTop=`-${parseInt(sz)/2}px`;}
+}
+
+
+// ── CTRL TABS (properly scoped — finds siblings by parent) ──
+function ctab(btn, contentId){
+  // Deactivate all tabs in this group
+  btn.closest('.ctabs').querySelectorAll('.ctab').forEach(t=>t.classList.remove('on'));
+  btn.classList.add('on');
+  // Hide all ctcont siblings (they must be direct siblings of the ctabs container)
+  const parent=btn.closest('.psec');
+  parent.querySelectorAll('.ctcont').forEach(c=>c.classList.remove('on'));
+  const target=document.getElementById(contentId);
+  if(target)target.classList.add('on');
+}
+
+
+// ── THEME PRESETS ──
+const presets={
+  'dark-purple':{bg:'#050508',acc:'#7c3aed',card:'rgba(13,13,20,.88)',txt:'#f0f0fa'},
+  'ocean':{bg:'#02101a',acc:'#06b6d4',card:'rgba(2,15,30,.88)',txt:'#e0f4ff'},
+  'inferno':{bg:'#0a0200',acc:'#f97316',card:'rgba(20,5,0,.88)',txt:'#fff0e8'},
+  'matrix':{bg:'#000500',acc:'#22c55e',card:'rgba(0,10,0,.88)',txt:'#d0ffd8'},
+  'mono':{bg:'#080808',acc:'#e5e5e5',card:'rgba(20,20,20,.88)',txt:'#f5f5f5'},
+  'pastel':{bg:'#fdf4f4',acc:'#ec4899',card:'rgba(255,240,245,.9)',txt:'#3a1a2a'},
+  'light':{bg:'#f8f8fc',acc:'#7c3aed',card:'rgba(255,255,255,.95)',txt:'#1a1a2e'},
+  'rainbow':{bg:'#0a0010',acc:'#ff6b9d',card:'rgba(10,0,20,.88)',txt:'#fff'},
+  'galaxy':{bg:'#040210',acc:'#a78bfa',card:'rgba(8,4,24,.88)',txt:'#ede9fe'},
+  'toxic':{bg:'#030a03',acc:'#84cc16',card:'rgba(5,15,5,.88)',txt:'#ecfcca'},
+};
+function applyPreset(el,name){
+  const p=presets[name];if(!p)return;
+  document.querySelectorAll('.preset').forEach(e=>e.classList.remove('on'));
+  el.classList.add('on');
+  setBg(p.bg);
+  setCardBg(p.card);
+  setTxtColor(p.txt);
+  setAccent(p.acc);
+  const ca=document.getElementById('col-acc');if(ca)ca.value=p.acc;
+  const ct=document.getElementById('col-acc-txt');if(ct)ct.value=p.acc;
+  toast('🎨 Theme: '+name);
+}
+
+
+// ── DEVICE TOGGLE ──
+function setDev(mode,btn){
+  document.querySelectorAll('.devbtn').forEach(b=>b.classList.remove('on'));
+  btn.classList.add('on');
+  const pc=document.getElementById('pc');
+  if(pc)pc.style.maxWidth=mode==='mobile'?'390px':'440px';
+}
+
+
+// ── LINK LIST ──
+function delLink(btn){
+  btn.closest('.li').remove();
+  up();
+  toast('🗑 Link removed');
+}
+function addPhrase(){
+  const c=document.getElementById('tw-phrases');
+  const n=c.children.length+1;
+  const inp=document.createElement('input');
+  inp.className='ci';inp.type='text';inp.placeholder=`Phrase ${n}...`;
+  inp.style.marginBottom='5px';inp.oninput=up;
+  c.appendChild(inp);inp.focus();
+}
+
+// Add link modal (replaces broken prompt())
+function openAddLink(){
+  document.getElementById('al-label').value='';
+  document.getElementById('al-url').value='';
+  document.getElementById('addLinkModal').classList.add('open');
+  setTimeout(()=>document.getElementById('al-label').focus(),100);
+}
+function closeAddLink(){document.getElementById('addLinkModal').classList.remove('open');}
+function confirmAddLink(){
+  const label=document.getElementById('al-label').value.trim();
+  const url=document.getElementById('al-url').value.trim();
+  if(!label){toast('⚠️ Enter a label');return;}
+  const li=document.createElement('div');li.className='li';
+  li.innerHTML=`<span class="li-icon">⋮⋮</span><span class="li-label">${label}${url?' — '+url:''}</span><button class="li-del" onclick="delLink(this)">✕</button>`;
+  document.getElementById('link-list').appendChild(li);
+  closeAddLink();up();toast('✅ Link added: '+label);
+}
+document.getElementById('addLinkModal').addEventListener('keydown',e=>{if(e.key==='Enter')confirmAddLink();if(e.key==='Escape')closeAddLink();});
+
+
+// ── SHARE / SAVE ──
+function openShareModal(){document.getElementById('shareModal').classList.add('open');}
+function closeModal(){
+  document.getElementById('shareModal').classList.remove('open');
+  document.getElementById('addLinkModal').classList.remove('open');
+}
+document.getElementById('shareModal').addEventListener('click',e=>{if(e.target===e.currentTarget)closeModal();});
+document.getElementById('addLinkModal').addEventListener('click',e=>{if(e.target===e.currentTarget)closeAddLink();});
+
+function copyLink(){
+  const u=document.getElementById('in-user')?.value||'yourname';
+  const txt=`https://yourusername.github.io/vltx/${u}`;
+  navigator.clipboard?.writeText(txt).then(()=>toast('📋 Copied!')).catch(()=>toast('📋 Copy: '+txt));
+}
+function save(){toast('✅ Saved! Upload to GitHub to go live.');}
+
+
+// ── PREVIEW BANNER CANVAS ──
+(function(){
+  const cv=document.getElementById('pvc');
+  if(!cv)return;
+  const banner=cv.parentElement;
+  const cx=cv.getContext('2d');
+  function resize(){cv.width=banner.offsetWidth||440;cv.height=banner.offsetHeight||140;}
+  resize();
+  const ro=new ResizeObserver(resize);ro.observe(banner);
+
+  const stars=Array.from({length:60},()=>({x:Math.random(),y:Math.random(),r:Math.random()*1.2+.3,a:Math.random(),spd:Math.random()*.35+.08}));
+  let raf;
+  function draw(){
+    const W=cv.width,H=cv.height;
+    cx.clearRect(0,0,W,H);
+    const g=cx.createLinearGradient(0,0,W,H);
+    g.addColorStop(0,'#0d0220');g.addColorStop(.5,'#0a1628');g.addColorStop(1,'#150526');
+    cx.fillStyle=g;cx.fillRect(0,0,W,H);
+    stars.forEach(s=>{
+      s.a+=s.spd*.022;if(s.a>1){s.a=0;s.x=Math.random();s.y=Math.random();}
+      cx.beginPath();cx.arc(s.x*W,s.y*H,s.r,0,Math.PI*2);
+      cx.fillStyle=`rgba(255,255,255,${(s.a*.8).toFixed(2)})`;cx.fill();
+    });
+    const t=Date.now()/2000;
+    const ag=cx.createLinearGradient(0,0,W,0);
+    ag.addColorStop(0,'rgba(124,58,237,0)');
+    ag.addColorStop(Math.min(.9,Math.max(.05,.3+Math.sin(t)*.1)),'rgba(124,58,237,.1)');
+    ag.addColorStop(Math.min(.95,Math.max(.1,.65+Math.cos(t*.8)*.1)),'rgba(6,182,212,.07)');
+    ag.addColorStop(1,'rgba(6,182,212,0)');
+    cx.fillStyle=ag;cx.fillRect(0,0,W,H);
+    raf=requestAnimationFrame(draw);
+  }
+  draw();
+  document.addEventListener('visibilitychange',()=>{document.hidden?cancelAnimationFrame(raf):draw();});
+})();
+
+
+// ── TOAST ──
+let tt=null;
+function toast(msg){
+  const t=document.getElementById('toast');
+  t.textContent=msg;t.classList.add('show');
+  clearTimeout(tt);tt=setTimeout(()=>t.classList.remove('show'),2800);
+}
+
+
+// ── INIT ──
+up();
+setTimeout(()=>toast('👋 Welcome! Customize everything in real-time'),900);
+</script>
+
+</body>
+</html>
