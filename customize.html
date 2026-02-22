@@ -23,25 +23,36 @@ body{background:var(--bg);color:var(--txt);font-family:'Outfit',sans-serif;displ
 
 /* ─── TOPBAR ─── */
 .topbar{
-  height:52px;flex-shrink:0;
-  background:rgba(5,5,8,.97);
-  backdrop-filter:blur(24px);
-  border-bottom:1px solid var(--brd);
+  height:50px;flex-shrink:0;
+  background:#07070c;
+  border-bottom:1px solid rgba(124,58,237,.2);
   display:flex;align-items:center;
-  padding:0 16px;gap:10px;z-index:100;
+  padding:0 14px;gap:10px;z-index:100;
   position:relative;
+  font-family:'Space Mono',monospace;
 }
 .topbar::after{
   content:'';position:absolute;bottom:0;left:0;right:0;height:1px;
-  background:linear-gradient(90deg,transparent,rgba(124,58,237,.4),rgba(6,182,212,.3),transparent);
+  background:linear-gradient(90deg,transparent,rgba(124,58,237,.5),rgba(6,182,212,.25),transparent);
 }
 .tlogo{
-  font-family:'Syne',sans-serif;font-weight:800;font-size:1.12rem;
-  background:linear-gradient(135deg,#fff 20%,var(--acc) 60%,var(--acc2));
-  -webkit-background-clip:text;-webkit-text-fill-color:transparent;
-  text-decoration:none;letter-spacing:-.02em;
+  font-family:'Space Mono',monospace;font-weight:700;font-size:.9rem;
+  color:#a78bfa;
+  text-decoration:none;letter-spacing:.06em;
+  text-transform:uppercase;
 }
-.ttitle{font-size:.7rem;color:var(--mut);border-left:1px solid var(--brd);padding-left:10px;letter-spacing:.04em;text-transform:uppercase;}
+.tlogo span{color:rgba(255,255,255,.3);}
+.ttitle{
+  font-size:.65rem;color:rgba(124,58,237,.7);border-left:1px solid rgba(124,58,237,.2);
+  padding-left:10px;letter-spacing:.1em;text-transform:uppercase;
+  font-family:'Space Mono',monospace;
+}
+.ttitle::before{content:'> ';color:rgba(6,182,212,.6);}
+/* Topbar status indicators */
+.tbar-status{display:flex;align-items:center;gap:6px;margin-left:4px;}
+.tbar-dot{width:6px;height:6px;border-radius:50%;background:#22c55e;box-shadow:0 0 6px #22c55e;}
+.tbar-dot.warn{background:#f59e0b;box-shadow:0 0 6px #f59e0b;}
+.tbar-info{font-size:.62rem;color:var(--mut);font-family:'Space Mono',monospace;}
 .tsp{flex:1;}
 .tbtn{
   padding:6px 14px;border-radius:7px;font-size:.78rem;font-weight:600;
@@ -84,9 +95,10 @@ body{background:var(--bg);color:var(--txt);font-family:'Outfit',sans-serif;displ
 .snav::-webkit-scrollbar{width:2px;}
 .snav::-webkit-scrollbar-thumb{background:rgba(255,255,255,.06);}
 .sg{
-  font-size:.57rem;letter-spacing:.14em;text-transform:uppercase;
-  color:var(--mut);padding:12px 10px 4px;margin-top:2px;
+  font-size:.6rem;letter-spacing:.08em;text-transform:lowercase;
+  color:rgba(124,58,237,.6);padding:10px 10px 4px;margin-top:2px;
   border-top:1px solid rgba(255,255,255,.03);
+  font-family:'Space Mono',monospace;
 }
 .sg:first-child{border-top:none;margin-top:0;}
 .ni{
@@ -310,10 +322,11 @@ body{background:var(--bg);color:var(--txt);font-family:'Outfit',sans-serif;displ
 .panel::-webkit-scrollbar{width:3px;}
 .panel::-webkit-scrollbar-thumb{background:rgba(255,255,255,.06);}
 .ph{
-  padding:14px 16px 12px;border-bottom:1px solid var(--brd);
-  font-family:'Syne',sans-serif;font-size:.92rem;font-weight:700;
+  padding:12px 16px 10px;border-bottom:1px solid var(--brd);
+  font-family:'Space Mono',monospace;font-size:.82rem;font-weight:700;
   flex-shrink:0;display:flex;align-items:center;gap:8px;
   position:sticky;top:0;background:var(--sur);z-index:10;
+  color:#fff;letter-spacing:-.01em;
 }
 .ph-sub{font-size:.66rem;color:var(--mut);font-family:'Outfit',sans-serif;font-weight:400;margin-left:auto;}
 .prow{padding:12px 16px;border-bottom:1px solid rgba(255,255,255,.025);}
@@ -581,6 +594,82 @@ input[type=range]{width:100%;accent-color:var(--acc);}
 .bg-pos-btn:hover{background:rgba(124,58,237,.12);color:var(--txt);}
 .bg-pos-btn.sel{background:rgba(124,58,237,.2);border-color:var(--acc);color:#fff;}
 
+/* ─── SKILLS & ROLE ─── */
+.pc-skill-chip{
+  display:inline-flex;align-items:center;gap:4px;
+  font-size:.68rem;font-weight:600;padding:3px 9px;border-radius:100px;
+  background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);
+  color:#d4d4e8;letter-spacing:.01em;
+  transition:all .15s;
+}
+.pc-role{
+  font-size:.75rem;color:var(--mut);
+  background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.07);
+  padding:2px 10px;border-radius:100px;
+}
+.pc-open-chip{
+  font-size:.63rem;font-weight:700;padding:2px 8px;border-radius:100px;
+  background:rgba(34,197,94,.1);border:1px solid rgba(34,197,94,.22);color:#86efac;
+}
+
+/* ─── CURRENT PROJECT CARD ─── */
+.pc-project{
+  background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.08);
+  border-radius:12px;padding:11px 14px;margin-bottom:11px;
+  transition:border-color .18s;
+}
+.pc-project:hover{border-color:rgba(124,58,237,.3);}
+.pc-proj-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:4px;}
+.pc-proj-status{font-size:.65rem;font-weight:700;color:var(--acc);letter-spacing:.02em;}
+.pc-proj-label{font-size:.58rem;color:var(--mut);text-transform:uppercase;letter-spacing:.08em;}
+.pc-proj-name{font-size:.92rem;font-weight:700;margin-bottom:2px;}
+.pc-proj-desc{font-size:.72rem;color:var(--mut);line-height:1.45;}
+
+/* ─── ACTIVITY / LANYARD ─── */
+.pc-activity{
+  display:flex;align-items:center;gap:10px;
+  background:rgba(88,101,242,.08);border:1px solid rgba(88,101,242,.2);
+  border-radius:10px;padding:9px 12px;margin-bottom:10px;position:relative;overflow:hidden;
+}
+.pc-act-icon{font-size:1.3rem;flex-shrink:0;}
+.pc-act-info{flex:1;min-width:0;}
+.pc-act-name{font-size:.8rem;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.pc-act-sub{font-size:.65rem;color:#8b9df7;margin-top:1px;}
+.pc-act-dot{
+  width:8px;height:8px;border-radius:50%;background:#22c55e;flex-shrink:0;
+  box-shadow:0 0 6px rgba(34,197,94,.6);animation:dotP 2s ease-in-out infinite;
+}
+
+/* Discord badge status dot */
+.pc-dc-status-dot{
+  width:7px;height:7px;border-radius:50%;flex-shrink:0;
+}
+
+/* ─── SKILLS PANEL ─── */
+.skill-check{
+  display:inline-flex;align-items:center;gap:5px;
+  font-size:.76rem;padding:4px 10px;border-radius:7px;cursor:pointer;
+  background:var(--sur2);border:1px solid var(--brd);
+  transition:all .15s;
+}
+.skill-check:hover{border-color:rgba(124,58,237,.3);}
+.skill-check input{accent-color:var(--acc);}
+
+/* Skill chip preview in panel */
+.skill-chip-item{
+  display:inline-flex;align-items:center;gap:5px;
+  font-size:.72rem;padding:3px 9px 3px 10px;border-radius:100px;
+  background:rgba(124,58,237,.14);border:1px solid rgba(124,58,237,.25);color:#a78bfa;
+}
+.skill-chip-del{
+  background:none;border:none;color:rgba(167,139,250,.5);cursor:pointer;
+  font-size:.75rem;padding:0;line-height:1;transition:color .15s;margin-left:1px;
+}
+.skill-chip-del:hover{color:var(--dan);}
+
+/* GitHub Graph Canvas */
+#ghCanvas{background:rgba(255,255,255,.02);display:block;}
+
 /* ─── GLOW BORDER ANIMATION ─── */
 @keyframes rotateBorder{
   0%{background-position:0% 50%;}
@@ -604,40 +693,123 @@ input[type=range]{width:100%;accent-color:var(--acc);}
 .ring-preview{width:32px;height:32px;border-radius:50%;background:var(--sur3);margin:0 auto 4px;display:flex;align-items:center;justify-content:center;font-size:.7rem;}
 .ring-label{font-size:.6rem;color:var(--mut);}
 .ring-card.sel .ring-label{color:#fff;}
+
+/* ─── DISCORD LIVE CARD ─── */
+.dc-live-card{
+  background:rgba(88,101,242,.07);border:1px solid rgba(88,101,242,.2);
+  border-radius:12px;padding:12px;display:flex;align-items:center;gap:12px;
+  margin-bottom:8px;
+}
+.dc-live-avatar-wrap{position:relative;flex-shrink:0;}
+.dc-live-avatar{width:48px;height:48px;border-radius:50%;object-fit:cover;border:2px solid rgba(88,101,242,.4);}
+.dc-live-status-dot{
+  position:absolute;bottom:1px;right:1px;width:12px;height:12px;
+  border-radius:50%;border:2px solid #0b0b12;background:#6b7280;
+}
+.dc-live-info{flex:1;}
+.dc-live-name{font-size:.88rem;font-weight:700;color:#fff;font-family:'Space Mono',monospace;}
+.dc-live-tag{font-size:.65rem;color:rgba(139,157,247,.6);font-family:'Space Mono',monospace;}
+.dc-live-status{font-size:.65rem;color:var(--mut);margin-top:2px;text-transform:uppercase;letter-spacing:.08em;}
+.dc-live-badge{
+  width:28px;height:28px;border-radius:8px;background:rgba(88,101,242,.15);
+  display:flex;align-items:center;justify-content:center;
+  border:1px solid rgba(88,101,242,.3);
+}
+.dc-activity-card,.dc-spotify-card{
+  background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.07);
+  border-radius:10px;padding:10px 12px;margin-top:6px;
+}
+.dc-act-header{font-size:.55rem;letter-spacing:.14em;text-transform:uppercase;color:var(--mut);margin-bottom:8px;font-family:'Space Mono',monospace;}
+.dc-act-img-wrap{position:relative;flex-shrink:0;width:48px;height:48px;}
+.dc-act-img{width:48px;height:48px;border-radius:8px;object-fit:cover;}
+.dc-act-img-fallback{width:48px;height:48px;border-radius:8px;background:rgba(124,58,237,.15);display:flex;align-items:center;justify-content:center;font-size:1.4rem;}
+.dc-act-small-img{position:absolute;bottom:-4px;right:-4px;width:18px;height:18px;border-radius:50%;border:2px solid #0b0b12;}
+.dc-act-name{font-size:.82rem;font-weight:700;color:#fff;}
+.dc-act-detail{font-size:.68rem;color:var(--mut);margin-top:1px;}
+.dc-act-state{font-size:.68rem;color:var(--mut);}
+.dc-act-elapsed{font-size:.62rem;color:rgba(124,58,237,.7);margin-top:2px;font-family:'Space Mono',monospace;}
+
+/* ─── DISCORD OAUTH CARD ─── */
+.dc-oauth-card{
+  display:flex;align-items:center;gap:12px;
+  background:rgba(88,101,242,.08);border:1px solid rgba(88,101,242,.22);
+  border-radius:12px;padding:12px 14px;
+}
+.dc-oauth-icon{width:40px;height:40px;border-radius:10px;background:rgba(88,101,242,.15);display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.dc-oauth-text{flex:1;}
+.dc-oauth-title{font-size:.82rem;font-weight:700;color:#fff;}
+.dc-oauth-sub{font-size:.65rem;color:rgba(139,157,247,.7);margin-top:1px;}
+.dc-oauth-btn{
+  padding:6px 14px;border-radius:7px;background:#5865F2;color:#fff;
+  border:none;cursor:pointer;font-size:.75rem;font-weight:700;
+  font-family:'Outfit',sans-serif;transition:all .16s;white-space:nowrap;
+}
+.dc-oauth-btn:hover{background:#4752c4;transform:translateY(-1px);}
+.dc-oauth-btn.connected{background:rgba(34,197,94,.15);color:#22c55e;border:1px solid rgba(34,197,94,.3);}
+.toggleEl-btn{font-size:.65rem;color:var(--acc2);cursor:pointer;}
+
+/* ─── PROFILE THEMES ─── */
+.theme-gallery{display:grid;grid-template-columns:1fr 1fr;gap:8px;padding:2px;}
+.theme-card{
+  border:1px solid var(--brd);border-radius:10px;overflow:hidden;
+  cursor:pointer;transition:all .18s;position:relative;
+}
+.theme-card:hover{border-color:rgba(124,58,237,.4);transform:translateY(-1px);}
+.theme-card.active{border-color:var(--acc);box-shadow:0 0 0 2px rgba(124,58,237,.2);}
+.theme-preview{height:64px;position:relative;overflow:hidden;}
+.theme-preview-av{width:22px;height:22px;border-radius:50%;position:absolute;bottom:8px;left:10px;border:2px solid rgba(255,255,255,.3);}
+.theme-preview-name{position:absolute;bottom:10px;left:36px;font-size:.55rem;font-weight:700;color:rgba(255,255,255,.9);}
+.theme-preview-status{position:absolute;bottom:2px;left:10px;font-size:.48rem;color:rgba(255,255,255,.5);}
+.theme-label{padding:6px 10px;background:var(--sur2);display:flex;align-items:center;justify-content:space-between;}
+.theme-name{font-size:.7rem;font-weight:600;color:var(--txt);}
+.theme-tag{font-size:.55rem;color:var(--mut);background:rgba(255,255,255,.05);padding:1px 5px;border-radius:3px;}
+.theme-apply-badge{
+  position:absolute;top:6px;right:6px;font-size:.5rem;padding:2px 6px;
+  background:var(--acc);color:#fff;border-radius:4px;font-weight:700;
+  letter-spacing:.06em;text-transform:uppercase;
+  display:none;
+}
+.theme-card.active .theme-apply-badge{display:block;}
 </style>
 </head>
 <body>
 
 <div class="topbar">
-  <a class="tlogo" href="/">VLTX</a>
-  <span class="ttitle">Profile Editor</span>
+  <a class="tlogo" href="/"><span>//</span>VLTX</a>
+  <span class="ttitle">customize.html</span>
+  <div class="tbar-status">
+    <div class="tbar-dot" id="topbarDot"></div>
+    <span class="tbar-info" id="topbarInfo">unsaved</span>
+  </div>
   <span class="tsp"></span>
-  <button class="tbtn ghost sm" onclick="resetProfile()">↺ Reset</button>
-  <button class="tbtn ghost sm" onclick="previewFullscreen()">👁 Preview</button>
-  <button class="tsave" onclick="showPublish()">🚀 Publish →</button>
+  <button class="tbtn ghost sm" onclick="resetProfile()">↺ reset</button>
+  <button class="tbtn ghost sm" onclick="previewFullscreen()">⎋ preview</button>
+  <button class="tsave" onclick="showPublish()">⬆ publish</button>
 </div>
 
 <div class="main">
   <!-- ══════ SIDENAV ══════ -->
   <div class="snav">
-    <div class="sg">Identity</div>
-    <div class="ni on" onclick="nav(this,'s-identity')"><span class="ni-ico">👤</span>Profile<div class="ni-dot"></div></div>
-    <div class="ni" onclick="nav(this,'s-bio')"><span class="ni-ico">✏️</span>Bio & Tags<div class="ni-dot"></div></div>
-    <div class="ni" onclick="nav(this,'s-badges')"><span class="ni-ico">🏅</span>Badges<span class="ni-badge">NEW</span><div class="ni-dot"></div></div>
-    <div class="sg">Media</div>
-    <div class="ni" onclick="nav(this,'s-avatar')"><span class="ni-ico">🖼️</span>Avatar<div class="ni-dot"></div></div>
-    <div class="ni" onclick="nav(this,'s-background')"><span class="ni-ico">🌌</span>Background<div class="ni-dot"></div></div>
-    <div class="ni" onclick="nav(this,'s-music')"><span class="ni-ico">🎵</span>Music<div class="ni-dot"></div></div>
-    <div class="sg">Design</div>
-    <div class="ni" onclick="nav(this,'s-theme')"><span class="ni-ico">🎨</span>Theme<div class="ni-dot"></div></div>
-    <div class="ni" onclick="nav(this,'s-gradient')"><span class="ni-ico">🌈</span>Gradient<span class="ni-badge">NEW</span><div class="ni-dot"></div></div>
-    <div class="ni" onclick="nav(this,'s-effects')"><span class="ni-ico">✨</span>Effects<div class="ni-dot"></div></div>
-    <div class="ni" onclick="nav(this,'s-animations')"><span class="ni-ico">⚡</span>Animations<span class="ni-badge">NEW</span><div class="ni-dot"></div></div>
-    <div class="ni" onclick="nav(this,'s-layout')"><span class="ni-ico">📐</span>Layout<div class="ni-dot"></div></div>
-    <div class="sg">Integrations</div>
-    <div class="ni" onclick="nav(this,'s-links')"><span class="ni-ico">🔗</span>Social Links<div class="ni-dot"></div></div>
-    <div class="ni" onclick="nav(this,'s-discord')"><span class="ni-ico">💬</span>Discord<div class="ni-dot"></div></div>
-    <div class="ni" onclick="nav(this,'s-spotify')"><span class="ni-ico">🎧</span>Spotify<div class="ni-dot"></div></div>
+    <div class="sg">// identity</div>
+    <div class="ni on" onclick="nav(this,'s-identity')"><span class="ni-ico">⬡</span>Profile<div class="ni-dot"></div></div>
+    <div class="ni" onclick="nav(this,'s-bio')"><span class="ni-ico">▸</span>Bio & Tags<div class="ni-dot"></div></div>
+    <div class="ni" onclick="nav(this,'s-skills')"><span class="ni-ico">▸</span>Skills & Work<span class="ni-badge">NEW</span><div class="ni-dot"></div></div>
+    <div class="ni" onclick="nav(this,'s-badges')"><span class="ni-ico">▸</span>Badges<div class="ni-dot"></div></div>
+    <div class="sg">// media</div>
+    <div class="ni" onclick="nav(this,'s-avatar')"><span class="ni-ico">▸</span>Avatar<div class="ni-dot"></div></div>
+    <div class="ni" onclick="nav(this,'s-background')"><span class="ni-ico">▸</span>Background<div class="ni-dot"></div></div>
+    <div class="ni" onclick="nav(this,'s-music')"><span class="ni-ico">▸</span>Music<div class="ni-dot"></div></div>
+    <div class="sg">// design</div>
+    <div class="ni" onclick="nav(this,'s-themes')"><span class="ni-ico">⬡</span>Themes<span class="ni-badge">HOT</span><div class="ni-dot"></div></div>
+    <div class="ni" onclick="nav(this,'s-theme')"><span class="ni-ico">▸</span>Colors<div class="ni-dot"></div></div>
+    <div class="ni" onclick="nav(this,'s-gradient')"><span class="ni-ico">▸</span>Gradient<span class="ni-badge">NEW</span><div class="ni-dot"></div></div>
+    <div class="ni" onclick="nav(this,'s-effects')"><span class="ni-ico">▸</span>Effects<div class="ni-dot"></div></div>
+    <div class="ni" onclick="nav(this,'s-animations')"><span class="ni-ico">▸</span>Animations<span class="ni-badge">NEW</span><div class="ni-dot"></div></div>
+    <div class="ni" onclick="nav(this,'s-layout')"><span class="ni-ico">▸</span>Layout<div class="ni-dot"></div></div>
+    <div class="sg">// integrations</div>
+    <div class="ni" onclick="nav(this,'s-links')"><span class="ni-ico">▸</span>Social Links<div class="ni-dot"></div></div>
+    <div class="ni" onclick="nav(this,'s-discord')"><span class="ni-ico">⬡</span>Discord<div class="ni-dot" id="discordNavDot"></div></div>
+    <div class="ni" onclick="nav(this,'s-spotify')"><span class="ni-ico">▸</span>Spotify<div class="ni-dot"></div></div>
   </div>
 
   <!-- ══════ PREVIEW ══════ -->
@@ -648,7 +820,7 @@ input[type=range]{width:100%;accent-color:var(--acc);}
         <div class="pdot" style="background:#ffbd2e"></div>
         <div class="pdot" style="background:#27c93f"></div>
       </div>
-      <div class="purl" id="previewUrl">vltx.lol/yourname</div>
+      <div class="purl" id="previewUrl">vltx-adoe.onrender.com/yourname</div>
       <div class="prev-device-toggle">
         <button class="pdt-btn on" id="pdtMobile" onclick="setDevice('mobile')">📱</button>
         <button class="pdt-btn" id="pdtDesktop" onclick="setDevice('desktop')">🖥</button>
@@ -678,7 +850,45 @@ input[type=range]{width:100%;accent-color:var(--acc);}
             <span class="pc-status" id="pcStatus" style="display:none"></span>
           </div>
           <div class="pc-tags" id="pcTags"></div>
+
+          <!-- Role line -->
+          <div id="pcRoleRow" style="display:none;text-align:center;margin-bottom:8px">
+            <span class="pc-role" id="pcRole"></span>
+          </div>
+
+          <!-- Open To badges -->
+          <div id="pcOpenToRow" style="display:none;justify-content:center;gap:4px;flex-wrap:wrap;margin-bottom:10px"></div>
+
           <div class="pc-bio"><div><span class="tw" id="pcBio"></span><span class="caret"></span></div></div>
+
+          <!-- Skills chips -->
+          <div id="pcSkillsRow" style="display:none;flex-wrap:wrap;gap:5px;justify-content:center;margin-bottom:12px;padding:0 4px"></div>
+
+          <!-- Current project card -->
+          <div class="pc-project" id="pcProject" style="display:none">
+            <div class="pc-proj-top">
+              <span class="pc-proj-status" id="pcProjStatus">🔨 Building</span>
+              <span class="pc-proj-label">current project</span>
+            </div>
+            <div class="pc-proj-name" id="pcProjName">Project Name</div>
+            <div class="pc-proj-desc" id="pcProjDesc"></div>
+          </div>
+
+          <!-- GitHub Contribution Graph -->
+          <div id="pcGithubGraph" style="display:none;margin-bottom:12px">
+            <div style="font-size:.62rem;color:var(--mut);text-align:center;margin-bottom:5px">GitHub Activity</div>
+            <canvas id="ghCanvas" width="340" height="52" style="width:100%;border-radius:6px;opacity:.85"></canvas>
+          </div>
+
+          <!-- Lanyard Activity -->
+          <div class="pc-activity" id="pcActivity" style="display:none">
+            <div class="pc-act-icon" id="pcActIcon">🎮</div>
+            <div class="pc-act-info">
+              <div class="pc-act-name" id="pcActName">Playing something</div>
+              <div class="pc-act-sub" id="pcActSub">via Discord</div>
+            </div>
+            <div class="pc-act-dot"></div>
+          </div>
 
           <div class="pc-now-playing" id="pcNowPlaying" style="display:none">
             <div class="pc-np-bars"><div class="pc-np-bar"></div><div class="pc-np-bar"></div><div class="pc-np-bar"></div><div class="pc-np-bar"></div></div>
@@ -704,6 +914,7 @@ input[type=range]{width:100%;accent-color:var(--acc);}
 
           <div class="pc-dc-badge" id="pcDcBadge" style="display:none">
             <svg width="12" height="12" viewBox="0 0 24 24" fill="#5865F2"><path d="M20.317 4.37a19.791 19.791 0 0 0-4.885-1.515.074.074 0 0 0-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 0 0-5.487 0 12.64 12.64 0 0 0-.617-1.25.077.077 0 0 0-.079-.037A19.736 19.736 0 0 0 3.677 4.37a.07.07 0 0 0-.032.027C.533 9.046-.32 13.58.099 18.057a.082.082 0 0 0 .031.057 19.9 19.9 0 0 0 5.993 3.03.078.078 0 0 0 .084-.028c.462-.63.874-1.295 1.226-1.994a.076.076 0 0 0-.041-.106 13.107 13.107 0 0 1-1.872-.892.077.077 0 0 1-.008-.128 10.2 10.2 0 0 0 .372-.292.074.074 0 0 1 .077-.01c3.928 1.793 8.18 1.793 12.062 0a.074.074 0 0 1 .078.01c.12.098.246.198.373.292a.077.077 0 0 1-.006.127 12.299 12.299 0 0 1-1.873.892.077.077 0 0 0-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.028 19.839 19.839 0 0 0 6.002-3.03.077.077 0 0 0 .032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 0 0-.031-.03z"/></svg>
+            <span class="pc-dc-status-dot" id="pcDcStatusDot" style="background:#22c55e"></span>
             <span id="pcDcText">Discord</span>
           </div>
 
@@ -717,7 +928,7 @@ input[type=range]{width:100%;accent-color:var(--acc);}
           <div id="pcLinkBtns"></div>
         </div>
         <div class="pc-foot">
-          <a href="/" class="pc-credit">⚡ vltx.lol</a>
+          <a href="/" class="pc-credit">⚡ vltx-adoe.onrender.com</a>
           <span style="font-size:.64rem;color:var(--mut)">📊 live stats</span>
         </div>
       </div>
@@ -794,6 +1005,89 @@ input[type=range]{width:100%;accent-color:var(--acc);}
         <option value="slow">🐢 Slow</option>
         <option value="dramatic">🎭 Dramatic</option>
       </select>
+    </div>
+  </div>
+
+  <!-- SKILLS & WORK -->
+  <div class="panel" id="s-skills">
+    <div class="ph">⚙️ Skills & Work <span class="ph-sub">what you do</span></div>
+
+    <!-- SKILL CHIPS -->
+    <div class="prow">
+      <div class="plabel">Skills / Tech Stack <span>shown as chips</span></div>
+      <div style="display:flex;gap:6px;margin-bottom:8px;flex-wrap:wrap" id="skillChipPreview"></div>
+      <div style="display:flex;gap:6px;margin-bottom:6px">
+        <input type="text" id="iSkillInput" placeholder="React, Python, Design..." style="flex:1" onkeydown="if(event.key==='Enter')addSkill()">
+        <button class="tbtn acc sm" onclick="addSkill()">+ Add</button>
+      </div>
+      <div class="plabel" style="margin-bottom:6px">Quick Add</div>
+      <div style="display:flex;gap:4px;flex-wrap:wrap" id="skillQuickAdd">
+        <button class="tbtn ghost sm" onclick="addSkillDirect('JS')">JS</button>
+        <button class="tbtn ghost sm" onclick="addSkillDirect('Python')">Python</button>
+        <button class="tbtn ghost sm" onclick="addSkillDirect('React')">React</button>
+        <button class="tbtn ghost sm" onclick="addSkillDirect('Rust')">Rust</button>
+        <button class="tbtn ghost sm" onclick="addSkillDirect('Go')">Go</button>
+        <button class="tbtn ghost sm" onclick="addSkillDirect('C++')">C++</button>
+        <button class="tbtn ghost sm" onclick="addSkillDirect('TypeScript')">TS</button>
+        <button class="tbtn ghost sm" onclick="addSkillDirect('Node.js')">Node</button>
+        <button class="tbtn ghost sm" onclick="addSkillDirect('Vue')">Vue</button>
+        <button class="tbtn ghost sm" onclick="addSkillDirect('Next.js')">Next</button>
+        <button class="tbtn ghost sm" onclick="addSkillDirect('Docker')">Docker</button>
+        <button class="tbtn ghost sm" onclick="addSkillDirect('Figma')">Figma</button>
+        <button class="tbtn ghost sm" onclick="addSkillDirect('SQL')">SQL</button>
+        <button class="tbtn ghost sm" onclick="addSkillDirect('Git')">Git</button>
+        <button class="tbtn ghost sm" onclick="addSkillDirect('Linux')">Linux</button>
+        <button class="tbtn ghost sm" onclick="addSkillDirect('Blender')">Blender</button>
+        <button class="tbtn ghost sm" onclick="addSkillDirect('Unity')">Unity</button>
+        <button class="tbtn ghost sm" onclick="addSkillDirect('Photoshop')">PS</button>
+      </div>
+    </div>
+
+    <!-- CURRENT PROJECT -->
+    <div class="prow">
+      <div class="plabel">Current Project <span>pinned on card</span></div>
+      <input type="text" id="iProjectName" placeholder="Project name..." oninput="syncProject()" maxlength="40">
+      <input type="text" id="iProjectDesc" placeholder="Short description..." oninput="syncProject()" maxlength="80" style="margin-top:6px">
+      <input type="url" id="iProjectUrl" placeholder="https://github.com/you/project" oninput="syncProject()" style="margin-top:6px">
+      <div style="display:flex;gap:6px;margin-top:6px;flex-wrap:wrap">
+        <select id="iProjectStatus" onchange="syncProject()" style="flex:1">
+          <option value="🔨 Building">🔨 Building</option>
+          <option value="🚀 Shipped">🚀 Shipped</option>
+          <option value="🧪 Testing">🧪 Testing</option>
+          <option value="💡 Ideating">💡 Ideating</option>
+          <option value="🔥 In Dev">🔥 In Dev</option>
+          <option value="🎯 Planning">🎯 Planning</option>
+          <option value="⏸ Paused">⏸ Paused</option>
+        </select>
+      </div>
+    </div>
+
+    <!-- WHAT I DO ROLE -->
+    <div class="prow">
+      <div class="plabel">Role / Occupation <span>shown under name</span></div>
+      <input type="text" id="iRole" placeholder="Full Stack Dev · Designer · Student" oninput="syncRole()" maxlength="60">
+    </div>
+
+    <!-- AVAILABILITY -->
+    <div class="prow">
+      <div class="plabel">Open To</div>
+      <div style="display:flex;gap:5px;flex-wrap:wrap" id="openToList">
+        <label class="skill-check"><input type="checkbox" onchange="syncOpenTo()"> Freelance</label>
+        <label class="skill-check"><input type="checkbox" onchange="syncOpenTo()"> Full-time</label>
+        <label class="skill-check"><input type="checkbox" onchange="syncOpenTo()"> Collab</label>
+        <label class="skill-check"><input type="checkbox" onchange="syncOpenTo()"> Mentoring</label>
+        <label class="skill-check"><input type="checkbox" onchange="syncOpenTo()"> Commissions</label>
+      </div>
+    </div>
+
+    <!-- GITHUB USERNAME -->
+    <div class="prow">
+      <div class="plabel">GitHub Username <span>for contrib graph</span></div>
+      <div style="display:flex;gap:7px">
+        <input type="text" id="iGithubUser" placeholder="yourhandle" oninput="syncGithub()" style="flex:1" maxlength="40">
+        <button class="tbtn ghost sm" onclick="previewGithub()">Preview</button>
+      </div>
+      <div class="tog" style="margin-top:8px" onclick="toggleGithubGraph()"><div class="tog-sw" id="togGithubGraph"></div><span class="tog-label">Show contribution graph</span></div>
     </div>
   </div>
 
@@ -1388,25 +1682,282 @@ input[type=range]{width:100%;accent-color:var(--acc);}
     </div>
   </div>
 
+  <!-- THEMES -->
+  <div class="panel" id="s-themes">
+    <div class="ph">⬡ Profile Themes <span class="ph-sub">one click style</span></div>
+    <div class="prow">
+      <div style="font-size:.68rem;color:var(--mut);margin-bottom:10px;line-height:1.6;font-family:'Space Mono',monospace;font-size:.62rem;">
+        <span style="color:rgba(6,182,212,.7)">// </span>Apply a full theme in one click.<br>
+        <span style="color:rgba(6,182,212,.7)">// </span>Overrides colors, fonts, effects &amp; particles.
+      </div>
+      <div class="theme-gallery" id="themeGallery">
+
+        <!-- DARK DEV (guns.lol style) -->
+        <div class="theme-card" id="theme-darkdev" onclick="applyProfileTheme('darkdev')">
+          <div class="theme-preview" style="background:#080808;border-bottom:1px solid rgba(255,255,255,.06)">
+            <div style="position:absolute;inset:0;background:radial-gradient(ellipse at 50% -20%,rgba(255,255,255,.04),transparent 70%)"></div>
+            <div style="position:absolute;top:8px;right:8px;font-size:.42rem;color:rgba(255,255,255,.2);font-family:'Space Mono',monospace;letter-spacing:.06em">DEV</div>
+            <div class="theme-preview-av" style="background:#1a1a1a;border:1.5px solid rgba(255,255,255,.15);"></div>
+            <div class="theme-preview-name" style="color:rgba(255,255,255,.9);font-weight:700;">z3n0</div>
+            <div class="theme-preview-status" style="color:rgba(255,255,255,.3);font-size:.42rem;">full stack dev</div>
+          </div>
+          <div class="theme-label">
+            <span class="theme-name">DARK DEV</span>
+            <span class="theme-tag">minimal</span>
+          </div>
+          <div class="theme-apply-badge">ACTIVE</div>
+        </div>
+
+        <!-- DEV / HACKER -->
+        <div class="theme-card" id="theme-dev" onclick="applyProfileTheme('dev')">
+          <div class="theme-preview" style="background:linear-gradient(135deg,#050810,#0a0f1a,#0d1526)">
+            <div style="position:absolute;inset:0;background:repeating-linear-gradient(0deg,rgba(0,255,65,.03) 0px,transparent 2px,transparent 4px);"></div>
+            <div style="position:absolute;top:6px;left:0;right:0;text-align:center;font-family:'Space Mono',monospace;font-size:.45rem;color:rgba(0,255,65,.5);">&gt; init_profile.exe</div>
+            <div class="theme-preview-av" style="background:linear-gradient(135deg,#00ff41,#00b4d8);"></div>
+            <div class="theme-preview-name" style="color:#00ff41;font-family:'Space Mono',monospace;">dev@void</div>
+            <div class="theme-preview-status" style="color:rgba(0,255,65,.4);">● ONLINE</div>
+          </div>
+          <div class="theme-label">
+            <span class="theme-name">HACKER</span>
+            <span class="theme-tag">terminal</span>
+          </div>
+          <div class="theme-apply-badge">ACTIVE</div>
+        </div>
+
+        <!-- VOID -->
+        <div class="theme-card" id="theme-void" onclick="applyProfileTheme('void')">
+          <div class="theme-preview" style="background:#000;border-bottom:1px solid rgba(124,58,237,.2)">
+            <div style="position:absolute;top:8px;right:8px;width:4px;height:4px;background:#7c3aed;border-radius:50%;box-shadow:0 0 8px #7c3aed"></div>
+            <div style="position:absolute;top:14px;right:20px;width:2px;height:2px;background:#06b6d4;border-radius:50%"></div>
+            <div class="theme-preview-av" style="background:linear-gradient(135deg,#7c3aed,#4c1d95);border-color:rgba(124,58,237,.5)"></div>
+            <div class="theme-preview-name" style="background:linear-gradient(90deg,#a78bfa,#7c3aed);-webkit-background-clip:text;-webkit-text-fill-color:transparent;">void</div>
+          </div>
+          <div class="theme-label">
+            <span class="theme-name">VOID PURPLE</span>
+            <span class="theme-tag">dark</span>
+          </div>
+          <div class="theme-apply-badge">ACTIVE</div>
+        </div>
+
+        <!-- BLOOD -->
+        <div class="theme-card" id="theme-blood" onclick="applyProfileTheme('blood')">
+          <div class="theme-preview" style="background:linear-gradient(180deg,#0d0005,#1a0009)">
+            <div style="position:absolute;inset:0;background:radial-gradient(ellipse at 50% 0%,rgba(244,63,94,.12),transparent 70%)"></div>
+            <div class="theme-preview-av" style="background:linear-gradient(135deg,#f43f5e,#9f1239);border-color:rgba(244,63,94,.5)"></div>
+            <div class="theme-preview-name" style="color:#f43f5e;">blood</div>
+          </div>
+          <div class="theme-label">
+            <span class="theme-name">BLOOD MOON</span>
+            <span class="theme-tag">red</span>
+          </div>
+          <div class="theme-apply-badge">ACTIVE</div>
+        </div>
+
+        <!-- ICE -->
+        <div class="theme-card" id="theme-ice" onclick="applyProfileTheme('ice')">
+          <div class="theme-preview" style="background:linear-gradient(135deg,#00070f,#001428,#002244)">
+            <div style="position:absolute;inset:0;background:radial-gradient(ellipse at 80% 20%,rgba(0,212,255,.1),transparent 60%)"></div>
+            <div class="theme-preview-av" style="background:linear-gradient(135deg,#00d4ff,#0066cc);border-color:rgba(0,212,255,.5)"></div>
+            <div class="theme-preview-name" style="color:#00d4ff;">arctic</div>
+          </div>
+          <div class="theme-label">
+            <span class="theme-name">ARCTIC ICE</span>
+            <span class="theme-tag">blue</span>
+          </div>
+          <div class="theme-apply-badge">ACTIVE</div>
+        </div>
+
+        <!-- GOLD -->
+        <div class="theme-card" id="theme-gold" onclick="applyProfileTheme('gold')">
+          <div class="theme-preview" style="background:linear-gradient(135deg,#0d0900,#1a1000,#2d1d00)">
+            <div style="position:absolute;inset:0;background:radial-gradient(ellipse at 30% 70%,rgba(201,151,28,.1),transparent 60%)"></div>
+            <div class="theme-preview-av" style="background:linear-gradient(135deg,#f59e0b,#d97706);border-color:rgba(245,158,11,.5)"></div>
+            <div class="theme-preview-name" style="color:#f59e0b;">gold</div>
+          </div>
+          <div class="theme-label">
+            <span class="theme-name">GOLD RUSH</span>
+            <span class="theme-tag">luxury</span>
+          </div>
+          <div class="theme-apply-badge">ACTIVE</div>
+        </div>
+
+        <!-- SAKURA -->
+        <div class="theme-card" id="theme-sakura" onclick="applyProfileTheme('sakura')">
+          <div class="theme-preview" style="background:linear-gradient(135deg,#0f0009,#1a000d,#2d0018)">
+            <div style="position:absolute;inset:0;background:radial-gradient(ellipse at 50% 50%,rgba(255,105,180,.1),transparent 70%)"></div>
+            <div class="theme-preview-av" style="background:linear-gradient(135deg,#ff69b4,#c2185b);border-color:rgba(255,105,180,.5)"></div>
+            <div class="theme-preview-name" style="color:#ff69b4;">sakura</div>
+          </div>
+          <div class="theme-label">
+            <span class="theme-name">SAKURA NIGHT</span>
+            <span class="theme-tag">pink</span>
+          </div>
+          <div class="theme-apply-badge">ACTIVE</div>
+        </div>
+
+        <!-- MATRIX -->
+        <div class="theme-card" id="theme-matrix" onclick="applyProfileTheme('matrix')">
+          <div class="theme-preview" style="background:#000">
+            <div style="position:absolute;inset:0;background:repeating-linear-gradient(90deg,rgba(0,255,0,.03) 0px,transparent 1px,transparent 8px)"></div>
+            <div class="theme-preview-av" style="background:linear-gradient(135deg,#00ff00,#00aa00);border-color:rgba(0,255,0,.5)"></div>
+            <div class="theme-preview-name" style="color:#00ff00;font-family:'Space Mono',monospace;">neo</div>
+          </div>
+          <div class="theme-label">
+            <span class="theme-name">MATRIX</span>
+            <span class="theme-tag">green</span>
+          </div>
+          <div class="theme-apply-badge">ACTIVE</div>
+        </div>
+
+        <!-- NEON -->
+        <div class="theme-card" id="theme-neon" onclick="applyProfileTheme('neon')">
+          <div class="theme-preview" style="background:linear-gradient(135deg,#000,#001122)">
+            <div style="position:absolute;inset:0;background:radial-gradient(ellipse at 0% 100%,rgba(255,0,128,.1),transparent 50%),radial-gradient(ellipse at 100% 0%,rgba(0,255,255,.1),transparent 50%)"></div>
+            <div class="theme-preview-av" style="background:linear-gradient(135deg,#ff0080,#00ffff);border-color:rgba(255,0,128,.5)"></div>
+            <div class="theme-preview-name" style="background:linear-gradient(90deg,#ff0080,#00ffff);-webkit-background-clip:text;-webkit-text-fill-color:transparent;">cyber</div>
+          </div>
+          <div class="theme-label">
+            <span class="theme-name">NEON CITY</span>
+            <span class="theme-tag">cyberpunk</span>
+          </div>
+          <div class="theme-apply-badge">ACTIVE</div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
   <!-- DISCORD -->
   <div class="panel" id="s-discord">
-    <div class="ph">💬 Discord</div>
+    <div class="ph">⬡ Discord <span class="ph-sub">real-time</span></div>
+
+    <!-- OAuth Connect Card -->
     <div class="prow">
-      <div class="dc-box">
-        <svg width="22" height="22" viewBox="0 0 24 24" fill="#5865F2"><path d="M20.317 4.37a19.791 19.791 0 0 0-4.885-1.515.074.074 0 0 0-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 0 0-5.487 0 12.64 12.64 0 0 0-.617-1.25.077.077 0 0 0-.079-.037A19.736 19.736 0 0 0 3.677 4.37a.07.07 0 0 0-.032.027C.533 9.046-.32 13.58.099 18.057a.082.082 0 0 0 .031.057 19.9 19.9 0 0 0 5.993 3.03.078.078 0 0 0 .084-.028c.462-.63.874-1.295 1.226-1.994a.076.076 0 0 0-.041-.106 13.107 13.107 0 0 1-1.872-.892.077.077 0 0 1-.008-.128 10.2 10.2 0 0 0 .372-.292.074.074 0 0 1 .077-.01c3.928 1.793 8.18 1.793 12.062 0a.074.074 0 0 1 .078.01c.12.098.246.198.373.292a.077.077 0 0 1-.006.127 12.299 12.299 0 0 1-1.873.892.077.077 0 0 0-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.028 19.839 19.839 0 0 0 6.002-3.03.077.077 0 0 0 .032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 0 0-.031-.03z"/></svg>
-        <div class="dc-info"><div class="dc-name" id="dcName">Not connected</div><div class="dc-sub">Show Discord badge on profile</div></div>
-        <button class="dc-btn" id="dcBtn" onclick="connectDiscord()">Connect</button>
+      <div class="dc-oauth-card" id="dcOAuthCard">
+        <div class="dc-oauth-icon">
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="#5865F2"><path d="M20.317 4.37a19.791 19.791 0 0 0-4.885-1.515.074.074 0 0 0-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 0 0-5.487 0 12.64 12.64 0 0 0-.617-1.25.077.077 0 0 0-.079-.037A19.736 19.736 0 0 0 3.677 4.37a.07.07 0 0 0-.032.027C.533 9.046-.32 13.58.099 18.057a.082.082 0 0 0 .031.057 19.9 19.9 0 0 0 5.993 3.03.078.078 0 0 0 .084-.028c.462-.63.874-1.295 1.226-1.994a.076.076 0 0 0-.041-.106 13.107 13.107 0 0 1-1.872-.892.077.077 0 0 1-.008-.128 10.2 10.2 0 0 0 .372-.292.074.074 0 0 1 .077-.01c3.928 1.793 8.18 1.793 12.062 0a.074.074 0 0 1 .078.01c.12.098.246.198.373.292a.077.077 0 0 1-.006.127 12.299 12.299 0 0 1-1.873.892.077.077 0 0 0-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.028 19.839 19.839 0 0 0 6.002-3.03.077.077 0 0 0 .032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 0 0-.031-.03z"/></svg>
+        </div>
+        <div class="dc-oauth-text">
+          <div class="dc-oauth-title" id="dcOAuthTitle">Link Discord Account</div>
+          <div class="dc-oauth-sub" id="dcOAuthSub">Sync your real pfp, status & activity</div>
+        </div>
+        <button class="dc-oauth-btn" id="dcOAuthBtn" onclick="initDiscordOAuth()">Connect</button>
       </div>
-      <div class="pnote yellow">Discord OAuth needs a client ID on the server. Enter your URL manually for now.</div>
+      <!-- Requires backend note -->
+      <div class="pnote" id="dcOAuthNote" style="margin-top:8px;background:rgba(88,101,242,.06);border-color:rgba(88,101,242,.2)">
+        <span style="color:#8b9df7;font-family:'Space Mono',monospace;font-size:.62rem;display:block;margin-bottom:4px">// BACKEND REQUIRED</span>
+        Real OAuth requires your server to handle the callback. Set <code style="color:#a78bfa;font-family:'Space Mono',monospace">/auth/discord</code> and add your Client ID below. Or use Lanyard (no backend needed).
+      </div>
     </div>
+
+    <!-- OAuth Config (collapsed by default) -->
     <div class="prow">
-      <div class="plabel">Discord Server / Profile URL</div>
-      <input type="url" id="iDiscordUrl" placeholder="https://discord.gg/yourserver" oninput="syncDiscordUrl()">
+      <div class="plabel" style="cursor:pointer;user-select:none" onclick="toggleEl('dcOAuthConfig')">
+        OAuth Settings <span style="color:var(--acc2);font-family:'Space Mono',monospace;font-size:.65rem">▸ expand</span>
+      </div>
+      <div id="dcOAuthConfig" style="display:none">
+        <div class="plabel" style="margin-top:8px">Discord Client ID</div>
+        <input type="text" id="iDiscordClientId" placeholder="10823456789012345678" style="font-family:'Space Mono',monospace;font-size:.76rem" oninput="syncDiscordClientId()">
+        <div class="plabel" style="margin-top:8px">OAuth Redirect URI</div>
+        <input type="text" id="iDiscordRedirect" placeholder="https://vltx-adoe.onrender.com/auth/discord/callback" style="font-family:'Space Mono',monospace;font-size:.76rem" oninput="syncDiscordRedirect()">
+        <div style="margin-top:6px;padding:8px 10px;background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.06);border-radius:7px;font-size:.62rem;color:var(--mut);font-family:'Space Mono',monospace;line-height:1.8">
+          <span style="color:rgba(6,182,212,.7)"># backend setup (Node/Express):</span><br>
+          app.get('/auth/discord', (req, res) =&gt; {<br>
+          &nbsp;&nbsp;const url = `https://discord.com/oauth2/authorize?<br>
+          &nbsp;&nbsp;&nbsp;&nbsp;client_id=${CLIENT_ID}<br>
+          &nbsp;&nbsp;&nbsp;&nbsp;&amp;redirect_uri=${REDIRECT_URI}<br>
+          &nbsp;&nbsp;&nbsp;&nbsp;&amp;response_type=code<br>
+          &nbsp;&nbsp;&nbsp;&nbsp;&amp;scope=identify`;<br>
+          &nbsp;&nbsp;res.redirect(url);<br>
+          });
+        </div>
+      </div>
     </div>
+
+    <div style="padding:0 16px 8px;font-size:.62rem;color:var(--mut);font-family:'Space Mono',monospace;display:flex;align-items:center;gap:6px">
+      <div style="height:1px;flex:1;background:rgba(255,255,255,.05)"></div>
+      <span>or use Lanyard (no server needed)</span>
+      <div style="height:1px;flex:1;background:rgba(255,255,255,.05)"></div>
+    </div>
+
+    <!-- Lanyard section -->
+    <div id="dcLiveCard" style="display:none" class="prow">
+      <div class="dc-live-card">
+        <div class="dc-live-avatar-wrap">
+          <img id="dcLiveAvatar" class="dc-live-avatar" src="" alt="">
+          <div class="dc-live-status-dot" id="dcLiveStatusDot"></div>
+        </div>
+        <div class="dc-live-info">
+          <div class="dc-live-name" id="dcLiveName">—</div>
+          <div class="dc-live-tag" id="dcLiveTag"></div>
+          <div class="dc-live-status" id="dcLiveStatusText">offline</div>
+        </div>
+        <button class="tbtn ghost sm" onclick="disconnectDiscord()" style="flex-shrink:0;font-size:.6rem">Disconnect</button>
+      </div>
+      <div class="dc-activity-card" id="dcActivityCard" style="display:none">
+        <div class="dc-act-header">CURRENT ACTIVITY</div>
+        <div style="display:flex;align-items:center;gap:10px">
+          <div class="dc-act-img-wrap">
+            <img id="dcActLargeImg" class="dc-act-img" src="" alt="" style="display:none">
+            <div class="dc-act-img-fallback" id="dcActImgFallback">🎮</div>
+            <img id="dcActSmallImg" class="dc-act-small-img" src="" alt="" style="display:none">
+          </div>
+          <div>
+            <div class="dc-act-name" id="dcActGameName">—</div>
+            <div class="dc-act-detail" id="dcActDetails"></div>
+            <div class="dc-act-state" id="dcActState"></div>
+            <div class="dc-act-elapsed" id="dcActElapsed"></div>
+          </div>
+        </div>
+      </div>
+      <div class="dc-spotify-card" id="dcSpotifyCard" style="display:none">
+        <div class="dc-act-header">LISTENING ON SPOTIFY</div>
+        <div style="display:flex;align-items:center;gap:10px">
+          <img id="dcSpotifyArt" style="width:42px;height:42px;border-radius:6px;object-fit:cover;" src="" alt="">
+          <div>
+            <div style="font-size:.8rem;font-weight:700;color:#1ed760" id="dcSpotifyTrack">—</div>
+            <div style="font-size:.68rem;color:var(--mut)" id="dcSpotifyArtist">—</div>
+            <div style="font-size:.62rem;color:rgba(30,215,96,.5)" id="dcSpotifyAlbum">—</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
     <div class="prow">
-      <div class="plabel">Discord Username <span>for badge</span></div>
-      <input type="text" id="iDiscordUser" placeholder="username#0000" oninput="syncDiscordUser()">
+      <div class="plabel">Discord User ID <span style="font-family:'Space Mono',monospace;font-size:.6rem;color:rgba(6,182,212,.6)">for Lanyard</span></div>
+      <div style="display:flex;gap:7px">
+        <input type="text" id="iDiscordId" placeholder="123456789012345678" oninput="syncDiscordId()" maxlength="20" style="flex:1;font-family:'Space Mono',monospace;font-size:.78rem;">
+        <button class="tbtn acc sm" onclick="connectDiscordLanyard()" id="dcConnectBtn">Fetch</button>
+      </div>
+      <div style="margin-top:5px;font-size:.6rem;color:var(--mut);font-family:'Space Mono',monospace;line-height:1.6">
+        Discord → Settings → Advanced → Developer Mode<br>Right-click yourself → Copy User ID · Join <a href="https://discord.gg/lanyard" target="_blank" style="color:#a78bfa">discord.gg/lanyard</a>
+      </div>
     </div>
+
+    <div class="prow">
+      <div class="plabel">Display Username <span>shown on badge</span></div>
+      <input type="text" id="iDiscordUser" placeholder="auto-fills from Lanyard" oninput="syncDiscordUser()" style="font-family:'Space Mono',monospace;font-size:.78rem;">
+    </div>
+
+    <div class="prow">
+      <div class="plabel">Status</div>
+      <select id="iDiscordStatus" onchange="syncDiscordStatus()">
+        <option value="online">● Online</option>
+        <option value="idle">◑ Idle</option>
+        <option value="dnd">○ Do Not Disturb</option>
+        <option value="offline">◌ Offline</option>
+      </select>
+    </div>
+
+    <div class="prow">
+      <div class="plabel">Server Invite <span>optional</span></div>
+      <input type="url" id="iDiscordUrl" placeholder="https://discord.gg/yourserver" oninput="syncDiscordUrl()" style="font-family:'Space Mono',monospace;font-size:.76rem;">
+    </div>
+
+    <div class="prow"><div class="tog" onclick="toggleDcBadge()"><div class="tog-sw on" id="togDcBadge"></div><span class="tog-label">Show Discord badge on card</span></div></div>
+    <div class="prow"><div class="tog" onclick="toggleDcSocial()"><div class="tog-sw on" id="togDcSocial"></div><span class="tog-label">Add to social links</span></div></div>
+    <div class="prow"><div class="tog" onclick="toggleLanyard()"><div class="tog-sw" id="togLanyard"></div><span class="tog-label">Live activity (Lanyard WebSocket)</span></div></div>
+    <div class="prow"><div class="tog" onclick="toggleDcPfpSync()"><div class="tog-sw" id="togDcPfpSync"></div><span class="tog-label">Use Discord PFP as avatar</span></div></div>
   </div>
 
   <!-- SPOTIFY -->
@@ -1436,7 +1987,7 @@ input[type=range]{width:100%;accent-color:var(--acc);}
     <h2>🚀 Publish Profile</h2>
     <p>Choose your username. This becomes your permanent URL.</p>
     <input type="text" id="publishUsername" placeholder="yourname" maxlength="30" style="text-align:center;font-size:1rem;padding:10px;" oninput="onPubInput()">
-    <div id="publishUrlPreview" class="modal-url">vltx.lol/yourname</div>
+    <div id="publishUrlPreview" class="modal-url">vltx-adoe.onrender.com/yourname</div>
     <div class="modal-acts">
       <button class="tbtn acc" onclick="publishProfile()" id="publishBtn" style="padding:9px 24px">Publish →</button>
       <button class="tbtn ghost" onclick="hidePublish()">Cancel</button>
@@ -1451,7 +2002,7 @@ input[type=range]{width:100%;accent-color:var(--acc);}
     <div style="font-size:2.6rem;margin-bottom:8px">🎉</div>
     <h2>You're live!</h2>
     <p>Your profile is published. Share this link:</p>
-    <div class="modal-url" id="successUrl" onclick="copyUrl()">vltx.lol/yourname</div>
+    <div class="modal-url" id="successUrl" onclick="copyUrl()">vltx-adoe.onrender.com/yourname</div>
     <div class="modal-acts">
       <button class="tbtn suc" onclick="copyUrl()">📋 Copy</button>
       <button class="tbtn acc" onclick="visitProfile()">Visit →</button>
@@ -1462,6 +2013,41 @@ input[type=range]{width:100%;accent-color:var(--acc);}
 
 <div class="toast" id="toast"></div>
 <audio id="audioEl" style="display:none"></audio>
+
+<!-- BACKEND ERROR MODAL -->
+<div class="modal-overlay" id="backendErrorModal">
+  <div class="modal" style="max-width:440px">
+    <div style="font-family:'Space Mono',monospace;color:#f43f5e;font-size:.7rem;margin-bottom:8px">// PUBLISH FAILED</div>
+    <h2 style="font-size:1rem;margin-bottom:6px">Server not reachable</h2>
+    <div style="font-size:.72rem;color:var(--mut);margin-bottom:12px">Error: <code id="backendErrorMsg" style="color:#f87171;font-family:'Space Mono',monospace;font-size:.68rem"></code></div>
+    
+    <div style="background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.07);border-radius:8px;padding:12px;margin-bottom:14px;font-size:.7rem;line-height:1.9">
+      <div style="font-family:'Space Mono',monospace;color:rgba(6,182,212,.7);margin-bottom:8px;font-size:.6rem">// CHECKLIST — fix these in order:</div>
+      <div>1. <strong>Domain DNS</strong> — <code style="color:#a78bfa;font-family:'Space Mono',monospace">vltx-adoe.onrender.com</code> — your Render URL to your server IP in your registrar</div>
+      <div style="margin-top:4px">2. <strong>Server running</strong> — SSH in and run <code style="color:#a78bfa;font-family:'Space Mono',monospace">pm2 start server.js</code> (or your start cmd)</div>
+      <div style="margin-top:4px">3. <strong>Port open</strong> — make sure port 80/443 is open in your firewall/security group</div>
+      <div style="margin-top:4px">4. <strong>API route exists</strong> — your server needs <code style="color:#a78bfa;font-family:'Space Mono',monospace">POST /api/profile</code> to save &amp; return <code style="color:#a78bfa;font-family:'Space Mono',monospace">{url: "/z3n0"}</code></div>
+      <div style="margin-top:4px">5. <strong>Profile route exists</strong> — your server needs <code style="color:#a78bfa;font-family:'Space Mono',monospace">GET /:username</code> to serve saved profiles</div>
+    </div>
+    
+    <div style="background:rgba(124,58,237,.06);border:1px solid rgba(124,58,237,.2);border-radius:8px;padding:10px;font-family:'Space Mono',monospace;font-size:.6rem;color:var(--mut);line-height:1.8;margin-bottom:14px">
+      <span style="color:rgba(6,182,212,.7)"># minimal Express server example:</span><br>
+      app.post('/api/profile', (req,res) =&gt; {<br>
+      &nbsp;&nbsp;const {username,data} = req.body;<br>
+      &nbsp;&nbsp;fs.writeFileSync(`profiles/${username}.json`, JSON.stringify(data));<br>
+      &nbsp;&nbsp;res.json({url: `/${username}`});<br>
+      });<br>
+      app.get('/:u', (req,res) =&gt; {<br>
+      &nbsp;&nbsp;res.sendFile(`profiles/${req.params.u}.json`);<br>
+      });
+    </div>
+    
+    <div class="modal-acts">
+      <button class="tbtn ghost" onclick="hideBackendError()">Close</button>
+      <button class="tbtn acc sm" onclick="navigator.clipboard.writeText(document.getElementById('backendErrorMsg').textContent);showToast('Copied error')">Copy Error</button>
+    </div>
+  </div>
+</div>
 
 <script>
 // ══════════════════════════════════════════════════════════════════
@@ -1477,6 +2063,8 @@ const state = {
   avatar:null, avatarEmoji:'👾', showOnline:true, avatarFloat:true,
   avatarShape:'circle', avBorderColor:'#7c3aed', avSize:76, avRingStyle:'solid',
   bgVideo:null, bgImage:null, bgColor:'#030308', aesthetic:'none',
+  skills:[], role:'', openTo:[], projectName:'', projectDesc:'', projectUrl:'', projectStatus:'🔨 Building',
+  githubUser:'', showGithubGraph:false,
   tracks:[], showMusic:false, autoplay:false, musicStyle:'default',
   accent:'#a855f7', accent2:'#22d3ee', cardBg:'#0f0f1a', blur:28,
   cardOpacity:92, glowInt:45, font:'outfit', textColor:'#f0f0fa',
@@ -1490,7 +2078,8 @@ const state = {
   avHover:'tilt-spin', animSpeed:'1',
   linkStyle:'icons', showStats:true, showFooter:true, spacing:'normal',
   links:[],
-  discordUrl:'', discordUser:'',
+  discordUrl:'', discordUser:'', discordUserId:'', discordStatus:'online',
+  discordBadge:true, lanyardUserId:'',
   spotifyUser:'', showSpotify:false, spotifyFallback:'',
 };
 let publishedUrl = '';
@@ -1510,7 +2099,7 @@ function nav(el, panelId) {
 // ══════════════════════════════════════════
 function syncUsername() {
   state.username = document.getElementById('iUsername').value;
-  document.getElementById('previewUrl').textContent = `vltx.lol/${state.username || 'yourname'}`;
+  document.getElementById('previewUrl').textContent = `vltx-adoe.onrender.com/${state.username || 'yourname'}`;
   const u = document.getElementById('pcUsername');
   u.textContent = state.displayName || state.username || 'yourname';
 }
@@ -1538,7 +2127,7 @@ function syncWebsite() { state.website = document.getElementById('iWebsite').val
 function onPubInput() {
   const v = document.getElementById('publishUsername').value.toLowerCase().replace(/[^a-z0-9_.\-]/g, '');
   document.getElementById('publishUsername').value = v;
-  document.getElementById('publishUrlPreview').textContent = `vltx.lol/${v || 'yourname'}`;
+  document.getElementById('publishUrlPreview').textContent = `vltx-adoe.onrender.com/${v || 'yourname'}`;
   state.username = v;
 }
 
@@ -1629,9 +2218,7 @@ function syncAvSize() {
   const av = document.getElementById('pcAvatar');
   const wrap = document.getElementById('pcAvWrap');
   av.style.width = av.style.height = state.avSize + 'px';
-  const half = state.avSize / 2;
   wrap.style.width = wrap.style.height = (state.avSize + 4) + 'px';
-  wrap.style.marginTop = -half + 'px';
 }
 function setRingStyle(el, style) {
   document.querySelectorAll('.ring-card').forEach(c => c.classList.remove('sel'));
@@ -1712,7 +2299,8 @@ async function processBgFile(file) {
 
   // Update drop zone to show file info
   document.getElementById('bgDropText').textContent = fname;
-  document.getElementById('bgDropSub') && (document.getElementById('bgDropSub').textContent = ftype + ' · ' + fsize);
+  const subEl = document.querySelector('.bg-drop-sub');
+  if (subEl) subEl.textContent = ftype + ' · ' + fsize;
 
   // Show current preview row
   showBgCurrentRow(local, isVideo, isGif, fname, fsize);
@@ -2192,19 +2780,613 @@ function renderLinks() {
 }
 
 // ══════════════════════════════════════════
-// DISCORD / SPOTIFY
+// SKILLS & WORK
 // ══════════════════════════════════════════
-function connectDiscord() { window.open('https://discord.com/oauth2/authorize', '_blank', 'width=500,height=700'); showToast('💬 Opening Discord auth...'); }
-function syncDiscordUrl() {
-  state.discordUrl = document.getElementById('iDiscordUrl').value.trim();
-  if (state.discordUrl) { state.links = state.links.filter(l => l.label.toLowerCase() !== 'discord'); state.links.unshift({ label: 'Discord', url: state.discordUrl }); renderLinks(); showToast('✅ Discord link added!'); }
+let skills = [];
+function addSkill() {
+  const v = document.getElementById('iSkillInput').value.trim(); if (!v) return;
+  addSkillDirect(v);
+  document.getElementById('iSkillInput').value = '';
 }
+function addSkillDirect(name) {
+  if (skills.includes(name)) return;
+  skills.push(name); renderSkillsPanel(); renderSkillsCard();
+}
+function removeSkill(i) {
+  skills.splice(i, 1); renderSkillsPanel(); renderSkillsCard();
+}
+function renderSkillsPanel() {
+  const el = document.getElementById('skillChipPreview');
+  el.innerHTML = skills.map((s, i) => `<div class="skill-chip-item">${s}<button class="skill-chip-del" onclick="removeSkill(${i})">✕</button></div>`).join('');
+}
+function renderSkillsCard() {
+  const row = document.getElementById('pcSkillsRow');
+  if (!skills.length) { row.style.display = 'none'; return; }
+  row.style.display = 'flex';
+  row.innerHTML = skills.map(s => `<span class="pc-skill-chip">${s}</span>`).join('');
+}
+function syncRole() {
+  const v = document.getElementById('iRole').value.trim();
+  const row = document.getElementById('pcRoleRow');
+  const el = document.getElementById('pcRole');
+  if (v) { row.style.display = ''; el.textContent = v; }
+  else row.style.display = 'none';
+}
+function syncOpenTo() {
+  const checks = document.querySelectorAll('#openToList input[type=checkbox]');
+  const selected = Array.from(checks).filter(c => c.checked).map(c => c.parentElement.textContent.trim());
+  const row = document.getElementById('pcOpenToRow');
+  if (!selected.length) { row.style.display = 'none'; return; }
+  row.style.display = 'flex';
+  row.innerHTML = selected.map(s => `<span class="pc-open-chip">✓ ${s}</span>`).join('');
+}
+function syncProject() {
+  const name = document.getElementById('iProjectName').value.trim();
+  const desc = document.getElementById('iProjectDesc').value.trim();
+  const status = document.getElementById('iProjectStatus').value;
+  const el = document.getElementById('pcProject');
+  if (!name) { el.style.display = 'none'; return; }
+  el.style.display = '';
+  document.getElementById('pcProjName').textContent = name;
+  document.getElementById('pcProjDesc').textContent = desc;
+  document.getElementById('pcProjStatus').textContent = status;
+}
+function syncGithub() {
+  state.githubUser = document.getElementById('iGithubUser').value.trim();
+}
+function previewGithub() {
+  const u = document.getElementById('iGithubUser').value.trim();
+  if (!u) { showToast('Enter a GitHub username first'); return; }
+  renderGithubGraph(u);
+}
+function toggleGithubGraph() {
+  state.showGithubGraph = !state.showGithubGraph;
+  document.getElementById('togGithubGraph').classList.toggle('on', state.showGithubGraph);
+  const el = document.getElementById('pcGithubGraph');
+  if (state.showGithubGraph) {
+    el.style.display = '';
+    renderGithubGraph(document.getElementById('iGithubUser').value.trim() || '');
+  } else {
+    el.style.display = 'none';
+  }
+}
+function renderGithubGraph(username) {
+  // Render a fake-but-realistic contribution graph
+  const canvas = document.getElementById('ghCanvas');
+  const ctx = canvas.getContext('2d');
+  const W = canvas.width, H = canvas.height;
+  ctx.clearRect(0, 0, W, H);
+  // Build 52 weeks × 7 days grid
+  const cellW = 5, cellH = 5, gap = 2;
+  const cols = 52, rows = 7;
+  const offsetX = 4, offsetY = 8;
+  const colors = ['rgba(255,255,255,.04)', 'rgba(124,58,237,.25)', 'rgba(124,58,237,.5)', 'rgba(124,58,237,.75)', 'rgba(124,58,237,1)'];
+  // seed from username for deterministic look
+  let seed = 42;
+  for (let c = 0; c < username.length; c++) seed = (seed * 31 + username.charCodeAt(c)) & 0xffffffff;
+  function rng() { seed = (seed * 1664525 + 1013904223) & 0xffffffff; return (seed >>> 0) / 0xffffffff; }
+  // Day labels
+  ctx.fillStyle = 'rgba(255,255,255,.25)';
+  ctx.font = '5px sans-serif';
+  ['M','W','F'].forEach((d, i) => ctx.fillText(d, 0, offsetY + (i * 2 + 1) * (cellH + gap)));
+  for (let col = 0; col < cols; col++) {
+    for (let row = 0; row < rows; row++) {
+      const x = offsetX + col * (cellW + gap);
+      const y = offsetY + row * (cellH + gap);
+      // More commits near present (right side)
+      const bias = Math.pow((col / cols), 1.2);
+      const v = rng();
+      let level = 0;
+      if (v < 0.45 - bias * 0.1) level = 0;
+      else if (v < 0.6) level = 1;
+      else if (v < 0.78) level = 2;
+      else if (v < 0.92) level = 3;
+      else level = 4;
+      ctx.fillStyle = colors[level];
+      ctx.fillRect(x, y, cellW, cellH);
+    }
+  }
+  // Month labels
+  ctx.fillStyle = 'rgba(255,255,255,.2)';
+  ctx.font = '5px sans-serif';
+  const months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+  const now = new Date();
+  for (let m = 0; m < 12; m++) {
+    const monthIdx = (now.getMonth() - 11 + m + 12) % 12;
+    const x = offsetX + Math.round(m * (cols / 12)) * (cellW + gap);
+    ctx.fillText(months[monthIdx], x, 6);
+  }
+}
+
+// ══════════════════════════════════════════
+// DISCORD / SPOTIFY / INTEGRATIONS
+// ══════════════════════════════════════════
+// Discord OAuth state
+let dcOAuthClientId = '';
+let dcOAuthRedirect = '';
+
+function syncDiscordClientId() { dcOAuthClientId = document.getElementById('iDiscordClientId').value.trim(); }
+function syncDiscordRedirect() { dcOAuthRedirect = document.getElementById('iDiscordRedirect').value.trim(); }
+
+function toggleEl(id) {
+  const el = document.getElementById(id);
+  el.style.display = el.style.display === 'none' ? '' : 'none';
+}
+
+function initDiscordOAuth() {
+  // If client ID is set, attempt real OAuth
+  if (dcOAuthClientId) {
+    const redirect = dcOAuthRedirect || `${window.location.origin}/auth/discord/callback`;
+    const scope = 'identify';
+    const url = `https://discord.com/oauth2/authorize?client_id=${dcOAuthClientId}&redirect_uri=${encodeURIComponent(redirect)}&response_type=code&scope=${scope}`;
+    
+    // Open in popup
+    const popup = window.open(url, 'discord-oauth', 'width=500,height=700,scrollbars=yes');
+    
+    // Listen for callback message from popup
+    window.addEventListener('message', (e) => {
+      if (e.data?.type === 'discord-oauth-success') {
+        const user = e.data.user;
+        handleOAuthSuccess(user);
+      }
+    }, { once: true });
+    
+    // Check if popup was blocked
+    if (!popup || popup.closed) {
+      showToast('⚠️ Popup blocked — allow popups and try again');
+      // Fallback: direct redirect
+      window.location.href = `/auth/discord?redirect=${encodeURIComponent(window.location.href)}`;
+    }
+  } else {
+    // No client ID — show config + instructions
+    document.getElementById('dcOAuthConfig').style.display = '';
+    document.getElementById('dcOAuthNote').style.display = '';
+    showToast('⚠️ Set your Discord Client ID first');
+    // Scroll to config
+    document.getElementById('iDiscordClientId').focus();
+  }
+}
+
+function handleOAuthSuccess(user) {
+  if (!user) return;
+  const btn = document.getElementById('dcOAuthBtn');
+  btn.textContent = '✓ Connected';
+  btn.className = 'dc-oauth-btn connected';
+  document.getElementById('dcOAuthTitle').textContent = user.global_name || user.username;
+  document.getElementById('dcOAuthSub').textContent = `@${user.username} · linked via OAuth`;
+  
+  // Set pfp
+  const avatarHash = user.avatar;
+  if (avatarHash) {
+    const avatarUrl = `https://cdn.discordapp.com/avatars/${user.id}/${avatarHash}.png?size=256`;
+    if (dcState.pfpSync) applyLanyardPfpToAvatar(user, avatarUrl);
+  }
+  
+  // Set username and badge
+  document.getElementById('iDiscordUser').value = user.global_name || user.username;
+  dcState.user = user.global_name || user.username;
+  syncDiscordUser();
+  showToast('✅ Discord account linked!');
+  
+  // Update nav dot
+  const navDot = document.getElementById('discordNavDot');
+  if (navDot) { navDot.style.background = '#5865F2'; navDot.style.boxShadow = '0 0 6px #5865F2'; }
+}
+let dcState = { user: '', url: '', status: 'online', badge: true, social: true, userId: '', lanyard: false, pfpSync: false };
+let lanyardWs = null;
+let lanyardHeartbeat = null;
+const DC_STATUS_COLORS = { online:'#22c55e', idle:'#f59e0b', dnd:'#ef4444', offline:'#6b7280' };
+const DC_STATUS_LABELS = { online:'online', idle:'idle', dnd:'do not disturb', offline:'offline' };
+
 function syncDiscordUser() {
-  state.discordUser = document.getElementById('iDiscordUser').value.trim();
+  dcState.user = document.getElementById('iDiscordUser').value.trim();
   const badge = document.getElementById('pcDcBadge');
-  if (state.discordUser) { badge.style.display = 'inline-flex'; document.getElementById('pcDcText').textContent = '@' + state.discordUser; }
-  else badge.style.display = 'none';
+  const dot = document.getElementById('pcDcStatusDot');
+  if (dcState.user && dcState.badge) {
+    badge.style.display = 'inline-flex';
+    document.getElementById('pcDcText').textContent = dcState.user;
+    dot.style.background = DC_STATUS_COLORS[dcState.status] || '#22c55e';
+  } else if (!dcState.user) {
+    badge.style.display = 'none';
+  }
 }
+function syncDiscordStatus() {
+  dcState.status = document.getElementById('iDiscordStatus').value;
+  const dot = document.getElementById('pcDcStatusDot');
+  dot.style.background = DC_STATUS_COLORS[dcState.status] || '#22c55e';
+  // Update nav dot color
+  const navDot = document.getElementById('discordNavDot');
+  if (navDot) navDot.style.background = DC_STATUS_COLORS[dcState.status];
+}
+function syncDiscordUrl() {
+  dcState.url = document.getElementById('iDiscordUrl').value.trim();
+  state.discordUrl = dcState.url;
+  if (dcState.url && dcState.social) {
+    state.links = state.links.filter(l => l.label.toLowerCase() !== 'discord');
+    state.links.unshift({ label: 'Discord', url: dcState.url });
+    renderLinks();
+  }
+}
+function toggleDcBadge() {
+  dcState.badge = !dcState.badge;
+  document.getElementById('togDcBadge').classList.toggle('on', dcState.badge);
+  document.getElementById('pcDcBadge').style.display = (dcState.user && dcState.badge) ? 'inline-flex' : 'none';
+}
+function toggleDcSocial() {
+  dcState.social = !dcState.social;
+  document.getElementById('togDcSocial').classList.toggle('on', dcState.social);
+  if (dcState.social && dcState.url) {
+    state.links = state.links.filter(l => l.label.toLowerCase() !== 'discord');
+    state.links.unshift({ label: 'Discord', url: dcState.url });
+    renderLinks();
+  } else {
+    state.links = state.links.filter(l => l.label.toLowerCase() !== 'discord');
+    renderLinks();
+  }
+}
+function disconnectDiscord() {
+  document.getElementById('iDiscordUser').value = '';
+  dcState.user = ''; syncDiscordUser();
+  closeLanyardWs();
+  document.getElementById('dcLiveCard').style.display = 'none';
+  showToast('Discord disconnected');
+}
+function syncDiscordId() {
+  dcState.userId = document.getElementById('iDiscordId').value.trim();
+}
+function toggleDcPfpSync() {
+  dcState.pfpSync = !dcState.pfpSync;
+  document.getElementById('togDcPfpSync').classList.toggle('on', dcState.pfpSync);
+  if (dcState.pfpSync && lanyardData && lanyardData.discord_user) {
+    applyLanyardPfpToAvatar(lanyardData.discord_user);
+  }
+}
+
+// Lanyard WebSocket - real-time rich presence
+let lanyardData = null;
+let activityTimerInterval = null;
+
+function connectDiscordLanyard() {
+  const userId = document.getElementById('iDiscordId').value.trim();
+  if (!userId || userId.length < 10) { showToast('❌ Enter a valid Discord User ID first'); return; }
+  dcState.userId = userId;
+  
+  const btn = document.getElementById('dcConnectBtn');
+  btn.textContent = '...'; btn.disabled = true;
+  
+  // First fetch via REST to get initial data quickly
+  fetch(`https://api.lanyard.rest/v1/users/${userId}`)
+    .then(r => r.json())
+    .then(d => {
+      if (!d.success) { showToast('❌ User not found. Join discord.gg/lanyard first'); btn.textContent = 'Connect'; btn.disabled = false; return; }
+      processLanyardData(d.data);
+      btn.textContent = 'Connected ✓'; btn.disabled = false;
+      btn.style.background = 'rgba(34,197,94,.15)';
+      btn.style.color = '#22c55e';
+      btn.style.borderColor = 'rgba(34,197,94,.3)';
+      showToast('✅ Discord connected via Lanyard!');
+      // Mark nav dot
+      const navDot = document.getElementById('discordNavDot');
+      if (navDot) { navDot.style.background = '#22c55e'; navDot.style.boxShadow = '0 0 6px #22c55e'; }
+      // Start WebSocket for live updates
+      openLanyardWs(userId);
+    })
+    .catch(() => { showToast('⚠️ Lanyard fetch failed — check your ID'); btn.textContent = 'Connect'; btn.disabled = false; });
+}
+
+function openLanyardWs(userId) {
+  closeLanyardWs();
+  lanyardWs = new WebSocket('wss://api.lanyard.rest/socket');
+  lanyardWs.onopen = () => {
+    lanyardWs.send(JSON.stringify({ op: 2, d: { subscribe_to_id: userId } }));
+  };
+  lanyardWs.onmessage = (e) => {
+    const msg = JSON.parse(e.data);
+    if (msg.op === 1) { // Hello - start heartbeat
+      lanyardHeartbeat = setInterval(() => {
+        if (lanyardWs.readyState === 1) lanyardWs.send(JSON.stringify({ op: 3 }));
+      }, msg.d.heartbeat_interval);
+    }
+    if (msg.op === 0 && (msg.t === 'INIT_STATE' || msg.t === 'PRESENCE_UPDATE')) {
+      const data = msg.t === 'INIT_STATE' ? msg.d[userId] : msg.d;
+      if (data) { lanyardData = data; processLanyardData(data); }
+    }
+  };
+  lanyardWs.onerror = () => {};
+  lanyardWs.onclose = () => { clearInterval(lanyardHeartbeat); };
+}
+
+function closeLanyardWs() {
+  if (lanyardWs) { lanyardWs.close(); lanyardWs = null; }
+  clearInterval(lanyardHeartbeat);
+  clearInterval(activityTimerInterval);
+}
+
+function processLanyardData(data) {
+  lanyardData = data;
+  const user = data.discord_user;
+  const status = data.discord_status || 'offline';
+  
+  // Show live card
+  document.getElementById('dcLiveCard').style.display = '';
+  
+  // Avatar
+  const avatarHash = user.avatar;
+  const avatarUrl = avatarHash
+    ? `https://cdn.discordapp.com/avatars/${user.id}/${avatarHash}.${avatarHash.startsWith('a_') ? 'gif' : 'png'}?size=128`
+    : `https://cdn.discordapp.com/embed/avatars/${parseInt(user.discriminator || '0') % 5}.png`;
+  
+  document.getElementById('dcLiveAvatar').src = avatarUrl;
+  
+  // Status dot
+  const dot = document.getElementById('dcLiveStatusDot');
+  dot.style.background = DC_STATUS_COLORS[status] || '#6b7280';
+  
+  // Name
+  const displayName = user.global_name || user.username;
+  document.getElementById('dcLiveName').textContent = displayName;
+  document.getElementById('dcLiveTag').textContent = user.discriminator && user.discriminator !== '0' ? `#${user.discriminator}` : `@${user.username}`;
+  document.getElementById('dcLiveStatusText').textContent = DC_STATUS_LABELS[status] || status;
+  
+  // Auto-fill username field
+  if (!document.getElementById('iDiscordUser').value) {
+    document.getElementById('iDiscordUser').value = displayName;
+    dcState.user = displayName;
+  }
+  
+  // Auto-set status
+  document.getElementById('iDiscordStatus').value = status;
+  dcState.status = status;
+  syncDiscordStatus();
+  syncDiscordUser();
+  
+  // PFP sync if enabled
+  if (dcState.pfpSync) applyLanyardPfpToAvatar(user, avatarUrl);
+  
+  // Activities
+  const activities = data.activities || [];
+  const spotify = data.spotify;
+  
+  // Spotify
+  const spotifyCard = document.getElementById('dcSpotifyCard');
+  if (spotify) {
+    spotifyCard.style.display = '';
+    document.getElementById('dcSpotifyTrack').textContent = spotify.song || '—';
+    document.getElementById('dcSpotifyArtist').textContent = spotify.artist || '—';
+    document.getElementById('dcSpotifyAlbum').textContent = spotify.album || '—';
+    if (spotify.album_art_url) document.getElementById('dcSpotifyArt').src = spotify.album_art_url;
+    // Show on profile card
+    if (dcState.lanyard) {
+      document.getElementById('pcNowPlaying').style.display = 'flex';
+      document.getElementById('pcNpTitle').textContent = spotify.song || 'Listening to Spotify';
+    }
+  } else { spotifyCard.style.display = 'none'; }
+  
+  // Game / App activity (skip Spotify activity type 2)
+  const gameAct = activities.find(a => a.type === 0 || a.type === 5);
+  const actCard = document.getElementById('dcActivityCard');
+  if (gameAct && dcState.lanyard) {
+    actCard.style.display = '';
+    document.getElementById('dcActGameName').textContent = gameAct.name;
+    document.getElementById('dcActDetails').textContent = gameAct.details || '';
+    document.getElementById('dcActState').textContent = gameAct.state || '';
+    document.getElementById('dcActImgFallback').textContent = { 0:'🎮', 5:'🖥' }[gameAct.type] || '🎮';
+    
+    // Assets
+    if (gameAct.assets) {
+      const appId = gameAct.application_id;
+      const li = gameAct.assets.large_image;
+      const si = gameAct.assets.small_image;
+      const liEl = document.getElementById('dcActLargeImg');
+      const siEl = document.getElementById('dcActSmallImg');
+      const fb = document.getElementById('dcActImgFallback');
+      if (li && appId) {
+        const url = li.startsWith('mp:external') ? `https://media.discordapp.net/external/${li.replace('mp:external/','')}` : `https://cdn.discordapp.com/app-assets/${appId}/${li}.png?size=64`;
+        liEl.src = url; liEl.style.display = ''; fb.style.display = 'none';
+      }
+      if (si && appId) {
+        const url = si.startsWith('mp:external') ? `https://media.discordapp.net/external/${si.replace('mp:external/','')}` : `https://cdn.discordapp.com/app-assets/${appId}/${si}.png?size=32`;
+        siEl.src = url; siEl.style.display = '';
+      }
+    }
+    
+    // Elapsed time
+    clearInterval(activityTimerInterval);
+    if (gameAct.timestamps?.start) {
+      const startTs = gameAct.timestamps.start;
+      const elEl = document.getElementById('dcActElapsed');
+      activityTimerInterval = setInterval(() => {
+        const elapsed = Date.now() - startTs;
+        const h = Math.floor(elapsed / 3600000);
+        const m = Math.floor((elapsed % 3600000) / 60000);
+        const s = Math.floor((elapsed % 60000) / 1000);
+        elEl.textContent = h > 0 ? `${h}:${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')} elapsed` : `${m}:${String(s).padStart(2,'0')} elapsed`;
+      }, 1000);
+    }
+    
+    // Profile card activity
+    if (dcState.lanyard) {
+      const pcAct = document.getElementById('pcActivity');
+      pcAct.style.display = 'flex';
+      document.getElementById('pcActName').textContent = gameAct.name;
+      document.getElementById('pcActSub').textContent = gameAct.details || 'via Discord';
+      document.getElementById('pcActIcon').textContent = '🎮';
+    }
+  } else { actCard.style.display = 'none'; }
+}
+
+function applyLanyardPfpToAvatar(user, avatarUrl) {
+  if (!avatarUrl && user) {
+    const hash = user.avatar;
+    avatarUrl = hash
+      ? `https://cdn.discordapp.com/avatars/${user.id}/${hash}.${hash.startsWith('a_') ? 'gif' : 'png'}?size=256`
+      : `https://cdn.discordapp.com/embed/avatars/${parseInt(user.discriminator || '0') % 5}.png`;
+  }
+  if (avatarUrl) {
+    state.avatar = avatarUrl;
+    const av = document.getElementById('pcAvatar');
+    av.innerHTML = `<img src="${avatarUrl}" style="width:100%;height:100%;object-fit:cover;">`;
+    document.getElementById('avatarPreview').innerHTML = `<img src="${avatarUrl}" style="width:100%;height:100%;object-fit:cover;">`;
+    showToast('✅ Discord PFP applied!');
+  }
+}
+
+function toggleLanyard() {
+  dcState.lanyard = !dcState.lanyard;
+  document.getElementById('togLanyard').classList.toggle('on', dcState.lanyard);
+  if (dcState.lanyard && dcState.userId) {
+    if (lanyardData) processLanyardData(lanyardData);
+    else connectDiscordLanyard();
+  } else {
+    document.getElementById('pcActivity').style.display = 'none';
+  }
+}
+
+// ══════════════════════════════════════════
+// PROFILE THEMES
+// ══════════════════════════════════════════
+const profileThemes = {
+  darkdev: {
+    accent: '#ffffff', accent2: '#999999', cardBg: '#0a0a0a', blur: 20,
+    font: 'dm', particle: 'none', glitchName: false, symbolRain: false,
+    gradStart: '#ffffff', gradMid: '#cccccc', gradEnd: '#888888', gradDir: '135deg',
+    borderGrad: false, bgGrad: false,
+    nameAnim: 'shimmer',
+    bgColor: '#050505',
+    textColor: '#e8e8e8',
+    cardOpacity: 95,
+    description: 'Clean, premium dark. guns.lol inspired.',
+  },
+  dev: {
+    accent: '#00ff41', accent2: '#00b4d8', cardBg: '#050810', blur: 8,
+    font: 'mono', particle: 'matrix', glitchName: true, symbolRain: false,
+    gradStart: '#00ff41', gradMid: '#00d4ff', gradEnd: '#0080ff', gradDir: '90deg',
+    borderGrad: false, bgGrad: true,
+    nameAnim: 'glitch',
+    description: 'Terminal green. Hacker vibes. Code aesthetic.',
+    bgColor: '#020408',
+  },
+  void: {
+    accent: '#7c3aed', accent2: '#4c1d95', cardBg: '#04010d', blur: 32,
+    font: 'syne', particle: 'fireflies', glitchName: false,
+    gradStart: '#ffffff', gradMid: '#a78bfa', gradEnd: '#7c3aed', gradDir: '135deg',
+    borderGrad: true,
+    nameAnim: 'pulse',
+    bgColor: '#010006',
+  },
+  blood: {
+    accent: '#f43f5e', accent2: '#9f1239', cardBg: '#0d0005', blur: 20,
+    font: 'outfit', particle: 'rain', glitchName: true,
+    gradStart: '#fff0f3', gradMid: '#f43f5e', gradEnd: '#9f1239', gradDir: '135deg',
+    borderGrad: false, bgGrad: true,
+    nameAnim: 'glitch',
+    bgColor: '#060002',
+  },
+  ice: {
+    accent: '#00d4ff', accent2: '#0066cc', cardBg: '#000d1a', blur: 28,
+    font: 'dm', particle: 'snow', glitchName: false,
+    gradStart: '#e0f7ff', gradMid: '#00d4ff', gradEnd: '#0066cc', gradDir: '135deg',
+    borderGrad: true,
+    nameAnim: 'shimmer',
+    bgColor: '#00060f',
+  },
+  gold: {
+    accent: '#f59e0b', accent2: '#92400e', cardBg: '#100b00', blur: 18,
+    font: 'syne', particle: 'dust', glitchName: false,
+    gradStart: '#fffbf0', gradMid: '#f59e0b', gradEnd: '#b45309', gradDir: '135deg',
+    borderGrad: true,
+    nameAnim: 'shimmer',
+    bgColor: '#070500',
+  },
+  sakura: {
+    accent: '#ff69b4', accent2: '#c2185b', cardBg: '#0f0009', blur: 24,
+    font: 'outfit', particle: 'sakura', glitchName: false,
+    gradStart: '#fff0f8', gradMid: '#ff69b4', gradEnd: '#c2185b', gradDir: '135deg',
+    borderGrad: true,
+    nameAnim: 'shimmer',
+    bgColor: '#060003',
+  },
+  matrix: {
+    accent: '#00ff00', accent2: '#00aa00', cardBg: '#000d00', blur: 10,
+    font: 'mono', particle: 'matrix', glitchName: true, symbolRain: true,
+    gradStart: '#ccffcc', gradMid: '#00ff00', gradEnd: '#007700', gradDir: '180deg',
+    borderGrad: false,
+    nameAnim: 'glitch',
+    bgColor: '#000800',
+  },
+  neon: {
+    accent: '#ff0080', accent2: '#00ffff', cardBg: '#000611', blur: 22,
+    font: 'orbitron', particle: 'network', glitchName: false,
+    gradStart: '#ff0080', gradMid: '#8000ff', gradEnd: '#00ffff', gradDir: '90deg',
+    borderGrad: true,
+    nameAnim: 'rainbow',
+    bgColor: '#000208',
+  },
+};
+
+let activeThemeId = null;
+function applyProfileTheme(themeId) {
+  const theme = profileThemes[themeId];
+  if (!theme) return;
+  
+  activeThemeId = themeId;
+  
+  // Update all theme cards
+  document.querySelectorAll('.theme-card').forEach(c => c.classList.remove('active'));
+  const card = document.getElementById(`theme-${themeId}`);
+  if (card) card.classList.add('active');
+  
+  // Apply colors
+  if (theme.accent) { state.accent = theme.accent; document.getElementById('iAccent').value = theme.accent; document.getElementById('iAccentPick').value = theme.accent; applyAccent(); }
+  if (theme.accent2) { state.accent2 = theme.accent2; document.getElementById('iAccent2').value = theme.accent2; document.getElementById('iAccent2Pick').value = theme.accent2; }
+  if (theme.cardBg) { state.cardBg = theme.cardBg; document.getElementById('iCardBg').value = theme.cardBg; document.getElementById('iCardBgPick').value = theme.cardBg; }
+  if (theme.blur !== undefined) { state.blur = theme.blur; document.getElementById('iBlur').value = theme.blur; document.getElementById('blurVal').textContent = theme.blur + 'px'; syncBlur(); }
+  if (theme.font) { state.font = theme.font; document.getElementById('iFont').value = theme.font; syncFont(); }
+  if (theme.particle) { state.particle = theme.particle; document.getElementById('iParticle').value = theme.particle; syncParticle(); }
+  if (theme.glitchName !== undefined) { state.glitchName = theme.glitchName; document.getElementById('togGlitch').classList.toggle('on', theme.glitchName); }
+  if (theme.gradStart) { document.getElementById('iGradStart').value = theme.gradStart; document.getElementById('iGradStartPick').value = theme.gradStart; }
+  if (theme.gradMid) { document.getElementById('iGradMid').value = theme.gradMid; document.getElementById('iGradMidPick').value = theme.gradMid; }
+  if (theme.gradEnd) { document.getElementById('iGradEnd').value = theme.gradEnd; document.getElementById('iGradEndPick').value = theme.gradEnd; }
+  if (theme.gradDir) { document.getElementById('iGradDir').value = theme.gradDir; }
+  syncGradient();
+  if (theme.bgColor) { document.getElementById('iBgColor').value = theme.bgColor; document.getElementById('iBgColorPick').value = theme.bgColor; syncBgColor(); }
+  if (theme.nameAnim) { state.nameAnim = theme.nameAnim; document.getElementById('iNameAnim').value = theme.nameAnim; syncNameAnim(); }
+  if (theme.borderGrad !== undefined) { state.borderGrad = theme.borderGrad; document.getElementById('togBorderGrad').classList.toggle('on', theme.borderGrad); }
+  if (theme.bgGrad !== undefined) { state.bgGrad = theme.bgGrad; document.getElementById('togBgGrad').classList.toggle('on', theme.bgGrad); }
+  if (theme.textColor) { state.textColor = theme.textColor; document.getElementById('iTextColor').value = theme.textColor; document.getElementById('iTextColorPick').value = theme.textColor; syncTextColor(); }
+  if (theme.cardOpacity !== undefined) { state.cardOpacity = theme.cardOpacity; document.getElementById('iCardOpacity').value = theme.cardOpacity; document.getElementById('cardOpacityVal').textContent = theme.cardOpacity + '%'; }
+  
+  // Apply card bg + accent to preview card
+  document.getElementById('pc').style.background = `rgba(${hexToRgb(theme.cardBg)}, 0.${state.cardOpacity})`;
+  document.getElementById('pc').style.backdropFilter = `blur(${theme.blur}px)`;
+  
+  showToast(`✅ Theme applied: ${themeId.toUpperCase()}`);
+  
+  // Update topbar status
+  document.getElementById('topbarInfo').textContent = `theme: ${themeId}`;
+  document.getElementById('topbarDot').className = 'tbar-dot warn';
+}
+
+function hexToRgb(hex) {
+  const r = parseInt(hex.slice(1,3),16), g = parseInt(hex.slice(3,5),16), b = parseInt(hex.slice(5,7),16);
+  return `${r},${g},${b}`;
+}
+
+// Topbar save indicator
+function markUnsaved() {
+  document.getElementById('topbarInfo').textContent = 'unsaved';
+  document.getElementById('topbarDot').classList.remove('warn');
+  document.getElementById('topbarDot').style.background = '#f59e0b';
+  document.getElementById('topbarDot').style.boxShadow = '0 0 6px #f59e0b';
+}
+
+// Hook unsaved indicator on inputs
+document.addEventListener('input', () => {
+  document.getElementById('topbarInfo').textContent = 'unsaved*';
+  document.getElementById('topbarDot').style.background = '#f59e0b';
+  document.getElementById('topbarDot').style.boxShadow = '0 0 6px #f59e0b';
+});
+
 function syncSpotify() { state.spotifyUser = document.getElementById('iSpotifyUser').value.trim(); }
 function toggleSpotify() {
   state.showSpotify = !state.showSpotify; document.getElementById('togSpotify').classList.toggle('on', state.showSpotify);
@@ -2232,7 +3414,7 @@ function hideProgress(wId) {
 // ══════════════════════════════════════════
 function showPublish() {
   document.getElementById('publishUsername').value = state.username || '';
-  document.getElementById('publishUrlPreview').textContent = `vltx.lol/${state.username || 'yourname'}`;
+  document.getElementById('publishUrlPreview').textContent = `vltx-adoe.onrender.com/${state.username || 'yourname'}`;
   document.getElementById('publishModal').classList.add('show');
 }
 function hidePublish() { document.getElementById('publishModal').classList.remove('show'); }
@@ -2243,15 +3425,37 @@ async function publishProfile() {
   const btn = document.getElementById('publishBtn'); btn.textContent = 'Publishing...'; btn.disabled = true;
   const data = { ...state, username, tracks: state.tracks.map(t => ({ name: t.name, url: t.url })) };
   try {
-    const res = await fetch('/api/profile', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ username, data }) });
+    const res = await fetch('/api/profile', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ username, data })
+    });
+    if (!res.ok) {
+      const text = await res.text().catch(() => '');
+      throw new Error(`HTTP ${res.status}: ${text.slice(0, 100)}`);
+    }
     const json = await res.json();
     if (json.error) { showToast('❌ ' + json.error); return; }
     publishedUrl = json.url; hidePublish();
     document.getElementById('successUrl').textContent = window.location.host + json.url;
     document.getElementById('successModal').classList.add('show'); showToast('🎉 Published!');
-  } catch { showToast('❌ Publish failed — check connection'); }
+    // Update topbar
+    document.getElementById('topbarInfo').textContent = `live: ${username}`;
+    document.getElementById('topbarDot').style.background = '#22c55e';
+    document.getElementById('topbarDot').style.boxShadow = '0 0 6px #22c55e';
+  } catch(err) {
+    hidePublish();
+    // Show detailed error modal
+    showBackendError(err.message);
+  }
   finally { btn.textContent = 'Publish →'; btn.disabled = false; }
 }
+
+function showBackendError(errMsg) {
+  document.getElementById('backendErrorMsg').textContent = errMsg || 'Unknown error';
+  document.getElementById('backendErrorModal').classList.add('show');
+}
+function hideBackendError() { document.getElementById('backendErrorModal').classList.remove('show'); }
 function copyUrl() { navigator.clipboard.writeText(window.location.host + publishedUrl).then(() => showToast('📋 Copied!')); }
 function visitProfile() { window.open(publishedUrl, '_blank'); hideSuccess(); }
 function resetProfile() { if (!confirm('Reset everything?')) return; location.reload(); }
@@ -2271,6 +3475,77 @@ document.getElementById('iTags').value = state.tags.join(', ');
 initChips(); initGradChips();
 syncBio(); syncTags(); renderTags(); applyAccent();
 renderBadges();
+
+// ── Read Discord OAuth params from URL (set by /auth/discord/callback) ────────
+(function readOAuthParams() {
+  const p = new URLSearchParams(window.location.search);
+  if (p.get('discord_id')) {
+    const id       = p.get('discord_id');
+    const username = p.get('discord_username') || '';
+    const avatar   = p.get('discord_avatar')   || '';
+    const tag      = p.get('discord_tag')       || '';
+
+    // Fill Discord panel
+    document.getElementById('iDiscordId').value   = id;
+    document.getElementById('iDiscordUser').value = username;
+    dcState.userId = id;
+    dcState.user   = username;
+
+    // Save to state for publish
+    state.discordUserId = id;
+    state.lanyardUserId = id;
+    state.discordUser   = username;
+
+    // Show live card
+    document.getElementById('dcLiveCard').style.display = '';
+    document.getElementById('dcLiveName').textContent   = username;
+    document.getElementById('dcLiveTag').textContent    = tag;
+    document.getElementById('dcOAuthTitle').textContent = username;
+    document.getElementById('dcOAuthSub').textContent   = `${tag} · linked via OAuth`;
+    document.getElementById('dcOAuthBtn').textContent   = '✓ Connected';
+    document.getElementById('dcOAuthBtn').className     = 'dc-oauth-btn connected';
+
+    if (avatar) {
+      document.getElementById('dcLiveAvatar').src = avatar;
+      // Auto-apply pfp if sync is on
+      if (dcState.pfpSync) applyLanyardPfpToAvatar(null, avatar);
+    }
+
+    // Update badge on preview card
+    syncDiscordUser();
+
+    // Update nav dot
+    const navDot = document.getElementById('discordNavDot');
+    if (navDot) { navDot.style.background = '#5865F2'; navDot.style.boxShadow = '0 0 6px #5865F2'; }
+
+    showToast('✅ Discord linked via OAuth!');
+
+    // Clean URL so refreshing doesn't re-trigger
+    window.history.replaceState({}, '', '/customize');
+
+    // Switch to Discord panel so user sees it
+    nav(document.querySelector('.ni[onclick*="s-discord"]'), 's-discord');
+  }
+
+  if (p.get('discord_error')) {
+    showToast('⚠️ Discord: ' + decodeURIComponent(p.get('discord_error')));
+    window.history.replaceState({}, '', '/customize');
+  }
+})();
+
+// Sync discordUserId to state when typed
+document.getElementById('iDiscordId').addEventListener('input', () => {
+  state.discordUserId = document.getElementById('iDiscordId').value.trim();
+  state.lanyardUserId = state.discordUserId;
+});
+// Sync discordUser to state
+document.getElementById('iDiscordUser').addEventListener('input', () => {
+  state.discordUser = document.getElementById('iDiscordUser').value.trim();
+});
+// Sync discordUrl to state
+document.getElementById('iDiscordUrl').addEventListener('input', () => {
+  state.discordUrl = document.getElementById('iDiscordUrl').value.trim();
+});
 </script>
 </body>
 </html>
