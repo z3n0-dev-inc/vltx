@@ -1,5 +1,4 @@
 <!DOCTYPE html>
-
 <html lang="en">
 <head>
 <meta charset="UTF-8">
@@ -8,7 +7,7 @@
 <meta name="description" content="The link-in-bio platform that actually slaps. Video backgrounds, music players, 200+ customizations. Free forever.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;700;800&family=Space+Mono:wght@400;700&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;700;800&family=Space+Mono:wght@400;700&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,400&display=swap" rel="stylesheet">
 <style>
 :root{
   --bg:#050508;--sur:#0d0d14;--brd:rgba(255,255,255,.07);
@@ -17,162 +16,115 @@
 }
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
 html{scroll-behavior:smooth;}
-body{
-  background:var(--bg);color:var(--txt);
-  font-family:'DM Sans',sans-serif;
-  overflow-x:hidden;cursor:none;
-}
+body{background:var(--bg);color:var(--txt);font-family:'DM Sans',sans-serif;overflow-x:hidden;cursor:none;}
 
-/* Custom cursor */
-#cur{position:fixed;width:10px;height:10px;background:var(–acc);border-radius:50%;pointer-events:none;z-index:9999;transform:translate(-50%,-50%);mix-blend-mode:screen;transition:width .2s,height .2s,background .2s;will-change:left,top;}
-#cur-ring{position:fixed;width:36px;height:36px;border:1.5px solid rgba(124,58,237,.45);border-radius:50%;pointer-events:none;z-index:9998;transform:translate(-50%,-50%);will-change:left,top;}
+#cur{position:fixed;width:10px;height:10px;background:var(--acc);border-radius:50%;pointer-events:none;z-index:9999;transform:translate(-50%,-50%);mix-blend-mode:screen;transition:width .2s,height .2s,background .2s;will-change:left,top;}
+#cur-ring{position:fixed;width:36px;height:36px;border:1.5px solid rgba(124,58,237,.5);border-radius:50%;pointer-events:none;z-index:9998;transform:translate(-50%,-50%);will-change:left,top;transition:width .25s,height .25s;}
 body:not(.has-mouse) #cur,body:not(.has-mouse) #cur-ring{display:none;}
 
-/* Noise overlay */
-body::before{content:’’;position:fixed;inset:0;background-image:url(“data:image/svg+xml,%3Csvg viewBox=‘0 0 256 256’ xmlns=‘http://www.w3.org/2000/svg’%3E%3Cfilter id=‘n’%3E%3CfeTurbulence type=‘fractalNoise’ baseFrequency=‘0.9’ numOctaves=‘4’ stitchTiles=‘stitch’/%3E%3C/filter%3E%3Crect width=‘100%25’ height=‘100%25’ filter=‘url(%23n)’ opacity=‘0.04’/%3E%3C/svg%3E”);opacity:.35;pointer-events:none;z-index:1;}
+/* noise */
+body::before{content:'';position:fixed;inset:0;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");opacity:.3;pointer-events:none;z-index:1;}
 
-/* NAV */
-nav{
-position:fixed;top:0;left:0;right:0;z-index:100;
-padding:18px 44px;display:flex;align-items:center;justify-content:space-between;
-border-bottom:1px solid transparent;
-transition:border-color .3s,background .3s;
-}
-nav.scrolled{border-bottom-color:var(–brd);background:rgba(5,5,8,.86);backdrop-filter:blur(18px);}
-.logo{font-family:‘Syne’,sans-serif;font-size:1.55rem;font-weight:800;letter-spacing:-.02em;background:linear-gradient(135deg,#fff,var(–acc));-webkit-background-clip:text;-webkit-text-fill-color:transparent;text-decoration:none;}
+nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:18px 44px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid transparent;transition:border-color .3s,background .3s;}
+nav.scrolled{border-bottom-color:var(--brd);background:rgba(5,5,8,.88);backdrop-filter:blur(18px);}
+.logo{font-family:'Syne',sans-serif;font-size:1.55rem;font-weight:800;letter-spacing:-.02em;background:linear-gradient(135deg,#fff,var(--acc));-webkit-background-clip:text;-webkit-text-fill-color:transparent;text-decoration:none;}
 .nav-links{display:flex;gap:28px;align-items:center;}
-.nav-links a{color:var(–mut);text-decoration:none;font-size:.88rem;font-weight:500;transition:color .2s;}
-.nav-links a:hover{color:var(–txt);}
-.nav-cta{background:var(–acc);color:#fff;padding:10px 20px;border-radius:8px;text-decoration:none;font-size:.86rem;font-weight:600;transition:opacity .2s,transform .2s;}
-.nav-cta:hover{opacity:.85;transform:translateY(-1px);}
+.nav-links a{color:var(--mut);text-decoration:none;font-size:.88rem;font-weight:500;transition:color .2s;}
+.nav-links a:hover{color:var(--txt);}
+.nav-cta{background:var(--acc)!important;color:#fff!important;padding:10px 22px;border-radius:9px;font-weight:600!important;box-shadow:0 0 22px rgba(124,58,237,.35);transition:opacity .2s,transform .2s,box-shadow .2s!important;}
+.nav-cta:hover{opacity:.88!important;transform:translateY(-1px)!important;box-shadow:0 0 36px rgba(124,58,237,.55)!important;}
 
-/* HERO */
 .hero{min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:120px 24px 80px;position:relative;overflow:hidden;}
-.grid-bg{position:absolute;inset:0;background-image:linear-gradient(rgba(124,58,237,.04) 1px,transparent 1px),linear-gradient(90deg,rgba(124,58,237,.04) 1px,transparent 1px);background-size:60px 60px;animation:gridMove 20s linear infinite;mask-image:radial-gradient(ellipse at center,black 0%,transparent 70%);}
+.grid-bg{position:absolute;inset:0;background-image:linear-gradient(rgba(124,58,237,.04) 1px,transparent 1px),linear-gradient(90deg,rgba(124,58,237,.04) 1px,transparent 1px);background-size:60px 60px;animation:gridMove 22s linear infinite;mask-image:radial-gradient(ellipse at center,black 0%,transparent 70%);}
 @keyframes gridMove{0%{background-position:0 0;}100%{background-position:60px 60px;}}
 .orb{position:absolute;border-radius:50%;filter:blur(100px);pointer-events:none;animation:orbFloat 8s ease-in-out infinite;}
-.orb1{width:600px;height:600px;background:rgba(124,58,237,.12);top:-200px;left:-150px;}
-.orb2{width:500px;height:500px;background:rgba(6,182,212,.08);bottom:-150px;right:-100px;animation-delay:-4s;}
+.orb1{width:600px;height:600px;background:rgba(124,58,237,.13);top:-200px;left:-150px;}
+.orb2{width:500px;height:500px;background:rgba(6,182,212,.09);bottom:-150px;right:-100px;animation-delay:-4s;}
 .orb3{width:300px;height:300px;background:rgba(244,63,94,.06);top:40%;left:50%;animation-delay:-2s;}
 @keyframes orbFloat{0%,100%{transform:translateY(0) scale(1);}50%{transform:translateY(-30px) scale(1.05);}}
 
-.hero-badge{display:inline-flex;align-items:center;gap:8px;background:rgba(124,58,237,.12);border:1px solid rgba(124,58,237,.3);padding:6px 16px;border-radius:100px;font-size:.78rem;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(–acc);margin-bottom:30px;position:relative;z-index:2;animation:fadeUp .6s ease both;}
-.badge-dot{width:6px;height:6px;background:var(–acc);border-radius:50%;animation:pulse 2s ease infinite;}
-@keyframes pulse{0%,100%{opacity:1;transform:scale(1);}50%{opacity:.5;transform:scale(1.5);}}
+.hero-badge{display:inline-flex;align-items:center;gap:8px;background:rgba(124,58,237,.12);border:1px solid rgba(124,58,237,.3);padding:6px 18px;border-radius:100px;font-size:.78rem;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--acc);margin-bottom:32px;position:relative;z-index:2;animation:fadeUp .6s ease both;}
+.badge-dot{width:6px;height:6px;background:var(--acc);border-radius:50%;animation:pulse 2s ease infinite;}
+@keyframes pulse{0%,100%{opacity:1;transform:scale(1);}50%{opacity:.5;transform:scale(1.6);}}
 
-h1{font-family:‘Syne’,sans-serif;font-size:clamp(3.5rem,10vw,8rem);font-weight:800;line-height:.95;letter-spacing:-.04em;position:relative;z-index:2;animation:fadeUp .6s .1s ease both;}
+h1{font-family:'Syne',sans-serif;font-size:clamp(3.5rem,10vw,8rem);font-weight:800;line-height:.94;letter-spacing:-.04em;position:relative;z-index:2;animation:fadeUp .6s .1s ease both;}
 .l1{display:block;color:#fff;}
-.l2{display:block;background:linear-gradient(135deg,var(–acc),var(–acc2) 50%,var(–acc3));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-size:200%;animation:gradShift 3s ease infinite,fadeUp .6s .2s ease both;}
+.l2{display:block;background:linear-gradient(135deg,var(--acc),var(--acc2) 50%,var(--acc3));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-size:200%;animation:gradShift 4s ease infinite,fadeUp .6s .2s ease both;}
 @keyframes gradShift{0%{background-position:0% 50%;}50%{background-position:100% 50%;}100%{background-position:0% 50%;}}
 
-.hero-sub{font-size:clamp(1rem,2vw,1.2rem);color:var(–mut);max-width:540px;line-height:1.7;margin-top:22px;position:relative;z-index:2;animation:fadeUp .6s .3s ease both;}
-.hero-sub strong{color:var(–txt);}
+.hero-sub{font-size:clamp(1rem,2vw,1.2rem);color:var(--mut);max-width:540px;line-height:1.7;margin-top:22px;position:relative;z-index:2;animation:fadeUp .6s .3s ease both;}
+.hero-sub strong{color:var(--txt);}
 
 .hero-acts{display:flex;gap:14px;margin-top:44px;flex-wrap:wrap;justify-content:center;position:relative;z-index:2;animation:fadeUp .6s .4s ease both;}
-.btn-p{background:var(–acc);color:#fff;padding:15px 34px;border-radius:12px;text-decoration:none;font-size:1rem;font-weight:700;position:relative;overflow:hidden;transition:transform .2s,box-shadow .2s;box-shadow:0 0 40px rgba(124,58,237,.4);}
-.btn-p:hover{transform:translateY(-2px);box-shadow:0 0 60px rgba(124,58,237,.6);}
-.btn-p::before{content:’’;position:absolute;inset:0;background:linear-gradient(135deg,rgba(255,255,255,.15),transparent);}
-.btn-s{background:transparent;color:var(–txt);padding:15px 34px;border-radius:12px;text-decoration:none;font-size:1rem;font-weight:600;border:1px solid var(–brd);transition:border-color .2s,background .2s;}
-.btn-s:hover{border-color:rgba(255,255,255,.2);background:rgba(255,255,255,.03);}
+.btn-p{background:var(--acc);color:#fff;padding:15px 36px;border-radius:12px;text-decoration:none;font-size:1rem;font-weight:700;position:relative;overflow:hidden;transition:transform .2s,box-shadow .2s;box-shadow:0 0 40px rgba(124,58,237,.4);}
+.btn-p:hover{transform:translateY(-2px);box-shadow:0 0 60px rgba(124,58,237,.65);}
+.btn-p::before{content:'';position:absolute;inset:0;background:linear-gradient(135deg,rgba(255,255,255,.15),transparent);}
+.btn-s{background:transparent;color:var(--txt);padding:15px 36px;border-radius:12px;text-decoration:none;font-size:1rem;font-weight:600;border:1px solid var(--brd);transition:border-color .2s,background .2s;}
+.btn-s:hover{border-color:rgba(255,255,255,.22);background:rgba(255,255,255,.04);}
 
-.stats{display:flex;gap:44px;margin-top:72px;position:relative;z-index:2;flex-wrap:wrap;justify-content:center;animation:fadeUp .6s .5s ease both;}
-.stat-num{font-family:‘Syne’,sans-serif;font-size:2.4rem;font-weight:800;background:linear-gradient(135deg,#fff,var(–acc));-webkit-background-clip:text;-webkit-text-fill-color:transparent;}
-.stat-label{color:var(–mut);font-size:.83rem;margin-top:4px;}
+.stats{display:flex;gap:48px;margin-top:72px;position:relative;z-index:2;flex-wrap:wrap;justify-content:center;animation:fadeUp .6s .5s ease both;}
+.stat-num{font-family:'Syne',sans-serif;font-size:2.6rem;font-weight:800;background:linear-gradient(135deg,#fff,var(--acc));-webkit-background-clip:text;-webkit-text-fill-color:transparent;}
+.stat-label{color:var(--mut);font-size:.83rem;margin-top:5px;}
 
 @keyframes fadeUp{from{opacity:0;transform:translateY(22px);}to{opacity:1;transform:translateY(0);}}
 
-/* MARQUEE */
-.mq-wrap{overflow:hidden;padding:36px 0;border-top:1px solid var(–brd);border-bottom:1px solid var(–brd);margin-bottom:80px;}
+.mq-wrap{overflow:hidden;padding:32px 0;border-top:1px solid var(--brd);border-bottom:1px solid var(--brd);margin-bottom:80px;}
 .mq{display:flex;gap:44px;white-space:nowrap;animation:mqScroll 22s linear infinite;}
 .mq-inner{display:flex;gap:44px;}
 @keyframes mqScroll{from{transform:translateX(0);}to{transform:translateX(-50%);}}
-.mqi{font-family:‘Syne’,sans-serif;font-size:1.05rem;font-weight:700;color:var(–mut);display:flex;align-items:center;gap:14px;}
-.mqi s2{color:var(–acc);font-size:.78rem;}
+.mqi{font-family:'Syne',sans-serif;font-size:1rem;font-weight:700;color:var(--mut);display:flex;align-items:center;gap:14px;}
+.mqi span{color:var(--acc);font-size:.75rem;}
 
-/* SECTIONS */
 .section{padding:80px 24px 100px;max-width:1200px;margin:0 auto;}
 .section.center{text-align:center;}
-.slabel{font-family:‘Space Mono’,monospace;font-size:.73rem;letter-spacing:.15em;text-transform:uppercase;color:var(–acc);margin-bottom:14px;}
-.stitle{font-family:‘Syne’,sans-serif;font-size:clamp(2rem,5vw,3.4rem);font-weight:800;letter-spacing:-.03em;margin-bottom:18px;}
-.ssub{color:var(–mut);font-size:1.02rem;max-width:480px;margin:0 auto 56px;line-height:1.65;}
+.slabel{font-family:'Space Mono',monospace;font-size:.73rem;letter-spacing:.15em;text-transform:uppercase;color:var(--acc);margin-bottom:14px;}
+.stitle{font-family:'Syne',sans-serif;font-size:clamp(2rem,5vw,3.4rem);font-weight:800;letter-spacing:-.03em;margin-bottom:18px;}
+.ssub{color:var(--mut);font-size:1rem;max-width:480px;margin:0 auto 56px;line-height:1.65;}
 
-/* FEATURE GRID */
-.fgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(270px,1fr));gap:1px;background:var(–brd);border:1px solid var(–brd);border-radius:22px;overflow:hidden;margin-top:56px;}
-.fcard{background:var(–sur);padding:32px 28px;transition:background .2s;position:relative;overflow:hidden;}
+.fgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(270px,1fr));gap:1px;background:var(--brd);border:1px solid var(--brd);border-radius:22px;overflow:hidden;margin-top:56px;}
+.fcard{background:var(--sur);padding:32px 28px;transition:background .2s;position:relative;overflow:hidden;}
 .fcard:hover{background:#111118;}
-.fcard::before{content:’’;position:absolute;inset:0;opacity:0;background:radial-gradient(circle at var(–mx,50%) var(–my,50%),rgba(124,58,237,.08),transparent 60%);transition:opacity .3s;}
+.fcard::before{content:'';position:absolute;inset:0;opacity:0;background:radial-gradient(circle at var(--mx,50%) var(--my,50%),rgba(124,58,237,.09),transparent 60%);transition:opacity .3s;}
 .fcard:hover::before{opacity:1;}
-.ficon{width:46px;height:46px;border-radius:11px;background:rgba(124,58,237,.12);border:1px solid rgba(124,58,237,.2);display:flex;align-items:center;justify-content:center;font-size:1.25rem;margin-bottom:18px;}
-.ftitle{font-family:‘Syne’,sans-serif;font-size:1.05rem;font-weight:700;margin-bottom:9px;}
-.fdesc{color:var(–mut);font-size:.88rem;line-height:1.65;}
+.ficon{width:46px;height:46px;border-radius:11px;background:rgba(124,58,237,.12);border:1px solid rgba(124,58,237,.22);display:flex;align-items:center;justify-content:center;font-size:1.25rem;margin-bottom:18px;}
+.ftitle{font-family:'Syne',sans-serif;font-size:1.05rem;font-weight:700;margin-bottom:9px;}
+.fdesc{color:var(--mut);font-size:.88rem;line-height:1.65;}
 
-/* COMPARE */
-.ctable{margin-top:56px;background:var(–sur);border:1px solid var(–brd);border-radius:18px;overflow:hidden;text-align:left;}
-.ch{display:grid;grid-template-columns:1fr 1fr 1fr;background:rgba(255,255,255,.03);padding:18px 28px;border-bottom:1px solid var(–brd);}
-.ch span{font-size:.83rem;color:var(–mut);}
-.ch span:last-child{font-family:‘Syne’,sans-serif;font-weight:700;font-size:.9rem;color:var(–acc);text-align:center;}
-.ch span:nth-child(2){text-align:center;}
-.cr{display:grid;grid-template-columns:1fr 1fr 1fr;padding:14px 28px;border-bottom:1px solid var(–brd);align-items:center;transition:background .15s;}
-.cr:last-child{border-bottom:none;}
-.cr:hover{background:rgba(255,255,255,.02);}
-.cr span{font-size:.87rem;}
-.cr span:first-child{color:var(–mut);}
-.cr span:nth-child(2){text-align:center;color:var(–mut);}
-.cr span:last-child{text-align:center;color:var(–acc2);}
-
-/* CTA */
 .cta{padding:100px 24px;text-align:center;position:relative;overflow:hidden;}
-.cta::before{content:’’;position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:800px;height:400px;background:radial-gradient(ellipse,rgba(124,58,237,.12) 0%,transparent 70%);pointer-events:none;}
-.cta h2{font-family:‘Syne’,sans-serif;font-size:clamp(2.5rem,6vw,5rem);font-weight:800;letter-spacing:-.03em;position:relative;z-index:2;}
-.cta p{color:var(–mut);font-size:1.08rem;margin:18px auto 44px;max-width:440px;position:relative;z-index:2;}
+.cta::before{content:'';position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:800px;height:400px;background:radial-gradient(ellipse,rgba(124,58,237,.13) 0%,transparent 70%);pointer-events:none;}
+.cta h2{font-family:'Syne',sans-serif;font-size:clamp(2.5rem,6vw,5rem);font-weight:800;letter-spacing:-.03em;position:relative;z-index:2;}
+.cta p{color:var(--mut);font-size:1.05rem;margin:18px auto 44px;max-width:440px;position:relative;z-index:2;}
 
-/* FOOTER */
-footer{border-top:1px solid var(–brd);padding:36px 44px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:18px;}
-.flogo{font-family:‘Syne’,sans-serif;font-weight:800;font-size:1.15rem;background:linear-gradient(135deg,#fff,var(–acc));-webkit-background-clip:text;-webkit-text-fill-color:transparent;}
-footer p{color:var(–mut);font-size:.83rem;}
+footer{border-top:1px solid var(--brd);padding:36px 44px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:18px;}
+.flogo{font-family:'Syne',sans-serif;font-weight:800;font-size:1.15rem;background:linear-gradient(135deg,#fff,var(--acc));-webkit-background-clip:text;-webkit-text-fill-color:transparent;}
+footer p{color:var(--mut);font-size:.83rem;}
 
-/* PROFILE PREVIEW CARD */
-.pcard{background:var(–sur);border:1px solid var(–brd);border-radius:22px;overflow:hidden;max-width:400px;margin:0 auto;transition:transform .3s,box-shadow .3s;}
-.pcard:hover{transform:translateY(-8px) rotate(-.4deg);box-shadow:0 40px 80px rgba(0,0,0,.5),0 0 60px rgba(124,58,237,.15);}
-.pb{height:170px;background:linear-gradient(135deg,#1a0533,#0a1a2e,#0d0d14);position:relative;overflow:hidden;}
-.pb::before{content:’’;position:absolute;inset:0;background:url(“data:image/svg+xml,%3Csvg width=‘60’ height=‘60’ viewBox=‘0 0 60 60’ xmlns=‘http://www.w3.org/2000/svg’%3E%3Cg fill=‘none’%3E%3Cg fill=’%237c3aed’ fill-opacity=‘0.07’%3E%3Cpath d=‘M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z’/%3E%3C/g%3E%3C/g%3E%3C/svg%3E”);animation:bgScroll 10s linear infinite;}
-@keyframes bgScroll{from{background-position:0 0;}to{background-position:60px 60px;}}
-.pav-demo{width:78px;height:78px;border-radius:50%;background:linear-gradient(135deg,var(–acc),var(–acc2));border:3px solid var(–bg);position:absolute;bottom:-39px;left:50%;transform:translateX(-50%);display:flex;align-items:center;justify-content:center;font-size:1.8rem;}
-.pbody-demo{padding:50px 22px 22px;text-align:center;}
-.pn-demo{font-family:‘Syne’,sans-serif;font-size:1.3rem;font-weight:800;}
-.pt-demo{color:var(–mut);font-size:.83rem;margin-top:4px;}
-.pb-demo{color:var(–mut);font-size:.88rem;margin:14px 0;line-height:1.55;}
-.pl-row{display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin-top:14px;}
-.pl-demo{padding:7px 16px;border-radius:7px;background:rgba(255,255,255,.05);border:1px solid var(–brd);font-size:.78rem;color:var(–txt);text-decoration:none;transition:background .2s,border-color .2s;}
-.pl-demo:hover{background:rgba(124,58,237,.15);border-color:var(–acc);}
-
-/* Scrollbar */
-::-webkit-scrollbar{width:5px;}
-::-webkit-scrollbar-track{background:var(–bg);}
-::-webkit-scrollbar-thumb{background:rgba(124,58,237,.4);border-radius:3px;}
-
-/* Fade-in animation for scroll reveals */
 .reveal{opacity:0;transform:translateY(20px);transition:opacity .55s ease,transform .55s ease;}
 .reveal.in{opacity:1;transform:translateY(0);}
-</style>
 
+::-webkit-scrollbar{width:5px;}
+::-webkit-scrollbar-track{background:var(--bg);}
+::-webkit-scrollbar-thumb{background:rgba(124,58,237,.4);border-radius:3px;}
+
+@media(max-width:768px){
+  nav{padding:14px 20px;}
+  .nav-links a:not(.nav-cta){display:none;}
+  .stats{gap:28px;}
+}
+</style>
 </head>
 <body>
-
 <div id="cur"></div>
 <div id="cur-ring"></div>
 
 <nav id="nav">
-  <a class="logo" href="index.html">VLTX</a>
+  <a class="logo" href="/">VLTX</a>
   <div class="nav-links">
-    <a href="profile.html">Demo Profile</a>
-    <a href="customize.html">Customize</a>
+    <a href="/customize">Customize</a>
     <a href="#features">Features</a>
-    <a href="customize.html" class="nav-cta">Get Started Free →</a>
+    <a href="/customize" class="nav-cta">Get Started Free →</a>
   </div>
 </nav>
-
-<!-- HERO -->
 
 <section class="hero">
   <div class="grid-bg"></div>
@@ -181,10 +133,10 @@ footer p{color:var(–mut);font-size:.83rem;}
   <div class="orb orb3"></div>
   <div class="hero-badge"><div class="badge-dot"></div>The link-in-bio platform that actually slaps</div>
   <h1><span class="l1">Your internet</span><span class="l2">identity, unreal.</span></h1>
-  <p class="hero-sub">Build a profile so insane it makes everything else look like a <strong>blank Word doc</strong>. Video backgrounds. Music players. 200+ options. Zero code.</p>
+  <p class="hero-sub">Build a profile so insane it makes everything else look like a <strong>blank Word doc</strong>. Video backgrounds. Music players. Unlimited customization. Free forever.</p>
   <div class="hero-acts">
-    <a href="customize.html" class="btn-p">Build my profile — it's free</a>
-    <a href="profile.html" class="btn-s">See a live demo →</a>
+    <a href="/customize" class="btn-p">Build my profile — it's free</a>
+    <a href="#features" class="btn-s">See features →</a>
   </div>
   <div class="stats">
     <div><div class="stat-num">200+</div><div class="stat-label">Customization options</div></div>
@@ -193,43 +145,16 @@ footer p{color:var(–mut);font-size:.83rem;}
   </div>
 </section>
 
-<!-- MARQUEE -->
-
 <div class="mq-wrap">
   <div class="mq">
     <div class="mq-inner">
-      <div class="mqi">Video Backgrounds <s2>★</s2></div><div class="mqi">Music Player <s2>★</s2></div><div class="mqi">Custom Cursors <s2>★</s2></div><div class="mqi">Particle Effects <s2>★</s2></div><div class="mqi">Typewriter Text <s2>★</s2></div><div class="mqi">Custom Fonts <s2>★</s2></div><div class="mqi">Discord Status <s2>★</s2></div><div class="mqi">Link Buttons <s2>★</s2></div><div class="mqi">Profile Glow <s2>★</s2></div><div class="mqi">Avatar Borders <s2>★</s2></div><div class="mqi">Theme Presets <s2>★</s2></div>
+      <div class="mqi">Video Backgrounds <span>★</span></div><div class="mqi">Music Player <span>★</span></div><div class="mqi">Custom Cursors <span>★</span></div><div class="mqi">Particle Effects <span>★</span></div><div class="mqi">Typewriter Text <span>★</span></div><div class="mqi">Custom Fonts <span>★</span></div><div class="mqi">Discord Status <span>★</span></div><div class="mqi">Link Icons <span>★</span></div><div class="mqi">Profile Glow <span>★</span></div><div class="mqi">Avatar Upload <span>★</span></div><div class="mqi">Theme Presets <span>★</span></div>
     </div>
     <div class="mq-inner" aria-hidden>
-      <div class="mqi">Video Backgrounds <s2>★</s2></div><div class="mqi">Music Player <s2>★</s2></div><div class="mqi">Custom Cursors <s2>★</s2></div><div class="mqi">Particle Effects <s2>★</s2></div><div class="mqi">Typewriter Text <s2>★</s2></div><div class="mqi">Custom Fonts <s2>★</s2></div><div class="mqi">Discord Status <s2>★</s2></div><div class="mqi">Link Buttons <s2>★</s2></div><div class="mqi">Profile Glow <s2>★</s2></div><div class="mqi">Avatar Borders <s2>★</s2></div><div class="mqi">Theme Presets <s2>★</s2></div>
+      <div class="mqi">Video Backgrounds <span>★</span></div><div class="mqi">Music Player <span>★</span></div><div class="mqi">Custom Cursors <span>★</span></div><div class="mqi">Particle Effects <span>★</span></div><div class="mqi">Typewriter Text <span>★</span></div><div class="mqi">Custom Fonts <span>★</span></div><div class="mqi">Discord Status <span>★</span></div><div class="mqi">Link Icons <span>★</span></div><div class="mqi">Profile Glow <span>★</span></div><div class="mqi">Avatar Upload <span>★</span></div><div class="mqi">Theme Presets <span>★</span></div>
     </div>
   </div>
 </div>
-
-<!-- PREVIEW -->
-
-<section class="section center reveal">
-  <div class="slabel">Live Preview</div>
-  <h2 class="stitle">This is what a VLTX profile looks like</h2>
-  <p class="ssub">One example. You can make it look completely different — or 10x wilder.</p>
-  <div class="pcard">
-    <div class="pb"><div class="pav-demo">👾</div></div>
-    <div class="pbody-demo">
-      <div class="pn-demo">xX_phantom_Xx</div>
-      <div class="pt-demo">@phantom · he/him · 🌙</div>
-      <div class="pb-demo">full time lurker. part time god.<br>i make stuff and it sometimes slaps.</div>
-      <div class="pl-row">
-        <a href="#" class="pl-demo">🐦 Twitter</a>
-        <a href="#" class="pl-demo">📷 Instagram</a>
-        <a href="#" class="pl-demo">💬 Discord</a>
-        <a href="#" class="pl-demo">🎵 Spotify</a>
-      </div>
-    </div>
-  </div>
-  <p style="color:var(--mut);font-size:.83rem;margin-top:22px;">→ <a href="profile.html" style="color:var(--acc);text-decoration:none;">See the full demo profile</a> — it's actually wild</p>
-</section>
-
-<!-- FEATURES -->
 
 <section class="section" id="features">
   <div style="text-align:center;" class="reveal">
@@ -238,43 +163,22 @@ footer p{color:var(–mut);font-size:.83rem;}
     <p class="ssub">No paywalls. No "upgrade to unlock." Just everything, for everyone.</p>
   </div>
   <div class="fgrid">
-    <div class="fcard reveal"><div class="ficon">🎬</div><div class="ftitle">Video Backgrounds</div><div class="fdesc">Drop a YouTube URL or link an MP4. Your profile plays a looping video behind everything.</div></div>
-    <div class="fcard reveal"><div class="ficon">🎵</div><div class="ftitle">Music Player</div><div class="fdesc">Add tracks with a full player UI — play, pause, skip. Visitors hear your vibe immediately.</div></div>
-    <div class="fcard reveal"><div class="ficon">✨</div><div class="ftitle">Particle Effects</div><div class="fdesc">Snow, sakura, matrix rain, fireflies, bubbles, confetti — 9 types with color and speed controls.</div></div>
-    <div class="fcard reveal"><div class="ficon">🎨</div><div class="ftitle">200+ Customizations</div><div class="fdesc">Colors, gradients, blur, glow, opacity, fonts, text effects, borders — every pixel is yours.</div></div>
-    <div class="fcard reveal"><div class="ficon">📡</div><div class="ftitle">Live Discord Presence</div><div class="fdesc">Shows your real-time Discord status, current game, and Spotify track — all live.</div></div>
-    <div class="fcard reveal"><div class="ficon">🖋️</div><div class="ftitle">Typewriter Text</div><div class="fdesc">Cycle through phrases with a typewriter effect. Customizable speed, phrases, and color.</div></div>
-    <div class="fcard reveal"><div class="ficon">🔗</div><div class="ftitle">Infinite Links</div><div class="fdesc">Add as many links as you want. Per-button colors, icons, hover effects, and layouts.</div></div>
-    <div class="fcard reveal"><div class="ficon">🖱️</div><div class="ftitle">Custom Cursors</div><div class="fdesc">Dot, ring, crosshair, sparkle, fire trail — 6 cursor styles with custom colors.</div></div>
-    <div class="fcard reveal"><div class="ficon">🌐</div><div class="ftitle">Custom Fonts</div><div class="fdesc">Pick from curated options or paste any Google Font URL. Your page, your typography.</div></div>
+    <div class="fcard reveal"><div class="ficon">🎬</div><div class="ftitle">Video Backgrounds</div><div class="fdesc">Upload an MP4 or WebM video. Your profile plays it on loop behind everything. Cinematic.</div></div>
+    <div class="fcard reveal"><div class="ficon">🎵</div><div class="ftitle">Music Player</div><div class="fdesc">Upload an MP3 from your computer. Visitors hear your vibe instantly with a full player UI.</div></div>
+    <div class="fcard reveal"><div class="ficon">🖼️</div><div class="ftitle">Profile Picture Upload</div><div class="fdesc">Upload your PFP directly from your phone or PC. No links, no external sites. Just your files.</div></div>
+    <div class="fcard reveal"><div class="ficon">✨</div><div class="ftitle">Particle Effects</div><div class="fdesc">Snow, sakura, matrix rain, fireflies — 6 particle types with full color and speed control.</div></div>
+    <div class="fcard reveal"><div class="ficon">🔗</div><div class="ftitle">Social Icons</div><div class="fdesc">Links show as the real favicon/icon of the platform. Discord, Twitter, YouTube — all recognizable.</div></div>
+    <div class="fcard reveal"><div class="ficon">🖋️</div><div class="ftitle">Typewriter Bio</div><div class="fdesc">Cycle through phrases with a buttery smooth typewriter effect. Fully customizable.</div></div>
+    <div class="fcard reveal"><div class="ficon">🌐</div><div class="ftitle">Real Profile URLs</div><div class="fdesc">Your profile lives at vltx.lol/yourname. Share it anywhere. Anyone in the world can see it.</div></div>
+    <div class="fcard reveal"><div class="ficon">🎨</div><div class="ftitle">Themes & Colors</div><div class="fdesc">Full accent color control, glassmorphism intensity, glow effects, and dark/gradient themes.</div></div>
+    <div class="fcard reveal"><div class="ficon">🖱️</div><div class="ftitle">Custom Cursors</div><div class="fdesc">Dot, ring, crosshair, sparkle trail — 5 cursor styles, all with custom colors.</div></div>
   </div>
 </section>
-
-<!-- COMPARE -->
-
-<section class="section center reveal">
-  <div class="slabel">How we compare</div>
-  <h2 class="stitle">guns.lol be like... 💀</h2>
-  <p class="ssub">Not throwing shade. Just facts.</p>
-  <div class="ctable">
-    <div class="ch"><span>Feature</span><span>guns.lol</span><span>VLTX ✦</span></div>
-    <div class="cr reveal"><span>Video backgrounds</span><span>❌ Premium only</span><span>✅ Free</span></div>
-    <div class="cr reveal"><span>Music player</span><span>❌ Premium only</span><span>✅ Free</span></div>
-    <div class="cr reveal"><span>Custom cursors</span><span>❌ Premium only</span><span>✅ Free</span></div>
-    <div class="cr reveal"><span>Particle effects</span><span>❌ Not available</span><span>✅ 9 types, Free</span></div>
-    <div class="cr reveal"><span>Live preview while editing</span><span>❌ None</span><span>✅ Real-time</span></div>
-    <div class="cr reveal"><span>Add link modal</span><span>⚠️ Basic</span><span>✅ Full control</span></div>
-    <div class="cr reveal"><span>Banner animation</span><span>❌ Premium only</span><span>✅ Free</span></div>
-    <div class="cr reveal"><span>Pricing</span><span style="text-align:center;color:var(--mut);">€6.99 one-time</span><span style="font-weight:700;">$0. Always.</span></div>
-  </div>
-</section>
-
-<!-- CTA -->
 
 <section class="cta reveal">
   <h2>Your profile is waiting.</h2>
   <p>Takes 2 minutes. No account needed. No credit card. Just build it.</p>
-  <a href="customize.html" class="btn-p" style="font-size:1.05rem;padding:17px 44px;">Build mine now →</a>
+  <a href="/customize" class="btn-p" style="font-size:1.05rem;padding:17px 44px;">Build mine now →</a>
 </section>
 
 <footer>
@@ -284,7 +188,7 @@ footer p{color:var(–mut);font-size:.83rem;}
 </footer>
 
 <script>
-// ── Mouse detection ──
+// Custom cursor
 let hasMouse=false,cx=0,cy=0,rx=0,ry=0;
 const curEl=document.getElementById('cur'),ringEl=document.getElementById('cur-ring');
 function firstM(e){
@@ -296,20 +200,17 @@ function firstM(e){
 }
 function mv(e){cx=e.clientX;cy=e.clientY;curEl.style.left=cx+'px';curEl.style.top=cy+'px';}
 document.addEventListener('mousemove',firstM);
-
-document.addEventListener('mouseover',e=>{
-  if(!hasMouse||!e.target.closest('a,button'))return;
-  curEl.style.width=curEl.style.height='18px';curEl.style.background='var(--acc2)';
-});
-document.addEventListener('mouseout',e=>{
-  if(!hasMouse||!e.target.closest('a,button'))return;
-  curEl.style.width=curEl.style.height='10px';curEl.style.background='var(--acc)';
+document.querySelectorAll('a,button,.fcard').forEach(el=>{
+  el.addEventListener('mouseenter',()=>{curEl.style.width='18px';curEl.style.height='18px';ringEl.style.width='52px';ringEl.style.height='52px';});
+  el.addEventListener('mouseleave',()=>{curEl.style.width='10px';curEl.style.height='10px';ringEl.style.width='36px';ringEl.style.height='36px';});
 });
 
-// ── Nav scroll ──
-window.addEventListener('scroll',()=>{document.getElementById('nav').classList.toggle('scrolled',window.scrollY>50);},{passive:true});
+// Nav scroll
+window.addEventListener('scroll',()=>{
+  document.getElementById('nav').classList.toggle('scrolled',window.scrollY>20);
+});
 
-// ── Feature card mouse glow ──
+// Feature card glow follow
 document.querySelectorAll('.fcard').forEach(card=>{
   card.addEventListener('mousemove',e=>{
     const r=card.getBoundingClientRect();
@@ -318,12 +219,9 @@ document.querySelectorAll('.fcard').forEach(card=>{
   });
 });
 
-// ── Scroll reveal (proper implementation, just toggles a class) ──
-const obs=new IntersectionObserver(entries=>{
-  entries.forEach(e=>{if(e.isIntersecting)e.target.classList.add('in');});
-},{threshold:0.08});
+// Scroll reveal
+const obs=new IntersectionObserver(en=>{en.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');obs.unobserve(e.target);}});},{threshold:.12});
 document.querySelectorAll('.reveal').forEach(el=>obs.observe(el));
 </script>
-
 </body>
 </html>
