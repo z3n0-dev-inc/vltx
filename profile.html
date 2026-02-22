@@ -1,0 +1,733 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>phantom — VLTX</title>
+<meta name="description" content="phantom's profile — built on VLTX">
+<meta property="og:title" content="phantom — VLTX">
+<meta property="og:description" content="full time lurker. part time god.">
+<meta property="og:type" content="website">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;700;800&family=Outfit:wght@300;400;600;700&display=swap" rel="stylesheet">
+<style>
+/* ==========================================================
+   VLTX PROFILE v2 — COMPLETE BUG-FREE BUILD
+========================================================== */
+:root{
+  --bg:#030308;
+  --accent:#a855f7;
+  --accent2:#22d3ee;
+  --card-bg:rgba(15,15,26,0.88);
+  --border:rgba(168,85,247,0.2);
+  --text:#f0f0fa;
+  --muted:#7b7b9a;
+  --radius:28px;
+}
+
+*{box-sizing:border-box;margin:0;padding:0;}
+html{scroll-behavior:smooth;}
+
+/* Touch = default cursor. Mouse = hidden (body.has-mouse class added by JS) */
+body{
+min-height:100vh;
+font-family:‘Outfit’,sans-serif;
+color:var(–text);
+overflow-x:hidden;
+background:var(–bg);
+}
+body.has-mouse{cursor:none;}
+
+/* ── Custom Cursor ── */
+#cur,#cur-trail{
+position:fixed;border-radius:50%;
+pointer-events:none;z-index:9999;
+transform:translate(-50%,-50%);
+opacity:0;transition:opacity .3s;
+will-change:left,top;
+}
+#cur{
+width:8px;height:8px;
+background:var(–accent);
+box-shadow:0 0 10px var(–accent),0 0 22px var(–accent);
+transition:width .15s,height .15s,background .15s,opacity .3s;
+}
+#cur-trail{
+width:30px;height:30px;
+border:1.5px solid rgba(168,85,247,0.48);
+z-index:9998;
+}
+
+/* ── Background ── */
+.bg{
+position:fixed;inset:0;z-index:0;
+background:
+radial-gradient(ellipse 80% 60% at 20% 20%,rgba(168,85,247,0.13) 0%,transparent 60%),
+radial-gradient(ellipse 60% 80% at 80% 80%,rgba(34,211,238,0.08) 0%,transparent 60%),
+var(–bg);
+animation:bgPulse 8s ease-in-out infinite alternate;
+}
+@keyframes bgPulse{from{filter:hue-rotate(0deg);}to{filter:hue-rotate(18deg);}}
+
+/* ── Particle canvas ── */
+#ptx{position:fixed;inset:0;z-index:1;pointer-events:none;}
+
+/* ── Falling symbols ── */
+@keyframes rainDrop{
+0%{transform:translateY(-30px) rotate(0deg);opacity:0;}
+8%{opacity:1;}
+90%{opacity:0.4;}
+100%{transform:translateY(110vh) rotate(540deg);opacity:0;}
+}
+
+/* ── Page ── */
+.page{
+position:relative;z-index:10;
+min-height:100vh;
+display:flex;align-items:center;justify-content:center;
+padding:60px 20px;
+}
+
+/* ── Card ── */
+.card{
+width:100%;max-width:460px;
+background:var(–card-bg);
+backdrop-filter:blur(28px) saturate(1.4);
+-webkit-backdrop-filter:blur(28px) saturate(1.4);
+border:1px solid var(–border);
+border-radius:var(–radius);
+overflow:hidden;
+position:relative;
+box-shadow:
+0 0 0 1px rgba(168,85,247,0.04),
+0 40px 80px rgba(0,0,0,0.65),
+0 0 70px rgba(168,85,247,0.07);
+animation:cardIn .75s cubic-bezier(.16,1,.3,1) both;
+}
+@keyframes cardIn{
+from{opacity:0;transform:translateY(36px) scale(.96);}
+to{opacity:1;transform:translateY(0) scale(1);}
+}
+
+/* Shimmer border — uses @supports so Firefox ignores cleanly */
+@supports(background:conic-gradient(red,blue)){
+.card::before{
+content:’’;position:absolute;inset:-1px;
+border-radius:calc(var(–radius) + 1px);
+background:conic-gradient(
+from var(–spin,0deg),
+transparent 40%,rgba(168,85,247,.45) 55%,
+rgba(34,211,238,.38) 65%,transparent 80%
+);
+z-index:-1;
+animation:spinBorder 4s linear infinite;
+}
+}
+/* –spin property only in Chromium/Safari which support @property */
+@supports(background:paint(x)){
+@property –spin{syntax:’<angle>’;inherits:false;initial-value:0deg;}
+}
+@keyframes spinBorder{to{–spin:360deg;}}
+
+/* ── Banner ── */
+.banner{
+height:160px;position:relative;overflow:hidden;
+background:linear-gradient(135deg,#0d0520,#0a1628,#150526);
+}
+.banner canvas{position:absolute;inset:0;width:100%;height:100%;display:block;}
+/* Fade bottom to page bg */
+.banner::after{
+content:’’;position:absolute;bottom:0;left:0;right:0;height:70px;
+background:linear-gradient(transparent,var(–bg));
+pointer-events:none;z-index:2;
+}
+
+/* ── Avatar ── */
+/* Float on the wrapper, transform on the element — no conflict */
+.avatar-wrap{
+position:relative;
+width:100px;height:100px;
+margin:-50px auto 0;
+display:flex;align-items:center;justify-content:center;
+z-index:5;
+animation:avatarFloat 3.2s ease-in-out infinite;
+}
+@keyframes avatarFloat{0%,100%{transform:translateY(0);}50%{transform:translateY(-8px);}}
+
+.avatar{
+width:96px;height:96px;border-radius:50%;
+background:linear-gradient(135deg,var(–accent),var(–accent2),#f43f5e);
+display:flex;align-items:center;justify-content:center;
+font-size:2.8rem;line-height:1;
+border:3px solid rgba(168,85,247,0.55);
+box-shadow:0 0 0 4px rgba(168,85,247,0.12),0 0 28px rgba(168,85,247,0.38);
+cursor:pointer;user-select:none;
+transition:transform .25s ease,box-shadow .25s ease;
+}
+.avatar:hover{
+transform:scale(1.1) rotate(-4deg);
+box-shadow:0 0 0 4px rgba(168,85,247,0.22),0 0 40px rgba(168,85,247,0.55);
+}
+
+.online-dot{
+position:absolute;bottom:3px;right:3px;
+width:18px;height:18px;background:#22c55e;
+border-radius:50%;border:3px solid var(–bg);
+animation:dotPulse 2.2s ease-in-out infinite;
+}
+@keyframes dotPulse{
+0%,100%{box-shadow:0 0 6px rgba(34,197,94,.55);}
+50%{box-shadow:0 0 18px rgba(34,197,94,.9),0 0 32px rgba(34,197,94,.28);}
+}
+
+/* ── Card body ── */
+.card-body{padding:16px 26px 26px;}
+
+/* ── Name ── */
+.name-row{text-align:center;margin-bottom:8px;}
+.username{
+font-family:‘Syne’,sans-serif;
+font-size:1.7rem;font-weight:800;letter-spacing:-.02em;
+background:linear-gradient(135deg,#fff 25%,var(–accent) 65%,var(–accent2) 100%);
+-webkit-background-clip:text;-webkit-text-fill-color:transparent;
+background-clip:text;background-size:200% 100%;
+animation:nameShimmer 3.5s ease-in-out infinite;
+display:inline-block;
+}
+@keyframes nameShimmer{0%,100%{background-position:0%;}50%{background-position:100%;}}
+.pronouns{
+display:inline-block;
+background:rgba(168,85,247,.13);border:1px solid rgba(168,85,247,.28);
+color:var(–accent);font-size:.7rem;font-weight:700;
+letter-spacing:.07em;text-transform:uppercase;
+padding:2px 10px;border-radius:100px;margin-left:8px;vertical-align:middle;
+}
+
+/* ── Tags ── */
+.tags{
+display:flex;gap:6px;flex-wrap:wrap;justify-content:center;
+margin-bottom:14px;
+}
+.tag{
+font-size:.77rem;color:var(–muted);
+background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.07);
+padding:3px 11px;border-radius:100px;
+transition:color .2s,border-color .2s,background .2s;cursor:default;
+}
+.tag:hover{color:var(–text);border-color:rgba(255,255,255,.18);background:rgba(255,255,255,.06);}
+
+/* ── Bio / Typewriter ── */
+.bio{
+text-align:center;font-size:.93rem;color:var(–muted);
+line-height:1.7;margin-bottom:18px;
+min-height:52px;display:flex;align-items:center;justify-content:center;
+}
+.tw{color:var(–text);}
+.caret{
+display:inline-block;width:2px;height:.9em;
+background:var(–accent);margin-left:2px;vertical-align:text-bottom;
+animation:blink .75s step-end infinite;
+}
+@keyframes blink{0%,100%{opacity:1;}50%{opacity:0;}}
+
+/* ── Music Player ── */
+.music-player{
+background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);
+border-radius:16px;padding:14px 16px 16px;
+display:flex;align-items:center;gap:14px;
+margin-bottom:16px;position:relative;overflow:hidden;
+transition:border-color .2s,box-shadow .2s;
+}
+.music-player:hover{border-color:rgba(168,85,247,.35);box-shadow:0 0 22px rgba(168,85,247,.07);}
+.prog-bg{position:absolute;bottom:0;left:0;height:3px;width:100%;background:rgba(255,255,255,.07);}
+.prog{
+position:absolute;bottom:0;left:0;height:3px;width:0%;
+background:linear-gradient(90deg,var(–accent),var(–accent2));
+border-radius:0 2px 2px 0;
+}
+.album{
+width:46px;height:46px;border-radius:11px;
+background:linear-gradient(135deg,#2d1060,#0c2a50);
+display:flex;align-items:center;justify-content:center;
+font-size:1.35rem;flex-shrink:0;
+}
+.album.spin{animation:aSpin 8s linear infinite;}
+@keyframes aSpin{from{transform:rotate(0deg);}to{transform:rotate(360deg);}}
+.minfo{flex:1;min-width:0;}
+.mtitle{font-size:.88rem;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.martist{font-size:.76rem;color:var(–muted);margin-top:2px;}
+.mcontrols{display:flex;gap:8px;align-items:center;}
+.mbtn{
+width:34px;height:34px;border-radius:50%;border:none;cursor:pointer;
+display:flex;align-items:center;justify-content:center;font-size:.88rem;
+background:rgba(255,255,255,.08);color:#fff;
+transition:transform .15s,background .2s;flex-shrink:0;
+}
+.mbtn:hover{transform:scale(1.12);background:rgba(255,255,255,.14);}
+.mbtn:active{transform:scale(.94);}
+.mbtn.play{background:var(–accent)!important;box-shadow:0 0 14px rgba(168,85,247,.45);width:40px;height:40px;font-size:1rem;}
+.mbtn.play:hover{box-shadow:0 0 24px rgba(168,85,247,.65);}
+
+/* ── Discord ── */
+.discord{
+background:rgba(88,101,242,.08);border:1px solid rgba(88,101,242,.18);
+border-radius:14px;padding:12px 16px;
+display:flex;gap:12px;align-items:flex-start;margin-bottom:16px;
+transition:border-color .2s;
+}
+.discord:hover{border-color:rgba(88,101,242,.38);}
+.dc-icon{font-size:1.3rem;flex-shrink:0;margin-top:1px;}
+.dc-info{flex:1;min-width:0;}
+.dc-name{font-size:.85rem;font-weight:600;}
+.dc-status{font-size:.76rem;color:var(–muted);display:flex;align-items:center;gap:6px;margin-top:2px;}
+.dc-dot{width:7px;height:7px;background:#22c55e;border-radius:50%;flex-shrink:0;animation:dotPulse 2.2s ease-in-out infinite;}
+.dc-act{font-size:.74rem;color:var(–muted);margin-top:4px;}
+
+/* ── Stats ── */
+.stats{
+display:flex;gap:1px;background:var(–border);
+border:1px solid var(–border);border-radius:14px;overflow:hidden;margin-bottom:16px;
+}
+.stat{flex:1;padding:13px 8px;background:rgba(15,15,26,.92);text-align:center;transition:background .2s;cursor:default;}
+.stat:hover{background:rgba(168,85,247,.07);}
+.snum{font-family:‘Syne’,sans-serif;font-size:1.25rem;font-weight:800;color:var(–accent);}
+.slabel{font-size:.68rem;color:var(–muted);margin-top:3px;}
+
+/* ── Social buttons ── */
+.socials{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:16px;}
+.soc{
+display:flex;align-items:center;gap:10px;
+padding:11px 13px;border-radius:12px;
+background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);
+color:var(–text);text-decoration:none;font-size:.84rem;font-weight:500;
+transition:transform .18s,border-color .18s,box-shadow .18s;
+position:relative;overflow:hidden;
+}
+.soc::before{
+content:’’;position:absolute;inset:0;
+background:var(–t,rgba(255,255,255,.03));opacity:0;transition:opacity .2s;
+}
+.soc:hover::before{opacity:1;}
+.soc:hover{border-color:var(–tb,rgba(255,255,255,.2));transform:translateY(-2px);box-shadow:0 8px 22px rgba(0,0,0,.3);}
+.soc:active{transform:translateY(0);}
+.si{font-size:1.1rem;flex-shrink:0;line-height:1;}
+.sl{font-size:.8rem;}
+.sa{margin-left:auto;color:var(–muted);font-size:.75rem;opacity:0;transition:opacity .18s,transform .18s;transform:translateX(-4px);}
+.soc:hover .sa{opacity:1;transform:translateX(0);}
+
+/* ── Wide links ── */
+.wlink{
+display:flex;align-items:center;gap:12px;
+padding:13px 16px;border-radius:12px;
+background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);
+color:var(–text);text-decoration:none;font-size:.88rem;font-weight:600;
+margin-bottom:8px;transition:all .18s;overflow:hidden;
+}
+.wlink:hover{background:rgba(168,85,247,.09);border-color:rgba(168,85,247,.32);transform:translateX(5px);}
+.wlink:active{transform:translateX(2px);}
+.wi{font-size:1.15rem;flex-shrink:0;line-height:1;}
+.wlink span:nth-child(2){flex:1;}
+.wa{margin-left:auto;color:var(–muted);transition:color .18s,transform .18s;}
+.wlink:hover .wa{color:var(–accent);transform:translateX(3px);}
+
+/* ── Divider ── */
+.divider{height:1px;background:var(–border);margin:16px 0;position:relative;}
+.divider::before{
+content:‘✦’;position:absolute;top:50%;left:50%;
+transform:translate(-50%,-50%);
+background:var(–bg);padding:0 10px;font-size:.68rem;color:var(–muted);
+}
+
+/* ── Footer ── */
+.card-foot{
+padding:13px 26px;border-top:1px solid rgba(255,255,255,.05);
+display:flex;align-items:center;justify-content:space-between;
+}
+.credit{font-size:.77rem;color:var(–muted);text-decoration:none;display:flex;align-items:center;gap:5px;transition:color .2s;}
+.credit:hover{color:var(–accent);}
+.vcnt{font-size:.77rem;color:var(–muted);}
+
+/* ── Toast ── */
+.toast{
+position:fixed;bottom:28px;left:50%;
+transform:translateX(-50%) translateY(80px);
+background:rgba(12,12,22,.97);
+backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);
+border:1px solid rgba(168,85,247,.3);
+color:var(–text);padding:11px 22px;border-radius:12px;
+font-size:.86rem;font-weight:500;
+transition:transform .38s cubic-bezier(.16,1,.3,1),opacity .38s;
+z-index:9999;pointer-events:none;
+box-shadow:0 20px 40px rgba(0,0,0,.55);
+opacity:0;white-space:nowrap;
+}
+.toast.show{transform:translateX(-50%) translateY(0);opacity:1;}
+
+/* ── Mobile ── */
+@media(max-width:500px){
+.card{border-radius:20px;}
+.card-body{padding:14px 18px 22px;}
+.socials{grid-template-columns:1fr;}
+}
+@media(max-width:360px){.username{font-size:1.4rem;}}
+</style>
+
+</head>
+<body>
+
+<div id="cur"></div>
+<div id="cur-trail"></div>
+<div class="bg"></div>
+<canvas id="ptx"></canvas>
+
+<div class="page">
+ <div class="card" id="card">
+
+  <div class="banner"><canvas id="bnr"></canvas></div>
+
+  <div class="avatar-wrap">
+   <div class="avatar" id="av" title="Click me! 👀">👾</div>
+   <div class="online-dot"></div>
+  </div>
+
+  <div class="card-body">
+
+   <div class="name-row">
+    <span class="username">phantom</span>
+    <span class="pronouns">he/him</span>
+   </div>
+
+   <div class="tags">
+    <span class="tag">🌙 nocturnal</span>
+    <span class="tag">🎮 gamer</span>
+    <span class="tag">🎨 creator</span>
+    <span class="tag">🔪 menace</span>
+    <span class="tag">🌐 online 24/7</span>
+   </div>
+
+   <div class="bio">
+    <div><span class="tw" id="tw"></span><span class="caret"></span></div>
+   </div>
+
+   <!-- Music Player -->
+
+   <div class="music-player">
+    <div class="prog-bg"><div class="prog" id="prog"></div></div>
+    <div class="album" id="alb">🎵</div>
+    <div class="minfo">
+     <div class="mtitle" id="mtitle">Paradox — Hxllywood</div>
+     <div class="martist" id="mart">Hxllywood · 2:47</div>
+    </div>
+    <div class="mcontrols">
+     <button class="mbtn" onclick="prevTrack()" aria-label="Previous">⏮</button>
+     <button class="mbtn play" id="playBtn" onclick="togglePlay()" aria-label="Play">▶</button>
+     <button class="mbtn" onclick="nextTrack()" aria-label="Next">⏭</button>
+    </div>
+   </div>
+
+   <!-- Discord -->
+
+   <div class="discord">
+    <div class="dc-icon">💬</div>
+    <div class="dc-info">
+     <div class="dc-name">phantom#0001</div>
+     <div class="dc-status"><div class="dc-dot"></div>Online</div>
+     <div class="dc-act">🎮 Playing Valorant · 2h 14m</div>
+    </div>
+   </div>
+
+   <!-- Stats -->
+
+   <div class="stats">
+    <div class="stat"><div class="snum" id="vcnt">0</div><div class="slabel">profile views</div></div>
+    <div class="stat"><div class="snum">142</div><div class="slabel">followers</div></div>
+    <div class="stat"><div class="snum">2.4k</div><div class="slabel">link clicks</div></div>
+   </div>
+
+   <!-- Social Grid -->
+
+   <div class="socials">
+    <a href="#" class="soc" style="--t:rgba(29,161,242,.1);--tb:rgba(29,161,242,.4);" onclick="lc(event,'Twitter')">
+     <span class="si">🐦</span><span class="sl">Twitter</span><span class="sa">↗</span>
+    </a>
+    <a href="#" class="soc" style="--t:rgba(225,48,108,.1);--tb:rgba(225,48,108,.4);" onclick="lc(event,'Instagram')">
+     <span class="si">📷</span><span class="sl">Instagram</span><span class="sa">↗</span>
+    </a>
+    <a href="#" class="soc" style="--t:rgba(88,101,242,.1);--tb:rgba(88,101,242,.4);" onclick="lc(event,'Discord')">
+     <span class="si">💬</span><span class="sl">Discord</span><span class="sa">↗</span>
+    </a>
+    <a href="#" class="soc" style="--t:rgba(30,215,96,.1);--tb:rgba(30,215,96,.4);" onclick="lc(event,'Spotify')">
+     <span class="si">🎵</span><span class="sl">Spotify</span><span class="sa">↗</span>
+    </a>
+    <a href="#" class="soc" style="--t:rgba(255,0,0,.07);--tb:rgba(255,80,80,.35);" onclick="lc(event,'YouTube')">
+     <span class="si">▶️</span><span class="sl">YouTube</span><span class="sa">↗</span>
+    </a>
+    <a href="#" class="soc" style="--t:rgba(130,130,130,.08);--tb:rgba(180,180,180,.3);" onclick="lc(event,'GitHub')">
+     <span class="si">🐙</span><span class="sl">GitHub</span><span class="sa">↗</span>
+    </a>
+   </div>
+
+   <div class="divider"></div>
+
+   <!-- Wide Links -->
+
+   <a href="#" class="wlink" onclick="lc(event,'Portfolio')">
+    <span class="wi">🌐</span><span>my portfolio — phantom.dev</span><span class="wa">→</span>
+   </a>
+   <a href="#" class="wlink" onclick="lc(event,'Shop')">
+    <span class="wi">🛒</span><span>merch drop — limited edition</span><span class="wa">→</span>
+   </a>
+   <a href="customize.html" class="wlink" style="border-color:rgba(168,85,247,.32);background:rgba(168,85,247,.06);">
+    <span class="wi">✨</span><span>build a profile like this — vltx.io</span>
+    <span class="wa" style="color:var(--accent)">→</span>
+   </a>
+
+  </div><!-- /card-body -->
+
+  <div class="card-foot">
+   <a href="index.html" class="credit">⚡ vltx.io</a>
+   <span class="vcnt" id="lv">👁 —</span>
+  </div>
+
+ </div><!-- /card -->
+</div><!-- /page -->
+
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<script>
+/* ================================================================
+   VLTX Profile v2 JS — clean, no conflicts, no double-defines
+================================================================ */
+
+// ── 1. MOUSE DETECTION — custom cursor only on pointer devices ──
+let hasMouse=false,curX=0,curY=0,trailX=0,trailY=0;
+const curEl=document.getElementById('cur'),trailEl=document.getElementById('cur-trail');
+
+function firstMove(e){
+  hasMouse=true;document.body.classList.add('has-mouse');
+  curEl.style.opacity=trailEl.style.opacity='1';
+  curX=e.clientX;curY=e.clientY;trailX=curX;trailY=curY;
+  document.removeEventListener('mousemove',firstMove);
+  document.addEventListener('mousemove',trackMouse);
+  (function loop(){trailX+=(curX-trailX)*.13;trailY+=(curY-trailY)*.13;trailEl.style.left=trailX+'px';trailEl.style.top=trailY+'px';requestAnimationFrame(loop);})();
+}
+function trackMouse(e){curX=e.clientX;curY=e.clientY;curEl.style.left=curX+'px';curEl.style.top=curY+'px';}
+document.addEventListener('mousemove',firstMove);
+
+document.addEventListener('mouseover',e=>{
+  if(!hasMouse||!e.target.closest('a,button,.tag,.stat'))return;
+  curEl.style.width=curEl.style.height='16px';curEl.style.background='var(--accent2)';
+});
+document.addEventListener('mouseout',e=>{
+  if(!hasMouse||!e.target.closest('a,button,.tag,.stat'))return;
+  curEl.style.width=curEl.style.height='8px';curEl.style.background='var(--accent)';
+});
+
+
+// ── 2. BANNER CANVAS (responsive, pauses when tab hidden) ──
+(function(){
+  const cv=document.getElementById('bnr'),bEl=cv.parentElement;
+  const cx=cv.getContext('2d');
+  let raf;
+  function resize(){cv.width=bEl.offsetWidth;cv.height=bEl.offsetHeight;}
+  resize();
+  const ro=new ResizeObserver(resize);ro.observe(bEl);
+
+  const stars=Array.from({length:90},()=>({x:Math.random(),y:Math.random(),r:Math.random()*1.4+.3,a:Math.random(),spd:Math.random()*.35+.08}));
+
+  function draw(){
+    const W=cv.width,H=cv.height;
+    cx.clearRect(0,0,W,H);
+    const g=cx.createLinearGradient(0,0,W,H);
+    g.addColorStop(0,'#0d0220');g.addColorStop(.5,'#0a1628');g.addColorStop(1,'#150526');
+    cx.fillStyle=g;cx.fillRect(0,0,W,H);
+    stars.forEach(s=>{
+      s.a+=s.spd*.022;
+      if(s.a>1){s.a=0;s.x=Math.random();s.y=Math.random();}
+      cx.beginPath();cx.arc(s.x*W,s.y*H,s.r,0,Math.PI*2);
+      cx.fillStyle=`rgba(255,255,255,${(s.a*.85).toFixed(2)})`;cx.fill();
+    });
+    const t=Date.now()/2000,p1=.25+Math.sin(t)*.1,p2=.6+Math.cos(t*.8)*.1;
+    const ag=cx.createLinearGradient(0,0,W,0);
+    ag.addColorStop(0,'rgba(168,85,247,0)');
+    ag.addColorStop(Math.min(.95,Math.max(.05,p1)),'rgba(168,85,247,.11)');
+    ag.addColorStop(Math.min(.98,Math.max(.06,p2)),'rgba(34,211,238,.08)');
+    ag.addColorStop(1,'rgba(34,211,238,0)');
+    cx.fillStyle=ag;cx.fillRect(0,0,W,H);
+    raf=requestAnimationFrame(draw);
+  }
+  draw();
+  document.addEventListener('visibilitychange',()=>{document.hidden?cancelAnimationFrame(raf):draw();});
+})();
+
+
+// ── 3. BACKGROUND PARTICLE NETWORK ──
+(function(){
+  const cv=document.getElementById('ptx'),cx=cv.getContext('2d');
+  let W,H;
+  const pts=Array.from({length:55},()=>({x:0,y:0,vx:(Math.random()-.5)*.28,vy:(Math.random()-.5)*.28,r:Math.random()*1.8+.5}));
+  function resize(){
+    W=cv.width=window.innerWidth;H=cv.height=window.innerHeight;
+    pts.forEach(p=>{p.x=Math.random()*W;p.y=Math.random()*H;});
+  }
+  resize();window.addEventListener('resize',resize);
+  let raf;
+  function draw(){
+    cx.clearRect(0,0,W,H);
+    pts.forEach(p=>{
+      p.x+=p.vx;p.y+=p.vy;
+      if(p.x<0||p.x>W)p.vx*=-1;if(p.y<0||p.y>H)p.vy*=-1;
+      cx.beginPath();cx.arc(p.x,p.y,p.r,0,Math.PI*2);
+      cx.fillStyle='rgba(168,85,247,.22)';cx.fill();
+    });
+    for(let i=0;i<pts.length;i++)for(let j=i+1;j<pts.length;j++){
+      const dx=pts[i].x-pts[j].x,dy=pts[i].y-pts[j].y,d=Math.sqrt(dx*dx+dy*dy);
+      if(d<115){cx.beginPath();cx.moveTo(pts[i].x,pts[i].y);cx.lineTo(pts[j].x,pts[j].y);cx.strokeStyle=`rgba(168,85,247,${((1-d/115)*.13).toFixed(3)})`;cx.lineWidth=.5;cx.stroke();}
+    }
+    raf=requestAnimationFrame(draw);
+  }
+  draw();
+  document.addEventListener('visibilitychange',()=>{document.hidden?cancelAnimationFrame(raf):draw();});
+})();
+
+
+// ── 4. SYMBOL RAIN ──
+(function(){
+  const syms=['✦','·','⊹','✧','◦','∘'];
+  function spawn(){
+    const dur=6+Math.random()*6;
+    const el=document.createElement('span');
+    el.style.cssText=`position:fixed;left:${Math.random()*100}vw;top:0;font-size:${(Math.random()*10+7).toFixed(1)}px;color:rgba(168,85,247,${(Math.random()*.28+.08).toFixed(2)});animation:rainDrop ${dur.toFixed(2)}s linear forwards;pointer-events:none;z-index:3;user-select:none;will-change:transform`;
+    el.textContent=syms[Math.floor(Math.random()*syms.length)];
+    document.body.appendChild(el);
+    setTimeout(()=>el.remove(),dur*1000+300);
+  }
+  for(let i=0;i<8;i++)setTimeout(spawn,i*180);
+  setInterval(spawn,430);
+})();
+
+
+// ── 5. TYPEWRITER ──
+(function(){
+  const phrases=['full time lurker. part time god.','i make stuff and it sometimes slaps.','not your average internet person.','vibing at 3am, always.',"your fave's fave 🌙"];
+  const el=document.getElementById('tw');
+  let pi=0,ci=0,del=false;
+  function step(){
+    const ph=phrases[pi];
+    if(!del){ci++;el.textContent=ph.slice(0,ci);if(ci===ph.length){del=true;setTimeout(step,2400);return;}setTimeout(step,72);}
+    else{ci--;el.textContent=ph.slice(0,ci);if(ci===0){del=false;pi=(pi+1)%phrases.length;setTimeout(step,450);return;}setTimeout(step,38);}
+  }
+  setTimeout(step,900);
+})();
+
+
+// ── 6. MUSIC PLAYER ──
+const tracks=[
+  {t:'Paradox — Hxllywood',a:'Hxllywood · 2:47',i:'🎵'},
+  {t:'XO Tour Llif3',a:'Lil Uzi Vert · 3:16',i:'🎸'},
+  {t:'STARGAZING',a:'Travis Scott · 4:03',i:'🌟'},
+  {t:'Lucid Dreams',a:'Juice WRLD · 3:59',i:'💜'},
+];
+let tidx=0,playing=false,prog=0,ptimer=null;
+
+function loadTrack(i){
+  tidx=((i%tracks.length)+tracks.length)%tracks.length;
+  const tk=tracks[tidx];
+  document.getElementById('mtitle').textContent=tk.t;
+  document.getElementById('mart').textContent=tk.a;
+  document.getElementById('alb').textContent=tk.i;
+  prog=0;document.getElementById('prog').style.width='0%';
+}
+function togglePlay(){
+  playing=!playing;
+  const btn=document.getElementById('playBtn'),alb=document.getElementById('alb');
+  btn.textContent=playing?'⏸':'▶';
+  btn.setAttribute('aria-label',playing?'Pause':'Play');
+  alb.classList.toggle('spin',playing);
+  if(playing){
+    clearInterval(ptimer);
+    ptimer=setInterval(()=>{
+      prog=Math.min(prog+.22,100);
+      document.getElementById('prog').style.width=prog+'%';
+      if(prog>=100){clearInterval(ptimer);nextTrack();}
+    },500);
+    showToast('🎵 '+tracks[tidx].t.split(' — ')[0]);
+  } else clearInterval(ptimer);
+}
+function nextTrack(){
+  clearInterval(ptimer);playing=false;
+  document.getElementById('playBtn').textContent='▶';
+  document.getElementById('alb').classList.remove('spin');
+  loadTrack(tidx+1);
+}
+function prevTrack(){
+  clearInterval(ptimer);playing=false;
+  document.getElementById('playBtn').textContent='▶';
+  document.getElementById('alb').classList.remove('spin');
+  loadTrack(tidx-1);
+}
+
+
+// ── 7. CARD TILT (enabled AFTER cardIn finishes so it doesn't fight the animation) ──
+(function(){
+  const card=document.getElementById('card');
+  // cardIn is 750ms — wait 800ms then enable tilt transition
+  setTimeout(()=>{card.style.transition='transform .35s ease,box-shadow .35s ease';},800);
+  card.addEventListener('mousemove',e=>{
+    if(!hasMouse)return;
+    const r=card.getBoundingClientRect();
+    const dx=(e.clientX-r.left-r.width/2)/r.width;
+    const dy=(e.clientY-r.top-r.height/2)/r.height;
+    card.style.transform=`perspective(900px) rotateY(${dx*7}deg) rotateX(${-dy*7}deg) scale(1.012)`;
+  });
+  card.addEventListener('mouseleave',()=>{card.style.transform='perspective(900px) rotateY(0) rotateX(0) scale(1)';});
+})();
+
+
+// ── 8. VIEW COUNTER (animated, IntersectionObserver triggered) ──
+(function(){
+  const N=47231,el=document.getElementById('vcnt'),lv=document.getElementById('lv');
+  const obs=new IntersectionObserver(en=>{
+    if(!en[0].isIntersecting)return;obs.disconnect();
+    const s=performance.now(),d=1300;
+    (function tick(now){
+      const p=Math.min((now-s)/d,1),e=1-Math.pow(1-p,3);
+      el.textContent=Math.floor(e*N).toLocaleString();
+      if(p<1)requestAnimationFrame(tick);
+      else{el.textContent=N.toLocaleString();lv.textContent=`👁 ${(N+1).toLocaleString()} views`;}
+    })(s);
+  },{threshold:.3});
+  obs.observe(el);
+})();
+
+
+// ── 9. AVATAR EASTER EGG ──
+(function(){
+  const emojis=['👾','🔥','⚡','💀','🌙','✨','🎮','🎯','👁','🌀','🦋','🐉'];
+  let idx=0;
+  document.getElementById('av').addEventListener('click',()=>{
+    idx=(idx+1)%emojis.length;
+    document.getElementById('av').textContent=emojis[idx];
+    showToast('you found the easter egg 👀');
+  });
+})();
+
+
+// ── 10. TOAST ──
+let toastTimer=null;
+function showToast(msg){
+  const t=document.getElementById('toast');
+  t.textContent=msg;t.classList.add('show');
+  clearTimeout(toastTimer);
+  toastTimer=setTimeout(()=>t.classList.remove('show'),2800);
+}
+function lc(e,name){e.preventDefault();showToast(`Navigating to ${name}… 🚀`);}
+
+// Welcome
+setTimeout(()=>showToast("welcome to phantom's page ✦"),1700);
+</script>
+
+</body>
+</html>
