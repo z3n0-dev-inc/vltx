@@ -6,182 +6,604 @@
 <title>Customize — VLTX</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;700;800&family=Outfit:wght@300;400;500;600&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;700;800&family=Outfit:wght@300;400;500;600;700&family=Space+Mono:wght@400;700&family=DM+Sans:wght@300;400;500;600&family=Orbitron:wght@400;700;900&display=swap" rel="stylesheet">
 <style>
 :root{
-  --bg:#050508;--sur:#0c0c14;--sur2:#111119;
-  --brd:rgba(255,255,255,.07);
+  --bg:#050508;--sur:#0b0b12;--sur2:#101018;--sur3:#15151e;
+  --brd:rgba(255,255,255,.065);
   --acc:#7c3aed;--acc2:#06b6d4;
-  --txt:#e8e8f0;--mut:#6b6b85;
+  --txt:#e8e8f0;--mut:#5e5e78;
   --dan:#f43f5e;--suc:#22c55e;
-  --pw:360px;
+  --pw:340px;
+  --nav-w:200px;
 }
 *{box-sizing:border-box;margin:0;padding:0;}
 html,body{height:100%;overflow:hidden;}
 body{background:var(--bg);color:var(--txt);font-family:'Outfit',sans-serif;display:flex;flex-direction:column;}
 
-.topbar{height:54px;flex-shrink:0;background:var(--sur);border-bottom:1px solid var(--brd);display:flex;align-items:center;padding:0 18px;gap:14px;z-index:50;}
-.tlogo{font-family:'Syne',sans-serif;font-weight:800;font-size:1.15rem;background:linear-gradient(135deg,#fff,var(--acc));-webkit-background-clip:text;-webkit-text-fill-color:transparent;text-decoration:none;margin-right:6px;}
-.ttitle{font-size:.83rem;color:var(--mut);border-left:1px solid var(--brd);padding-left:14px;}
+/* ─── TOPBAR ─── */
+.topbar{
+  height:52px;flex-shrink:0;
+  background:rgba(5,5,8,.97);
+  backdrop-filter:blur(24px);
+  border-bottom:1px solid var(--brd);
+  display:flex;align-items:center;
+  padding:0 16px;gap:10px;z-index:100;
+  position:relative;
+}
+.topbar::after{
+  content:'';position:absolute;bottom:0;left:0;right:0;height:1px;
+  background:linear-gradient(90deg,transparent,rgba(124,58,237,.4),rgba(6,182,212,.3),transparent);
+}
+.tlogo{
+  font-family:'Syne',sans-serif;font-weight:800;font-size:1.12rem;
+  background:linear-gradient(135deg,#fff 20%,var(--acc) 60%,var(--acc2));
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;
+  text-decoration:none;letter-spacing:-.02em;
+}
+.ttitle{font-size:.7rem;color:var(--mut);border-left:1px solid var(--brd);padding-left:10px;letter-spacing:.04em;text-transform:uppercase;}
 .tsp{flex:1;}
-.tbtn{padding:8px 16px;border-radius:8px;font-size:.82rem;font-weight:600;border:none;cursor:pointer;font-family:'Outfit',sans-serif;transition:all .2s;}
+.tbtn{
+  padding:6px 14px;border-radius:7px;font-size:.78rem;font-weight:600;
+  border:none;cursor:pointer;font-family:'Outfit',sans-serif;
+  transition:all .18s;display:inline-flex;align-items:center;gap:5px;
+  white-space:nowrap;
+}
 .tbtn.ghost{background:transparent;color:var(--mut);border:1px solid var(--brd);}
-.tbtn.ghost:hover{color:var(--txt);border-color:rgba(255,255,255,.18);}
-.tbtn.acc{background:var(--acc);color:#fff;box-shadow:0 0 18px rgba(124,58,237,.4);}
-.tbtn.acc:hover{opacity:.85;transform:translateY(-1px);}
+.tbtn.ghost:hover{color:var(--txt);border-color:rgba(255,255,255,.16);background:rgba(255,255,255,.03);}
+.tbtn.acc{background:linear-gradient(135deg,#7c3aed,#9333ea);color:#fff;box-shadow:0 0 16px rgba(124,58,237,.32);}
+.tbtn.acc:hover{filter:brightness(1.12);transform:translateY(-1px);box-shadow:0 4px 22px rgba(124,58,237,.45);}
 .tbtn.suc{background:var(--suc);color:#000;font-weight:700;}
-.tbtn.suc:hover{opacity:.9;}
+.tbtn.dan{background:var(--dan);color:#fff;}
+.tbtn.sm{padding:5px 10px;font-size:.72rem;}
+.tsave{
+  padding:7px 16px;border-radius:7px;font-size:.8rem;font-weight:700;
+  background:linear-gradient(135deg,#7c3aed,#06b6d4);color:#fff;border:none;cursor:pointer;
+  font-family:'Outfit',sans-serif;transition:all .2s;
+  box-shadow:0 0 20px rgba(124,58,237,.35);position:relative;overflow:hidden;
+}
+.tsave::before{
+  content:'';position:absolute;inset:0;
+  background:linear-gradient(135deg,rgba(255,255,255,.15),transparent);
+  opacity:0;transition:opacity .18s;
+}
+.tsave:hover::before{opacity:1;}
+.tsave:hover{transform:translateY(-1px);box-shadow:0 4px 26px rgba(124,58,237,.5);}
 
+/* ─── LAYOUT ─── */
 .main{flex:1;display:flex;overflow:hidden;}
 
-.snav{width:210px;flex-shrink:0;background:var(--sur);border-right:1px solid var(--brd);overflow-y:auto;padding:14px 8px;}
-.snav::-webkit-scrollbar{width:3px;}
-.snav::-webkit-scrollbar-thumb{background:rgba(255,255,255,.07);}
-.sg{font-size:.63rem;letter-spacing:.12em;text-transform:uppercase;color:var(--mut);padding:10px 10px 5px;margin-top:6px;}
-.sg:first-child{margin-top:0;}
-.ni{display:flex;align-items:center;gap:9px;padding:9px 11px;border-radius:8px;font-size:.86rem;color:var(--mut);cursor:pointer;transition:all .15s;border:1px solid transparent;margin-bottom:2px;}
+/* ─── SIDENAV ─── */
+.snav{
+  width:var(--nav-w);flex-shrink:0;
+  background:var(--sur);
+  border-right:1px solid var(--brd);
+  overflow-y:auto;padding:8px 6px;
+  display:flex;flex-direction:column;
+}
+.snav::-webkit-scrollbar{width:2px;}
+.snav::-webkit-scrollbar-thumb{background:rgba(255,255,255,.06);}
+.sg{
+  font-size:.57rem;letter-spacing:.14em;text-transform:uppercase;
+  color:var(--mut);padding:12px 10px 4px;margin-top:2px;
+  border-top:1px solid rgba(255,255,255,.03);
+}
+.sg:first-child{border-top:none;margin-top:0;}
+.ni{
+  display:flex;align-items:center;gap:7px;padding:7px 10px;
+  border-radius:7px;font-size:.81rem;color:var(--mut);cursor:pointer;
+  transition:all .14s;border:1px solid transparent;margin-bottom:1px;
+  position:relative;
+}
 .ni:hover{background:rgba(255,255,255,.04);color:var(--txt);}
-.ni.on{background:rgba(124,58,237,.12);border-color:rgba(124,58,237,.25);color:var(--txt);}
-.nd{width:6px;height:6px;border-radius:50%;background:rgba(255,255,255,.18);flex-shrink:0;margin-left:auto;transition:background .2s;}
-.ni.on .nd{background:var(--acc);}
-.nicon{font-size:.95rem;width:18px;text-align:center;}
+.ni.on{
+  background:rgba(124,58,237,.12);
+  border-color:rgba(124,58,237,.25);
+  color:#fff;
+}
+.ni.on::before{
+  content:'';position:absolute;left:0;top:20%;bottom:20%;width:2px;
+  background:var(--acc);border-radius:0 2px 2px 0;
+}
+.ni-dot{width:4px;height:4px;border-radius:50%;background:rgba(255,255,255,.1);flex-shrink:0;margin-left:auto;transition:all .2s;}
+.ni.on .ni-dot{background:var(--acc);box-shadow:0 0 6px var(--acc);}
+.ni-ico{font-size:.8rem;width:16px;text-align:center;flex-shrink:0;}
+.ni-badge{
+  font-size:.52rem;padding:1px 5px;border-radius:100px;
+  background:rgba(124,58,237,.2);color:#a78bfa;font-weight:700;
+  margin-left:auto;
+}
 
-.prev{flex:1;display:flex;flex-direction:column;overflow:hidden;background:repeating-conic-gradient(rgba(255,255,255,.015) 0% 25%,transparent 0% 50%) 0 0/24px 24px;position:relative;}
-.prevtop{background:rgba(5,5,8,.82);backdrop-filter:blur(10px);border-bottom:1px solid var(--brd);padding:9px 18px;display:flex;align-items:center;gap:10px;flex-shrink:0;z-index:10;}
+/* ─── PREVIEW AREA ─── */
+.prev{
+  flex:1;display:flex;flex-direction:column;overflow:hidden;
+  background:repeating-conic-gradient(rgba(255,255,255,.012) 0% 25%,transparent 0% 50%) 0 0/20px 20px;
+  position:relative;
+}
+.prevtop{
+  background:rgba(5,5,8,.9);backdrop-filter:blur(14px);
+  border-bottom:1px solid var(--brd);
+  padding:8px 16px;display:flex;align-items:center;gap:8px;flex-shrink:0;
+}
 .pdots{display:flex;gap:5px;}
-.pdot{width:10px;height:10px;border-radius:50%;}
-.purl{flex:1;background:rgba(255,255,255,.05);border:1px solid var(--brd);padding:5px 13px;border-radius:6px;font-size:.76rem;color:var(--mut);font-family:'Space Mono',monospace;}
-.prevscroll{flex:1;overflow-y:auto;display:flex;align-items:flex-start;justify-content:center;padding:36px 18px;}
+.pdot{width:9px;height:9px;border-radius:50%;}
+.purl{
+  flex:1;background:rgba(255,255,255,.04);border:1px solid var(--brd);
+  padding:4px 12px;border-radius:6px;font-size:.7rem;color:var(--mut);
+  font-family:'Space Mono',monospace;
+}
+.prev-device-toggle{
+  display:flex;gap:2px;background:rgba(255,255,255,.04);
+  border:1px solid var(--brd);border-radius:7px;padding:2px;
+}
+.pdt-btn{
+  padding:3px 9px;border-radius:5px;font-size:.68rem;cursor:pointer;
+  color:var(--mut);background:transparent;border:none;transition:all .14s;
+  font-family:'Outfit',sans-serif;
+}
+.pdt-btn.on{background:rgba(124,58,237,.25);color:#fff;}
+.prevscroll{flex:1;overflow-y:auto;display:flex;align-items:flex-start;justify-content:center;padding:30px 16px 50px;}
 .prevscroll::-webkit-scrollbar{width:3px;}
-.prevscroll::-webkit-scrollbar-thumb{background:rgba(255,255,255,.07);}
+.prevscroll::-webkit-scrollbar-thumb{background:rgba(255,255,255,.05);}
 
-/* Preview card */
-#pc{width:100%;max-width:420px;border-radius:24px;overflow:hidden;border:1px solid rgba(255,255,255,.09);box-shadow:0 40px 80px rgba(0,0,0,.5);transition:all .3s ease;background:rgba(15,15,26,.9);backdrop-filter:blur(24px);color:#f0f0fa;font-family:'Outfit',sans-serif;position:relative;}
-.pc-bg-video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:0;opacity:.25;pointer-events:none;}
+/* ─── PREVIEW CARD ─── */
+#pc{
+  width:100%;max-width:390px;border-radius:22px;overflow:hidden;
+  border:1px solid rgba(255,255,255,.07);
+  box-shadow:0 32px 80px rgba(0,0,0,.7);
+  background:rgba(15,15,26,.93);backdrop-filter:blur(28px);
+  color:#f0f0fa;font-family:'Outfit',sans-serif;position:relative;
+  transition:max-width .3s,border-radius .3s,background .3s,backdrop-filter .3s,transform .2s;
+}
+#pc.mobile-view{max-width:390px;}
+#pc.desktop-view{max-width:520px;}
+.pc-bg-video,.pc-bg-img-el{
+  position:absolute;inset:0;width:100%;height:100%;
+  object-fit:cover;z-index:0;pointer-events:none;
+}
 .pc-bg-overlay{position:absolute;inset:0;z-index:1;pointer-events:none;}
-#pc > *:not(.pc-bg-video):not(.pc-bg-overlay){position:relative;z-index:2;}
-.pc-banner{height:140px;position:relative;overflow:hidden;}
-.pc-banner canvas{position:absolute;inset:0;width:100%;height:100%;}
-.pc-banner::after{content:'';position:absolute;bottom:0;left:0;right:0;height:60px;background:linear-gradient(transparent,rgba(15,15,26,.9));z-index:2;}
-.pc-avatar-wrap{position:relative;width:88px;height:88px;margin:-44px auto 0;display:flex;align-items:center;justify-content:center;z-index:5;}
-.pc-avatar{width:84px;height:84px;border-radius:50%;background:linear-gradient(135deg,var(--acc),var(--acc2));display:flex;align-items:center;justify-content:center;font-size:2.4rem;border:3px solid rgba(124,58,237,.5);box-shadow:0 0 0 4px rgba(124,58,237,.12),0 0 28px rgba(124,58,237,.35);overflow:hidden;cursor:pointer;transition:transform .25s,box-shadow .25s;}
+#pc>*:not(.pc-bg-video):not(.pc-bg-img-el):not(.pc-bg-overlay){position:relative;z-index:2;}
+
+/* Avatar */
+.pc-av-wrap{
+  position:relative;width:80px;height:80px;
+  margin:28px auto 0;display:flex;align-items:center;justify-content:center;z-index:6;
+}
+.pc-avatar{
+  width:76px;height:76px;border-radius:50%;
+  background:linear-gradient(135deg,var(--acc),var(--acc2));
+  display:flex;align-items:center;justify-content:center;
+  font-size:2.1rem;border:3px solid rgba(124,58,237,.55);
+  box-shadow:0 0 0 4px rgba(124,58,237,.1),0 0 22px rgba(124,58,237,.28);
+  overflow:hidden;cursor:pointer;transition:transform .22s,box-shadow .22s;
+}
 .pc-avatar img{width:100%;height:100%;object-fit:cover;}
-.pc-avatar:hover{transform:scale(1.07) rotate(-3deg);box-shadow:0 0 0 4px rgba(124,58,237,.22),0 0 40px rgba(124,58,237,.55);}
-.pc-online{position:absolute;bottom:2px;right:2px;width:16px;height:16px;background:#22c55e;border-radius:50%;border:3px solid rgba(15,15,26,.9);animation:dotP 2.2s ease-in-out infinite;}
-@keyframes dotP{0%,100%{box-shadow:0 0 6px rgba(34,197,94,.5);}50%{box-shadow:0 0 16px rgba(34,197,94,.9);}}
-.pc-body{padding:14px 22px 22px;}
-.pc-name-row{text-align:center;margin-bottom:8px;}
-.pc-username{font-family:'Syne',sans-serif;font-size:1.55rem;font-weight:800;letter-spacing:-.02em;background:linear-gradient(135deg,#fff 25%,var(--acc) 65%,var(--acc2) 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-size:200% 100%;animation:nameShimmer 3.5s ease-in-out infinite;display:inline-block;}
+.pc-avatar:hover{transform:scale(1.08) rotate(-3deg);}
+.pc-online{
+  position:absolute;bottom:2px;right:2px;width:14px;height:14px;
+  background:#22c55e;border-radius:50%;border:2.5px solid rgba(15,15,26,.93);
+  animation:dotP 2s ease-in-out infinite;
+}
+@keyframes dotP{0%,100%{box-shadow:0 0 5px rgba(34,197,94,.5);}50%{box-shadow:0 0 14px rgba(34,197,94,.9);}}
+
+/* Body */
+.pc-body{padding:10px 18px 18px;}
+.pc-name-row{text-align:center;margin-bottom:5px;}
+.pc-username{
+  font-family:'Syne',sans-serif;font-size:1.38rem;font-weight:800;
+  letter-spacing:-.02em;
+  background:linear-gradient(135deg,#fff 25%,var(--acc) 65%,var(--acc2) 100%);
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;
+  background-size:200% 100%;animation:nameShimmer 3.5s ease-in-out infinite;display:inline-block;
+}
 @keyframes nameShimmer{0%,100%{background-position:0%;}50%{background-position:100%;}}
-.pc-pronouns{display:inline-block;background:rgba(124,58,237,.13);border:1px solid rgba(124,58,237,.28);color:var(--acc);font-size:.68rem;font-weight:700;letter-spacing:.07em;text-transform:uppercase;padding:2px 9px;border-radius:100px;margin-left:7px;vertical-align:middle;}
-.pc-tags{display:flex;gap:5px;flex-wrap:wrap;justify-content:center;margin-bottom:13px;}
-.pc-tag{font-size:.75rem;color:var(--mut);background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.07);padding:3px 10px;border-radius:100px;}
-.pc-bio{text-align:center;font-size:.9rem;color:var(--mut);line-height:1.7;margin-bottom:16px;min-height:48px;display:flex;align-items:center;justify-content:center;}
+.pc-pronouns{
+  display:inline-block;background:rgba(124,58,237,.13);
+  border:1px solid rgba(124,58,237,.28);color:#a78bfa;
+  font-size:.62rem;font-weight:700;letter-spacing:.07em;text-transform:uppercase;
+  padding:2px 7px;border-radius:100px;margin-left:5px;vertical-align:middle;
+}
+.pc-status{
+  display:inline-flex;align-items:center;gap:4px;
+  background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.09);
+  color:var(--mut);font-size:.68rem;padding:2px 8px;border-radius:100px;margin-top:3px;
+}
+.pc-tags{display:flex;gap:4px;flex-wrap:wrap;justify-content:center;margin:6px 0 8px;}
+.pc-tag{font-size:.69rem;color:#7b7b9a;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.07);padding:2px 8px;border-radius:100px;}
+.pc-bio{text-align:center;font-size:.85rem;color:#7b7b9a;line-height:1.65;margin-bottom:12px;min-height:42px;display:flex;align-items:center;justify-content:center;}
 .pc-bio .tw{color:#f0f0fa;}
-.pc-bio .caret{display:inline-block;width:2px;height:.9em;background:var(--acc);margin-left:2px;vertical-align:text-bottom;animation:blink .75s step-end infinite;}
+.pc-bio .caret{display:inline-block;width:2px;height:.82em;background:var(--acc);margin-left:2px;vertical-align:text-bottom;animation:blink .75s step-end infinite;}
 @keyframes blink{0%,100%{opacity:1;}50%{opacity:0;}}
 
-/* Music player preview */
-.pc-music{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);border-radius:14px;padding:12px 14px;display:flex;align-items:center;gap:12px;margin-bottom:14px;position:relative;overflow:hidden;}
-.pc-music:hover{border-color:rgba(124,58,237,.35);}
-.pc-prog-bg{position:absolute;bottom:0;left:0;height:3px;width:100%;background:rgba(255,255,255,.07);}
-.pc-prog{position:absolute;bottom:0;left:0;height:3px;width:0%;background:linear-gradient(90deg,var(--acc),var(--acc2));border-radius:0 2px 2px 0;}
-.pc-album{width:42px;height:42px;border-radius:10px;background:linear-gradient(135deg,#2d1060,#0c2a50);display:flex;align-items:center;justify-content:center;font-size:1.2rem;flex-shrink:0;}
+/* Now playing */
+.pc-now-playing{
+  background:rgba(30,215,96,.07);border:1px solid rgba(30,215,96,.18);
+  border-radius:12px;padding:10px 12px;display:flex;align-items:center;gap:10px;
+  margin-bottom:11px;position:relative;overflow:hidden;
+}
+.pc-np-bars{display:flex;align-items:flex-end;gap:2px;flex-shrink:0;}
+.pc-np-bar{width:3px;background:#1ed760;border-radius:2px;animation:barBounce 1s ease-in-out infinite;}
+.pc-np-bar:nth-child(1){height:8px;animation-delay:0s;}
+.pc-np-bar:nth-child(2){height:14px;animation-delay:.15s;}
+.pc-np-bar:nth-child(3){height:10px;animation-delay:.3s;}
+.pc-np-bar:nth-child(4){height:16px;animation-delay:.1s;}
+@keyframes barBounce{0%,100%{transform:scaleY(.4);}50%{transform:scaleY(1);}}
+.pc-np-info{flex:1;min-width:0;}
+.pc-np-title{font-size:.8rem;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.pc-np-sub{font-size:.68rem;color:#1ed760;margin-top:1px;}
+
+/* Music player */
+.pc-music{
+  background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.07);
+  border-radius:12px;padding:10px 12px;display:flex;align-items:center;gap:10px;
+  margin-bottom:11px;position:relative;overflow:hidden;
+}
+.pc-prog-bg{position:absolute;bottom:0;left:0;height:2px;width:100%;background:rgba(255,255,255,.06);}
+.pc-prog{position:absolute;bottom:0;left:0;height:2px;width:0%;background:linear-gradient(90deg,var(--acc),var(--acc2));border-radius:0 1px 1px 0;}
+.pc-album{width:38px;height:38px;border-radius:8px;background:linear-gradient(135deg,#2d1060,#0c2a50);display:flex;align-items:center;justify-content:center;font-size:1rem;flex-shrink:0;}
 .pc-album.spin{animation:aSpin 8s linear infinite;}
 @keyframes aSpin{to{transform:rotate(360deg);}}
 .pc-minfo{flex:1;min-width:0;}
-.pc-mtitle{font-size:.85rem;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
-.pc-martist{font-size:.73rem;color:var(--mut);margin-top:1px;}
-.pc-mcontrols{display:flex;gap:6px;align-items:center;}
-.pc-mbtn{width:30px;height:30px;border-radius:50%;border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:.82rem;background:rgba(255,255,255,.08);color:#fff;transition:transform .15s,background .2s;}
-.pc-mbtn:hover{transform:scale(1.12);background:rgba(255,255,255,.14);}
-.pc-mbtn.play{background:var(--acc)!important;width:36px;height:36px;font-size:.92rem;box-shadow:0 0 14px rgba(124,58,237,.4);}
+.pc-mtitle{font-size:.8rem;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.pc-martist{font-size:.67rem;color:var(--mut);margin-top:1px;}
+.pc-mcontrols{display:flex;gap:4px;align-items:center;}
+.pc-mbtn{width:26px;height:26px;border-radius:50%;border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:.74rem;background:rgba(255,255,255,.07);color:#fff;transition:transform .12s,background .18s;}
+.pc-mbtn:hover{transform:scale(1.12);background:rgba(255,255,255,.13);}
+.pc-mbtn.play{background:var(--acc)!important;width:32px;height:32px;font-size:.84rem;box-shadow:0 0 10px rgba(124,58,237,.4);}
 
-/* Social links — ICON ONLY (square buttons) */
-.pc-socials{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin-bottom:14px;}
-.pc-soc{display:flex;align-items:center;justify-content:center;width:46px;height:46px;border-radius:11px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);transition:transform .18s,border-color .18s,box-shadow .18s;position:relative;overflow:visible;text-decoration:none;flex-shrink:0;}
-.pc-soc:hover{transform:translateY(-3px) scale(1.1);box-shadow:0 8px 22px rgba(0,0,0,.3);}
-.pc-soc img{width:24px;height:24px;object-fit:contain;border-radius:4px;}
-.pc-soc .fallback{font-size:1.2rem;}
-.pc-soc .tip{position:absolute;bottom:calc(100% + 6px);left:50%;transform:translateX(-50%);background:rgba(12,12,22,.95);border:1px solid rgba(255,255,255,.1);color:#f0f0fa;font-size:.68rem;font-weight:600;padding:3px 9px;border-radius:6px;white-space:nowrap;opacity:0;pointer-events:none;transition:opacity .15s;}
+/* Socials */
+.pc-socials{display:flex;flex-wrap:wrap;gap:6px;justify-content:center;margin-bottom:10px;}
+.pc-soc{
+  display:flex;align-items:center;justify-content:center;
+  width:42px;height:42px;border-radius:9px;
+  background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.09);
+  transition:transform .16s,border-color .16s;position:relative;
+  text-decoration:none;flex-shrink:0;
+}
+.pc-soc:hover{transform:translateY(-3px) scale(1.1);}
+.pc-soc img{width:20px;height:20px;object-fit:contain;border-radius:3px;}
+.pc-soc .fallback{font-size:1rem;}
+.pc-soc .tip{
+  position:absolute;bottom:calc(100%+4px);left:50%;transform:translateX(-50%);
+  background:rgba(8,8,16,.96);border:1px solid rgba(255,255,255,.09);
+  color:#f0f0fa;font-size:.62rem;font-weight:600;
+  padding:3px 7px;border-radius:5px;white-space:nowrap;
+  opacity:0;pointer-events:none;transition:opacity .12s;
+}
 .pc-soc:hover .tip{opacity:1;}
 
-.pc-stats{display:flex;gap:1px;background:var(--brd);border:1px solid var(--brd);border-radius:12px;overflow:hidden;margin-bottom:14px;}
-.pc-stat{flex:1;padding:11px 6px;background:rgba(15,15,26,.92);text-align:center;}
-.pc-snum{font-family:'Syne',sans-serif;font-size:1.1rem;font-weight:800;color:var(--acc);}
-.pc-slabel{font-size:.65rem;color:var(--mut);margin-top:2px;}
+/* Stats */
+.pc-stats{display:flex;gap:1px;background:var(--brd);border:1px solid var(--brd);border-radius:10px;overflow:hidden;margin-bottom:10px;}
+.pc-stat{flex:1;padding:9px 4px;background:rgba(15,15,26,.92);text-align:center;}
+.pc-snum{font-family:'Syne',sans-serif;font-size:.95rem;font-weight:800;color:var(--acc);}
+.pc-slabel{font-size:.57rem;color:var(--mut);margin-top:1px;}
 
-.pc-foot{padding:11px 22px;border-top:1px solid rgba(255,255,255,.05);display:flex;align-items:center;justify-content:space-between;}
-.pc-credit{font-size:.74rem;color:var(--mut);text-decoration:none;}
+/* Discord badge */
+.pc-dc-badge{
+  display:inline-flex;align-items:center;gap:5px;
+  background:rgba(88,101,242,.1);border:1px solid rgba(88,101,242,.28);
+  color:#8b9df7;font-size:.68rem;font-weight:600;
+  padding:3px 10px;border-radius:100px;margin-bottom:10px;
+}
+
+/* Link buttons */
+.pc-link-btn{
+  display:flex;align-items:center;justify-content:center;gap:7px;width:100%;
+  padding:10px;border-radius:10px;background:rgba(255,255,255,.05);
+  border:1px solid rgba(255,255,255,.09);color:#f0f0fa;font-size:.82rem;
+  font-weight:600;text-decoration:none;transition:background .16s,transform .16s;
+  margin-bottom:6px;
+}
+.pc-link-btn:hover{background:rgba(255,255,255,.1);transform:translateY(-1px);}
+.pc-link-btn img{width:18px;height:18px;object-fit:contain;border-radius:3px;}
+
+.pc-foot{
+  padding:9px 18px;border-top:1px solid rgba(255,255,255,.04);
+  display:flex;align-items:center;justify-content:space-between;
+}
+.pc-credit{font-size:.67rem;color:var(--mut);text-decoration:none;}
 .pc-credit:hover{color:var(--acc);}
 
-/* Panel */
-.panel{width:var(--pw);flex-shrink:0;background:var(--sur);border-left:1px solid var(--brd);overflow-y:auto;display:none;}
-.panel.on{display:block;}
+/* ─── PANEL ─── */
+.panel{width:var(--pw);flex-shrink:0;background:var(--sur);border-left:1px solid var(--brd);overflow-y:auto;display:none;flex-direction:column;}
+.panel.on{display:flex;}
 .panel::-webkit-scrollbar{width:3px;}
-.panel::-webkit-scrollbar-thumb{background:rgba(255,255,255,.07);}
-.ph{padding:18px 20px 14px;border-bottom:1px solid var(--brd);font-family:'Syne',sans-serif;font-size:1rem;font-weight:700;}
-.prow{padding:16px 20px;border-bottom:1px solid rgba(255,255,255,.04);}
-.plabel{font-size:.78rem;color:var(--mut);margin-bottom:8px;display:flex;align-items:center;justify-content:space-between;}
-.plabel span{font-size:.7rem;color:rgba(255,255,255,.25);}
+.panel::-webkit-scrollbar-thumb{background:rgba(255,255,255,.06);}
+.ph{
+  padding:14px 16px 12px;border-bottom:1px solid var(--brd);
+  font-family:'Syne',sans-serif;font-size:.92rem;font-weight:700;
+  flex-shrink:0;display:flex;align-items:center;gap:8px;
+  position:sticky;top:0;background:var(--sur);z-index:10;
+}
+.ph-sub{font-size:.66rem;color:var(--mut);font-family:'Outfit',sans-serif;font-weight:400;margin-left:auto;}
+.prow{padding:12px 16px;border-bottom:1px solid rgba(255,255,255,.025);}
+.prow:last-child{border-bottom:none;}
+.plabel{font-size:.72rem;color:var(--mut);margin-bottom:6px;display:flex;align-items:center;justify-content:space-between;gap:6px;}
+.plabel span{font-size:.64rem;color:rgba(255,255,255,.18);}
+.pbadge{font-size:.57rem;padding:1px 6px;border-radius:100px;background:rgba(124,58,237,.18);color:#a78bfa;font-weight:700;}
+.pnote{font-size:.7rem;color:var(--mut);line-height:1.5;padding:8px 10px;background:rgba(255,255,255,.025);border-radius:7px;border:1px solid var(--brd);}
+.pnote.green{background:rgba(34,197,94,.05);border-color:rgba(34,197,94,.15);color:rgba(34,197,94,.8);}
+.pnote.yellow{background:rgba(251,191,36,.05);border-color:rgba(251,191,36,.15);color:rgba(251,191,36,.8);}
+.pnote.blue{background:rgba(6,182,212,.05);border-color:rgba(6,182,212,.15);color:rgba(6,182,212,.8);}
 
-input[type=text],input[type=url],textarea,select{width:100%;background:var(--sur2);border:1px solid var(--brd);border-radius:8px;padding:10px 13px;color:var(--txt);font-family:'Outfit',sans-serif;font-size:.86rem;outline:none;transition:border-color .2s;}
-input[type=text]:focus,input[type=url]:focus,textarea:focus,select:focus{border-color:rgba(124,58,237,.5);}
-textarea{resize:vertical;min-height:70px;line-height:1.55;}
-select{cursor:pointer;appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%236b6b85' d='M6 8L1 3h10z'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 12px center;}
-input[type=color]{width:36px;height:36px;border:none;border-radius:8px;cursor:pointer;padding:2px;background:var(--sur2);flex-shrink:0;}
+/* ─── INPUTS ─── */
+input[type=text],input[type=url],input[type=number],textarea,select{
+  width:100%;background:var(--sur2);border:1px solid var(--brd);
+  border-radius:7px;padding:8px 11px;color:var(--txt);
+  font-family:'Outfit',sans-serif;font-size:.82rem;
+  outline:none;transition:border-color .18s,background .18s,box-shadow .18s;
+}
+input:focus,textarea:focus,select:focus{
+  border-color:rgba(124,58,237,.48);background:rgba(18,18,28,.9);
+  box-shadow:0 0 0 3px rgba(124,58,237,.08);
+}
+textarea{resize:vertical;min-height:64px;line-height:1.52;}
+select{
+  cursor:pointer;appearance:none;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='10' viewBox='0 0 10 10'%3E%3Cpath fill='%235e5e78' d='M5 7L0 2h10z'/%3E%3C/svg%3E");
+  background-repeat:no-repeat;background-position:right 10px center;
+}
+input[type=color]{width:32px;height:32px;border:none;border-radius:6px;cursor:pointer;padding:2px;background:var(--sur2);flex-shrink:0;}
 input[type=range]{width:100%;accent-color:var(--acc);}
-.row2{display:flex;gap:8px;}
-.row2 > *{flex:1;}
-.with-color{display:flex;gap:8px;align-items:center;}
-.with-color input[type=text]{flex:1;}
+.row2{display:flex;gap:7px;}.row2>*{flex:1;}
+.with-color{display:flex;gap:7px;align-items:center;}.with-color input[type=text]{flex:1;}
 
-.upload-btn{display:flex;align-items:center;justify-content:center;gap:9px;width:100%;padding:11px;border-radius:9px;border:1.5px dashed rgba(255,255,255,.12);background:rgba(255,255,255,.03);color:var(--mut);font-size:.84rem;font-family:'Outfit',sans-serif;cursor:pointer;transition:all .2s;text-align:center;}
-.upload-btn:hover{border-color:rgba(124,58,237,.45);color:var(--txt);background:rgba(124,58,237,.06);}
-.upload-preview{width:100%;height:80px;border-radius:8px;background:var(--sur2);margin-top:8px;display:flex;align-items:center;justify-content:center;overflow:hidden;}
-.upload-preview img,.upload-preview video{max-width:100%;max-height:100%;object-fit:cover;border-radius:6px;}
-.upload-preview .uname{font-size:.78rem;color:var(--mut);padding:8px;}
+/* ─── UPLOAD ─── */
+.upload-btn{
+  display:flex;align-items:center;justify-content:center;gap:7px;
+  width:100%;padding:10px;border-radius:7px;
+  border:1.5px dashed rgba(255,255,255,.09);
+  background:rgba(255,255,255,.02);color:var(--mut);
+  font-size:.8rem;font-family:'Outfit',sans-serif;
+  cursor:pointer;transition:all .18s;text-align:center;
+}
+.upload-btn:hover{border-color:rgba(124,58,237,.42);color:var(--txt);background:rgba(124,58,237,.05);}
+.upload-preview{
+  width:100%;height:72px;border-radius:7px;background:var(--sur2);
+  margin-top:6px;display:flex;align-items:center;justify-content:center;
+  overflow:hidden;position:relative;border:1px solid var(--brd);
+}
+.upload-preview img,.upload-preview video{max-width:100%;max-height:100%;object-fit:cover;}
+.upload-preview .uname{font-size:.72rem;color:var(--mut);}
+.up-progress{height:2px;border-radius:1px;background:rgba(255,255,255,.06);margin-top:5px;overflow:hidden;display:none;}
+.up-progress.show{display:block;}
+.up-bar{height:100%;width:0%;background:linear-gradient(90deg,var(--acc),var(--acc2));transition:width .35s;}
 
-.tog{display:flex;align-items:center;gap:10px;}
-.tog-sw{width:38px;height:22px;background:rgba(255,255,255,.1);border-radius:11px;position:relative;cursor:pointer;transition:background .2s;flex-shrink:0;}
+/* ─── TOGGLE ─── */
+.tog{display:flex;align-items:center;gap:9px;cursor:pointer;}
+.tog-sw{width:34px;height:19px;background:rgba(255,255,255,.09);border-radius:10px;position:relative;transition:background .18s;flex-shrink:0;}
 .tog-sw.on{background:var(--acc);}
-.tog-sw::after{content:'';position:absolute;top:3px;left:3px;width:16px;height:16px;background:#fff;border-radius:50%;transition:left .2s;}
-.tog-sw.on::after{left:19px;}
-.tog-label{font-size:.84rem;}
+.tog-sw::after{content:'';position:absolute;top:2.5px;left:2.5px;width:14px;height:14px;background:#fff;border-radius:50%;transition:left .18s;}
+.tog-sw.on::after{left:17.5px;}
+.tog-label{font-size:.81rem;}
 
-/* Link builder */
-.link-list{display:flex;flex-direction:column;gap:6px;margin-bottom:10px;}
-.link-item{background:var(--sur2);border:1px solid var(--brd);border-radius:9px;padding:10px 12px;display:flex;align-items:center;gap:10px;}
-.li-icon{width:32px;height:32px;border-radius:7px;display:flex;align-items:center;justify-content:center;font-size:.9rem;background:rgba(255,255,255,.06);overflow:hidden;flex-shrink:0;}
+/* ─── COLOR CHIPS ─── */
+.color-chips{display:flex;gap:5px;flex-wrap:wrap;}
+.chip{width:24px;height:24px;border-radius:5px;cursor:pointer;border:2px solid transparent;transition:all .14s;flex-shrink:0;}
+.chip:hover,.chip.sel{border-color:#fff;transform:scale(1.18);}
+
+/* ─── SECTION GRID (aesthetic cards) ─── */
+.ae-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;}
+.ae-card{border-radius:8px;height:58px;cursor:pointer;border:2px solid transparent;transition:all .2s;position:relative;overflow:hidden;display:flex;align-items:flex-end;}
+.ae-card:hover{transform:scale(1.05);border-color:rgba(255,255,255,.15);}
+.ae-card.sel{border-color:var(--acc);box-shadow:0 0 12px rgba(124,58,237,.4);}
+.ae-label{font-size:.57rem;font-weight:700;padding:3px 5px;background:rgba(0,0,0,.7);color:#fff;width:100%;text-align:center;}
+
+/* ─── LINKS ─── */
+.link-list{display:flex;flex-direction:column;gap:4px;margin-bottom:8px;}
+.link-item{background:var(--sur2);border:1px solid var(--brd);border-radius:7px;padding:8px 10px;display:flex;align-items:center;gap:8px;}
+.li-icon{width:28px;height:28px;border-radius:5px;display:flex;align-items:center;justify-content:center;font-size:.8rem;background:rgba(255,255,255,.05);overflow:hidden;flex-shrink:0;}
 .li-icon img{width:100%;height:100%;object-fit:contain;}
 .li-info{flex:1;min-width:0;}
-.li-label{font-size:.84rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
-.li-url{font-size:.72rem;color:var(--mut);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
-.li-del{background:none;border:none;color:var(--mut);cursor:pointer;font-size:1.1rem;padding:2px 5px;border-radius:4px;transition:color .2s;}
-.li-del:hover{color:var(--dan);}
-.add-link-form{background:var(--sur2);border:1px solid var(--brd);border-radius:10px;padding:14px;display:none;flex-direction:column;gap:10px;}
+.li-label{font-size:.8rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.li-url{font-size:.68rem;color:var(--mut);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.li-actions{display:flex;gap:3px;flex-shrink:0;}
+.li-act{background:none;border:none;color:var(--mut);cursor:pointer;font-size:.88rem;padding:2px 4px;border-radius:4px;transition:color .15s;}
+.li-act:hover{color:var(--dan);}
+.add-link-form{background:var(--sur2);border:1px solid var(--brd);border-radius:8px;padding:12px;display:none;flex-direction:column;gap:8px;}
 .add-link-form.show{display:flex;}
-.al-row{display:flex;gap:8px;align-items:center;}
-.al-row button{flex:1;}
+.al-row{display:flex;gap:7px;}.al-row button{flex:1;}
 
-/* Modals */
-.modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.75);backdrop-filter:blur(8px);z-index:200;display:none;align-items:center;justify-content:center;}
+/* ─── LINK STYLE ─── */
+.link-style-grid{display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-bottom:8px;}
+.ls-card{border:2px solid var(--brd);border-radius:8px;padding:8px;cursor:pointer;transition:all .18s;text-align:center;font-size:.72rem;color:var(--mut);}
+.ls-card:hover{border-color:rgba(124,58,237,.3);color:var(--txt);}
+.ls-card.sel{border-color:var(--acc);background:rgba(124,58,237,.08);color:#fff;}
+.ls-preview{height:22px;border-radius:5px;margin-bottom:4px;display:flex;align-items:center;justify-content:center;font-size:.62rem;font-weight:600;}
+
+/* ─── BADGE GRID ─── */
+.badge-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;}
+.badge-opt{
+  border:2px solid var(--brd);border-radius:8px;padding:8px 4px;
+  cursor:pointer;text-align:center;font-size:1.2rem;
+  transition:all .18s;background:var(--sur2);
+}
+.badge-opt:hover{border-color:rgba(124,58,237,.3);transform:scale(1.08);}
+.badge-opt.sel{border-color:var(--acc);background:rgba(124,58,237,.1);}
+
+/* ─── MODALS ─── */
+.modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.85);backdrop-filter:blur(14px);z-index:300;display:none;align-items:center;justify-content:center;padding:20px;}
 .modal-overlay.show{display:flex;}
-.modal{background:var(--sur);border:1px solid var(--brd);border-radius:18px;padding:32px;max-width:420px;width:90%;text-align:center;}
-.modal h2{font-family:'Syne',sans-serif;font-size:1.5rem;font-weight:800;margin-bottom:10px;}
-.modal p{color:var(--mut);font-size:.9rem;line-height:1.6;margin-bottom:20px;}
-.modal input{margin-bottom:14px;}
-.modal-url{font-family:'Space Mono',monospace;font-size:.85rem;background:rgba(124,58,237,.1);border:1px solid rgba(124,58,237,.3);border-radius:8px;padding:10px 14px;color:var(--acc);text-align:center;cursor:pointer;transition:background .2s;user-select:all;}
-.modal-url:hover{background:rgba(124,58,237,.18);}
-.modal-acts{display:flex;gap:10px;margin-top:16px;justify-content:center;flex-wrap:wrap;}
+.modal{background:var(--sur);border:1px solid rgba(255,255,255,.09);border-radius:18px;padding:30px;max-width:400px;width:100%;text-align:center;}
+.modal h2{font-family:'Syne',sans-serif;font-size:1.35rem;font-weight:800;margin-bottom:7px;}
+.modal p{color:var(--mut);font-size:.85rem;line-height:1.58;margin-bottom:14px;}
+.modal input{margin-bottom:10px;}
+.modal-url{
+  font-family:'Space Mono',monospace;font-size:.8rem;
+  background:rgba(124,58,237,.09);border:1px solid rgba(124,58,237,.28);
+  border-radius:7px;padding:9px 13px;color:#a78bfa;
+  text-align:center;cursor:pointer;transition:background .18s;
+  user-select:all;margin-bottom:6px;
+}
+.modal-url:hover{background:rgba(124,58,237,.16);}
+.modal-acts{display:flex;gap:7px;margin-top:12px;justify-content:center;flex-wrap:wrap;}
 
-/* Toast */
-.toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(60px);background:rgba(12,12,22,.97);backdrop-filter:blur(20px);border:1px solid rgba(124,58,237,.3);color:var(--txt);padding:10px 22px;border-radius:10px;font-size:.85rem;font-weight:500;transition:transform .35s cubic-bezier(.16,1,.3,1),opacity .35s;z-index:9999;pointer-events:none;opacity:0;white-space:nowrap;}
+/* ─── TOAST ─── */
+.toast{
+  position:fixed;bottom:20px;left:50%;transform:translateX(-50%) translateY(56px);
+  background:rgba(10,10,18,.98);backdrop-filter:blur(22px);
+  border:1px solid rgba(124,58,237,.28);color:var(--txt);
+  padding:8px 18px;border-radius:8px;font-size:.8rem;font-weight:500;
+  transition:transform .3s cubic-bezier(.16,1,.3,1),opacity .3s;
+  z-index:9999;pointer-events:none;opacity:0;white-space:nowrap;
+}
 .toast.show{transform:translateX(-50%) translateY(0);opacity:1;}
 
-::-webkit-scrollbar{width:5px;}
+/* ─── DISCORD ─── */
+.dc-box{background:rgba(88,101,242,.09);border:1px solid rgba(88,101,242,.28);border-radius:9px;padding:11px 13px;display:flex;align-items:center;gap:11px;margin-bottom:8px;}
+.dc-box svg{flex-shrink:0;}
+.dc-info{flex:1;min-width:0;}
+.dc-name{font-size:.82rem;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.dc-sub{font-size:.67rem;color:var(--mut);}
+.dc-btn{padding:6px 12px;border-radius:6px;font-size:.75rem;font-weight:600;border:none;cursor:pointer;font-family:'Outfit',sans-serif;background:rgba(88,101,242,.75);color:#fff;transition:opacity .18s;white-space:nowrap;}
+.dc-btn:hover{opacity:.82;}
+.dc-btn.conn{background:rgba(34,197,94,.18);color:#22c55e;border:1px solid rgba(34,197,94,.3);}
+
+/* ─── GRADIENT BUILDER ─── */
+.grad-stops{display:flex;gap:6px;margin-bottom:8px;flex-wrap:wrap;}
+.grad-stop{display:flex;align-items:center;gap:5px;background:var(--sur2);border:1px solid var(--brd);border-radius:6px;padding:4px 8px;font-size:.72rem;}
+
+/* ─── FONT PREVIEW ─── */
+.font-preview{
+  padding:10px 12px;border-radius:7px;background:var(--sur2);
+  border:1px solid var(--brd);font-size:1rem;color:var(--txt);
+  text-align:center;margin-top:5px;transition:font-family .2s;
+}
+
+/* ─── NEW: PROFILE LAYOUT CARDS ─── */
+.layout-grid{display:grid;grid-template-columns:1fr 1fr;gap:6px;}
+.layout-card{
+  border:2px solid var(--brd);border-radius:8px;padding:8px;
+  cursor:pointer;transition:all .18s;
+}
+.layout-card:hover{border-color:rgba(124,58,237,.3);}
+.layout-card.sel{border-color:var(--acc);background:rgba(124,58,237,.08);}
+.layout-preview{height:40px;border-radius:5px;background:var(--sur3);margin-bottom:5px;overflow:hidden;position:relative;}
+.layout-label{font-size:.68rem;color:var(--mut);text-align:center;}
+.layout-card.sel .layout-label{color:#fff;}
+
+/* ─── SECTION DIVIDER ─── */
+.sdiv{height:1px;background:linear-gradient(90deg,transparent,var(--brd),transparent);margin:2px 0;}
+
+/* ─── SCROLLBAR ─── */
+::-webkit-scrollbar{width:4px;}
 ::-webkit-scrollbar-track{background:var(--bg);}
-::-webkit-scrollbar-thumb{background:rgba(124,58,237,.35);border-radius:3px;}
+::-webkit-scrollbar-thumb{background:rgba(124,58,237,.25);border-radius:2px;}
+
+/* ─── BACKGROUND UPLOAD ZONE ─── */
+.bg-drop-zone{
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  width:100%;min-height:130px;border-radius:12px;
+  border:2px dashed rgba(255,255,255,.1);
+  background:rgba(255,255,255,.02);
+  cursor:pointer;transition:all .22s;text-align:center;
+  gap:8px;padding:20px;position:relative;overflow:hidden;
+}
+.bg-drop-zone::before{
+  content:'';position:absolute;inset:0;
+  background:radial-gradient(ellipse at 50% 50%, rgba(124,58,237,.04), transparent 70%);
+  opacity:0;transition:opacity .22s;
+}
+.bg-drop-zone:hover{
+  border-color:rgba(124,58,237,.5);
+  background:rgba(124,58,237,.05);
+  transform:scale(1.01);
+}
+.bg-drop-zone:hover::before{opacity:1;}
+.bg-drop-zone.drag-over{
+  border-color:var(--acc);
+  background:rgba(124,58,237,.1);
+  box-shadow:0 0 30px rgba(124,58,237,.2);
+}
+.bg-drop-icon{margin-bottom:2px;transition:transform .22s;}
+.bg-drop-zone:hover .bg-drop-icon{transform:translateY(-3px);}
+.bg-drop-text{font-size:.85rem;color:var(--txt);font-weight:600;}
+.bg-drop-sub{font-size:.68rem;color:var(--mut);}
+
+/* active media tag */
+.bg-type-tag{
+  display:inline-flex;align-items:center;gap:4px;
+  font-size:.62rem;font-weight:700;padding:2px 7px;border-radius:100px;
+  background:rgba(124,58,237,.2);color:#a78bfa;border:1px solid rgba(124,58,237,.3);
+  margin-top:4px;
+}
+.bg-type-tag.video{background:rgba(6,182,212,.18);color:#67e8f9;border-color:rgba(6,182,212,.3);}
+.bg-type-tag.image{background:rgba(34,197,94,.15);color:#86efac;border-color:rgba(34,197,94,.25);}
+.bg-type-tag.gif{background:rgba(249,115,22,.15);color:#fdba74;border-color:rgba(249,115,22,.25);}
+
+/* current file row */
+.bg-current{
+  display:flex;align-items:center;gap:10px;
+  background:var(--sur2);border:1px solid var(--brd);
+  border-radius:10px;padding:10px 12px;
+}
+.bg-cur-media{
+  width:52px;height:40px;border-radius:6px;overflow:hidden;
+  background:var(--sur3);flex-shrink:0;display:flex;align-items:center;justify-content:center;
+  font-size:1.2rem;
+}
+.bg-cur-media img,.bg-cur-media video{width:100%;height:100%;object-fit:cover;}
+.bg-cur-info{flex:1;min-width:0;}
+.bg-cur-name{font-size:.8rem;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.bg-cur-type{font-size:.65rem;color:var(--mut);margin-top:2px;}
+.bg-cur-remove{
+  background:rgba(244,63,94,.12);border:1px solid rgba(244,63,94,.25);
+  color:#fb7185;border-radius:6px;padding:4px 8px;cursor:pointer;
+  font-size:.75rem;font-weight:700;transition:all .15s;white-space:nowrap;
+}
+.bg-cur-remove:hover{background:rgba(244,63,94,.25);border-color:rgba(244,63,94,.45);}
+
+/* uploading spinner */
+.bg-uploading{
+  display:flex;align-items:center;gap:12px;
+  background:rgba(124,58,237,.07);border:1px solid rgba(124,58,237,.2);
+  border-radius:10px;padding:12px 14px;
+}
+.bg-upload-spinner{
+  width:24px;height:24px;border-radius:50%;flex-shrink:0;
+  border:2.5px solid rgba(124,58,237,.2);
+  border-top-color:var(--acc);
+  animation:spin .7s linear infinite;
+}
+@keyframes spin{to{transform:rotate(360deg);}}
+
+/* position grid */
+.bg-position-grid{
+  display:grid;grid-template-columns:repeat(3,1fr);gap:4px;
+  max-width:120px;
+}
+.bg-pos-btn{
+  width:36px;height:36px;border-radius:6px;cursor:pointer;
+  background:var(--sur2);border:1px solid var(--brd);
+  display:flex;align-items:center;justify-content:center;
+  font-size:.75rem;transition:all .15s;color:var(--mut);
+}
+.bg-pos-btn:hover{background:rgba(124,58,237,.12);color:var(--txt);}
+.bg-pos-btn.sel{background:rgba(124,58,237,.2);border-color:var(--acc);color:#fff;}
+
+/* ─── GLOW BORDER ANIMATION ─── */
+@keyframes rotateBorder{
+  0%{background-position:0% 50%;}
+  50%{background-position:100% 50%;}
+  100%{background-position:0% 50%;}
+}
+.glow-border-anim{
+  background:linear-gradient(270deg,var(--acc),var(--acc2),#f43f5e,var(--acc));
+  background-size:400% 400%;
+  animation:rotateBorder 4s ease infinite;
+}
+
+/* ─── AVATAR RING OPTIONS ─── */
+.ring-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;}
+.ring-card{
+  border:2px solid var(--brd);border-radius:8px;padding:8px 4px;
+  cursor:pointer;text-align:center;transition:all .18s;
+}
+.ring-card:hover{border-color:rgba(124,58,237,.3);}
+.ring-card.sel{border-color:var(--acc);background:rgba(124,58,237,.1);}
+.ring-preview{width:32px;height:32px;border-radius:50%;background:var(--sur3);margin:0 auto 4px;display:flex;align-items:center;justify-content:center;font-size:.7rem;}
+.ring-label{font-size:.6rem;color:var(--mut);}
+.ring-card.sel .ring-label{color:#fff;}
 </style>
 </head>
 <body>
@@ -190,28 +612,35 @@ input[type=range]{width:100%;accent-color:var(--acc);}
   <a class="tlogo" href="/">VLTX</a>
   <span class="ttitle">Profile Editor</span>
   <span class="tsp"></span>
-  <button class="tbtn ghost" onclick="resetProfile()">Reset</button>
-  <button class="tbtn acc" onclick="showPublish()">Publish Profile →</button>
+  <button class="tbtn ghost sm" onclick="resetProfile()">↺ Reset</button>
+  <button class="tbtn ghost sm" onclick="previewFullscreen()">👁 Preview</button>
+  <button class="tsave" onclick="showPublish()">🚀 Publish →</button>
 </div>
 
 <div class="main">
-  <!-- Section nav -->
+  <!-- ══════ SIDENAV ══════ -->
   <div class="snav">
     <div class="sg">Identity</div>
-    <div class="ni on" onclick="nav(this,'s-identity')"><span class="nicon">👤</span>Profile<div class="nd"></div></div>
-    <div class="ni" onclick="nav(this,'s-bio')"><span class="nicon">✏️</span>Bio & Tags<div class="nd"></div></div>
+    <div class="ni on" onclick="nav(this,'s-identity')"><span class="ni-ico">👤</span>Profile<div class="ni-dot"></div></div>
+    <div class="ni" onclick="nav(this,'s-bio')"><span class="ni-ico">✏️</span>Bio & Tags<div class="ni-dot"></div></div>
+    <div class="ni" onclick="nav(this,'s-badges')"><span class="ni-ico">🏅</span>Badges<span class="ni-badge">NEW</span><div class="ni-dot"></div></div>
     <div class="sg">Media</div>
-    <div class="ni" onclick="nav(this,'s-avatar')"><span class="nicon">🖼️</span>Avatar<div class="nd"></div></div>
-    <div class="ni" onclick="nav(this,'s-background')"><span class="nicon">🎬</span>Background<div class="nd"></div></div>
-    <div class="ni" onclick="nav(this,'s-music')"><span class="nicon">🎵</span>Music<div class="nd"></div></div>
+    <div class="ni" onclick="nav(this,'s-avatar')"><span class="ni-ico">🖼️</span>Avatar<div class="ni-dot"></div></div>
+    <div class="ni" onclick="nav(this,'s-background')"><span class="ni-ico">🌌</span>Background<div class="ni-dot"></div></div>
+    <div class="ni" onclick="nav(this,'s-music')"><span class="ni-ico">🎵</span>Music<div class="ni-dot"></div></div>
     <div class="sg">Design</div>
-    <div class="ni" onclick="nav(this,'s-theme')"><span class="nicon">🎨</span>Theme<div class="nd"></div></div>
-    <div class="ni" onclick="nav(this,'s-effects')"><span class="nicon">✨</span>Effects<div class="nd"></div></div>
-    <div class="sg">Links</div>
-    <div class="ni" onclick="nav(this,'s-links')"><span class="nicon">🔗</span>Social Links<div class="nd"></div></div>
+    <div class="ni" onclick="nav(this,'s-theme')"><span class="ni-ico">🎨</span>Theme<div class="ni-dot"></div></div>
+    <div class="ni" onclick="nav(this,'s-gradient')"><span class="ni-ico">🌈</span>Gradient<span class="ni-badge">NEW</span><div class="ni-dot"></div></div>
+    <div class="ni" onclick="nav(this,'s-effects')"><span class="ni-ico">✨</span>Effects<div class="ni-dot"></div></div>
+    <div class="ni" onclick="nav(this,'s-animations')"><span class="ni-ico">⚡</span>Animations<span class="ni-badge">NEW</span><div class="ni-dot"></div></div>
+    <div class="ni" onclick="nav(this,'s-layout')"><span class="ni-ico">📐</span>Layout<div class="ni-dot"></div></div>
+    <div class="sg">Integrations</div>
+    <div class="ni" onclick="nav(this,'s-links')"><span class="ni-ico">🔗</span>Social Links<div class="ni-dot"></div></div>
+    <div class="ni" onclick="nav(this,'s-discord')"><span class="ni-ico">💬</span>Discord<div class="ni-dot"></div></div>
+    <div class="ni" onclick="nav(this,'s-spotify')"><span class="ni-ico">🎧</span>Spotify<div class="ni-dot"></div></div>
   </div>
 
-  <!-- Preview -->
+  <!-- ══════ PREVIEW ══════ -->
   <div class="prev">
     <div class="prevtop">
       <div class="pdots">
@@ -220,23 +649,45 @@ input[type=range]{width:100%;accent-color:var(--acc);}
         <div class="pdot" style="background:#27c93f"></div>
       </div>
       <div class="purl" id="previewUrl">vltx.lol/yourname</div>
+      <div class="prev-device-toggle">
+        <button class="pdt-btn on" id="pdtMobile" onclick="setDevice('mobile')">📱</button>
+        <button class="pdt-btn" id="pdtDesktop" onclick="setDevice('desktop')">🖥</button>
+      </div>
     </div>
     <div class="prevscroll">
       <div id="pc">
-        <video class="pc-bg-video" id="bgVideo" autoplay muted loop playsinline style="display:none"></video>
+        <video class="pc-bg-video" id="bgVideo" autoplay muted loop playsinline style="display:none;opacity:.4"></video>
+        <img class="pc-bg-img-el" id="bgImgEl" style="display:none;opacity:.4">
         <div class="pc-bg-overlay" id="bgOverlay"></div>
-        <div class="pc-banner"><canvas id="bnrCanvas"></canvas></div>
-        <div class="pc-avatar-wrap">
-          <div class="pc-avatar" id="pcAvatar" onclick="document.getElementById('avatarFileInput').click()" title="Click to upload photo">👾</div>
-          <div class="pc-online"></div>
+        <div class="pc-bg-noise" id="bgNoise" style="display:none"></div>
+
+        <div class="pc-av-wrap" id="pcAvWrap">
+          <div class="pc-avatar" id="pcAvatar" onclick="document.getElementById('avatarFileInput').click()" title="Click to upload avatar">👾</div>
+          <div class="pc-online" id="pcOnlineDot"></div>
         </div>
+
+        <!-- Badges row -->
+        <div id="pcBadgeRow" style="display:flex;justify-content:center;gap:4px;padding:6px 0 2px;flex-wrap:wrap;"></div>
+
         <div class="pc-body">
           <div class="pc-name-row">
             <span class="pc-username" id="pcUsername">yourname</span>
+            <span id="pcVerified" style="display:none;font-size:.9rem;margin-left:4px" title="Verified">✅</span>
             <span class="pc-pronouns" id="pcPronouns" style="display:none"></span>
+            <br id="statusBr" style="display:none">
+            <span class="pc-status" id="pcStatus" style="display:none"></span>
           </div>
           <div class="pc-tags" id="pcTags"></div>
           <div class="pc-bio"><div><span class="tw" id="pcBio"></span><span class="caret"></span></div></div>
+
+          <div class="pc-now-playing" id="pcNowPlaying" style="display:none">
+            <div class="pc-np-bars"><div class="pc-np-bar"></div><div class="pc-np-bar"></div><div class="pc-np-bar"></div><div class="pc-np-bar"></div></div>
+            <div class="pc-np-info">
+              <div class="pc-np-title" id="pcNpTitle">Not listening to anything</div>
+              <div class="pc-np-sub">Spotify</div>
+            </div>
+          </div>
+
           <div class="pc-music" id="pcMusic" style="display:none">
             <div class="pc-prog-bg"><div class="pc-prog" id="pcProg"></div></div>
             <div class="pc-album" id="pcAlbum">🎵</div>
@@ -250,234 +701,760 @@ input[type=range]{width:100%;accent-color:var(--acc);}
               <button class="pc-mbtn" onclick="nextTr()">⏭</button>
             </div>
           </div>
-          <div class="pc-stats">
-            <div class="pc-stat"><div class="pc-snum" id="pcViews">0</div><div class="pc-slabel">profile views</div></div>
-            <div class="pc-stat"><div class="pc-snum" id="pcFollowers">0</div><div class="pc-slabel">followers</div></div>
-            <div class="pc-stat"><div class="pc-snum" id="pcClicks">0</div><div class="pc-slabel">link clicks</div></div>
+
+          <div class="pc-dc-badge" id="pcDcBadge" style="display:none">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="#5865F2"><path d="M20.317 4.37a19.791 19.791 0 0 0-4.885-1.515.074.074 0 0 0-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 0 0-5.487 0 12.64 12.64 0 0 0-.617-1.25.077.077 0 0 0-.079-.037A19.736 19.736 0 0 0 3.677 4.37a.07.07 0 0 0-.032.027C.533 9.046-.32 13.58.099 18.057a.082.082 0 0 0 .031.057 19.9 19.9 0 0 0 5.993 3.03.078.078 0 0 0 .084-.028c.462-.63.874-1.295 1.226-1.994a.076.076 0 0 0-.041-.106 13.107 13.107 0 0 1-1.872-.892.077.077 0 0 1-.008-.128 10.2 10.2 0 0 0 .372-.292.074.074 0 0 1 .077-.01c3.928 1.793 8.18 1.793 12.062 0a.074.074 0 0 1 .078.01c.12.098.246.198.373.292a.077.077 0 0 1-.006.127 12.299 12.299 0 0 1-1.873.892.077.077 0 0 0-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.028 19.839 19.839 0 0 0 6.002-3.03.077.077 0 0 0 .032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 0 0-.031-.03z"/></svg>
+            <span id="pcDcText">Discord</span>
           </div>
+
+          <div class="pc-stats" id="pcStatsRow">
+            <div class="pc-stat"><div class="pc-snum" id="pcViews">—</div><div class="pc-slabel">views</div></div>
+            <div class="pc-stat"><div class="pc-snum" id="pcFollowers">—</div><div class="pc-slabel">followers</div></div>
+            <div class="pc-stat"><div class="pc-snum" id="pcClicks">—</div><div class="pc-slabel">clicks</div></div>
+          </div>
+
           <div class="pc-socials" id="pcSocials"></div>
+          <div id="pcLinkBtns"></div>
         </div>
         <div class="pc-foot">
           <a href="/" class="pc-credit">⚡ vltx.lol</a>
-          <span style="font-size:.74rem;color:var(--mut)">👁 <span id="pcViewCount">0</span> views</span>
+          <span style="font-size:.64rem;color:var(--mut)">📊 live stats</span>
         </div>
       </div>
     </div>
   </div>
 
-  <!-- ── Panels ── -->
+  <!-- ══════════════════════════════════════
+       PANELS
+  ══════════════════════════════════════ -->
 
-  <!-- Profile -->
+  <!-- IDENTITY -->
   <div class="panel on" id="s-identity">
-    <div class="ph">👤 Profile Info</div>
-    <div class="prow"><div class="plabel">Username <span>shown in URL</span></div>
+    <div class="ph">👤 Profile Info <span class="ph-sub">identity</span></div>
+    <div class="prow">
+      <div class="plabel">Username <span>your URL slug</span></div>
       <input type="text" id="iUsername" placeholder="yourname" oninput="syncUsername()" maxlength="30">
     </div>
-    <div class="prow"><div class="plabel">Display Name <span>shown on card</span></div>
+    <div class="prow">
+      <div class="plabel">Display Name <span>shown on card</span></div>
       <input type="text" id="iDisplayName" placeholder="Your Name" oninput="syncDisplayName()">
     </div>
-    <div class="prow"><div class="plabel">Pronouns</div>
-      <input type="text" id="iPronouns" placeholder="he/him, she/her..." oninput="syncPronouns()">
+    <div class="prow">
+      <div class="plabel">Pronouns</div>
+      <input type="text" id="iPronouns" placeholder="he/him · she/her · they/them" oninput="syncPronouns()">
     </div>
-    <div class="prow"><div class="plabel">Stats</div>
-      <div class="row2">
-        <div><div style="font-size:.72rem;color:var(--mut);margin-bottom:4px">Followers</div><input type="text" id="iFollowers" value="0" oninput="syncStats()"></div>
-        <div><div style="font-size:.72rem;color:var(--mut);margin-bottom:4px">Link Clicks</div><input type="text" id="iClicks" value="0" oninput="syncStats()"></div>
-      </div>
+    <div class="prow">
+      <div class="plabel">Status Badge</div>
+      <select id="iStatus" onchange="syncStatus()">
+        <option value="">None</option>
+        <option value="🟢 Online">🟢 Online</option>
+        <option value="🔴 Do Not Disturb">🔴 Do Not Disturb</option>
+        <option value="🌙 AFK">🌙 AFK</option>
+        <option value="🎮 Gaming">🎮 Gaming</option>
+        <option value="🎵 Listening">🎵 Listening</option>
+        <option value="🎨 Creating">🎨 Creating</option>
+        <option value="😴 Sleeping">😴 Sleeping</option>
+        <option value="💀 Touch grass">💀 Touch grass</option>
+        <option value="☕ Coffee time">☕ Coffee time</option>
+        <option value="🔥 On fire">🔥 On fire</option>
+        <option value="custom">✏️ Custom...</option>
+      </select>
+      <input type="text" id="iStatusCustom" placeholder="Custom status..." oninput="syncStatusCustom()" style="margin-top:6px;display:none">
+    </div>
+    <div class="prow">
+      <div class="plabel">Location <span>shown below name</span></div>
+      <input type="text" id="iLocation" placeholder="🌍 Earth" oninput="syncLocation()" maxlength="40">
+    </div>
+    <div class="prow">
+      <div class="plabel">Website URL <span>optional</span></div>
+      <input type="url" id="iWebsite" placeholder="https://yoursite.com" oninput="syncWebsite()">
+    </div>
+    <div class="prow">
+      <div class="pnote green">✅ Views, followers &amp; link clicks are tracked by VLTX servers. They're real numbers — nobody can fake them.</div>
     </div>
   </div>
 
-  <!-- Bio & Tags -->
+  <!-- BIO -->
   <div class="panel" id="s-bio">
     <div class="ph">✏️ Bio & Tags</div>
     <div class="prow">
       <div class="plabel">Typewriter Phrases <span>one per line</span></div>
       <textarea id="iBio" rows="5" placeholder="full time lurker. part time god.&#10;i make stuff sometimes.&#10;your fave's fave 🌙" oninput="syncBio()"></textarea>
-      <div style="font-size:.72rem;color:var(--mut);margin-top:6px">Each line cycles with a typewriter effect on your profile.</div>
+      <div style="font-size:.68rem;color:var(--mut);margin-top:4px">Each line cycles with a typewriter effect.</div>
     </div>
-    <div class="prow"><div class="plabel">Tags <span>comma separated</span></div>
+    <div class="prow">
+      <div class="plabel">Tags <span>comma separated</span></div>
       <input type="text" id="iTags" placeholder="🌙 nocturnal, 🎮 gamer, 🔪 menace" oninput="syncTags()">
     </div>
+    <div class="prow">
+      <div class="plabel">Typewriter Speed</div>
+      <select id="iTwSpeed" onchange="syncTwSpeed()">
+        <option value="fast">⚡ Fast</option>
+        <option value="normal" selected>Normal</option>
+        <option value="slow">🐢 Slow</option>
+        <option value="dramatic">🎭 Dramatic</option>
+      </select>
+    </div>
   </div>
 
-  <!-- Avatar -->
-  <div class="panel" id="s-avatar">
-    <div class="ph">🖼️ Profile Picture</div>
+  <!-- BADGES -->
+  <div class="panel" id="s-badges">
+    <div class="ph">🏅 Profile Badges <span class="ph-sub">flex on 'em</span></div>
     <div class="prow">
-      <div class="plabel">Upload Photo</div>
-      <label class="upload-btn" for="avatarFileInput">📁 Choose from files / gallery</label>
-      <input type="file" id="avatarFileInput" accept="image/*" style="display:none" onchange="uploadAvatar(this)">
-      <div class="upload-preview" id="avatarPreview">
-        <div class="uname">No image uploaded</div>
+      <div class="plabel">Select Badges</div>
+      <div class="badge-grid" id="badgeGrid">
+        <div class="badge-opt" data-badge="🔥" onclick="toggleBadge(this)" title="On Fire">🔥</div>
+        <div class="badge-opt" data-badge="💎" onclick="toggleBadge(this)" title="Diamond">💎</div>
+        <div class="badge-opt" data-badge="⭐" onclick="toggleBadge(this)" title="Star">⭐</div>
+        <div class="badge-opt" data-badge="👑" onclick="toggleBadge(this)" title="Crown">👑</div>
+        <div class="badge-opt" data-badge="🎖️" onclick="toggleBadge(this)" title="Medal">🎖️</div>
+        <div class="badge-opt" data-badge="⚡" onclick="toggleBadge(this)" title="OG">⚡</div>
+        <div class="badge-opt" data-badge="🎯" onclick="toggleBadge(this)" title="Verified">🎯</div>
+        <div class="badge-opt" data-badge="🌙" onclick="toggleBadge(this)" title="Night Owl">🌙</div>
+        <div class="badge-opt" data-badge="🎨" onclick="toggleBadge(this)" title="Creator">🎨</div>
+        <div class="badge-opt" data-badge="🤖" onclick="toggleBadge(this)" title="Dev">🤖</div>
+        <div class="badge-opt" data-badge="🎮" onclick="toggleBadge(this)" title="Gamer">🎮</div>
+        <div class="badge-opt" data-badge="🐺" onclick="toggleBadge(this)" title="Lone Wolf">🐺</div>
+        <div class="badge-opt" data-badge="🍀" onclick="toggleBadge(this)" title="Lucky">🍀</div>
+        <div class="badge-opt" data-badge="🧠" onclick="toggleBadge(this)" title="Big Brain">🧠</div>
+        <div class="badge-opt" data-badge="🩸" onclick="toggleBadge(this)" title="Blood Moon">🩸</div>
+        <div class="badge-opt" data-badge="💀" onclick="toggleBadge(this)" title="Skull">💀</div>
       </div>
     </div>
-    <div class="prow"><div class="plabel">Or use an Emoji instead</div>
-      <input type="text" id="iEmoji" placeholder="👾" maxlength="4" oninput="syncEmoji()">
+    <div class="prow">
+      <div class="plabel">Custom Badge</div>
+      <div style="display:flex;gap:7px;">
+        <input type="text" id="iCustomBadge" placeholder="🎃 or text" maxlength="8" style="flex:1">
+        <button class="tbtn acc sm" onclick="addCustomBadge()">Add</button>
+      </div>
+    </div>
+    <div class="prow">
+      <div class="tog" onclick="toggleVerifiedBadge()"><div class="tog-sw" id="togVerified"></div><span class="tog-label">Verified ✅ checkmark</span></div>
     </div>
   </div>
 
-  <!-- Background -->
-  <div class="panel" id="s-background">
-    <div class="ph">🎬 Background</div>
+  <!-- AVATAR -->
+  <div class="panel" id="s-avatar">
+    <div class="ph">🖼️ Avatar</div>
     <div class="prow">
-      <div class="plabel">Upload Video or Image Background</div>
-      <label class="upload-btn" for="bgFileInput">🎬 Choose MP4 / WebM / JPG / PNG</label>
-      <input type="file" id="bgFileInput" accept="video/*,image/*" style="display:none" onchange="uploadBg(this)">
-      <div class="upload-preview" id="bgPreview"><div class="uname">No file uploaded</div></div>
+      <div class="plabel">Upload Photo</div>
+      <label class="upload-btn" for="avatarFileInput">📁 JPG / PNG / GIF / WebP</label>
+      <input type="file" id="avatarFileInput" accept="image/*" style="display:none" onchange="uploadAvatar(this)">
+      <div class="upload-preview" id="avatarPreview"><div class="uname">No photo</div></div>
+      <div class="up-progress" id="avatarProg"><div class="up-bar" id="avatarBar"></div></div>
     </div>
-    <div class="prow"><div class="plabel">Opacity <span id="bgOpacityVal">25%</span></div>
-      <input type="range" min="5" max="70" value="25" id="iBgOpacity" oninput="syncBgOpacity()">
+    <div class="prow">
+      <div class="plabel">Emoji Fallback <span>if no photo</span></div>
+      <input type="text" id="iEmoji" placeholder="👾" maxlength="4" oninput="syncEmoji()">
     </div>
-    <div class="prow"><div class="plabel">Fallback Background Color</div>
+    <div class="prow">
+      <div class="plabel">Avatar Shape</div>
+      <select id="iAvatarShape" onchange="syncAvatarShape()">
+        <option value="circle">● Circle</option>
+        <option value="squircle">⬛ Squircle</option>
+        <option value="square">▪ Square</option>
+        <option value="hexagon">⬡ Hexagon</option>
+        <option value="star">★ Star</option>
+      </select>
+    </div>
+    <div class="prow">
+      <div class="plabel">Avatar Size <span id="avSizeVal">76px</span></div>
+      <input type="range" min="48" max="110" value="76" id="iAvSize" oninput="syncAvSize()">
+    </div>
+    <div class="prow">
+      <div class="plabel">Border Style</div>
+      <div class="ring-grid">
+        <div class="ring-card sel" data-ring="solid" onclick="setRingStyle(this,'solid')">
+          <div class="ring-preview" style="border:3px solid #7c3aed;">🟣</div>
+          <div class="ring-label">Solid</div>
+        </div>
+        <div class="ring-card" data-ring="glow" onclick="setRingStyle(this,'glow')">
+          <div class="ring-preview" style="border:2px solid #7c3aed;box-shadow:0 0 8px #7c3aed;">✨</div>
+          <div class="ring-label">Glow</div>
+        </div>
+        <div class="ring-card" data-ring="gradient" onclick="setRingStyle(this,'gradient')">
+          <div class="ring-preview" style="background:linear-gradient(#050508,#050508) padding-box, linear-gradient(135deg,#7c3aed,#06b6d4) border-box;border:2px solid transparent;">🌈</div>
+          <div class="ring-label">Gradient</div>
+        </div>
+        <div class="ring-card" data-ring="animated" onclick="setRingStyle(this,'animated')">
+          <div class="ring-preview" style="border:2px dashed #7c3aed;animation:aSpin 4s linear infinite;">⚡</div>
+          <div class="ring-label">Spin</div>
+        </div>
+        <div class="ring-card" data-ring="rainbow" onclick="setRingStyle(this,'rainbow')">
+          <div class="ring-preview" style="border:2px solid red;">🌊</div>
+          <div class="ring-label">Rainbow</div>
+        </div>
+        <div class="ring-card" data-ring="none" onclick="setRingStyle(this,'none')">
+          <div class="ring-preview">✕</div>
+          <div class="ring-label">None</div>
+        </div>
+      </div>
+    </div>
+    <div class="prow">
+      <div class="plabel">Border Color</div>
+      <div class="with-color">
+        <input type="text" id="iAvBorderColor" value="#7c3aed" oninput="syncAvBorderColor()">
+        <input type="color" id="iAvBorderPick" value="#7c3aed" oninput="syncAvBorderPick()">
+      </div>
+    </div>
+    <div class="prow">
+      <div class="tog" onclick="toggleOnline()"><div class="tog-sw on" id="togOnline"></div><span class="tog-label">Show online indicator</span></div>
+    </div>
+    <div class="prow">
+      <div class="tog" onclick="toggleAvatarFloat()"><div class="tog-sw on" id="togFloat"></div><span class="tog-label">Floating animation</span></div>
+    </div>
+  </div>
+
+  <!-- BACKGROUND — THE BIG ONE -->
+  <div class="panel" id="s-background">
+    <div class="ph">🌌 Background <span class="ph-sub">your world</span></div>
+
+    <!-- UPLOAD DROP ZONE -->
+    <div class="prow">
+      <div class="plabel">Upload Background <span>image · video · gif</span></div>
+      <label class="bg-drop-zone" for="bgFileInput" id="bgDropZone">
+        <div class="bg-drop-icon" id="bgDropIcon">
+          <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="color:rgba(255,255,255,.2)"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+        </div>
+        <div class="bg-drop-text" id="bgDropText">Drop your file here or click to browse</div>
+        <div class="bg-drop-sub">JPG · PNG · GIF · MP4 · WebM · MOV · up to 200MB</div>
+      </label>
+      <input type="file" id="bgFileInput" accept="image/*,video/*" style="display:none" onchange="uploadBg(this)">
+    </div>
+
+    <!-- CURRENT FILE PREVIEW + INFO -->
+    <div class="prow" id="bgCurrentRow" style="display:none">
+      <div class="plabel">Current Background</div>
+      <div class="bg-current" id="bgCurrentPreview">
+        <div class="bg-cur-media" id="bgCurMedia"></div>
+        <div class="bg-cur-info">
+          <div class="bg-cur-name" id="bgCurName">—</div>
+          <div class="bg-cur-type" id="bgCurType">—</div>
+        </div>
+        <button class="bg-cur-remove" onclick="clearBg()" title="Remove">✕</button>
+      </div>
+      <div class="up-progress" id="bgProg"><div class="up-bar" id="bgBar"></div></div>
+    </div>
+
+    <!-- UPLOAD PROGRESS (shown while uploading) -->
+    <div class="prow" id="bgUploadStatus" style="display:none">
+      <div class="bg-uploading">
+        <div class="bg-upload-spinner"></div>
+        <div>
+          <div style="font-size:.82rem;font-weight:600" id="bgUploadLabel">Uploading...</div>
+          <div style="font-size:.68rem;color:var(--mut);margin-top:2px" id="bgUploadSub">Please wait</div>
+        </div>
+      </div>
+      <div class="up-progress show" style="margin-top:8px"><div class="up-bar" id="bgBarMain" style="width:0%"></div></div>
+    </div>
+
+    <!-- CONTROLS -->
+    <div class="prow">
+      <div class="plabel">Background Opacity <span id="bgOpacityVal">40%</span></div>
+      <input type="range" min="5" max="100" value="40" id="iBgOpacity" oninput="syncBgOpacity()">
+    </div>
+    <div class="prow">
+      <div class="plabel">Blur Amount <span id="bgBlurVal">0px</span></div>
+      <input type="range" min="0" max="30" value="0" id="iBgBlur" oninput="syncBgBlur()">
+    </div>
+    <div class="prow">
+      <div class="plabel">Zoom / Scale <span id="bgScaleVal">100%</span></div>
+      <input type="range" min="90" max="150" value="100" id="iBgScale" oninput="syncBgScale()">
+    </div>
+    <div class="prow">
+      <div class="plabel">Brightness <span id="bgBrightVal">100%</span></div>
+      <input type="range" min="20" max="180" value="100" id="iBgBright" oninput="syncBgBright()">
+    </div>
+    <div class="prow">
+      <div class="plabel">Saturation <span id="bgSatVal">100%</span></div>
+      <input type="range" min="0" max="200" value="100" id="iBgSat" oninput="syncBgSat()">
+    </div>
+
+    <!-- COLOR TINT OVERLAY -->
+    <div class="prow">
+      <div class="plabel">Color Tint Overlay</div>
+      <div style="display:flex;gap:6px;margin-bottom:6px;flex-wrap:wrap" id="tintChips"></div>
+      <div class="with-color" style="margin-bottom:6px">
+        <input type="text" id="iBgTint" placeholder="#7c3aed or none" oninput="syncBgTint()">
+        <input type="color" id="iBgTintPick" value="#7c3aed" oninput="syncBgTintPick()">
+      </div>
+      <div class="plabel" style="margin-top:4px">Tint Strength <span id="bgTintStrVal">0%</span></div>
+      <input type="range" min="0" max="85" value="0" id="iBgTintStr" oninput="syncBgTintStr()">
+    </div>
+
+    <!-- BLEND MODE -->
+    <div class="prow">
+      <div class="plabel">Blend Mode</div>
+      <select id="iBgBlend" onchange="syncBgBlend()">
+        <option value="normal">Normal</option>
+        <option value="multiply">Multiply</option>
+        <option value="screen">Screen</option>
+        <option value="overlay">Overlay</option>
+        <option value="color-dodge">Color Dodge</option>
+        <option value="color-burn">Color Burn</option>
+        <option value="hard-light">Hard Light</option>
+        <option value="soft-light">Soft Light</option>
+        <option value="difference">Difference</option>
+        <option value="luminosity">Luminosity</option>
+      </select>
+    </div>
+
+    <!-- FALLBACK COLOR -->
+    <div class="prow">
+      <div class="plabel">Fallback Color <span>when no file</span></div>
       <div class="with-color">
         <input type="text" id="iBgColor" value="#030308" oninput="syncBgColor()">
         <input type="color" id="iBgColorPick" value="#030308" oninput="syncBgColorPick()">
       </div>
     </div>
+
+    <!-- POSITION -->
+    <div class="prow">
+      <div class="plabel">Position</div>
+      <div class="bg-position-grid" id="bgPositionGrid">
+        <div class="bg-pos-btn" data-pos="top left" onclick="setBgPos(this,'top left')">↖</div>
+        <div class="bg-pos-btn" data-pos="top center" onclick="setBgPos(this,'top center')">↑</div>
+        <div class="bg-pos-btn" data-pos="top right" onclick="setBgPos(this,'top right')">↗</div>
+        <div class="bg-pos-btn" data-pos="center left" onclick="setBgPos(this,'center left')">←</div>
+        <div class="bg-pos-btn sel" data-pos="center center" onclick="setBgPos(this,'center center')">●</div>
+        <div class="bg-pos-btn" data-pos="center right" onclick="setBgPos(this,'center right')">→</div>
+        <div class="bg-pos-btn" data-pos="bottom left" onclick="setBgPos(this,'bottom left')">↙</div>
+        <div class="bg-pos-btn" data-pos="bottom center" onclick="setBgPos(this,'bottom center')">↓</div>
+        <div class="bg-pos-btn" data-pos="bottom right" onclick="setBgPos(this,'bottom right')">↘</div>
+      </div>
+    </div>
+
+    <!-- AESTHETIC PRESETS -->
+    <div class="prow">
+      <div class="plabel">Aesthetic Overlay Preset</div>
+      <div class="ae-grid" id="aestheticGrid">
+        <div class="ae-card sel" data-ae="none" style="background:linear-gradient(135deg,#050508,#0d0d1a)" onclick="applyAesthetic('none',this)"><div class="ae-label">None</div></div>
+        <div class="ae-card" data-ae="void" style="background:#000" onclick="applyAesthetic('void',this)"><div class="ae-label">Void</div></div>
+        <div class="ae-card" data-ae="purple-haze" style="background:linear-gradient(135deg,#1a0533,#2d0060)" onclick="applyAesthetic('purple-haze',this)"><div class="ae-label">Purple Haze</div></div>
+        <div class="ae-card" data-ae="ocean" style="background:linear-gradient(135deg,#001220,#003366,#00b4d8)" onclick="applyAesthetic('ocean',this)"><div class="ae-label">Deep Ocean</div></div>
+        <div class="ae-card" data-ae="sunset" style="background:linear-gradient(135deg,#1a0a00,#b03000,#ff6b35)" onclick="applyAesthetic('sunset',this)"><div class="ae-label">Sunset</div></div>
+        <div class="ae-card" data-ae="matrix" style="background:linear-gradient(135deg,#000,#001400)" onclick="applyAesthetic('matrix',this)"><div class="ae-label">Matrix</div></div>
+        <div class="ae-card" data-ae="rose" style="background:linear-gradient(135deg,#0f000a,#4d0019,#ff2d6b)" onclick="applyAesthetic('rose',this)"><div class="ae-label">Rose</div></div>
+        <div class="ae-card" data-ae="midnight" style="background:linear-gradient(135deg,#010116,#08082a)" onclick="applyAesthetic('midnight',this)"><div class="ae-label">Midnight</div></div>
+        <div class="ae-card" data-ae="gold" style="background:linear-gradient(135deg,#1a1000,#c9971c)" onclick="applyAesthetic('gold',this)"><div class="ae-label">Gold Rush</div></div>
+        <div class="ae-card" data-ae="cherry" style="background:linear-gradient(135deg,#120004,#e91e63)" onclick="applyAesthetic('cherry',this)"><div class="ae-label">Cherry</div></div>
+        <div class="ae-card" data-ae="ice" style="background:linear-gradient(135deg,#001428,#00d4ff,#a8edff)" onclick="applyAesthetic('ice',this)"><div class="ae-label">Arctic Ice</div></div>
+        <div class="ae-card" data-ae="lava" style="background:linear-gradient(135deg,#1a0000,#8b0000,#ff4500)" onclick="applyAesthetic('lava',this)"><div class="ae-label">Lava</div></div>
+        <div class="ae-card" data-ae="neon" style="background:linear-gradient(135deg,#000,#001a33,#003366)" onclick="applyAesthetic('neon',this)"><div class="ae-label">Neon City</div></div>
+        <div class="ae-card" data-ae="sakura" style="background:linear-gradient(135deg,#1a000d,#4a0022,#ff69b4)" onclick="applyAesthetic('sakura',this)"><div class="ae-label">Sakura</div></div>
+        <div class="ae-card" data-ae="forest" style="background:linear-gradient(135deg,#000d00,#0a2200,#1a4d00)" onclick="applyAesthetic('forest',this)"><div class="ae-label">Dark Forest</div></div>
+      </div>
+    </div>
+
+    <!-- VIDEO SPECIFIC -->
+    <div class="prow" id="bgVideoControls" style="display:none">
+      <div class="plabel" style="margin-bottom:8px;color:var(--acc)">🎬 Video Settings</div>
+      <div class="tog" style="margin-bottom:8px" onclick="toggleBgVideoLoop()"><div class="tog-sw on" id="togBgLoop"></div><span class="tog-label">Loop video</span></div>
+      <div class="tog" style="margin-bottom:8px" onclick="toggleBgVideoMute()"><div class="tog-sw on" id="togBgMute"></div><span class="tog-label">Mute video</span></div>
+      <div class="plabel" style="margin-top:4px">Playback Speed <span id="bgSpeedVal">1×</span></div>
+      <input type="range" min="25" max="200" value="100" id="iBgSpeed" oninput="syncBgSpeed()">
+    </div>
   </div>
 
-  <!-- Music -->
+  <!-- MUSIC -->
   <div class="panel" id="s-music">
     <div class="ph">🎵 Music Player</div>
     <div class="prow">
-      <div class="plabel">Upload MP3 Tracks</div>
-      <label class="upload-btn" for="musicFileInput">🎵 Choose MP3 files (can pick multiple)</label>
-      <input type="file" id="musicFileInput" accept="audio/mp3,audio/mpeg" multiple style="display:none" onchange="uploadMusic(this)">
+      <div class="plabel">Upload Tracks <span>multiple OK</span></div>
+      <label class="upload-btn" for="musicFileInput">🎵 MP3 / AAC / OGG</label>
+      <input type="file" id="musicFileInput" accept="audio/*" multiple style="display:none" onchange="uploadMusic(this)">
+      <div class="up-progress" id="musicProg"><div class="up-bar" id="musicBar"></div></div>
     </div>
     <div class="prow">
       <div class="plabel">Track List</div>
-      <div id="trackList" style="font-size:.82rem;color:var(--mut)">No tracks uploaded yet.</div>
+      <div id="trackList" style="font-size:.78rem;color:var(--mut)">No tracks yet.</div>
     </div>
     <div class="prow">
-      <div class="tog" onclick="toggleMusic()">
-        <div class="tog-sw" id="togMusic"></div>
-        <span class="tog-label">Show music player on profile</span>
-      </div>
+      <div class="tog" onclick="toggleMusic()"><div class="tog-sw" id="togMusic"></div><span class="tog-label">Show player</span></div>
+    </div>
+    <div class="prow">
+      <div class="tog" onclick="toggleAutoplay()"><div class="tog-sw" id="togAutoplay"></div><span class="tog-label">Autoplay on load</span></div>
+    </div>
+    <div class="prow">
+      <div class="plabel">Player Style</div>
+      <select id="iMusicStyle" onchange="syncMusicStyle()">
+        <option value="default">Default compact</option>
+        <option value="spotify">Spotify-style bars</option>
+        <option value="vinyl">Vinyl spinning record</option>
+      </select>
     </div>
   </div>
 
-  <!-- Theme -->
+  <!-- THEME -->
   <div class="panel" id="s-theme">
-    <div class="ph">🎨 Theme</div>
-    <div class="prow"><div class="plabel">Accent Color</div>
+    <div class="ph">🎨 Theme & Colors</div>
+    <div class="prow">
+      <div class="plabel">Preset</div>
+      <select id="iPreset" onchange="applyPreset()">
+        <option value="">Custom</option>
+        <option value="purple">💜 Purple Haze</option>
+        <option value="cyan">🩵 Cyan Storm</option>
+        <option value="rose">🌹 Rose Gold</option>
+        <option value="green">💚 Matrix Green</option>
+        <option value="orange">🔥 Solar Flare</option>
+        <option value="midnight">🌑 Midnight Blue</option>
+        <option value="mono">⬜ Monochrome</option>
+        <option value="blood">🩸 Blood Moon</option>
+        <option value="gold">🌟 Gold Rush</option>
+        <option value="teal">🌊 Deep Teal</option>
+        <option value="pink">🌸 Cotton Candy</option>
+        <option value="neon">🌐 Neon City</option>
+        <option value="sakura">🌸 Sakura Night</option>
+      </select>
+    </div>
+    <div class="prow">
+      <div class="plabel">Accent Color</div>
+      <div class="color-chips" id="accentChips" style="margin-bottom:7px"></div>
       <div class="with-color">
         <input type="text" id="iAccent" value="#a855f7" oninput="syncAccent()">
         <input type="color" id="iAccentPick" value="#a855f7" oninput="syncAccentPick()">
       </div>
     </div>
-    <div class="prow"><div class="plabel">Secondary Color</div>
+    <div class="prow">
+      <div class="plabel">Secondary Color</div>
       <div class="with-color">
         <input type="text" id="iAccent2" value="#22d3ee" oninput="syncAccent2()">
         <input type="color" id="iAccent2Pick" value="#22d3ee" oninput="syncAccent2Pick()">
       </div>
     </div>
-    <div class="prow"><div class="plabel">Card Background Color</div>
+    <div class="prow">
+      <div class="plabel">Card Background</div>
       <div class="with-color">
         <input type="text" id="iCardBg" value="#0f0f1a" oninput="syncCardBg()">
         <input type="color" id="iCardBgPick" value="#0f0f1a" oninput="syncCardBgPick()">
       </div>
     </div>
-    <div class="prow"><div class="plabel">Card Blur <span id="blurVal">28px</span></div>
+    <div class="prow">
+      <div class="plabel">Card Blur <span id="blurVal">28px</span></div>
       <input type="range" min="0" max="60" value="28" id="iBlur" oninput="syncBlur()">
     </div>
-    <div class="prow"><div class="plabel">Theme Preset</div>
-      <select id="iPreset" onchange="applyPreset()">
-        <option value="">Custom</option>
-        <option value="purple">Purple Haze</option>
-        <option value="cyan">Cyan Storm</option>
-        <option value="rose">Rose Gold</option>
-        <option value="green">Matrix Green</option>
-        <option value="orange">Solar Flare</option>
-        <option value="mono">Monochrome</option>
+    <div class="prow">
+      <div class="plabel">Card Opacity <span id="cardOpacityVal">92%</span></div>
+      <input type="range" min="10" max="100" value="92" id="iCardOpacity" oninput="syncCardOpacity()">
+    </div>
+    <div class="prow">
+      <div class="plabel">Border Glow <span id="glowIntVal">45%</span></div>
+      <input type="range" min="0" max="100" value="45" id="iGlowInt" oninput="syncGlowInt()">
+    </div>
+    <div class="prow">
+      <div class="plabel">Font</div>
+      <select id="iFont" onchange="syncFont()">
+        <option value="outfit">Outfit (default)</option>
+        <option value="syne">Syne (bold/techy)</option>
+        <option value="mono">Space Mono (hacker)</option>
+        <option value="dm">DM Sans (clean)</option>
+        <option value="orbitron">Orbitron (cyber)</option>
+        <option value="serif">Georgia (classic)</option>
       </select>
+      <div class="font-preview" id="fontPreview">The quick brown fox</div>
+    </div>
+    <div class="prow">
+      <div class="plabel">Text Color</div>
+      <div class="with-color">
+        <input type="text" id="iTextColor" value="#f0f0fa" oninput="syncTextColor()">
+        <input type="color" id="iTextColorPick" value="#f0f0fa" oninput="syncTextColorPick()">
+      </div>
     </div>
   </div>
 
-  <!-- Effects -->
+  <!-- GRADIENT -->
+  <div class="panel" id="s-gradient">
+    <div class="ph">🌈 Gradient Builder <span class="ph-sub">username glow</span></div>
+    <div class="prow">
+      <div class="plabel">Username Gradient</div>
+      <div id="gradPreview" style="height:36px;border-radius:7px;background:linear-gradient(135deg,#fff 20%,#a855f7 60%,#22d3ee);margin-bottom:8px;display:flex;align-items:center;justify-content:center;font-family:'Syne',sans-serif;font-weight:800;font-size:.9rem;-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;">Your Name</div>
+      <div class="row2" style="margin-bottom:6px;">
+        <div>
+          <div style="font-size:.68rem;color:var(--mut);margin-bottom:4px">Start</div>
+          <div class="with-color">
+            <input type="text" id="iGradStart" value="#ffffff" oninput="syncGradient()">
+            <input type="color" id="iGradStartPick" value="#ffffff" oninput="syncGradStartPick()">
+          </div>
+        </div>
+        <div>
+          <div style="font-size:.68rem;color:var(--mut);margin-bottom:4px">Mid</div>
+          <div class="with-color">
+            <input type="text" id="iGradMid" value="#a855f7" oninput="syncGradient()">
+            <input type="color" id="iGradMidPick" value="#a855f7" oninput="syncGradMidPick()">
+          </div>
+        </div>
+      </div>
+      <div>
+        <div style="font-size:.68rem;color:var(--mut);margin-bottom:4px">End</div>
+        <div class="with-color">
+          <input type="text" id="iGradEnd" value="#22d3ee" oninput="syncGradient()">
+          <input type="color" id="iGradEndPick" value="#22d3ee" oninput="syncGradEndPick()">
+        </div>
+      </div>
+    </div>
+    <div class="prow">
+      <div class="plabel">Gradient Direction</div>
+      <select id="iGradDir" onchange="syncGradient()">
+        <option value="135deg">↘ Diagonal</option>
+        <option value="90deg">→ Horizontal</option>
+        <option value="180deg">↓ Vertical</option>
+        <option value="45deg">↗ Anti-diagonal</option>
+      </select>
+    </div>
+    <div class="prow">
+      <div class="plabel">Quick Combos</div>
+      <div class="color-chips" id="gradChips"></div>
+    </div>
+    <div class="prow">
+      <div class="plabel">Card Border Gradient</div>
+      <div class="tog" onclick="toggleBorderGrad()"><div class="tog-sw" id="togBorderGrad"></div><span class="tog-label">Rainbow animated border</span></div>
+    </div>
+    <div class="prow">
+      <div class="plabel">Background Gradient Overlay</div>
+      <div class="tog" onclick="toggleBgGrad()"><div class="tog-sw" id="togBgGrad"></div><span class="tog-label">Show gradient mesh on card</span></div>
+    </div>
+  </div>
+
+  <!-- EFFECTS -->
   <div class="panel" id="s-effects">
     <div class="ph">✨ Effects</div>
-    <div class="prow"><div class="plabel">Particle Effect</div>
+    <div class="prow">
+      <div class="plabel">Particle Effect</div>
       <select id="iParticle" onchange="syncParticle()">
-        <option value="network">Network (default)</option>
-        <option value="snow">Snow</option>
-        <option value="fireflies">Fireflies</option>
-        <option value="matrix">Matrix Rain</option>
+        <option value="network">🕸 Network (default)</option>
+        <option value="snow">❄️ Snow</option>
+        <option value="fireflies">🌟 Fireflies</option>
+        <option value="matrix">🟩 Matrix Rain</option>
+        <option value="bubbles">🫧 Bubbles</option>
+        <option value="stars">⭐ Shooting Stars</option>
+        <option value="rain">🌧 Rain</option>
+        <option value="sakura">🌸 Sakura Petals</option>
+        <option value="dust">✨ Golden Dust</option>
         <option value="none">None</option>
       </select>
     </div>
-    <div class="prow"><div class="plabel">Cursor Style</div>
+    <div class="prow">
+      <div class="plabel">Cursor Style</div>
       <select id="iCursor" onchange="syncCursor()">
-        <option value="dot">Dot + Ring (default)</option>
-        <option value="crosshair">Crosshair</option>
-        <option value="none">Default cursor</option>
+        <option value="dot">● Dot + Ring</option>
+        <option value="crosshair">✛ Crosshair</option>
+        <option value="star">★ Star burst</option>
+        <option value="ripple">◎ Ripple</option>
+        <option value="trail">💫 Sparkle Trail</option>
+        <option value="blade">🔪 Blade</option>
+        <option value="none">Default</option>
+      </select>
+    </div>
+    <div class="prow"><div class="tog" onclick="toggle('symbolRain','togSymbols')"><div class="tog-sw on" id="togSymbols"></div><span class="tog-label">Falling symbols</span></div></div>
+    <div class="prow"><div class="tog" onclick="toggle('cardTilt','togTilt')"><div class="tog-sw on" id="togTilt"></div><span class="tog-label">3D card tilt on hover</span></div></div>
+    <div class="prow"><div class="tog" onclick="toggle('glow','togGlow')"><div class="tog-sw on" id="togGlow"></div><span class="tog-label">Spinning border glow</span></div></div>
+    <div class="prow"><div class="tog" onclick="toggle('clickSparks','togSparks')"><div class="tog-sw on" id="togSparks"></div><span class="tog-label">Click spark particles</span></div></div>
+    <div class="prow"><div class="tog" onclick="toggle('avatarGlow','togAvGlow')"><div class="tog-sw on" id="togAvGlow"></div><span class="tog-label">Avatar glow pulse</span></div></div>
+    <div class="prow"><div class="tog" onclick="toggle('cardEntrance','togEntrance')"><div class="tog-sw on" id="togEntrance"></div><span class="tog-label">Card entrance animation</span></div></div>
+    <div class="prow"><div class="tog" onclick="toggle('scrollReveal','togScroll')"><div class="tog-sw on" id="togScroll"></div><span class="tog-label">Scroll reveal sections</span></div></div>
+    <div class="prow"><div class="tog" onclick="toggle('glitchName','togGlitch')"><div class="tog-sw" id="togGlitch"></div><span class="tog-label">Glitch effect on name</span></div></div>
+  </div>
+
+  <!-- ANIMATIONS -->
+  <div class="panel" id="s-animations">
+    <div class="ph">⚡ Animations <span class="ph-sub">NEW</span></div>
+    <div class="prow">
+      <div class="plabel">Page Load Animation</div>
+      <select id="iPageAnim" onchange="syncPageAnim()">
+        <option value="fade-up">↑ Fade Up</option>
+        <option value="slide-in">→ Slide In</option>
+        <option value="scale-pop">💥 Scale Pop</option>
+        <option value="glitch-in">⚡ Glitch In</option>
+        <option value="flip">🔄 Flip</option>
+        <option value="none">None</option>
       </select>
     </div>
     <div class="prow">
-      <div class="tog" onclick="toggleSymbolRain()">
-        <div class="tog-sw on" id="togSymbols"></div>
-        <span class="tog-label">Falling symbols</span>
-      </div>
+      <div class="plabel">Username Animation</div>
+      <select id="iNameAnim" onchange="syncNameAnim()">
+        <option value="shimmer">✨ Shimmer (default)</option>
+        <option value="glitch">⚡ Glitch flicker</option>
+        <option value="rainbow">🌈 Rainbow cycle</option>
+        <option value="pulse">💓 Pulse glow</option>
+        <option value="wave">〰️ Wave</option>
+        <option value="none">Static</option>
+      </select>
     </div>
     <div class="prow">
-      <div class="tog" onclick="toggleCardTilt()">
-        <div class="tog-sw on" id="togTilt"></div>
-        <span class="tog-label">Card tilt on hover</span>
-      </div>
+      <div class="plabel">Link Hover Effect</div>
+      <select id="iLinkHover" onchange="syncLinkHover()">
+        <option value="lift">↑ Lift + glow</option>
+        <option value="fill">█ Fill slide</option>
+        <option value="border">□ Border trace</option>
+        <option value="shake">〜 Shake</option>
+        <option value="none">None</option>
+      </select>
     </div>
     <div class="prow">
-      <div class="tog" onclick="toggleGlow()">
-        <div class="tog-sw on" id="togGlow"></div>
-        <span class="tog-label">Username glow shimmer</span>
-      </div>
+      <div class="plabel">Avatar Hover Effect</div>
+      <select id="iAvHover" onchange="syncAvHover()">
+        <option value="tilt-spin">↻ Tilt + spin</option>
+        <option value="zoom">🔍 Zoom</option>
+        <option value="glow">✨ Glow burst</option>
+        <option value="shake">〜 Shake</option>
+        <option value="none">None</option>
+      </select>
+    </div>
+    <div class="prow">
+      <div class="plabel">Animation Speed</div>
+      <select id="iAnimSpeed" onchange="syncAnimSpeed()">
+        <option value=".5">⚡ Fast</option>
+        <option value="1" selected>Normal</option>
+        <option value="1.5">Slow</option>
+        <option value="2">Very Slow</option>
+      </select>
     </div>
   </div>
 
-  <!-- Social Links -->
+  <!-- LAYOUT -->
+  <div class="panel" id="s-layout">
+    <div class="ph">📐 Layout</div>
+    <div class="prow">
+      <div class="plabel">Social Links Display</div>
+      <div class="link-style-grid">
+        <div class="ls-card sel" id="ls-icons" onclick="setLinkStyle('icons')">
+          <div class="ls-preview" style="background:rgba(255,255,255,.06);gap:3px;display:flex;align-items:center;justify-content:center;">
+            <div style="width:14px;height:14px;border-radius:3px;background:rgba(255,255,255,.2)"></div>
+            <div style="width:14px;height:14px;border-radius:3px;background:rgba(255,255,255,.2)"></div>
+            <div style="width:14px;height:14px;border-radius:3px;background:rgba(255,255,255,.2)"></div>
+          </div>
+          Icon grid
+        </div>
+        <div class="ls-card" id="ls-buttons" onclick="setLinkStyle('buttons')">
+          <div class="ls-preview" style="background:rgba(124,58,237,.15);border-radius:5px;display:flex;align-items:center;padding:0 6px;font-size:.58rem;color:#a78bfa">Link button</div>
+          Pill buttons
+        </div>
+      </div>
+    </div>
+    <div class="prow">
+      <div class="plabel">Card Max Width <span id="cardWidthVal">390px</span></div>
+      <input type="range" min="280" max="520" value="390" id="iCardWidth" oninput="syncCardWidth()">
+    </div>
+    <div class="prow">
+      <div class="plabel">Card Border Radius <span id="cardRadiusVal">22px</span></div>
+      <input type="range" min="0" max="40" value="22" id="iCardRadius" oninput="syncCardRadius()">
+    </div>
+    <div class="prow">
+      <div class="tog" onclick="toggleStats()"><div class="tog-sw on" id="togStats"></div><span class="tog-label">Show stats row</span></div>
+    </div>
+    <div class="prow">
+      <div class="tog" onclick="toggle('showFooter','togFooter')"><div class="tog-sw on" id="togFooter"></div><span class="tog-label">Show VLTX footer</span></div>
+    </div>
+    <div class="prow">
+      <div class="plabel">Section Spacing <span id="spacingVal">normal</span></div>
+      <select id="iSpacing" onchange="syncSpacing()">
+        <option value="compact">Compact</option>
+        <option value="normal" selected>Normal</option>
+        <option value="relaxed">Relaxed</option>
+      </select>
+    </div>
+  </div>
+
+  <!-- SOCIAL LINKS -->
   <div class="panel" id="s-links">
     <div class="ph">🔗 Social Links</div>
     <div class="prow">
-      <div style="font-size:.78rem;color:var(--mut);margin-bottom:12px">Links show as clickable icons on your profile. Hover to see the label.</div>
+      <div style="font-size:.72rem;color:var(--mut);margin-bottom:8px">Add your socials. Drag to reorder (coming soon).</div>
       <div class="link-list" id="linkList"></div>
-      <button class="upload-btn" onclick="showAddLink()" style="border-style:solid;margin-bottom:10px">+ Add Link</button>
+      <button class="upload-btn" onclick="showAddLink()" style="border-style:solid;margin-bottom:8px">＋ Add Link</button>
       <div class="add-link-form" id="addLinkForm">
-        <div class="plabel">Label (e.g. Discord, Twitter)</div>
-        <input type="text" id="alLabel" placeholder="Discord">
+        <div class="plabel">Label</div>
+        <input type="text" id="alLabel" placeholder="Discord, Twitter, GitHub...">
         <div class="plabel">URL</div>
-        <input type="url" id="alUrl" placeholder="https://discord.gg/...">
+        <input type="url" id="alUrl" placeholder="https://">
         <div class="al-row">
-          <button class="tbtn acc" onclick="addLink()">Add Link</button>
+          <button class="tbtn acc" onclick="addLink()">Add</button>
           <button class="tbtn ghost" onclick="hideAddLink()">Cancel</button>
         </div>
       </div>
     </div>
+    <div class="prow">
+      <div class="plabel">Quick Add</div>
+      <div style="display:flex;gap:5px;flex-wrap:wrap;">
+        <button class="tbtn ghost sm" onclick="quickAdd('Twitter','https://twitter.com/')">𝕏</button>
+        <button class="tbtn ghost sm" onclick="quickAdd('Discord','https://discord.gg/')">Discord</button>
+        <button class="tbtn ghost sm" onclick="quickAdd('GitHub','https://github.com/')">GitHub</button>
+        <button class="tbtn ghost sm" onclick="quickAdd('Instagram','https://instagram.com/')">Insta</button>
+        <button class="tbtn ghost sm" onclick="quickAdd('TikTok','https://tiktok.com/@')">TikTok</button>
+        <button class="tbtn ghost sm" onclick="quickAdd('YouTube','https://youtube.com/')">YT</button>
+        <button class="tbtn ghost sm" onclick="quickAdd('Twitch','https://twitch.tv/')">Twitch</button>
+        <button class="tbtn ghost sm" onclick="quickAdd('Steam','https://store.steampowered.com/')">Steam</button>
+      </div>
+    </div>
   </div>
-</div>
 
-<!-- Publish Modal -->
+  <!-- DISCORD -->
+  <div class="panel" id="s-discord">
+    <div class="ph">💬 Discord</div>
+    <div class="prow">
+      <div class="dc-box">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="#5865F2"><path d="M20.317 4.37a19.791 19.791 0 0 0-4.885-1.515.074.074 0 0 0-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 0 0-5.487 0 12.64 12.64 0 0 0-.617-1.25.077.077 0 0 0-.079-.037A19.736 19.736 0 0 0 3.677 4.37a.07.07 0 0 0-.032.027C.533 9.046-.32 13.58.099 18.057a.082.082 0 0 0 .031.057 19.9 19.9 0 0 0 5.993 3.03.078.078 0 0 0 .084-.028c.462-.63.874-1.295 1.226-1.994a.076.076 0 0 0-.041-.106 13.107 13.107 0 0 1-1.872-.892.077.077 0 0 1-.008-.128 10.2 10.2 0 0 0 .372-.292.074.074 0 0 1 .077-.01c3.928 1.793 8.18 1.793 12.062 0a.074.074 0 0 1 .078.01c.12.098.246.198.373.292a.077.077 0 0 1-.006.127 12.299 12.299 0 0 1-1.873.892.077.077 0 0 0-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.028 19.839 19.839 0 0 0 6.002-3.03.077.077 0 0 0 .032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 0 0-.031-.03z"/></svg>
+        <div class="dc-info"><div class="dc-name" id="dcName">Not connected</div><div class="dc-sub">Show Discord badge on profile</div></div>
+        <button class="dc-btn" id="dcBtn" onclick="connectDiscord()">Connect</button>
+      </div>
+      <div class="pnote yellow">Discord OAuth needs a client ID on the server. Enter your URL manually for now.</div>
+    </div>
+    <div class="prow">
+      <div class="plabel">Discord Server / Profile URL</div>
+      <input type="url" id="iDiscordUrl" placeholder="https://discord.gg/yourserver" oninput="syncDiscordUrl()">
+    </div>
+    <div class="prow">
+      <div class="plabel">Discord Username <span>for badge</span></div>
+      <input type="text" id="iDiscordUser" placeholder="username#0000" oninput="syncDiscordUser()">
+    </div>
+  </div>
+
+  <!-- SPOTIFY -->
+  <div class="panel" id="s-spotify">
+    <div class="ph">🎧 Spotify</div>
+    <div class="prow">
+      <div class="pnote yellow">Shows what you're listening to in real-time. Requires Spotify backend.</div>
+    </div>
+    <div class="prow">
+      <div class="plabel">Spotify Username</div>
+      <input type="text" id="iSpotifyUser" placeholder="your_spotify_username" oninput="syncSpotify()">
+    </div>
+    <div class="prow">
+      <div class="tog" onclick="toggleSpotify()"><div class="tog-sw" id="togSpotify"></div><span class="tog-label">Show Now Playing widget</span></div>
+    </div>
+    <div class="prow">
+      <div class="plabel">Fallback Text <span>when not playing</span></div>
+      <input type="text" id="iSpotifyFallback" placeholder="vibing to the void 🎵" oninput="syncSpotifyFallback()">
+    </div>
+  </div>
+
+</div><!-- end .main -->
+
+<!-- PUBLISH MODAL -->
 <div class="modal-overlay" id="publishModal">
   <div class="modal">
     <h2>🚀 Publish Profile</h2>
-    <p>Choose your username. Anyone can visit your profile at this URL.</p>
-    <input type="text" id="publishUsername" placeholder="yourname" maxlength="30" style="text-align:center;font-size:1.1rem;padding:12px;">
+    <p>Choose your username. This becomes your permanent URL.</p>
+    <input type="text" id="publishUsername" placeholder="yourname" maxlength="30" style="text-align:center;font-size:1rem;padding:10px;" oninput="onPubInput()">
     <div id="publishUrlPreview" class="modal-url">vltx.lol/yourname</div>
     <div class="modal-acts">
-      <button class="tbtn acc" onclick="publishProfile()" style="padding:11px 28px;font-size:.92rem">Publish →</button>
+      <button class="tbtn acc" onclick="publishProfile()" id="publishBtn" style="padding:9px 24px">Publish →</button>
       <button class="tbtn ghost" onclick="hidePublish()">Cancel</button>
     </div>
-    <p style="margin-top:14px;font-size:.75rem;color:var(--mut)">Publishing saves your profile to the server. Anyone with the link can view it.</p>
+    <p style="margin-top:10px;font-size:.7rem;color:var(--mut)">Stats are real and cannot be faked.</p>
   </div>
 </div>
 
-<!-- Success Modal -->
+<!-- SUCCESS MODAL -->
 <div class="modal-overlay" id="successModal">
   <div class="modal">
-    <div style="font-size:2.5rem;margin-bottom:12px">🎉</div>
-    <h2>Profile Published!</h2>
-    <p>Your profile is live. Share this link:</p>
+    <div style="font-size:2.6rem;margin-bottom:8px">🎉</div>
+    <h2>You're live!</h2>
+    <p>Your profile is published. Share this link:</p>
     <div class="modal-url" id="successUrl" onclick="copyUrl()">vltx.lol/yourname</div>
     <div class="modal-acts">
-      <button class="tbtn suc" onclick="copyUrl()">📋 Copy Link</button>
-      <button class="tbtn acc" onclick="visitProfile()">Visit Profile →</button>
+      <button class="tbtn suc" onclick="copyUrl()">📋 Copy</button>
+      <button class="tbtn acc" onclick="visitProfile()">Visit →</button>
       <button class="tbtn ghost" onclick="hideSuccess()">Close</button>
     </div>
   </div>
@@ -487,43 +1464,55 @@ input[type=range]{width:100%;accent-color:var(--acc);}
 <audio id="audioEl" style="display:none"></audio>
 
 <script>
-// ─────────────────────────────────────────────────────────────────────────────
+// ══════════════════════════════════════════════════════════════════
 // STATE
-// ─────────────────────────────────────────────────────────────────────────────
+// ══════════════════════════════════════════════════════════════════
 const state = {
-  username:'', displayName:'', pronouns:'',
+  username:'', displayName:'', pronouns:'', status:'',
+  location:'', website:'',
   bioLines:['full time lurker. part time god.','i make stuff and it sometimes slaps.'],
   tags:['🌙 nocturnal','🎮 gamer','🎨 creator'],
-  avatar:null, avatarEmoji:'👾',
-  bgVideo:null, bgImage:null, bgOpacity:25, bgColor:'#030308',
-  tracks:[], showMusic:false,
+  twSpeed:'normal',
+  badges:[], showVerified:false,
+  avatar:null, avatarEmoji:'👾', showOnline:true, avatarFloat:true,
+  avatarShape:'circle', avBorderColor:'#7c3aed', avSize:76, avRingStyle:'solid',
+  bgVideo:null, bgImage:null, bgColor:'#030308', aesthetic:'none',
+  tracks:[], showMusic:false, autoplay:false, musicStyle:'default',
   accent:'#a855f7', accent2:'#22d3ee', cardBg:'#0f0f1a', blur:28,
+  cardOpacity:92, glowInt:45, font:'outfit', textColor:'#f0f0fa',
+  cardWidth:390, cardRadius:22,
+  gradStart:'#ffffff', gradMid:'#a855f7', gradEnd:'#22d3ee', gradDir:'135deg',
+  borderGrad:false, bgGrad:false,
   particle:'network', cursor:'dot',
-  symbolRain:true, cardTilt:true, glow:true,
-  links:[], followers:'0', clicks:'0'
+  symbolRain:true, cardTilt:true, glow:true, clickSparks:true,
+  avatarGlow:true, cardEntrance:true, scrollReveal:true, glitchName:false,
+  pageAnim:'fade-up', nameAnim:'shimmer', linkHover:'lift',
+  avHover:'tilt-spin', animSpeed:'1',
+  linkStyle:'icons', showStats:true, showFooter:true, spacing:'normal',
+  links:[],
+  discordUrl:'', discordUser:'',
+  spotifyUser:'', showSpotify:false, spotifyFallback:'',
 };
 let publishedUrl = '';
 
-// ─────────────────────────────────────────────────────────────────────────────
+// ══════════════════════════════════════════
 // NAV
-// ─────────────────────────────────────────────────────────────────────────────
-function nav(el, id) {
+// ══════════════════════════════════════════
+function nav(el, panelId) {
   document.querySelectorAll('.ni').forEach(n => n.classList.remove('on'));
-  el.classList.add('on');
   document.querySelectorAll('.panel').forEach(p => p.classList.remove('on'));
-  document.getElementById(id).classList.add('on');
+  el.classList.add('on');
+  document.getElementById(panelId).classList.add('on');
 }
 
-// ─────────────────────────────────────────────────────────────────────────────
+// ══════════════════════════════════════════
 // IDENTITY
-// ─────────────────────────────────────────────────────────────────────────────
+// ══════════════════════════════════════════
 function syncUsername() {
-  state.username = document.getElementById('iUsername').value.trim().toLowerCase().replace(/[^a-z0-9_.\-]/g,'');
-  document.getElementById('iUsername').value = state.username;
-  document.getElementById('previewUrl').textContent = `vltx.lol/${state.username||'yourname'}`;
-  document.getElementById('publishUsername').value = state.username;
-  document.getElementById('publishUrlPreview').textContent = `vltx.lol/${state.username||'yourname'}`;
-  document.getElementById('pcUsername').textContent = state.displayName || state.username || 'yourname';
+  state.username = document.getElementById('iUsername').value;
+  document.getElementById('previewUrl').textContent = `vltx.lol/${state.username || 'yourname'}`;
+  const u = document.getElementById('pcUsername');
+  u.textContent = state.displayName || state.username || 'yourname';
 }
 function syncDisplayName() {
   state.displayName = document.getElementById('iDisplayName').value;
@@ -532,426 +1521,756 @@ function syncDisplayName() {
 function syncPronouns() {
   state.pronouns = document.getElementById('iPronouns').value;
   const el = document.getElementById('pcPronouns');
-  el.textContent = state.pronouns;
-  el.style.display = state.pronouns ? '' : 'none';
+  el.textContent = state.pronouns; el.style.display = state.pronouns ? '' : 'none';
 }
-function syncStats() {
-  state.followers = document.getElementById('iFollowers').value;
-  state.clicks    = document.getElementById('iClicks').value;
-  document.getElementById('pcFollowers').textContent = state.followers;
-  document.getElementById('pcClicks').textContent    = state.clicks;
+function syncStatus() {
+  const v = document.getElementById('iStatus').value;
+  const cust = document.getElementById('iStatusCustom');
+  cust.style.display = v === 'custom' ? '' : 'none';
+  state.status = v === 'custom' ? cust.value : v;
+  const el = document.getElementById('pcStatus');
+  el.textContent = state.status; el.style.display = state.status ? 'inline-flex' : 'none';
+  document.getElementById('statusBr').style.display = state.status ? '' : 'none';
 }
-
-// ─────────────────────────────────────────────────────────────────────────────
-// TYPEWRITER — fixed: restarts cleanly whenever bio textarea changes
-// ─────────────────────────────────────────────────────────────────────────────
-let _twTimer = null, _twPhrases = [], _twIdx = 0, _twChar = 0, _twDel = false;
-
-function syncBio() {
-  _twPhrases = document.getElementById('iBio').value
-    .split('\n').map(s => s.trim()).filter(Boolean);
-  if (!_twPhrases.length) _twPhrases = [''];
-  clearTimeout(_twTimer);
-  _twIdx = 0; _twChar = 0; _twDel = false;
-  document.getElementById('pcBio').textContent = '';
-  _stepTW();
+function syncStatusCustom() { state.status = document.getElementById('iStatusCustom').value; document.getElementById('pcStatus').textContent = state.status; }
+function syncLocation() { state.location = document.getElementById('iLocation').value; }
+function syncWebsite() { state.website = document.getElementById('iWebsite').value; }
+function onPubInput() {
+  const v = document.getElementById('publishUsername').value.toLowerCase().replace(/[^a-z0-9_.\-]/g, '');
+  document.getElementById('publishUsername').value = v;
+  document.getElementById('publishUrlPreview').textContent = `vltx.lol/${v || 'yourname'}`;
+  state.username = v;
 }
 
-function _stepTW() {
-  const el = document.getElementById('pcBio');
-  if (!_twPhrases.length) return;
-  const phrase = _twPhrases[_twIdx];
-  if (!_twDel) {
-    _twChar++;
-    el.textContent = phrase.slice(0, _twChar);
-    if (_twChar >= phrase.length) {
-      _twDel = true;
-      _twTimer = setTimeout(_stepTW, 2400);
-    } else {
-      _twTimer = setTimeout(_stepTW, 65);
-    }
+// ══════════════════════════════════════════
+// DEVICE VIEW
+// ══════════════════════════════════════════
+function setDevice(d) {
+  document.getElementById('pc').className = d === 'mobile' ? 'mobile-view' : 'desktop-view';
+  document.getElementById('pdtMobile').classList.toggle('on', d === 'mobile');
+  document.getElementById('pdtDesktop').classList.toggle('on', d === 'desktop');
+}
+
+// ══════════════════════════════════════════
+// BADGES
+// ══════════════════════════════════════════
+function toggleBadge(el) {
+  const badge = el.dataset.badge;
+  el.classList.toggle('sel');
+  if (el.classList.contains('sel')) {
+    if (!state.badges.includes(badge)) state.badges.push(badge);
   } else {
-    _twChar--;
-    el.textContent = phrase.slice(0, _twChar);
-    if (_twChar <= 0) {
-      _twDel = false;
-      _twIdx  = (_twIdx + 1) % _twPhrases.length;
-      _twTimer = setTimeout(_stepTW, 420);
-    } else {
-      _twTimer = setTimeout(_stepTW, 32);
-    }
+    state.badges = state.badges.filter(b => b !== badge);
+  }
+  renderBadges();
+}
+function addCustomBadge() {
+  const v = document.getElementById('iCustomBadge').value.trim();
+  if (!v) return;
+  state.badges.push(v);
+  document.getElementById('iCustomBadge').value = '';
+  renderBadges();
+  showToast('✅ Badge added!');
+}
+function renderBadges() {
+  const row = document.getElementById('pcBadgeRow');
+  row.style.display = state.badges.length ? 'flex' : 'none';
+  row.innerHTML = state.badges.map(b =>
+    `<span style="font-size:1.1rem;padding:2px 5px;border-radius:6px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.08);title='${b}'">${b}</span>`
+  ).join('');
+}
+
+// ══════════════════════════════════════════
+// TYPEWRITER
+// ══════════════════════════════════════════
+const twSpeeds = { fast: [30, 12, 1000], normal: [62, 30, 2400], slow: [110, 55, 3500], dramatic: [90, 40, 3800] };
+let _twT = null, _twP = [], _twI = 0, _twC = 0, _twD = false;
+function syncBio() {
+  _twP = document.getElementById('iBio').value.split('\n').map(s => s.trim()).filter(Boolean);
+  if (!_twP.length) _twP = [''];
+  state.bioLines = _twP;
+  clearTimeout(_twT); _twI = 0; _twC = 0; _twD = false;
+  document.getElementById('pcBio').textContent = ''; _stepTW();
+}
+function syncTwSpeed() { state.twSpeed = document.getElementById('iTwSpeed').value; }
+function _stepTW() {
+  const el = document.getElementById('pcBio'); if (!_twP.length) return;
+  const ph = _twP[_twI];
+  const spd = twSpeeds[state.twSpeed] || twSpeeds.normal;
+  if (!_twD) {
+    _twC++; el.textContent = ph.slice(0, _twC);
+    if (_twC >= ph.length) { _twD = true; _twT = setTimeout(_stepTW, spd[2]); }
+    else _twT = setTimeout(_stepTW, spd[0]);
+  } else {
+    _twC--; el.textContent = ph.slice(0, _twC);
+    if (_twC <= 0) { _twD = false; _twI = (_twI + 1) % _twP.length; _twT = setTimeout(_stepTW, 400); }
+    else _twT = setTimeout(_stepTW, spd[1]);
   }
 }
+function syncTags() { state.tags = document.getElementById('iTags').value.split(',').map(s => s.trim()).filter(Boolean); renderTags(); }
+function renderTags() { document.getElementById('pcTags').innerHTML = state.tags.map(t => `<span class="pc-tag">${t}</span>`).join(''); }
+function syncEmoji() { state.avatarEmoji = document.getElementById('iEmoji').value || '👾'; if (!state.avatar) renderAvatar(); }
 
-function syncTags() {
-  state.tags = document.getElementById('iTags').value.split(',').map(s=>s.trim()).filter(Boolean);
-  renderTags();
+// ══════════════════════════════════════════
+// AVATAR
+// ══════════════════════════════════════════
+function syncAvatarShape() {
+  state.avatarShape = document.getElementById('iAvatarShape').value;
+  const av = document.getElementById('pcAvatar');
+  const radii = { circle: '50%', squircle: '22px', square: '6px', hexagon: '50%', star: '50%' };
+  av.style.borderRadius = radii[state.avatarShape] || '50%';
+  if (state.avatarShape === 'hexagon') { av.style.clipPath = 'polygon(50% 0%,100% 25%,100% 75%,50% 100%,0% 75%,0% 25%)'; }
+  else if (state.avatarShape === 'star') { av.style.clipPath = 'polygon(50% 0%,61% 35%,98% 35%,68% 57%,79% 91%,50% 70%,21% 91%,32% 57%,2% 35%,39% 35%)'; }
+  else av.style.clipPath = '';
 }
-function renderTags() {
-  document.getElementById('pcTags').innerHTML = state.tags.map(t=>`<span class="pc-tag">${t}</span>`).join('');
+function syncAvSize() {
+  state.avSize = parseInt(document.getElementById('iAvSize').value);
+  document.getElementById('avSizeVal').textContent = state.avSize + 'px';
+  const av = document.getElementById('pcAvatar');
+  const wrap = document.getElementById('pcAvWrap');
+  av.style.width = av.style.height = state.avSize + 'px';
+  const half = state.avSize / 2;
+  wrap.style.width = wrap.style.height = (state.avSize + 4) + 'px';
+  wrap.style.marginTop = -half + 'px';
 }
-function syncEmoji() {
-  state.avatarEmoji = document.getElementById('iEmoji').value || '👾';
-  if (!state.avatar) renderAvatar();
+function setRingStyle(el, style) {
+  document.querySelectorAll('.ring-card').forEach(c => c.classList.remove('sel'));
+  el.classList.add('sel');
+  state.avRingStyle = style;
+  applyRingStyle();
 }
-
-// ─────────────────────────────────────────────────────────────────────────────
-// AVATAR UPLOAD
-// ─────────────────────────────────────────────────────────────────────────────
-function uploadAvatar(input) {
-  const file = input.files[0];
-  if (!file) return;
-  // Show local preview instantly
-  const localUrl = URL.createObjectURL(file);
-  state.avatar = localUrl;
-  renderAvatar();
-  const prev = document.getElementById('avatarPreview');
-  prev.innerHTML = `<img src="${localUrl}" style="width:100%;height:100%;object-fit:cover;border-radius:6px">`;
-
-  showToast('Uploading avatar...');
-  const fd = new FormData();
-  fd.append('file', file);
-  fetch('/api/upload/avatar', { method:'POST', body:fd })
-    .then(r => r.json())
-    .then(d => {
-      if (d.url) { state.avatar = d.url; showToast('✅ Avatar uploaded!'); }
-    })
-    .catch(() => showToast('✅ Avatar set (local preview only)'));
+function applyRingStyle() {
+  const av = document.getElementById('pcAvatar');
+  const c = state.avBorderColor;
+  if (state.avRingStyle === 'none') { av.style.border = 'none'; av.style.boxShadow = ''; }
+  else if (state.avRingStyle === 'solid') { av.style.border = `3px solid ${c}`; av.style.boxShadow = `0 0 0 4px ${c}22`; }
+  else if (state.avRingStyle === 'glow') { av.style.border = `2px solid ${c}`; av.style.boxShadow = `0 0 16px ${c}, 0 0 30px ${c}44`; }
+  else if (state.avRingStyle === 'gradient') { av.style.border = '2px solid transparent'; av.style.background = `linear-gradient(${state.cardBg}, ${state.cardBg}) padding-box, linear-gradient(135deg, ${state.accent}, ${state.accent2}) border-box`; }
+  else if (state.avRingStyle === 'animated') { av.style.border = `2px dashed ${c}`; av.style.boxShadow = ''; av.style.animation = 'aSpin 4s linear infinite'; }
+  else if (state.avRingStyle === 'rainbow') { av.style.border = '3px solid transparent'; av.style.backgroundImage = 'linear-gradient(#0f0f1a, #0f0f1a), linear-gradient(45deg, #ff0000, #ff7700, #ffff00, #00ff00, #0000ff, #8b00ff, #ff0000)'; av.style.backgroundClip = 'padding-box, border-box'; }
 }
-
+function syncAvBorderColor() { state.avBorderColor = document.getElementById('iAvBorderColor').value; document.getElementById('iAvBorderPick').value = state.avBorderColor; applyRingStyle(); }
+function syncAvBorderPick() { const v = document.getElementById('iAvBorderPick').value; document.getElementById('iAvBorderColor').value = v; state.avBorderColor = v; applyRingStyle(); }
+function toggleOnline() { state.showOnline = !state.showOnline; document.getElementById('togOnline').classList.toggle('on', state.showOnline); document.getElementById('pcOnlineDot').style.display = state.showOnline ? '' : 'none'; }
+function toggleAvatarFloat() { state.avatarFloat = !state.avatarFloat; document.getElementById('togFloat').classList.toggle('on', state.avatarFloat); document.getElementById('pcAvatar').closest('.pc-av-wrap').style.animation = state.avatarFloat ? '' : 'none'; }
+async function uploadAvatar(input) {
+  const file = input.files[0]; if (!file) return;
+  const local = URL.createObjectURL(file); state.avatar = local; renderAvatar();
+  document.getElementById('avatarPreview').innerHTML = `<img src="${local}" style="width:100%;height:100%;object-fit:cover;">`;
+  showProgress('avatarProg', 'avatarBar'); showToast('⬆️ Uploading...');
+  const fd = new FormData(); fd.append('file', file);
+  try { const r = await fetch('/api/upload/avatar', { method: 'POST', body: fd }); const d = await r.json(); if (d.url) { state.avatar = d.url; showToast('✅ Avatar uploaded!'); } }
+  catch { showToast('⚠️ Avatar set locally (no server)'); }
+  hideProgress('avatarProg');
+}
 function renderAvatar() {
   const el = document.getElementById('pcAvatar');
-  if (state.avatar) {
-    el.innerHTML = `<img src="${state.avatar}" style="width:100%;height:100%;object-fit:cover;">`;
+  if (state.avatar && /^(\/|http|blob)/.test(state.avatar)) { el.innerHTML = `<img src="${state.avatar}" style="width:100%;height:100%;object-fit:cover;">`; }
+  else el.textContent = state.avatarEmoji || '👾';
+}
+
+
+// ══════════════════════════════════════════
+// BACKGROUND — FULL SYSTEM
+// ══════════════════════════════════════════
+let bgState = {
+  opacity: 40, blur: 0, scale: 100, brightness: 100, saturation: 100,
+  tint: '', tintStr: 0, blend: 'normal', pos: 'center center',
+  loopVideo: true, muteVideo: true, videoSpeed: 1
+};
+
+// Drag and drop on the drop zone
+document.addEventListener('DOMContentLoaded', () => {
+  const dz = document.getElementById('bgDropZone');
+  if (!dz) return;
+  ['dragenter','dragover'].forEach(e => dz.addEventListener(e, ev => { ev.preventDefault(); dz.classList.add('drag-over'); }));
+  ['dragleave','drop'].forEach(e => dz.addEventListener(e, () => dz.classList.remove('drag-over')));
+  dz.addEventListener('drop', ev => {
+    ev.preventDefault();
+    const file = ev.dataTransfer?.files?.[0];
+    if (file) processBgFile(file);
+  });
+  initTintChips();
+});
+
+async function uploadBg(input) {
+  const file = input.files[0]; if (!file) return;
+  processBgFile(file);
+  input.value = '';
+}
+
+async function processBgFile(file) {
+  const isVideo = file.type.startsWith('video/');
+  const isGif = file.type === 'image/gif';
+  const local = URL.createObjectURL(file);
+  const fname = file.name;
+  const fsize = (file.size / 1024 / 1024).toFixed(1) + ' MB';
+  const ftype = isVideo ? 'Video' : isGif ? 'Animated GIF' : 'Image';
+
+  // Show in card immediately
+  applyBgMedia(local, isVideo);
+
+  // Update drop zone to show file info
+  document.getElementById('bgDropText').textContent = fname;
+  document.getElementById('bgDropSub') && (document.getElementById('bgDropSub').textContent = ftype + ' · ' + fsize);
+
+  // Show current preview row
+  showBgCurrentRow(local, isVideo, isGif, fname, fsize);
+
+  // Show upload status
+  document.getElementById('bgUploadStatus').style.display = '';
+  document.getElementById('bgUploadLabel').textContent = 'Uploading ' + fname + '...';
+  document.getElementById('bgUploadSub').textContent = fsize + ' · ' + ftype;
+  animateBgBar('bgBarMain');
+
+  // Show/hide video controls
+  document.getElementById('bgVideoControls').style.display = isVideo ? '' : 'none';
+
+  if (isVideo) {
+    state.bgVideo = local; state.bgImage = null;
   } else {
-    el.textContent = state.avatarEmoji || '👾';
+    state.bgImage = local; state.bgVideo = null;
+  }
+
+  // Upload to server
+  const fd = new FormData(); fd.append('file', file);
+  const endpoint = isVideo ? '/api/upload/background' : '/api/upload/background';
+  try {
+    const r = await fetch(endpoint, { method: 'POST', body: fd });
+    const d = await r.json();
+    if (d.url) {
+      if (isVideo) { state.bgVideo = d.url; document.getElementById('bgVideo').src = d.url; }
+      else { state.bgImage = d.url; document.getElementById('bgImgEl').src = d.url; }
+      showToast('✅ Background uploaded & live!');
+    } else {
+      showToast('⚠️ Using local preview (server error)');
+    }
+  } catch {
+    showToast('⚠️ Using local preview — no server');
+  }
+
+  document.getElementById('bgUploadStatus').style.display = 'none';
+}
+
+function animateBgBar(barId) {
+  const bar = document.getElementById(barId); if (!bar) return;
+  bar.style.width = '0%'; let p = 0;
+  const iv = setInterval(() => {
+    p += Math.random() * 18; if (p > 90) p = 90;
+    bar.style.width = p + '%';
+  }, 220);
+  bar._iv = iv;
+  setTimeout(() => { clearInterval(iv); bar.style.width = '100%'; }, 3000);
+}
+
+function applyBgMedia(url, isVideo) {
+  const vid = document.getElementById('bgVideo'), img = document.getElementById('bgImgEl');
+  if (isVideo) {
+    vid.src = url;
+    vid.style.display = 'block';
+    vid.style.mixBlendMode = bgState.blend;
+    img.style.display = 'none';
+    applyBgFilters(vid);
+  } else {
+    img.src = url;
+    img.style.display = 'block';
+    img.style.mixBlendMode = bgState.blend;
+    vid.style.display = 'none';
+    applyBgFilters(img);
   }
 }
 
-// ─────────────────────────────────────────────────────────────────────────────
-// BACKGROUND UPLOAD (video OR image)
-// ─────────────────────────────────────────────────────────────────────────────
-function uploadBg(input) {
-  const file = input.files[0];
-  if (!file) return;
-  const isVideo = file.type.startsWith('video/');
-  const localUrl = URL.createObjectURL(file);
+function applyBgFilters(el) {
+  el.style.opacity = bgState.opacity / 100;
+  el.style.filter = `blur(${bgState.blur}px) brightness(${bgState.brightness}%) saturate(${bgState.saturation}%)`;
+  el.style.transform = `scale(${bgState.scale / 100})`;
+  el.style.objectPosition = bgState.pos;
+  el.style.mixBlendMode = bgState.blend;
+}
 
+function applyAllBgFilters() {
   const vid = document.getElementById('bgVideo');
+  const img = document.getElementById('bgImgEl');
+  if (vid.style.display !== 'none') applyBgFilters(vid);
+  if (img.style.display !== 'none') applyBgFilters(img);
+}
+
+function showBgCurrentRow(url, isVideo, isGif, fname, fsize) {
+  const row = document.getElementById('bgCurrentRow');
+  row.style.display = '';
+  const media = document.getElementById('bgCurMedia');
   if (isVideo) {
-    vid.src = localUrl;
-    vid.style.display = 'block';
-    vid.style.opacity = state.bgOpacity / 100;
-    document.getElementById('pc').style.backgroundImage = '';
+    media.innerHTML = `<video src="${url}" autoplay muted loop style="width:100%;height:100%;object-fit:cover;"></video>`;
   } else {
-    vid.style.display = 'none';
-    document.getElementById('pc').style.backgroundImage = `url(${localUrl})`;
-    document.getElementById('pc').style.backgroundSize = 'cover';
-    document.getElementById('pc').style.backgroundPosition = 'center';
+    media.innerHTML = `<img src="${url}" style="width:100%;height:100%;object-fit:cover;">`;
   }
+  document.getElementById('bgCurName').textContent = fname;
+  document.getElementById('bgCurType').innerHTML = `<span class="bg-type-tag ${isGif ? 'gif' : isVideo ? 'video' : 'image'}">${isGif ? '🎞 GIF' : isVideo ? '🎬 Video' : '🖼 Image'}</span> · ${fsize}`;
+}
 
-  const prev = document.getElementById('bgPreview');
-  prev.innerHTML = isVideo
-    ? `<video src="${localUrl}" style="max-width:100%;max-height:100%;border-radius:6px" muted autoplay loop playsinline></video>`
-    : `<img src="${localUrl}" style="max-width:100%;max-height:100%;border-radius:6px;object-fit:cover">`;
-
-  showToast('Uploading background...');
-  const fd = new FormData();
-  fd.append('file', file);
-  fetch('/api/upload/background', { method:'POST', body:fd })
-    .then(r => r.json())
-    .then(d => {
-      if (d.url) {
-        if (isVideo) state.bgVideo = d.url; else state.bgImage = d.url;
-        showToast('✅ Background uploaded!');
-      }
-    })
-    .catch(() => {
-      if (isVideo) state.bgVideo = localUrl; else state.bgImage = localUrl;
-      showToast('✅ Background set (local preview)');
-    });
+function clearBg() {
+  state.bgVideo = null; state.bgImage = null;
+  const vid = document.getElementById('bgVideo'), img = document.getElementById('bgImgEl');
+  vid.style.display = 'none'; vid.src = '';
+  img.style.display = 'none'; img.src = '';
+  document.getElementById('bgCurrentRow').style.display = 'none';
+  document.getElementById('bgVideoControls').style.display = 'none';
+  document.getElementById('bgDropText').textContent = 'Drop your file here or click to browse';
+  document.getElementById('bgFileInput').value = '';
+  showToast('🗑 Background removed');
 }
 
 function syncBgOpacity() {
-  state.bgOpacity = document.getElementById('iBgOpacity').value;
-  document.getElementById('bgOpacityVal').textContent = state.bgOpacity + '%';
-  document.getElementById('bgVideo').style.opacity = state.bgOpacity / 100;
+  bgState.opacity = parseInt(document.getElementById('iBgOpacity').value);
+  document.getElementById('bgOpacityVal').textContent = bgState.opacity + '%';
+  applyAllBgFilters();
 }
-function syncBgColor()     { state.bgColor = document.getElementById('iBgColor').value; document.getElementById('iBgColorPick').value = state.bgColor; applyCardBg(); }
-function syncBgColorPick() { const v = document.getElementById('iBgColorPick').value; document.getElementById('iBgColor').value = v; state.bgColor = v; applyCardBg(); }
-function applyCardBg() {
-  const r=parseInt(state.cardBg.slice(1,3),16), g=parseInt(state.cardBg.slice(3,5),16), b=parseInt(state.cardBg.slice(5,7),16);
-  document.getElementById('pc').style.background = `rgba(${r},${g},${b},0.9)`;
+function syncBgBlur() {
+  bgState.blur = parseInt(document.getElementById('iBgBlur').value);
+  document.getElementById('bgBlurVal').textContent = bgState.blur + 'px';
+  applyAllBgFilters();
+}
+function syncBgScale() {
+  bgState.scale = parseInt(document.getElementById('iBgScale').value);
+  document.getElementById('bgScaleVal').textContent = bgState.scale + '%';
+  applyAllBgFilters();
+}
+function syncBgBright() {
+  bgState.brightness = parseInt(document.getElementById('iBgBright').value);
+  document.getElementById('bgBrightVal').textContent = bgState.brightness + '%';
+  applyAllBgFilters();
+}
+function syncBgSat() {
+  bgState.saturation = parseInt(document.getElementById('iBgSat').value);
+  document.getElementById('bgSatVal').textContent = bgState.saturation + '%';
+  applyAllBgFilters();
+}
+function syncBgBlend() {
+  bgState.blend = document.getElementById('iBgBlend').value;
+  applyAllBgFilters();
+}
+function setBgPos(el, pos) {
+  document.querySelectorAll('.bg-pos-btn').forEach(b => b.classList.remove('sel'));
+  el.classList.add('sel');
+  bgState.pos = pos;
+  applyAllBgFilters();
 }
 
-// ─────────────────────────────────────────────────────────────────────────────
+// Tint overlay
+const TINT_COLORS = ['#7c3aed','#06b6d4','#f43f5e','#22c55e','#f97316','#eab308','#ec4899','#fff','#000'];
+function initTintChips() {
+  const el = document.getElementById('tintChips');
+  if (!el) return;
+  el.innerHTML = TINT_COLORS.map(c => `<div style="width:22px;height:22px;border-radius:5px;background:${c};cursor:pointer;border:2px solid transparent;transition:all .14s;flex-shrink:0;" onclick="applyTintChip('${c}')" onmouseover="this.style.borderColor='#fff'" onmouseout="this.style.borderColor='transparent'" title="${c}"></div>`).join('');
+}
+function applyTintChip(c) {
+  document.getElementById('iBgTint').value = c;
+  document.getElementById('iBgTintPick').value = c;
+  bgState.tint = c;
+  updateBgTintOverlay();
+}
+function syncBgTint() { bgState.tint = document.getElementById('iBgTint').value; document.getElementById('iBgTintPick').value = tryHex(bgState.tint) || '#7c3aed'; updateBgTintOverlay(); }
+function syncBgTintPick() { const v = document.getElementById('iBgTintPick').value; document.getElementById('iBgTint').value = v; bgState.tint = v; updateBgTintOverlay(); }
+function syncBgTintStr() {
+  bgState.tintStr = parseInt(document.getElementById('iBgTintStr').value);
+  document.getElementById('bgTintStrVal').textContent = bgState.tintStr + '%';
+  updateBgTintOverlay();
+}
+function updateBgTintOverlay() {
+  const ov = document.getElementById('bgOverlay');
+  if (bgState.tint && bgState.tintStr > 0) {
+    const r = parseInt(bgState.tint.slice(1, 3), 16) || 0;
+    const g = parseInt(bgState.tint.slice(3, 5), 16) || 0;
+    const b = parseInt(bgState.tint.slice(5, 7), 16) || 0;
+    ov.style.background = `rgba(${r},${g},${b},${bgState.tintStr / 100})`;
+  } else {
+    ov.style.background = '';
+  }
+}
+
+// Video controls
+function toggleBgVideoLoop() {
+  bgState.loopVideo = !bgState.loopVideo;
+  document.getElementById('togBgLoop').classList.toggle('on', bgState.loopVideo);
+  const vid = document.getElementById('bgVideo');
+  vid.loop = bgState.loopVideo;
+}
+function toggleBgVideoMute() {
+  bgState.muteVideo = !bgState.muteVideo;
+  document.getElementById('togBgMute').classList.toggle('on', bgState.muteVideo);
+  document.getElementById('bgVideo').muted = bgState.muteVideo;
+}
+function syncBgSpeed() {
+  bgState.videoSpeed = parseInt(document.getElementById('iBgSpeed').value) / 100;
+  document.getElementById('bgSpeedVal').textContent = bgState.videoSpeed + '×';
+  document.getElementById('bgVideo').playbackRate = bgState.videoSpeed;
+}
+
+function syncBgColor() { state.bgColor = document.getElementById('iBgColor').value; document.getElementById('iBgColorPick').value = tryHex(state.bgColor) || '#030308'; applyCardBgRender(); }
+function syncBgColorPick() { const v = document.getElementById('iBgColorPick').value; document.getElementById('iBgColor').value = v; state.bgColor = v; applyCardBgRender(); }
+
+const AESTHETICS = {
+  'none': { bg: '#050508', ov: '' },
+  'void': { bg: '#000000', ov: '' },
+  'purple-haze': { bg: '#0a0018', ov: 'linear-gradient(135deg,rgba(80,0,180,.4),rgba(20,0,60,.65))' },
+  'ocean': { bg: '#001220', ov: 'linear-gradient(135deg,rgba(0,60,120,.45),rgba(0,100,180,.25))' },
+  'sunset': { bg: '#0f0500', ov: 'linear-gradient(135deg,rgba(180,50,0,.45),rgba(255,100,30,.18))' },
+  'matrix': { bg: '#000800', ov: 'linear-gradient(135deg,rgba(0,80,0,.35),rgba(0,255,60,.06))' },
+  'rose': { bg: '#0f000a', ov: 'linear-gradient(135deg,rgba(180,0,60,.45),rgba(255,40,100,.12))' },
+  'midnight': { bg: '#010116', ov: 'linear-gradient(135deg,rgba(5,5,60,.55),rgba(15,15,80,.35))' },
+  'gold': { bg: '#0d0800', ov: 'linear-gradient(135deg,rgba(160,100,0,.35),rgba(220,170,20,.12))' },
+  'cherry': { bg: '#120004', ov: 'linear-gradient(135deg,rgba(140,0,40,.45),rgba(220,30,80,.12))' },
+  'ice': { bg: '#001428', ov: 'linear-gradient(135deg,rgba(0,180,255,.3),rgba(168,237,255,.08))' },
+  'lava': { bg: '#1a0000', ov: 'linear-gradient(135deg,rgba(139,0,0,.5),rgba(255,69,0,.15))' },
+  'neon': { bg: '#000816', ov: 'linear-gradient(135deg,rgba(0,100,255,.25),rgba(0,200,255,.1))' },
+  'sakura': { bg: '#1a0010', ov: 'linear-gradient(135deg,rgba(255,100,150,.2),rgba(255,180,200,.06))' },
+  'forest': { bg: '#000d00', ov: 'linear-gradient(135deg,rgba(0,80,0,.35),rgba(0,120,40,.1))' },
+};
+function applyAesthetic(name, el) {
+  document.querySelectorAll('.ae-card').forEach(c => c.classList.remove('sel'));
+  el.classList.add('sel'); state.aesthetic = name;
+  const ae = AESTHETICS[name] || AESTHETICS['none'];
+  document.getElementById('iBgColor').value = ae.bg;
+  document.getElementById('iBgColorPick').value = ae.bg.length === 7 ? ae.bg : '#030308';
+  state.bgColor = ae.bg;
+  document.getElementById('bgOverlay').style.background = ae.ov;
+  applyCardBgRender();
+}
+function applyCardBgRender() {
+  const r = parseInt(state.cardBg.slice(1, 3), 16) || 15, g = parseInt(state.cardBg.slice(3, 5), 16) || 15, b = parseInt(state.cardBg.slice(5, 7), 16) || 26;
+  document.getElementById('pc').style.background = `rgba(${r},${g},${b},${state.cardOpacity / 100})`;
+}
+
+// ══════════════════════════════════════════
 // MUSIC
-// ─────────────────────────────────────────────────────────────────────────────
+// ══════════════════════════════════════════
 let tracks = [], trackIdx = 0, playing = false;
 const audioEl = document.getElementById('audioEl');
-
-function uploadMusic(input) {
-  const files = Array.from(input.files);
-  if (!files.length) return;
-  showToast(`Uploading ${files.length} track(s)...`);
-
-  const promises = files.map(file => {
-    const localUrl = URL.createObjectURL(file);
-    const name = file.name.replace(/\.mp3$/i,'').replace(/\.mpeg$/i,'');
-    const fd = new FormData();
-    fd.append('file', file);
-    return fetch('/api/upload/music', { method:'POST', body:fd })
-      .then(r => r.json())
-      .then(d => ({ name: d.name || name, url: d.url }))
-      .catch(() => ({ name, url: localUrl }));
+async function uploadMusic(input) {
+  const files = Array.from(input.files); if (!files.length) return;
+  showToast(`⬆️ Uploading ${files.length} track(s)...`); showProgress('musicProg', 'musicBar');
+  const promises = files.map(async file => {
+    const local = URL.createObjectURL(file);
+    const name = file.name.replace(/\.(mp3|mpeg|ogg|wav|m4a|aac|flac)$/i, '');
+    const fd = new FormData(); fd.append('file', file);
+    try { const r = await fetch('/api/upload/music', { method: 'POST', body: fd }); const d = await r.json(); return { name: d.name || name, url: d.url || local }; }
+    catch { return { name, url: local }; }
   });
-
-  Promise.all(promises).then(newTracks => {
-    tracks = [...tracks, ...newTracks];
-    state.tracks = tracks;
-    renderTrackList();
-    if (tracks.length > 0) {
-      state.showMusic = true;
-      document.getElementById('togMusic').classList.add('on');
-      document.getElementById('pcMusic').style.display = 'flex';
-      loadTrack(0);
-    }
-    showToast(`✅ ${newTracks.length} track(s) added!`);
-  });
+  const newT = await Promise.all(promises);
+  tracks = [...tracks, ...newT]; state.tracks = tracks; renderTrackList();
+  if (tracks.length) { state.showMusic = true; document.getElementById('togMusic').classList.add('on'); document.getElementById('pcMusic').style.display = 'flex'; loadTrack(0); }
+  hideProgress('musicProg'); showToast(`✅ ${newT.length} track(s) added!`);
 }
-
 function renderTrackList() {
   const el = document.getElementById('trackList');
-  if (!tracks.length) { el.textContent = 'No tracks uploaded yet.'; return; }
-  el.innerHTML = tracks.map((t,i) => `
-    <div style="display:flex;align-items:center;gap:8px;padding:8px;background:rgba(255,255,255,.03);border-radius:7px;margin-bottom:5px;">
-      <span style="font-size:.85rem;flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">🎵 ${t.name}</span>
-      <button onclick="removeTrack(${i})" style="background:none;border:none;color:var(--mut);cursor:pointer;font-size:.9rem;" title="Remove">✕</button>
-    </div>`).join('');
+  if (!tracks.length) { el.textContent = 'No tracks yet.'; return; }
+  el.innerHTML = tracks.map((t, i) => `<div style="display:flex;align-items:center;gap:7px;padding:6px 8px;background:rgba(255,255,255,.025);border-radius:6px;margin-bottom:3px;border:1px solid var(--brd);cursor:pointer;" onclick="loadTrack(${i})">
+    <span style="font-size:.78rem;flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;color:${i === trackIdx ? 'var(--acc)' : 'var(--txt)'}">🎵 ${t.name}</span>
+    <button onclick="event.stopPropagation();removeTrack(${i})" style="background:none;border:none;color:var(--mut);cursor:pointer;font-size:.85rem;" onmouseover="this.style.color='#f43f5e'" onmouseout="this.style.color=''">✕</button>
+  </div>`).join('');
 }
-function removeTrack(i) {
-  tracks.splice(i,1);
-  state.tracks = tracks;
-  renderTrackList();
-  if (!tracks.length) {
-    document.getElementById('pcMusic').style.display = 'none';
-    state.showMusic = false;
-    document.getElementById('togMusic').classList.remove('on');
-    audioEl.pause(); playing = false;
-  } else { loadTrack(0); }
-}
+function removeTrack(i) { tracks.splice(i, 1); state.tracks = tracks; renderTrackList(); if (!tracks.length) { document.getElementById('pcMusic').style.display = 'none'; state.showMusic = false; document.getElementById('togMusic').classList.remove('on'); audioEl.pause(); playing = false; } else loadTrack(0); }
 function loadTrack(i) {
   trackIdx = ((i % tracks.length) + tracks.length) % tracks.length;
-  const t = tracks[trackIdx];
-  audioEl.src = t.url;
-  document.getElementById('pcMtitle').textContent  = t.name;
-  document.getElementById('pcMartist').textContent = `Track ${trackIdx+1} of ${tracks.length}`;
-  document.getElementById('pcProg').style.width    = '0%';
-  if (playing) audioEl.play().catch(()=>{});
+  const t = tracks[trackIdx]; audioEl.src = t.url;
+  document.getElementById('pcMtitle').textContent = t.name;
+  document.getElementById('pcMartist').textContent = `Track ${trackIdx + 1}/${tracks.length}`;
+  document.getElementById('pcProg').style.width = '0%';
+  if (playing) audioEl.play().catch(() => {});
+  renderTrackList();
 }
 function togglePlay() {
   if (!tracks.length) { showToast('Upload a track first!'); return; }
   playing = !playing;
-  const btn = document.getElementById('pcPlayBtn');
-  const alb = document.getElementById('pcAlbum');
-  if (playing) { audioEl.play().catch(()=>{}); btn.textContent='⏸'; alb.classList.add('spin'); }
-  else         { audioEl.pause(); btn.textContent='▶'; alb.classList.remove('spin'); }
+  const btn = document.getElementById('pcPlayBtn'), alb = document.getElementById('pcAlbum');
+  if (playing) { audioEl.play().catch(() => {}); btn.textContent = '⏸'; alb.classList.add('spin'); }
+  else { audioEl.pause(); btn.textContent = '▶'; alb.classList.remove('spin'); }
 }
-function nextTr() { stopPlay(); if(tracks.length) loadTrack(trackIdx+1); }
-function prevTr() { stopPlay(); if(tracks.length) loadTrack(trackIdx-1); }
-function stopPlay() { playing=false; document.getElementById('pcPlayBtn').textContent='▶'; document.getElementById('pcAlbum').classList.remove('spin'); }
-audioEl.addEventListener('timeupdate',()=>{ if(!audioEl.duration)return; document.getElementById('pcProg').style.width=(audioEl.currentTime/audioEl.duration*100)+'%'; });
-audioEl.addEventListener('ended',()=>{ if(tracks.length>1) nextTr(); });
-function toggleMusic() {
-  state.showMusic = !state.showMusic;
-  document.getElementById('togMusic').classList.toggle('on', state.showMusic);
-  document.getElementById('pcMusic').style.display = state.showMusic ? 'flex' : 'none';
-}
+function nextTr() { stopPlay(); if (tracks.length) loadTrack(trackIdx + 1); }
+function prevTr() { stopPlay(); if (tracks.length) loadTrack(trackIdx - 1); }
+function stopPlay() { playing = false; document.getElementById('pcPlayBtn').textContent = '▶'; document.getElementById('pcAlbum').classList.remove('spin'); }
+audioEl.addEventListener('timeupdate', () => { if (!audioEl.duration) return; document.getElementById('pcProg').style.width = (audioEl.currentTime / audioEl.duration * 100) + '%'; });
+audioEl.addEventListener('ended', () => { if (tracks.length > 1) { loadTrack(trackIdx + 1); if (playing) audioEl.play().catch(() => {}); } });
+function toggleMusic() { state.showMusic = !state.showMusic; document.getElementById('togMusic').classList.toggle('on', state.showMusic); document.getElementById('pcMusic').style.display = state.showMusic ? 'flex' : 'none'; }
+function toggleAutoplay() { state.autoplay = !state.autoplay; document.getElementById('togAutoplay').classList.toggle('on', state.autoplay); }
+function syncMusicStyle() { state.musicStyle = document.getElementById('iMusicStyle').value; }
 
-// ─────────────────────────────────────────────────────────────────────────────
+// ══════════════════════════════════════════
 // THEME
-// ─────────────────────────────────────────────────────────────────────────────
-function syncAccent()      { state.accent  = document.getElementById('iAccent').value;  document.getElementById('iAccentPick').value  = tryHex(state.accent);  applyAccent(); }
-function syncAccentPick()  { const v=document.getElementById('iAccentPick').value;  document.getElementById('iAccent').value =v; state.accent =v; applyAccent(); }
-function syncAccent2()     { state.accent2 = document.getElementById('iAccent2').value; document.getElementById('iAccent2Pick').value = tryHex(state.accent2); }
-function syncAccent2Pick() { const v=document.getElementById('iAccent2Pick').value; document.getElementById('iAccent2').value=v; state.accent2=v; }
-function syncCardBg()      { state.cardBg  = document.getElementById('iCardBg').value;  document.getElementById('iCardBgPick').value  = tryHex(state.cardBg);  applyCardBg(); }
-function syncCardBgPick()  { const v=document.getElementById('iCardBgPick').value;  document.getElementById('iCardBg').value =v; state.cardBg =v; applyCardBg(); }
-function syncBlur()        { state.blur=document.getElementById('iBlur').value; document.getElementById('blurVal').textContent=state.blur+'px'; document.getElementById('pc').style.backdropFilter=`blur(${state.blur}px)`; }
-function applyAccent()     { ['pcViews','pcFollowers','pcClicks'].forEach(id=>document.getElementById(id).style.color=state.accent); }
-function tryHex(v)         { return /^#[0-9a-fA-F]{6}$/.test(v) ? v : '#a855f7'; }
-
+// ══════════════════════════════════════════
+const ACCENT_CHIPS = ['#a855f7', '#7c3aed', '#06b6d4', '#0ea5e9', '#f43f5e', '#22c55e', '#f97316', '#eab308', '#ec4899', '#e879f9', '#38bdf8', '#fff'];
+function initChips() {
+  document.getElementById('accentChips').innerHTML = ACCENT_CHIPS.map(c => `<div class="chip" style="background:${c}" onclick="setAccentChip('${c}')" title="${c}"></div>`).join('');
+}
+function setAccentChip(c) { document.getElementById('iAccent').value = c; document.getElementById('iAccentPick').value = c; state.accent = c; applyAccent(); }
+function syncAccent() { state.accent = document.getElementById('iAccent').value; document.getElementById('iAccentPick').value = tryHex(state.accent) || '#a855f7'; applyAccent(); }
+function syncAccentPick() { const v = document.getElementById('iAccentPick').value; document.getElementById('iAccent').value = v; state.accent = v; applyAccent(); }
+function syncAccent2() { state.accent2 = document.getElementById('iAccent2').value; document.getElementById('iAccent2Pick').value = tryHex(state.accent2) || '#22d3ee'; }
+function syncAccent2Pick() { const v = document.getElementById('iAccent2Pick').value; document.getElementById('iAccent2').value = v; state.accent2 = v; }
+function syncCardBg() { state.cardBg = document.getElementById('iCardBg').value; document.getElementById('iCardBgPick').value = tryHex(state.cardBg) || '#0f0f1a'; applyCardBgRender(); }
+function syncCardBgPick() { const v = document.getElementById('iCardBgPick').value; document.getElementById('iCardBg').value = v; state.cardBg = v; applyCardBgRender(); }
+function syncBlur() { state.blur = document.getElementById('iBlur').value; document.getElementById('blurVal').textContent = state.blur + 'px'; document.getElementById('pc').style.backdropFilter = `blur(${state.blur}px)`; }
+function syncCardOpacity() { state.cardOpacity = document.getElementById('iCardOpacity').value; document.getElementById('cardOpacityVal').textContent = state.cardOpacity + '%'; applyCardBgRender(); }
+function syncGlowInt() { state.glowInt = document.getElementById('iGlowInt').value; document.getElementById('glowIntVal').textContent = state.glowInt + '%'; }
+const FONT_MAP = {
+  outfit: "'Outfit',sans-serif",
+  syne: "'Syne',sans-serif",
+  mono: "'Space Mono',monospace",
+  dm: "'DM Sans',sans-serif",
+  orbitron: "'Orbitron',sans-serif",
+  serif: 'Georgia,serif'
+};
+function syncFont() {
+  state.font = document.getElementById('iFont').value;
+  document.getElementById('pc').style.fontFamily = FONT_MAP[state.font] || FONT_MAP.outfit;
+  document.getElementById('fontPreview').style.fontFamily = FONT_MAP[state.font] || FONT_MAP.outfit;
+}
+function syncTextColor() {
+  state.textColor = document.getElementById('iTextColor').value;
+  document.getElementById('iTextColorPick').value = tryHex(state.textColor) || '#f0f0fa';
+  document.getElementById('pcUsername').style.webkitTextFillColor = '';
+  document.getElementById('pc').style.color = state.textColor;
+}
+function syncTextColorPick() { const v = document.getElementById('iTextColorPick').value; document.getElementById('iTextColor').value = v; state.textColor = v; document.getElementById('pc').style.color = v; }
+function applyAccent() {
+  ['pcViews', 'pcFollowers', 'pcClicks'].forEach(id => document.getElementById(id).style.color = state.accent);
+  document.documentElement.style.setProperty('--acc', state.accent);
+}
+function tryHex(v) { return /^#[0-9a-fA-F]{6}$/.test(v) ? v : null; }
 const PRESETS = {
-  purple:{accent:'#a855f7',accent2:'#7c3aed',cardBg:'#0f0418'},
-  cyan:  {accent:'#06b6d4',accent2:'#0ea5e9',cardBg:'#021a22'},
-  rose:  {accent:'#f43f5e',accent2:'#fb7185',cardBg:'#1a040a'},
-  green: {accent:'#22c55e',accent2:'#4ade80',cardBg:'#021a07'},
-  orange:{accent:'#f97316',accent2:'#fb923c',cardBg:'#1a0a02'},
-  mono:  {accent:'#ffffff',accent2:'#a1a1aa',cardBg:'#0a0a0a'}
+  purple: { accent: '#a855f7', accent2: '#7c3aed', cardBg: '#0f0418' },
+  cyan: { accent: '#06b6d4', accent2: '#0ea5e9', cardBg: '#021a22' },
+  rose: { accent: '#f43f5e', accent2: '#fb7185', cardBg: '#1a040a' },
+  green: { accent: '#22c55e', accent2: '#4ade80', cardBg: '#021a07' },
+  orange: { accent: '#f97316', accent2: '#fb923c', cardBg: '#1a0a02' },
+  midnight: { accent: '#818cf8', accent2: '#a5b4fc', cardBg: '#02021a' },
+  mono: { accent: '#ffffff', accent2: '#a1a1aa', cardBg: '#0a0a0a' },
+  blood: { accent: '#ef4444', accent2: '#dc2626', cardBg: '#1a0000' },
+  gold: { accent: '#f59e0b', accent2: '#fbbf24', cardBg: '#1a1000' },
+  teal: { accent: '#14b8a6', accent2: '#06b6d4', cardBg: '#001a1a' },
+  pink: { accent: '#ec4899', accent2: '#f472b6', cardBg: '#1a0014' },
+  neon: { accent: '#00d4ff', accent2: '#7c3aed', cardBg: '#000d1a' },
+  sakura: { accent: '#ff69b4', accent2: '#ffb6c1', cardBg: '#1a0010' },
 };
 function applyPreset() {
-  const p = PRESETS[document.getElementById('iPreset').value];
-  if (!p) return;
-  document.getElementById('iAccent').value   = document.getElementById('iAccentPick').value  = p.accent;
-  document.getElementById('iAccent2').value  = document.getElementById('iAccent2Pick').value = p.accent2;
-  document.getElementById('iCardBg').value   = document.getElementById('iCardBgPick').value  = p.cardBg;
-  Object.assign(state, p);
-  applyCardBg(); applyAccent();
-  showToast('✅ Theme applied!');
+  const p = PRESETS[document.getElementById('iPreset').value]; if (!p) return;
+  document.getElementById('iAccent').value = document.getElementById('iAccentPick').value = p.accent;
+  document.getElementById('iAccent2').value = document.getElementById('iAccent2Pick').value = p.accent2;
+  document.getElementById('iCardBg').value = document.getElementById('iCardBgPick').value = p.cardBg;
+  Object.assign(state, p); applyCardBgRender(); applyAccent(); showToast('✅ Theme applied!');
 }
 
-// ─────────────────────────────────────────────────────────────────────────────
+// ══════════════════════════════════════════
+// GRADIENT
+// ══════════════════════════════════════════
+const GRAD_COMBOS = [
+  ['#fff','#a855f7','#22d3ee'], ['#fff','#f43f5e','#f97316'],
+  ['#fff','#22c55e','#06b6d4'], ['#fff','#eab308','#f97316'],
+  ['#fff','#ec4899','#a855f7'], ['#fff','#e879f9','#818cf8'],
+];
+function initGradChips() {
+  document.getElementById('gradChips').innerHTML = GRAD_COMBOS.map((c, i) => {
+    const grad = `linear-gradient(135deg,${c.join(',')})`;
+    return `<div class="chip" style="background:${grad};width:32px;" onclick="applyGradCombo(${i})" title="Gradient ${i + 1}"></div>`;
+  }).join('');
+}
+function applyGradCombo(i) {
+  const c = GRAD_COMBOS[i];
+  document.getElementById('iGradStart').value = document.getElementById('iGradStartPick').value = c[0];
+  document.getElementById('iGradMid').value = document.getElementById('iGradMidPick').value = c[1];
+  document.getElementById('iGradEnd').value = document.getElementById('iGradEndPick').value = c[2];
+  state.gradStart = c[0]; state.gradMid = c[1]; state.gradEnd = c[2];
+  syncGradient();
+}
+function syncGradient() {
+  state.gradStart = document.getElementById('iGradStart').value;
+  state.gradMid = document.getElementById('iGradMid').value;
+  state.gradEnd = document.getElementById('iGradEnd').value;
+  state.gradDir = document.getElementById('iGradDir').value;
+  const grad = `linear-gradient(${state.gradDir},${state.gradStart} 0%,${state.gradMid} 50%,${state.gradEnd} 100%)`;
+  document.getElementById('gradPreview').style.backgroundImage = grad;
+  const un = document.getElementById('pcUsername');
+  un.style.backgroundImage = grad;
+  un.style.backgroundSize = '200% 100%';
+  un.style.webkitBackgroundClip = 'text';
+  un.style.webkitTextFillColor = 'transparent';
+}
+function syncGradStartPick() { document.getElementById('iGradStart').value = document.getElementById('iGradStartPick').value; syncGradient(); }
+function syncGradMidPick() { document.getElementById('iGradMid').value = document.getElementById('iGradMidPick').value; syncGradient(); }
+function syncGradEndPick() { document.getElementById('iGradEnd').value = document.getElementById('iGradEndPick').value; syncGradient(); }
+function toggleBorderGrad() { state.borderGrad = !state.borderGrad; document.getElementById('togBorderGrad').classList.toggle('on', state.borderGrad); /* visual effect handled on profile.html */ }
+function toggleBgGrad() { state.bgGrad = !state.bgGrad; document.getElementById('togBgGrad').classList.toggle('on', state.bgGrad); }
+
+// ══════════════════════════════════════════
 // EFFECTS
-// ─────────────────────────────────────────────────────────────────────────────
-function syncParticle()    { state.particle   = document.getElementById('iParticle').value; }
-function syncCursor()      { state.cursor     = document.getElementById('iCursor').value; }
-function toggleSymbolRain(){ state.symbolRain = !state.symbolRain; document.getElementById('togSymbols').classList.toggle('on', state.symbolRain); }
-function toggleCardTilt()  { state.cardTilt   = !state.cardTilt;   document.getElementById('togTilt').classList.toggle('on', state.cardTilt); }
-function toggleGlow()      { state.glow       = !state.glow;       document.getElementById('togGlow').classList.toggle('on', state.glow); }
+// ══════════════════════════════════════════
+function syncParticle() { state.particle = document.getElementById('iParticle').value; }
+function syncCursor() { state.cursor = document.getElementById('iCursor').value; }
+function toggle(key, togId) { state[key] = !state[key]; document.getElementById(togId).classList.toggle('on', state[key]); }
 
-// ─────────────────────────────────────────────────────────────────────────────
-// SOCIAL LINKS — icon-only
-// ─────────────────────────────────────────────────────────────────────────────
-const DOMAIN_MAP = {
-  discord:'discord.com', twitter:'twitter.com', x:'x.com',
-  instagram:'instagram.com', youtube:'youtube.com', github:'github.com',
-  spotify:'spotify.com', tiktok:'tiktok.com', twitch:'twitch.tv',
-  reddit:'reddit.com', steam:'store.steampowered.com', kick:'kick.com',
-  snapchat:'snapchat.com', pinterest:'pinterest.com', linkedin:'linkedin.com',
-  roblox:'roblox.com', cashapp:'cash.app'
-};
+// ══════════════════════════════════════════
+// ANIMATIONS
+// ══════════════════════════════════════════
+function syncPageAnim() { state.pageAnim = document.getElementById('iPageAnim').value; }
+function syncNameAnim() {
+  state.nameAnim = document.getElementById('iNameAnim').value;
+  const un = document.getElementById('pcUsername');
+  const anims = {
+    shimmer: 'nameShimmer 3.5s ease-in-out infinite',
+    glitch: 'nameShimmer 0.3s step-end infinite',
+    rainbow: 'nameRainbow 2s linear infinite',
+    pulse: 'namePulse 2s ease-in-out infinite',
+    wave: 'nameShimmer 1.8s ease-in-out infinite',
+    none: 'none'
+  };
+  un.style.animation = anims[state.nameAnim] || anims.shimmer;
+}
+function syncLinkHover() { state.linkHover = document.getElementById('iLinkHover').value; }
+function syncAvHover() { state.avHover = document.getElementById('iAvHover').value; }
+function syncAnimSpeed() { state.animSpeed = document.getElementById('iAnimSpeed').value; }
 
+// ══════════════════════════════════════════
+// LAYOUT
+// ══════════════════════════════════════════
+function setLinkStyle(s) {
+  state.linkStyle = s;
+  document.getElementById('ls-icons').classList.toggle('sel', s === 'icons');
+  document.getElementById('ls-buttons').classList.toggle('sel', s === 'buttons');
+  renderLinks();
+}
+function toggleStats() { state.showStats = !state.showStats; document.getElementById('togStats').classList.toggle('on', state.showStats); document.getElementById('pcStatsRow').style.display = state.showStats ? 'flex' : 'none'; }
+function syncCardWidth() { const v = document.getElementById('iCardWidth').value; state.cardWidth = v; document.getElementById('cardWidthVal').textContent = v + 'px'; document.getElementById('pc').style.maxWidth = v + 'px'; }
+function syncCardRadius() { const v = document.getElementById('iCardRadius').value; state.cardRadius = v; document.getElementById('cardRadiusVal').textContent = v + 'px'; document.getElementById('pc').style.borderRadius = v + 'px'; }
+function syncSpacing() { state.spacing = document.getElementById('iSpacing').value; }
+function toggleVerifiedBadge() { state.showVerified = !state.showVerified; document.getElementById('togVerified').classList.toggle('on', state.showVerified); document.getElementById('pcVerified').style.display = state.showVerified ? '' : 'none'; }
+
+// ══════════════════════════════════════════
+// SOCIAL LINKS
+// ══════════════════════════════════════════
+const DOMAIN_MAP = { discord: 'discord.com', twitter: 'twitter.com', x: 'x.com', instagram: 'instagram.com', youtube: 'youtube.com', github: 'github.com', spotify: 'spotify.com', tiktok: 'tiktok.com', twitch: 'twitch.tv', reddit: 'reddit.com', steam: 'store.steampowered.com', kick: 'kick.com', snapchat: 'snapchat.com', pinterest: 'pinterest.com', linkedin: 'linkedin.com', roblox: 'roblox.com', cashapp: 'cash.app', paypal: 'paypal.com', bereal: 'bereal.com', threads: 'threads.net', bluesky: 'bsky.app', onlyfans: 'onlyfans.com', patreon: 'patreon.com' };
 function getFavicon(label, url) {
-  const key = label.toLowerCase().replace(/\s+/g,'').replace(/[^a-z]/g,'');
-  const domain = DOMAIN_MAP[key] || (() => { try { return new URL(url).hostname; } catch { return null; } })();
+  const key = label.toLowerCase().replace(/[\s\-_]/g, '').replace(/[^a-z]/g, '');
+  const domain = DOMAIN_MAP[key] || (() => { try { return new URL(url).hostname.replace('www.', ''); } catch { return null; } })();
   return domain ? `https://www.google.com/s2/favicons?domain=${domain}&sz=64` : null;
 }
-
-function showAddLink()  { document.getElementById('addLinkForm').classList.add('show'); }
-function hideAddLink()  { document.getElementById('addLinkForm').classList.remove('show'); document.getElementById('alLabel').value=''; document.getElementById('alUrl').value=''; }
+function showAddLink() { document.getElementById('addLinkForm').classList.add('show'); document.getElementById('alLabel').focus(); }
+function hideAddLink() { document.getElementById('addLinkForm').classList.remove('show'); document.getElementById('alLabel').value = ''; document.getElementById('alUrl').value = ''; }
 function addLink() {
-  const label = document.getElementById('alLabel').value.trim();
-  const url   = document.getElementById('alUrl').value.trim();
-  if (!label || !url) { showToast('Fill in both label and URL!'); return; }
+  const label = document.getElementById('alLabel').value.trim(), url = document.getElementById('alUrl').value.trim();
+  if (!label || !url) { showToast('Fill in both fields!'); return; }
   if (!url.startsWith('http')) { showToast('URL must start with https://'); return; }
-  state.links.push({ label, url });
-  renderLinks();
-  hideAddLink();
-  showToast(`✅ ${label} added!`);
+  state.links.push({ label, url }); renderLinks(); hideAddLink(); showToast(`✅ ${label} added!`);
 }
-function removeLink(i) { state.links.splice(i,1); renderLinks(); }
-
+function quickAdd(label, urlBase) {
+  document.getElementById('alLabel').value = label;
+  document.getElementById('alUrl').value = urlBase;
+  document.getElementById('addLinkForm').classList.add('show');
+  document.getElementById('alUrl').focus();
+}
+function removeLink(i) { state.links.splice(i, 1); renderLinks(); }
 function renderLinks() {
-  // Panel list (shows label + URL text for editing reference)
-  document.getElementById('linkList').innerHTML = state.links.map((l,i) => {
+  document.getElementById('linkList').innerHTML = state.links.map((l, i) => {
     const fav = getFavicon(l.label, l.url);
-    return `<div class="link-item">
-      <div class="li-icon">${fav ? `<img src="${fav}" onerror="this.parentElement.textContent='🔗'">` : '🔗'}</div>
-      <div class="li-info"><div class="li-label">${l.label}</div><div class="li-url">${l.url}</div></div>
-      <button class="li-del" onclick="removeLink(${i})">✕</button>
-    </div>`;
+    return `<div class="link-item"><div class="li-icon">${fav ? `<img src="${fav}" onerror="this.parentElement.textContent='🔗'">` : '🔗'}</div><div class="li-info"><div class="li-label">${l.label}</div><div class="li-url">${l.url}</div></div><div class="li-actions"><button class="li-act" onclick="removeLink(${i})">✕</button></div></div>`;
   }).join('');
-
-  // Preview — icon only with tooltip
-  document.getElementById('pcSocials').innerHTML = state.links.map(l => {
-    const fav = getFavicon(l.label, l.url);
-    return `<a href="${l.url}" class="pc-soc" target="_blank" rel="noopener">
-      ${fav ? `<img src="${fav}" onerror="this.style.display='none'">` : '<span class="fallback">🔗</span>'}
-      <span class="tip">${l.label}</span>
-    </a>`;
-  }).join('');
+  if (state.linkStyle === 'icons') {
+    document.getElementById('pcSocials').style.display = 'flex';
+    document.getElementById('pcLinkBtns').style.display = 'none';
+    document.getElementById('pcSocials').innerHTML = state.links.map(l => {
+      const fav = getFavicon(l.label, l.url);
+      return `<a href="${l.url}" class="pc-soc" target="_blank" rel="noopener">${fav ? `<img src="${fav}" onerror="this.style.display='none'">` : '<span class="fallback">🔗</span>'}<span class="tip">${l.label}</span></a>`;
+    }).join('');
+    document.getElementById('pcLinkBtns').innerHTML = '';
+  } else {
+    document.getElementById('pcSocials').style.display = 'none';
+    document.getElementById('pcLinkBtns').style.display = 'block';
+    document.getElementById('pcLinkBtns').innerHTML = state.links.map(l => {
+      const fav = getFavicon(l.label, l.url);
+      return `<a href="${l.url}" class="pc-link-btn" target="_blank" rel="noopener">${fav ? `<img src="${fav}">` : '🔗'}<span>${l.label}</span></a>`;
+    }).join('');
+  }
 }
 
-// ─────────────────────────────────────────────────────────────────────────────
-// BANNER CANVAS
-// ─────────────────────────────────────────────────────────────────────────────
-(function(){
-  const cv=document.getElementById('bnrCanvas'), bEl=cv.parentElement, cx=cv.getContext('2d');
-  function resize(){ cv.width=bEl.offsetWidth; cv.height=bEl.offsetHeight; }
-  resize(); new ResizeObserver(resize).observe(bEl);
-  const stars=Array.from({length:80},()=>({x:Math.random(),y:Math.random(),r:Math.random()*1.4+.3,a:Math.random(),spd:Math.random()*.3+.07}));
-  function draw(){
-    const W=cv.width,H=cv.height;
-    cx.clearRect(0,0,W,H);
-    const g=cx.createLinearGradient(0,0,W,H);
-    g.addColorStop(0,'#0d0220'); g.addColorStop(.5,'#0a1628'); g.addColorStop(1,'#150526');
-    cx.fillStyle=g; cx.fillRect(0,0,W,H);
-    stars.forEach(s=>{
-      s.a+=s.spd*.02; if(s.a>1){s.a=0;s.x=Math.random();s.y=Math.random();}
-      cx.beginPath(); cx.arc(s.x*W,s.y*H,s.r,0,Math.PI*2);
-      cx.fillStyle=`rgba(255,255,255,${(s.a*.8).toFixed(2)})`; cx.fill();
-    });
-    requestAnimationFrame(draw);
-  }
-  draw();
-})();
+// ══════════════════════════════════════════
+// DISCORD / SPOTIFY
+// ══════════════════════════════════════════
+function connectDiscord() { window.open('https://discord.com/oauth2/authorize', '_blank', 'width=500,height=700'); showToast('💬 Opening Discord auth...'); }
+function syncDiscordUrl() {
+  state.discordUrl = document.getElementById('iDiscordUrl').value.trim();
+  if (state.discordUrl) { state.links = state.links.filter(l => l.label.toLowerCase() !== 'discord'); state.links.unshift({ label: 'Discord', url: state.discordUrl }); renderLinks(); showToast('✅ Discord link added!'); }
+}
+function syncDiscordUser() {
+  state.discordUser = document.getElementById('iDiscordUser').value.trim();
+  const badge = document.getElementById('pcDcBadge');
+  if (state.discordUser) { badge.style.display = 'inline-flex'; document.getElementById('pcDcText').textContent = '@' + state.discordUser; }
+  else badge.style.display = 'none';
+}
+function syncSpotify() { state.spotifyUser = document.getElementById('iSpotifyUser').value.trim(); }
+function toggleSpotify() {
+  state.showSpotify = !state.showSpotify; document.getElementById('togSpotify').classList.toggle('on', state.showSpotify);
+  document.getElementById('pcNowPlaying').style.display = state.showSpotify ? 'flex' : 'none';
+  if (state.showSpotify) document.getElementById('pcNpTitle').textContent = document.getElementById('iSpotifyFallback').value || 'vibing to the void 🎵';
+}
+function syncSpotifyFallback() { state.spotifyFallback = document.getElementById('iSpotifyFallback').value; if (state.showSpotify) document.getElementById('pcNpTitle').textContent = state.spotifyFallback || 'Not listening to anything'; }
 
-// ─────────────────────────────────────────────────────────────────────────────
+// ══════════════════════════════════════════
+// PROGRESS
+// ══════════════════════════════════════════
+function showProgress(wId, bId) {
+  const w = document.getElementById(wId), b = document.getElementById(bId);
+  w.classList.add('show'); b.style.width = '0%'; let p = 0;
+  const iv = setInterval(() => { p += Math.random() * 14; if (p > 85) p = 85; b.style.width = p + '%'; }, 200); w._iv = iv;
+}
+function hideProgress(wId) {
+  const w = document.getElementById(wId); if (w._iv) clearInterval(w._iv);
+  const b = w.querySelector('.up-bar'); if (b) b.style.width = '100%';
+  setTimeout(() => w.classList.remove('show'), 500);
+}
+
+// ══════════════════════════════════════════
 // PUBLISH
-// ─────────────────────────────────────────────────────────────────────────────
+// ══════════════════════════════════════════
 function showPublish() {
   document.getElementById('publishUsername').value = state.username || '';
-  document.getElementById('publishUrlPreview').textContent = `vltx.lol/${state.username||'yourname'}`;
+  document.getElementById('publishUrlPreview').textContent = `vltx.lol/${state.username || 'yourname'}`;
   document.getElementById('publishModal').classList.add('show');
 }
-document.getElementById('publishUsername').addEventListener('input', function(){
-  const v = this.value.toLowerCase().replace(/[^a-z0-9_.\-]/g,'');
-  this.value = v;
-  document.getElementById('publishUrlPreview').textContent = `vltx.lol/${v||'yourname'}`;
-});
-function hidePublish()  { document.getElementById('publishModal').classList.remove('show'); }
-function hideSuccess()  { document.getElementById('successModal').classList.remove('show'); }
-
+function hidePublish() { document.getElementById('publishModal').classList.remove('show'); }
+function hideSuccess() { document.getElementById('successModal').classList.remove('show'); }
 async function publishProfile() {
-  const username = document.getElementById('publishUsername').value.trim();
-  if (!username || username.length < 2) { showToast('Choose a username (min 2 chars)'); return; }
-
-  const data = {
-    ...state,
-    username,
-    tracks: state.tracks.map(t => ({ name:t.name, url:t.url }))
-  };
-
+  const username = document.getElementById('publishUsername').value.trim().toLowerCase().replace(/[^a-z0-9_.\-]/g, '');
+  if (!username || username.length < 2) { showToast('❌ Username too short'); return; }
+  const btn = document.getElementById('publishBtn'); btn.textContent = 'Publishing...'; btn.disabled = true;
+  const data = { ...state, username, tracks: state.tracks.map(t => ({ name: t.name, url: t.url })) };
   try {
-    showToast('Publishing...');
-    const res  = await fetch('/api/profile', {
-      method:'POST',
-      headers:{'Content-Type':'application/json'},
-      body:JSON.stringify({ username, data })
-    });
+    const res = await fetch('/api/profile', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ username, data }) });
     const json = await res.json();
     if (json.error) { showToast('❌ ' + json.error); return; }
-    publishedUrl = json.url;
-    hidePublish();
+    publishedUrl = json.url; hidePublish();
     document.getElementById('successUrl').textContent = window.location.host + json.url;
-    document.getElementById('successModal').classList.add('show');
-  } catch(e) {
-    showToast('❌ Error publishing. Is the server running?');
-  }
+    document.getElementById('successModal').classList.add('show'); showToast('🎉 Published!');
+  } catch { showToast('❌ Publish failed — check connection'); }
+  finally { btn.textContent = 'Publish →'; btn.disabled = false; }
 }
-function copyUrl()      { navigator.clipboard.writeText(window.location.host + publishedUrl).then(()=>showToast('📋 Copied!')); }
-function visitProfile() { window.open(publishedUrl,'_blank'); hideSuccess(); }
-function resetProfile() { if (!confirm('Reset all customizations?')) return; location.reload(); }
+function copyUrl() { navigator.clipboard.writeText(window.location.host + publishedUrl).then(() => showToast('📋 Copied!')); }
+function visitProfile() { window.open(publishedUrl, '_blank'); hideSuccess(); }
+function resetProfile() { if (!confirm('Reset everything?')) return; location.reload(); }
+function previewFullscreen() { if (publishedUrl) window.open(publishedUrl, '_blank'); else showToast('Publish first to preview!'); }
 
-// ─────────────────────────────────────────────────────────────────────────────
+// ══════════════════════════════════════════
 // TOAST
-// ─────────────────────────────────────────────────────────────────────────────
-let _toastTimer;
-function showToast(msg) {
-  const t = document.getElementById('toast');
-  t.textContent = msg; t.classList.add('show');
-  clearTimeout(_toastTimer);
-  _toastTimer = setTimeout(()=>t.classList.remove('show'), 2800);
-}
+// ══════════════════════════════════════════
+let _tt;
+function showToast(msg) { const t = document.getElementById('toast'); t.textContent = msg; t.classList.add('show'); clearTimeout(_tt); _tt = setTimeout(() => t.classList.remove('show'), 2600); }
 
-// ─────────────────────────────────────────────────────────────────────────────
-// INIT — start typewriter with default phrases
-// ─────────────────────────────────────────────────────────────────────────────
+// ══════════════════════════════════════════
+// INIT
+// ══════════════════════════════════════════
 document.getElementById('iBio').value = state.bioLines.join('\n');
 document.getElementById('iTags').value = state.tags.join(', ');
-syncBio();    // starts typewriter
-syncTags();
-renderTags();
+initChips(); initGradChips();
+syncBio(); syncTags(); renderTags(); applyAccent();
+renderBadges();
 </script>
 </body>
 </html>
