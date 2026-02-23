@@ -1360,8 +1360,21 @@ input[type=range]{width:100%;accent-color:var(--acc);}
       <div class="up-progress" id="musicProg"><div class="up-bar" id="musicBar"></div></div>
     </div>
     <div class="prow">
-      <div class="plabel">Track List</div>
+      <div class="plabel">Track List <span>click to edit cover art</span></div>
       <div id="trackList" style="font-size:.78rem;color:var(--mut)">No tracks yet.</div>
+    </div>
+    <!-- Hidden cover art upload trigger -->
+    <input type="file" id="coverArtInput" accept="image/*" style="display:none" onchange="uploadCoverArt(this)">
+    <div class="prow" id="coverArtRow" style="display:none">
+      <div class="plabel" id="coverArtLabel">Cover Art <span id="coverTrackName"></span></div>
+      <label class="upload-btn" for="coverArtInput" style="border-style:dashed">🖼 Upload cover art (JPG/PNG)</label>
+      <div style="margin-top:6px;display:none;align-items:center;gap:8px;" id="coverArtPreviewRow">
+        <img id="coverArtPreview" style="width:48px;height:48px;border-radius:8px;object-fit:cover;border:1px solid var(--brd)" src="" alt="">
+        <div>
+          <div style="font-size:.75rem;font-weight:600" id="coverArtPreviewName"></div>
+          <button onclick="removeCoverArt()" style="margin-top:3px;background:rgba(244,63,94,.1);border:1px solid rgba(244,63,94,.25);color:#fb7185;border-radius:5px;padding:2px 8px;cursor:pointer;font-size:.65rem">✕ Remove</button>
+        </div>
+      </div>
     </div>
     <div class="prow">
       <div class="tog" onclick="toggleMusic()"><div class="tog-sw" id="togMusic"></div><span class="tog-label">Show player</span></div>
@@ -2551,11 +2564,75 @@ async function uploadMusic(input) {
 }
 function renderTrackList() {
   const el = document.getElementById('trackList');
-  if (!tracks.length) { el.textContent = 'No tracks yet.'; return; }
-  el.innerHTML = tracks.map((t, i) => `<div style="display:flex;align-items:center;gap:7px;padding:6px 8px;background:rgba(255,255,255,.025);border-radius:6px;margin-bottom:3px;border:1px solid var(--brd);cursor:pointer;" onclick="loadTrack(${i})">
-    <span style="font-size:.78rem;flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;color:${i === trackIdx ? 'var(--acc)' : 'var(--txt)'}">🎵 ${t.name}</span>
-    <button onclick="event.stopPropagation();removeTrack(${i})" style="background:none;border:none;color:var(--mut);cursor:pointer;font-size:.85rem;" onmouseover="this.style.color='#f43f5e'" onmouseout="this.style.color=''">✕</button>
+  if (!tracks.length) { el.textContent = 'No tracks yet.'; const caRow=document.getElementById('coverArtRow'); if(caRow)caRow.style.display='none'; return; }
+  el.innerHTML = tracks.map((t, i) => `<div style="display:flex;align-items:center;gap:7px;padding:6px 8px;background:rgba(255,255,255,.025);border-radius:6px;margin-bottom:3px;border:1px solid ${i===trackIdx?'rgba(124,58,237,.35)':'var(--brd)'};">
+    <div style="width:34px;height:34px;border-radius:6px;overflow:hidden;flex-shrink:0;background:rgba(255,255,255,.06);display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:1rem;border:1px dashed rgba(255,255,255,.1);" onclick="editCover(${i})" title="Upload cover art">${t.cover?`<img src="${t.cover}" style="width:100%;height:100%;object-fit:cover;">`:'🖼'}</div>
+    <span style="font-size:.78rem;flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;color:${i === trackIdx ? 'var(--acc)' : 'var(--txt)'};" onclick="loadTrack(${i})" style="cursor:pointer">🎵 ${t.name}</span>
+    <button onclick="event.stopPropagation();editCover(${i})" style="background:rgba(124,58,237,.1);border:1px solid rgba(124,58,237,.2);color:#a78bfa;border-radius:5px;padding:2px 7px;cursor:pointer;font-size:.6rem;white-space:nowrap;flex-shrink:0">art</button>
+    <button onclick="event.stopPropagation();removeTrack(${i})" style="background:none;border:none;color:var(--mut);cursor:pointer;font-size:.85rem;flex-shrink:0;" onmouseover="this.style.color='#f43f5e'" onmouseout="this.style.color=''">✕</button>
   </div>`).join('');
+}
+
+let _editingCoverIdx = -1;
+function editCover(i) {
+  _editingCoverIdx = i;
+  const t = tracks[i];
+  const caRow = document.getElementById('coverArtRow');
+  if (caRow) {
+    caRow.style.display = 'block';
+    const nameEl = document.getElementById('coverTrackName');
+    if (nameEl) nameEl.textContent = `"${t.name}"`;
+    const previewRow = document.getElementById('coverArtPreviewRow');
+    if (t.cover && previewRow) {
+      document.getElementById('coverArtPreview').src = t.cover;
+      document.getElementById('coverArtPreviewName').textContent = 'Cover uploaded';
+      previewRow.style.display = 'flex';
+    } else if (previewRow) {
+      previewRow.style.display = 'none';
+    }
+  }
+  document.getElementById('coverArtInput').value = '';
+}
+
+async function uploadCoverArt(input) {
+  if (!input.files.length || _editingCoverIdx < 0) return;
+  const file = input.files[0];
+  const local = URL.createObjectURL(file);
+  const fd = new FormData(); fd.append('file', file);
+  let coverUrl = local;
+  try {
+    const r = await fetch('/api/upload/image', { method:'POST', body:fd });
+    if (r.ok) { const d = await r.json(); coverUrl = d.url || local; }
+  } catch {}
+  tracks[_editingCoverIdx].cover = coverUrl;
+  state.tracks = tracks;
+  const previewRow = document.getElementById('coverArtPreviewRow');
+  if (previewRow) {
+    document.getElementById('coverArtPreview').src = coverUrl;
+    document.getElementById('coverArtPreviewName').textContent = file.name;
+    previewRow.style.display = 'flex';
+  }
+  if (_editingCoverIdx === trackIdx) {
+    const alb = document.getElementById('pcAlbum');
+    alb.innerHTML = `<img src="${coverUrl}" alt="" style="width:100%;height:100%;object-fit:cover;border-radius:10px">`;
+    alb.style.background = 'transparent';
+  }
+  renderTrackList();
+  showToast('✅ Cover art saved!');
+}
+
+function removeCoverArt() {
+  if (_editingCoverIdx < 0) return;
+  tracks[_editingCoverIdx].cover = null;
+  state.tracks = tracks;
+  const previewRow = document.getElementById('coverArtPreviewRow');
+  if (previewRow) previewRow.style.display = 'none';
+  if (_editingCoverIdx === trackIdx) {
+    const alb = document.getElementById('pcAlbum');
+    alb.innerHTML = '🎵'; alb.style.background = 'linear-gradient(135deg,#2d1060,#0c2a50)';
+  }
+  renderTrackList();
+  showToast('Cover art removed');
 }
 function removeTrack(i) { tracks.splice(i, 1); state.tracks = tracks; renderTrackList(); if (!tracks.length) { document.getElementById('pcMusic').style.display = 'none'; state.showMusic = false; document.getElementById('togMusic').classList.remove('on'); audioEl.pause(); playing = false; } else loadTrack(0); }
 function loadTrack(i) {
@@ -2564,6 +2641,13 @@ function loadTrack(i) {
   document.getElementById('pcMtitle').textContent = t.name;
   document.getElementById('pcMartist').textContent = `Track ${trackIdx + 1}/${tracks.length}`;
   document.getElementById('pcProg').style.width = '0%';
+  const alb = document.getElementById('pcAlbum');
+  if (t.cover) {
+    alb.innerHTML = `<img src="${t.cover}" alt="" style="width:100%;height:100%;object-fit:cover;border-radius:10px">`;
+    alb.style.background = 'transparent';
+  } else {
+    alb.innerHTML = '🎵'; alb.style.background = 'linear-gradient(135deg,#2d1060,#0c2a50)';
+  }
   if (playing) audioEl.play().catch(() => {});
   renderTrackList();
 }
@@ -3423,7 +3507,7 @@ async function publishProfile() {
   const username = document.getElementById('publishUsername').value.trim().toLowerCase().replace(/[^a-z0-9_.\-]/g, '');
   if (!username || username.length < 2) { showToast('❌ Username too short'); return; }
   const btn = document.getElementById('publishBtn'); btn.textContent = 'Publishing...'; btn.disabled = true;
-  const data = { ...state, username, tracks: state.tracks.map(t => ({ name: t.name, url: t.url })) };
+  const data = { ...state, username, tracks: state.tracks.map(t => ({ name: t.name, url: t.url, cover: t.cover || null })) };
   try {
     const res = await fetch('/api/profile', {
       method: 'POST',
