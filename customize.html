@@ -2999,7 +2999,7 @@ function toggleEl(id) {
 
 function initDiscordOAuth() {
   // Use the backend /auth/discord route — client ID is handled server-side via env vars
-  window.location.href = `/auth/discord?redirect=${encodeURIComponent(window.location.pathname + window.location.search)}`;
+  window.location.href = `https://vltx-discord-auth.vercel.app/auth/discord?redirect=${encodeURIComponent(window.location.pathname + window.location.search)}`;
 }
 
 function handleOAuthSuccess(user) {
