@@ -5,55 +5,37 @@ const { MongoClient } = require('mongodb');
 const cloudinary = require('cloudinary').v2;
 const { Readable } = require('stream');
 
+// No dotenv needed — credentials set directly below or via hosting env vars
+
 const app  = express();
 const PORT = process.env.PORT || 3000;
 
 // ── Cloudinary ────────────────────────────────────────────────────────────────
 cloudinary.config({
-  cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
-  api_key:    process.env.CLOUDINARY_API_KEY,
-  api_secret: process.env.CLOUDINARY_API_SECRET,
+  cloud_name: process.env.CLOUDINARY_CLOUD_NAME || 'djiebpwfn',
+  api_key:    process.env.CLOUDINARY_API_KEY    || '327694518319195',
+  api_secret: process.env.CLOUDINARY_API_SECRET || '1BUGv_7Y9X1JWgSKErYSVAyGtUA',
 });
 
 // ── MongoDB — single persistent client ───────────────────────────────────────
-const MONGO_URI = process.env.MONGO_URI;
-if (!MONGO_URI) {
-  console.error('❌ MONGO_URI environment variable is not set. Exiting.');
-  process.exit(1);
-}
+// BUG FIX: old code created a new MongoClient every cold-start and never
+// reconnected if db went null. This uses one client, connects once, reuses it.
+const MONGO_URI = process.env.MONGO_URI ||
+  'mongodb+srv://landenfortnite62_db_user:NvBSWNdfl7UsYdZ0@vltxlol.mace4ke.mongodb.net/?retryWrites=true&w=majority&appName=vltxlol';
 
 const mongoClient = new MongoClient(MONGO_URI, {
   serverSelectionTimeoutMS: 8000,
   connectTimeoutMS: 10000,
+  tls: true,
+  tlsAllowInvalidCertificates: false,
 });
 let db = null;
-let connecting = null; // BUG FIX: prevent race condition where multiple simultaneous
-                       // requests each call mongoClient.connect() before db is set,
-                       // causing "client already connected" errors.
 
 async function getDB() {
-  if (db) {
-    // BUG FIX: verify the connection is still alive; reset if it dropped
-    try {
-      await db.command({ ping: 1 });
-      return db;
-    } catch {
-      db = null;
-      connecting = null;
-    }
-  }
-  if (!connecting) {
-    connecting = mongoClient.connect()
-      .then(() => {
-        db = mongoClient.db('vltx');
-        console.log('✅ MongoDB connected');
-      })
-      .catch(e => {
-        connecting = null;
-        throw e;
-      });
-  }
-  await connecting;
+  if (db) return db;
+  await mongoClient.connect();
+  db = mongoClient.db('vltx');
+  console.log('✅ MongoDB connected');
   return db;
 }
 
@@ -64,19 +46,6 @@ getDB().catch(e => console.error('⚠️  MongoDB initial connect failed:', e.me
 const upload = multer({
   storage: multer.memoryStorage(),
   limits: { fileSize: 200 * 1024 * 1024 },
-  // BUG FIX: validate file types to prevent arbitrary file uploads
-  fileFilter(req, file, cb) {
-    const allowedImage = /^image\/(jpeg|png|gif|webp)$/;
-    const allowedAudio = /^audio\/(mpeg|mp4|ogg|wav|webm)$/;
-    const url = req.path;
-    if ((url.includes('avatar') || url.includes('background')) && allowedImage.test(file.mimetype)) {
-      return cb(null, true);
-    }
-    if (url.includes('music') && (allowedAudio.test(file.mimetype) || file.mimetype === 'video/mp4')) {
-      return cb(null, true);
-    }
-    cb(new Error(`Invalid file type: ${file.mimetype}`));
-  },
 });
 
 function uploadToCloudinary(buffer, options) {
@@ -91,22 +60,15 @@ function uploadToCloudinary(buffer, options) {
 
 // ── Middleware ────────────────────────────────────────────────────────────────
 app.use(express.json({ limit: '10mb' }));
-
-// BUG FIX: express.static(__dirname) was serving server.js, .env, package.json
-// and other sensitive files publicly. Serve only known safe extensions.
-app.use(express.static(__dirname, {
-  index: false, // we handle '/' manually
-  setHeaders(res, filePath) {
-    const ext = path.extname(filePath).toLowerCase();
-    const blocked = ['.js', '.json', '.env', '.md', '.lock', '.log'];
-    // Block server-side files — only allow front-end assets
-    if (blocked.includes(ext) && !filePath.includes('node_modules') === false) {
-      res.status(403).end();
-    }
-  },
-}));
+app.use(express.static(__dirname));
 
 // ── Discord OAuth ─────────────────────────────────────────────────────────────
+// Setup steps:
+//  1. Go to discord.com/developers → New Application → OAuth2
+//  2. Add redirect: https://vltx.lol/auth/discord/callback
+//  3. Copy Client ID + Client Secret into .env (see bottom of this file)
+//  4. Scopes needed: identify
+
 const DISCORD_CLIENT_ID     = process.env.DISCORD_CLIENT_ID     || '';
 const DISCORD_CLIENT_SECRET = process.env.DISCORD_CLIENT_SECRET || '';
 const DISCORD_REDIRECT_URI  = process.env.DISCORD_REDIRECT_URI  || 'https://vltx-adoe.onrender.com/auth/discord/callback';
@@ -116,7 +78,7 @@ app.get('/auth/discord', (req, res) => {
   if (!DISCORD_CLIENT_ID) {
     return res.status(503).send([
       '<h2 style="font-family:monospace">Discord OAuth not configured</h2>',
-      '<p style="font-family:monospace">Add DISCORD_CLIENT_ID to your environment variables</p>',
+      '<p style="font-family:monospace">Add DISCORD_CLIENT_ID to your .env file</p>',
     ].join(''));
   }
   const params = new URLSearchParams({
@@ -156,22 +118,21 @@ app.get('/auth/discord/callback', async (req, res) => {
     });
     const user = await userRes.json();
 
-    // BUG FIX: Discord's new username system (no discriminators) uses a different
-    // formula for default avatars: (userId >> 22) % 6 (6 options as of 2024),
-    // not discriminator % 5 (which was the old Clyde-era system).
+    // Build avatar URL
     const hash = user.avatar;
     const avatarUrl = hash
       ? `https://cdn.discordapp.com/avatars/${user.id}/${hash}.${hash.startsWith('a_') ? 'gif' : 'png'}?size=256`
-      : `https://cdn.discordapp.com/embed/avatars/${Number(BigInt(user.id) >> 22n) % 6}.png`;
+      : `https://cdn.discordapp.com/embed/avatars/${parseInt(user.discriminator || '0') % 5}.png`;
 
+    // Redirect back to customize with user data in query params
+    // customize.html reads these on page load and auto-fills Discord section
     const returnTo = state && state.startsWith('/') ? state : '/customize';
     const params = new URLSearchParams({
       discord_id:       user.id,
       discord_username: user.global_name || user.username,
       discord_avatar:   avatarUrl,
-      // BUG FIX: discriminator is '0' for all new-system users; show @handle instead
-      discord_tag: user.discriminator && user.discriminator !== '0'
-        ? `#${user.discriminator}` : `@${user.username}`,
+      discord_tag:      user.discriminator && user.discriminator !== '0'
+                          ? `#${user.discriminator}` : `@${user.username}`,
     });
     res.redirect(`${returnTo}?${params}`);
 
@@ -182,30 +143,16 @@ app.get('/auth/discord/callback', async (req, res) => {
 });
 
 // ── API: Save profile ─────────────────────────────────────────────────────────
-// Protected fields that clients must never be able to overwrite via the data payload
-const PROTECTED_FIELDS = new Set(['username', 'updatedAt', '_id']);
-
 app.post('/api/profile', async (req, res) => {
   const { username, data } = req.body;
   if (!username || !/^[a-zA-Z0-9_.\-]{2,30}$/.test(username))
     return res.status(400).json({ error: 'Invalid username (2-30 chars, letters/numbers/._-)' });
-
-  // BUG FIX: data could be undefined/null, crashing the spread below
-  if (!data || typeof data !== 'object' || Array.isArray(data))
-    return res.status(400).json({ error: 'Invalid profile data' });
-
-  // BUG FIX: strip protected fields from user-supplied data so they can't
-  // overwrite username, _id, or timestamps via the payload
-  const safeData = Object.fromEntries(
-    Object.entries(data).filter(([k]) => !PROTECTED_FIELDS.has(k))
-  );
-
   try {
     const database = await getDB();
     const key = username.toLowerCase();
     await database.collection('profiles').updateOne(
       { username: key },
-      { $set: { ...safeData, username: key, updatedAt: Date.now() } },
+      { $set: { ...data, username: key, updatedAt: Date.now() } },
       { upsert: true }
     );
     await database.collection('views').updateOne(
@@ -235,6 +182,9 @@ app.get('/api/profile/:username', async (req, res) => {
 });
 
 // ── API: Views ────────────────────────────────────────────────────────────────
+// BUG FIX: MongoDB driver v6+ returns the doc directly from findOneAndUpdate.
+// Old code did result.views which was undefined — driver used to wrap it in
+// result.value. Now we handle both for safety.
 app.post('/api/view/:username', async (req, res) => {
   try {
     const database = await getDB();
@@ -244,27 +194,11 @@ app.post('/api/view/:username', async (req, res) => {
       { $inc: { views: 1 } },
       { upsert: true, returnDocument: 'after' }
     );
-    // BUG FIX: handle both MongoDB driver v5 (result.value) and v6+ (result directly)
-    const doc   = result?.value ?? result;
-    const views = doc?.views ?? 1;
+    // Driver v6+: result is the doc. Driver v5: result.value is the doc.
+    const doc    = result?.value ?? result;
+    const views  = doc?.views ?? 1;
     res.json({ views });
   } catch (e) {
-    // BUG FIX: upsert can throw a duplicate key error under race conditions
-    // (two simultaneous requests for a brand-new username). Retry once as a plain increment.
-    if (e.code === 11000) {
-      try {
-        const database = await getDB();
-        const key = req.params.username.toLowerCase();
-        const doc = await database.collection('views').findOneAndUpdate(
-          { username: key },
-          { $inc: { views: 1 } },
-          { returnDocument: 'after' }
-        );
-        return res.json({ views: (doc?.value ?? doc)?.views ?? 1 });
-      } catch (retryErr) {
-        return res.status(500).json({ error: 'Database error: ' + retryErr.message });
-      }
-    }
     res.status(500).json({ error: 'Database error: ' + e.message });
   }
 });
@@ -326,6 +260,22 @@ app.post('/api/upload/background', upload.single('file'), async (req, res) => {
   }
 });
 
+// ── Cover art (music player thumbnails) ──────────────────────────────────────
+app.post('/api/upload/image', upload.single('file'), async (req, res) => {
+  if (!req.file) return res.status(400).json({ error: 'No file uploaded' });
+  try {
+    const result = await uploadToCloudinary(req.file.buffer, {
+      folder: 'vltx/covers',
+      resource_type: 'image',
+      transformation: [{ width: 300, height: 300, crop: 'fill' }],
+    });
+    res.json({ url: result.secure_url });
+  } catch (e) {
+    console.error('Cover art upload:', e.message);
+    res.status(500).json({ error: 'Upload failed: ' + e.message });
+  }
+});
+
 app.post('/api/upload/music', upload.single('file'), async (req, res) => {
   if (!req.file) return res.status(400).json({ error: 'No file uploaded' });
   try {
@@ -341,25 +291,14 @@ app.post('/api/upload/music', upload.single('file'), async (req, res) => {
   }
 });
 
-// BUG FIX: multer errors (file too large, wrong type) were unhandled — Express
-// would hang or return an ugly 500. This catches them and returns clean JSON.
-app.use((err, req, res, next) => {
-  if (err instanceof multer.MulterError) {
-    if (err.code === 'LIMIT_FILE_SIZE')
-      return res.status(413).json({ error: 'File too large (max 200MB)' });
-    return res.status(400).json({ error: 'Upload error: ' + err.message });
-  }
-  if (err && err.message && err.message.startsWith('Invalid file type')) {
-    return res.status(400).json({ error: err.message });
-  }
-  next(err);
-});
-
 // ── Static pages ──────────────────────────────────────────────────────────────
 app.get('/',          (req, res) => res.sendFile(path.join(__dirname, 'index.html')));
 app.get('/customize', (req, res) => res.sendFile(path.join(__dirname, 'customize.html')));
 
 // ── Profile pages /:username ──────────────────────────────────────────────────
+// BUG FIX: old RESERVED array used .some(r => key.startsWith(r)) which means
+// any username starting with e.g. "api" would 404. Now uses an exact Set lookup
+// and also blocks filenames with dots (e.g. favicon.ico, server.js).
 const RESERVED = new Set([
   'api', 'auth', 'favicon.ico', 'favicon.png', 'robots.txt',
   'sitemap.xml', 'customize', '404', 'index.html', 'profile.html',
@@ -382,27 +321,25 @@ app.get('/:username', async (req, res) => {
   }
 });
 
-// ── Global error handler ──────────────────────────────────────────────────────
-app.use((err, req, res, next) => {
-  console.error('Unhandled error:', err);
-  res.status(500).json({ error: 'Internal server error' });
-});
-
 // ── Start ─────────────────────────────────────────────────────────────────────
 app.listen(PORT, () => {
   console.log(`✅ VLTX running → http://localhost:${PORT}`);
-  console.log(`   Discord OAuth: ${DISCORD_CLIENT_ID ? '✅ configured' : '⚠️  not configured — add DISCORD_CLIENT_ID to env'}`);
+  console.log(`   Discord OAuth: ${DISCORD_CLIENT_ID ? '✅ configured' : '⚠️  not configured — add DISCORD_CLIENT_ID to .env'}`);
 });
 
 // ─────────────────────────────────────────────────────────────────────────────
-// Required environment variables (set these in Render / your hosting dashboard):
-//
-//   MONGO_URI               — MongoDB Atlas connection string
-//   CLOUDINARY_CLOUD_NAME   — from cloudinary.com dashboard
-//   CLOUDINARY_API_KEY      — from cloudinary.com dashboard
-//   CLOUDINARY_API_SECRET   — from cloudinary.com dashboard
-//   DISCORD_CLIENT_ID       — from discord.com/developers
-//   DISCORD_CLIENT_SECRET   — from discord.com/developers
-//   DISCORD_REDIRECT_URI    — e.g. https://vltx.lol/auth/discord/callback
-//   PORT                    — (optional, defaults to 3000)
+// .env FILE — create this in your project root (same folder as server.js)
+// Never commit this file to git. Add .env to your .gitignore.
 // ─────────────────────────────────────────────────────────────────────────────
+//
+// PORT=3000
+// MONGO_URI=mongodb+srv://...your URI...
+// CLOUDINARY_CLOUD_NAME=djiebpwfn
+// CLOUDINARY_API_KEY=327694518319195
+// CLOUDINARY_API_SECRET=1BUGv_7Y9X1JWgSKErYSVAyGtUA
+//
+// # Discord OAuth — get from discord.com/developers
+// DISCORD_CLIENT_ID=your_client_id_here
+// DISCORD_CLIENT_SECRET=your_client_secret_here
+// DISCORD_REDIRECT_URI=https://vltx.lol/auth/discord/callback
+//
