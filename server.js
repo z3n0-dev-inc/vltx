@@ -97,25 +97,32 @@ app.get('/auth/discord/callback', async (req, res) => {
   if (!code) return res.redirect('/customize?discord_error=no_code');
 
   try {
-    // Exchange code for token
-    console.log('DEBUG client_id:', JSON.stringify(DISCORD_CLIENT_ID));
-    console.log('DEBUG redirect_uri:', JSON.stringify(DISCORD_REDIRECT_URI));
-    console.log('DEBUG client_secret length:', DISCORD_CLIENT_SECRET.length);
-    const tokenRes = await fetch('https://discord.com/api/oauth2/token', {
-      method:  'POST',
-      headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-      body:    new URLSearchParams({
-        client_id:     DISCORD_CLIENT_ID,
-        client_secret: DISCORD_CLIENT_SECRET,
-        grant_type:    'authorization_code',
-        code,
-        redirect_uri:  DISCORD_REDIRECT_URI,
-      }),
-    });
-    const rawText = await tokenRes.text();
-    console.log('DEBUG discord status:', tokenRes.status);
-    console.log('DEBUG discord response:', rawText.substring(0, 500));
-    const tokenData = JSON.parse(rawText);
+    // Exchange code for token — retry up to 3 times on rate limit
+    let tokenData;
+    for (let attempt = 1; attempt <= 3; attempt++) {
+      const tokenRes = await fetch('https://discord.com/api/oauth2/token', {
+        method:  'POST',
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+        body:    new URLSearchParams({
+          client_id:     DISCORD_CLIENT_ID,
+          client_secret: DISCORD_CLIENT_SECRET,
+          grant_type:    'authorization_code',
+          code,
+          redirect_uri:  DISCORD_REDIRECT_URI,
+        }),
+      });
+      if (tokenRes.status === 429) {
+        const retryAfter = tokenRes.headers.get('retry-after') || attempt;
+        console.log(`Rate limited by Discord, waiting ${retryAfter}s (attempt ${attempt})`);
+        await new Promise(r => setTimeout(r, retryAfter * 1000));
+        continue;
+      }
+      const text = await tokenRes.text();
+      try { tokenData = JSON.parse(text); }
+      catch { throw new Error('Discord returned non-JSON: ' + text.substring(0, 100)); }
+      break;
+    }
+    if (!tokenData) throw new Error('Discord rate limited after 3 attempts — try again in a moment');
     if (tokenData.error) throw new Error(tokenData.error_description || tokenData.error);
 
     // Fetch Discord user with access token
