@@ -4,7 +4,7 @@
   "description": "VLTX profile pages",
   "main": "server.js",
   "engines": {
-    "node": "18.x"
+    "node": "24.x"
   },
   "scripts": {
     "start": "node server.js"
