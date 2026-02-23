@@ -69,9 +69,9 @@ app.use(express.static(__dirname));
 //  3. Copy Client ID + Client Secret into .env (see bottom of this file)
 //  4. Scopes needed: identify
 
-const DISCORD_CLIENT_ID     = process.env.DISCORD_CLIENT_ID     || '';
-const DISCORD_CLIENT_SECRET = process.env.DISCORD_CLIENT_SECRET || '';
-const DISCORD_REDIRECT_URI  = process.env.DISCORD_REDIRECT_URI  || 'https://vltx-adoe.onrender.com/auth/discord/callback';
+const DISCORD_CLIENT_ID     = (process.env.DISCORD_CLIENT_ID     || '').trim();
+const DISCORD_CLIENT_SECRET = (process.env.DISCORD_CLIENT_SECRET || '').trim();
+const DISCORD_REDIRECT_URI  = (process.env.DISCORD_REDIRECT_URI  || 'https://vltx-adoe.onrender.com/auth/discord/callback').trim();
 
 // Step 1 — user hits this → gets redirected to Discord login
 app.get('/auth/discord', (req, res) => {
