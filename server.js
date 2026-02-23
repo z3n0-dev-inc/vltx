@@ -98,6 +98,9 @@ app.get('/auth/discord/callback', async (req, res) => {
 
   try {
     // Exchange code for token
+    console.log('DEBUG client_id:', JSON.stringify(DISCORD_CLIENT_ID));
+    console.log('DEBUG redirect_uri:', JSON.stringify(DISCORD_REDIRECT_URI));
+    console.log('DEBUG client_secret length:', DISCORD_CLIENT_SECRET.length);
     const tokenRes = await fetch('https://discord.com/api/oauth2/token', {
       method:  'POST',
       headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
@@ -109,7 +112,10 @@ app.get('/auth/discord/callback', async (req, res) => {
         redirect_uri:  DISCORD_REDIRECT_URI,
       }),
     });
-    const tokenData = await tokenRes.json();
+    const rawText = await tokenRes.text();
+    console.log('DEBUG discord status:', tokenRes.status);
+    console.log('DEBUG discord response:', rawText.substring(0, 500));
+    const tokenData = JSON.parse(rawText);
     if (tokenData.error) throw new Error(tokenData.error_description || tokenData.error);
 
     // Fetch Discord user with access token
