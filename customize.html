@@ -843,6 +843,15 @@ input[type=range]{width:100%;accent-color:var(--acc);}
     <div class="ni" onclick="nav(this,'s-links')"><span class="ni-ico">▸</span>Social Links<div class="ni-dot"></div></div>
     <div class="ni" onclick="nav(this,'s-discord')"><span class="ni-ico">⬡</span>Discord<div class="ni-dot" id="discordNavDot"></div></div>
     <div class="ni" onclick="nav(this,'s-spotify')"><span class="ni-ico">▸</span>Spotify<div class="ni-dot"></div></div>
+    <div class="sg">// extra features</div>
+    <div class="ni" onclick="nav(this,'s-skillbars')"><span class="ni-ico">▸</span>Skill Bars<span class="ni-badge">NEW</span><div class="ni-dot"></div></div>
+    <div class="ni" onclick="nav(this,'s-timeline')"><span class="ni-ico">▸</span>Timeline<span class="ni-badge">NEW</span><div class="ni-dot"></div></div>
+    <div class="ni" onclick="nav(this,'s-quote')"><span class="ni-ico">▸</span>Quote<span class="ni-badge">NEW</span><div class="ni-dot"></div></div>
+    <div class="ni" onclick="nav(this,'s-reactions')"><span class="ni-ico">▸</span>Reactions<span class="ni-badge">NEW</span><div class="ni-dot"></div></div>
+    <div class="ni" onclick="nav(this,'s-weather')"><span class="ni-ico">▸</span>Weather<span class="ni-badge">NEW</span><div class="ni-dot"></div></div>
+    <div class="ni" onclick="nav(this,'s-visitor')"><span class="ni-ico">▸</span>Visitor Map<span class="ni-badge">NEW</span><div class="ni-dot"></div></div>
+    <div class="ni" onclick="nav(this,'s-marquee')"><span class="ni-ico">▸</span>Marquee & Text<span class="ni-badge">NEW</span><div class="ni-dot"></div></div>
+    <div class="ni" onclick="nav(this,'s-particles-extra')"><span class="ni-ico">▸</span>Particles+<span class="ni-badge">NEW</span><div class="ni-dot"></div></div>
     <div class="sg">// advanced</div>
     <div class="ni" onclick="nav(this,'s-borders')"><span class="ni-ico">▸</span>Borders & Glow<span class="ni-badge">NEW</span><div class="ni-dot"></div></div>
     <div class="ni" onclick="nav(this,'s-stickers')"><span class="ni-ico">▸</span>Stickers<span class="ni-badge">NEW</span><div class="ni-dot"></div></div>
@@ -2319,6 +2328,181 @@ input[type=range]{width:100%;accent-color:var(--acc);}
         <button class="tbtn ghost sm" style="text-align:left;justify-content:flex-start" onclick="insertCssSnippet('scanlines')">📺 Scanlines Overlay</button>
         <button class="tbtn ghost sm" style="text-align:left;justify-content:flex-start" onclick="insertCssSnippet('float')">🌊 Float Everything</button>
       </div>
+    </div>
+  </div>
+
+
+  <!-- ══════ SKILL BARS PANEL ══════ -->
+  <div class="panel" id="s-skillbars">
+    <div class="ph">📊 Skill Bars <span class="ph-sub">animated fill</span></div>
+    <div class="prow">
+      <div class="plabel">Add Skill Bar</div>
+      <div style="display:flex;gap:7px;margin-bottom:8px">
+        <input type="text" id="iSkillBarName" placeholder="Skill name..." style="flex:1">
+        <input type="number" id="iSkillBarLevel" placeholder="85" min="0" max="100" style="width:60px">
+        <button class="tbtn acc sm" onclick="addSkillBar()">+</button>
+      </div>
+      <div id="skillBarList" style="display:flex;flex-direction:column;gap:6px;margin-bottom:8px">
+        <div style="font-size:.72rem;color:var(--mut)">No skill bars yet.</div>
+      </div>
+      <div class="pnote blue">Bars animate to their percentage when the profile loads.</div>
+    </div>
+    <div class="prow">
+      <div class="plabel">Quick Add</div>
+      <div style="display:flex;gap:4px;flex-wrap:wrap">
+        <button class="tbtn ghost sm" onclick="addSkillBarDirect('JavaScript',90)">JS 90%</button>
+        <button class="tbtn ghost sm" onclick="addSkillBarDirect('Python',85)">Python 85%</button>
+        <button class="tbtn ghost sm" onclick="addSkillBarDirect('React',80)">React 80%</button>
+        <button class="tbtn ghost sm" onclick="addSkillBarDirect('Design',75)">Design 75%</button>
+        <button class="tbtn ghost sm" onclick="addSkillBarDirect('TypeScript',88)">TS 88%</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════ TIMELINE PANEL ══════ -->
+  <div class="panel" id="s-timeline">
+    <div class="ph">📅 Timeline <span class="ph-sub">achievements</span></div>
+    <div class="prow">
+      <div class="plabel">Add Timeline Event</div>
+      <input type="text" id="iTimelineEvent" placeholder="Got first client 🎉" style="margin-bottom:6px">
+      <div class="row2" style="margin-bottom:6px">
+        <input type="text" id="iTimelineDate" placeholder="Jan 2024">
+        <input type="text" id="iTimelineIcon" placeholder="icon emoji" maxlength="4">
+      </div>
+      <input type="text" id="iTimelineDesc" placeholder="Brief description..." style="margin-bottom:8px">
+      <button class="tbtn acc" onclick="addTimelineItem()" style="width:100%">+ Add Event</button>
+    </div>
+    <div class="prow">
+      <div class="plabel">Events</div>
+      <div id="timelineList" style="font-size:.78rem;color:var(--mut)">No events yet.</div>
+    </div>
+  </div>
+
+  <!-- ══════ QUOTE PANEL ══════ -->
+  <div class="panel" id="s-quote">
+    <div class="ph">💬 Quote Section</div>
+    <div class="prow">
+      <div class="plabel">Quote Text</div>
+      <textarea id="iQuote" rows="3" placeholder="The only way to do great work is to love what you do." oninput="syncQuote()"></textarea>
+    </div>
+    <div class="prow">
+      <div class="plabel">Attribution</div>
+      <input type="text" id="iQuoteAuthor" placeholder="Steve Jobs" oninput="syncQuote()">
+    </div>
+    <div class="prow">
+      <div class="plabel">Inspirational Quotes</div>
+      <div style="display:flex;flex-direction:column;gap:5px">
+        <button class="tbtn ghost sm" style="text-align:left;font-size:.68rem" onclick="setQuote('The only way to do great work is to love what you do.','Steve Jobs')">Steve Jobs</button>
+        <button class="tbtn ghost sm" style="text-align:left;font-size:.68rem" onclick="setQuote('Stay hungry, stay foolish.','Steve Jobs')">Stay Hungry</button>
+        <button class="tbtn ghost sm" style="text-align:left;font-size:.68rem" onclick="setQuote('Code is poetry.','WordPress')">Code is Poetry</button>
+        <button class="tbtn ghost sm" style="text-align:left;font-size:.68rem" onclick="setQuote('Build things. Break things. Learn things.','')">Build Things</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════ REACTIONS PANEL ══════ -->
+  <div class="panel" id="s-reactions">
+    <div class="ph">⚡ Reaction System</div>
+    <div class="prow">
+      <div class="tog" onclick="toggleReactions()"><div class="tog-sw on" id="togReactions"></div><span class="tog-label">Show reaction bar</span></div>
+    </div>
+    <div class="prow">
+      <div class="pnote green">Visitors can react to your profile with emojis. Reactions are tracked per session and saved locally.</div>
+    </div>
+    <div class="prow">
+      <div class="plabel">Floating Emoji Reactions</div>
+      <div class="tog" onclick="toggleFloatingEmoji()"><div class="tog-sw" id="togFloatingEmoji"></div><span class="tog-label">Floating emoji from clicks</span></div>
+    </div>
+    <div class="prow">
+      <div class="plabel">Confetti on Load</div>
+      <div class="tog" onclick="toggleConfetti()"><div class="tog-sw on" id="togConfetti"></div><span class="tog-label">Confetti burst on page load</span></div>
+    </div>
+  </div>
+
+  <!-- ══════ WEATHER PANEL ══════ -->
+  <div class="panel" id="s-weather">
+    <div class="ph">🌤 Weather Widget</div>
+    <div class="prow">
+      <div class="pnote blue">Shows live weather for your location. Powered by wttr.in — no API key needed.</div>
+    </div>
+    <div class="prow">
+      <div class="tog" onclick="toggleWeather()"><div class="tog-sw" id="togWeather"></div><span class="tog-label">Show weather widget</span></div>
+    </div>
+    <div class="prow">
+      <div class="plabel">Location (set in Profile tab)</div>
+      <div style="font-size:.72rem;color:var(--mut)">Weather is pulled from the location you set in the Profile panel. Make sure to enter a city name like "Tokyo" or "New York".</div>
+    </div>
+  </div>
+
+  <!-- ══════ VISITOR MAP PANEL ══════ -->
+  <div class="panel" id="s-visitor">
+    <div class="ph">🌍 Visitor Map</div>
+    <div class="prow">
+      <div class="tog" onclick="toggleVisitorMap()"><div class="tog-sw" id="togVisitorMap"></div><span class="tog-label">Show visitor origin map</span></div>
+    </div>
+    <div class="prow">
+      <div class="tog" onclick="toggleVisitorCounter()"><div class="tog-sw on" id="togVisitorCounter"></div><span class="tog-label">Show visitor counter with flags</span></div>
+    </div>
+    <div class="prow">
+      <div class="pnote">The map shows an animated dot-grid visualization of where your visitors come from. Animated in real-time.</div>
+    </div>
+    <div class="prow">
+      <div class="plabel">Currently Available for Work</div>
+      <div class="tog" onclick="toggleAvailable()"><div class="tog-sw" id="togAvailable"></div><span class="tog-label">Show "Available" indicator</span></div>
+    </div>
+  </div>
+
+  <!-- ══════ MARQUEE & ANIMATED TEXT PANEL ══════ -->
+  <div class="panel" id="s-marquee">
+    <div class="ph">✍️ Marquee & Text <span class="ph-sub">animated</span></div>
+    <div class="prow">
+      <div class="plabel">Banner Marquee Text <span>scrolls across banner</span></div>
+      <input type="text" id="iBannerMarquee" placeholder="building the future 🚀 design is thinking made visual ✦" oninput="syncBannerMarquee()">
+    </div>
+    <div class="prow">
+      <div class="plabel">Song Lyrics Ticker <span>below banner</span></div>
+      <input type="text" id="iLyricsTicker" placeholder="Paste your fave lyrics here... 🎵" oninput="syncLyricsTicker()">
+    </div>
+    <div class="prow">
+      <div class="plabel">Banner Watermark Text</div>
+      <input type="text" id="iBannerText" placeholder="VLTX.LOL" oninput="syncBannerText()" maxlength="20">
+    </div>
+    <div class="prow">
+      <div class="plabel">Animated Logo/Watermark</div>
+      <div class="tog" onclick="toggleAnimLogo()"><div class="tog-sw on" id="togAnimLogo"></div><span class="tog-label">Show animated VLTX watermark</span></div>
+    </div>
+    <div class="prow">
+      <div class="plabel">Neon Scanline Effect</div>
+      <div class="tog" onclick="toggleNeonScanline()"><div class="tog-sw" id="togNeonScanline"></div><span class="tog-label">Moving neon scanline</span></div>
+    </div>
+    <div class="prow">
+      <div class="plabel">Scanline Overlay (CRT)</div>
+      <div class="tog" onclick="toggleScanlines()"><div class="tog-sw" id="togScanlines"></div><span class="tog-label">CRT scanlines overlay</span></div>
+    </div>
+    <div class="prow">
+      <div class="plabel">Animated Gradient Mesh</div>
+      <div class="tog" onclick="toggle('bgGrad','togBgGrad')"><div class="tog-sw" id="togBgGrad"></div><span class="tog-label">Floating gradient mesh behind card</span></div>
+    </div>
+  </div>
+
+  <!-- ══════ PARTICLES EXTRA PANEL ══════ -->
+  <div class="panel" id="s-particles-extra">
+    <div class="ph">🌧 Particles+ <span class="ph-sub">insane effects</span></div>
+    <div class="prow">
+      <div class="plabel">Matrix Rain (green characters)</div>
+      <div class="tog" onclick="toggleMatrixRain()"><div class="tog-sw" id="togMatrixRain"></div><span class="tog-label">Matrix rain effect</span></div>
+    </div>
+    <div class="prow">
+      <div class="plabel">Snow / Rain Particles</div>
+      <div class="tog" onclick="toggleSnowRain()"><div class="tog-sw" id="togSnowRain"></div><span class="tog-label">Snow/rain particles</span></div>
+    </div>
+    <div class="prow">
+      <div class="plabel">Floating Emoji Effect</div>
+      <input type="text" id="iFloatingEmoji" placeholder="🔥,✨,💀 (comma separated)" oninput="syncFloatingEmoji()">
+      <div class="tog" style="margin-top:8px" onclick="toggleFloatingEmojiEffect()"><div class="tog-sw" id="togFloatingEmojiEffect"></div><span class="tog-label">Enable floating emoji</span></div>
+    </div>
+    <div class="prow">
+      <div class="pnote yellow">⚠️ Using multiple heavy particle effects may impact performance.</div>
     </div>
   </div>
 
@@ -4211,6 +4395,212 @@ function insertCssSnippet(key) {
   syncCustomCss();
   showToast('Snippet inserted!');
 }
+
+
+
+// ══════════════════════════════════════════
+// SKILL BARS
+// ══════════════════════════════════════════
+let skillBars = [];
+function addSkillBar() {
+  const name = document.getElementById('iSkillBarName').value.trim();
+  const level = parseInt(document.getElementById('iSkillBarLevel').value) || 80;
+  if (!name) { showToast('Enter a skill name!'); return; }
+  addSkillBarDirect(name, Math.min(100, Math.max(0, level)));
+  document.getElementById('iSkillBarName').value = '';
+  document.getElementById('iSkillBarLevel').value = '';
+}
+function addSkillBarDirect(name, level) {
+  skillBars.push({ name, level });
+  state.skillBars = skillBars;
+  renderSkillBarList();
+  renderSkillBarsCard();
+  showToast(`✅ ${name} ${level}% added!`);
+}
+function removeSkillBar(i) {
+  skillBars.splice(i, 1);
+  state.skillBars = skillBars;
+  renderSkillBarList();
+  renderSkillBarsCard();
+}
+function renderSkillBarList() {
+  const el = document.getElementById('skillBarList');
+  if (!skillBars.length) { el.innerHTML = '<div style="font-size:.72rem;color:var(--mut)">No skill bars yet.</div>'; return; }
+  el.innerHTML = skillBars.map((s, i) => `
+    <div style="display:flex;align-items:center;gap:8px;background:var(--sur2);border:1px solid var(--brd);border-radius:6px;padding:7px 10px">
+      <span style="font-size:.8rem;flex:1">${s.name}</span>
+      <span style="font-size:.75rem;color:var(--acc);font-weight:700">${s.level}%</span>
+      <div style="width:60px;height:4px;background:rgba(255,255,255,.08);border-radius:100px;overflow:hidden">
+        <div style="height:100%;width:${s.level}%;background:linear-gradient(90deg,var(--acc),var(--acc2));border-radius:100px"></div>
+      </div>
+      <button onclick="removeSkillBar(${i})" style="background:none;border:none;color:var(--mut);cursor:pointer;font-size:.85rem">✕</button>
+    </div>
+  `).join('');
+}
+function renderSkillBarsCard() {
+  // Show in preview card (inject below skills row)
+  let sbEl = document.getElementById('pcSkillBarsPreview');
+  if (!sbEl) {
+    sbEl = document.createElement('div');
+    sbEl.id = 'pcSkillBarsPreview';
+    sbEl.style.cssText = 'margin-bottom:12px;padding:0 4px';
+    const skillsRow = document.getElementById('pcSkillsRow');
+    skillsRow.parentNode.insertBefore(sbEl, skillsRow);
+  }
+  if (!skillBars.length) { sbEl.style.display = 'none'; return; }
+  sbEl.style.display = '';
+  sbEl.innerHTML = skillBars.map(s => `
+    <div style="margin-bottom:8px">
+      <div style="display:flex;justify-content:space-between;font-size:.68rem;color:var(--mut);margin-bottom:3px">
+        <span>${s.name}</span><span style="color:var(--acc);font-weight:700">${s.level}%</span>
+      </div>
+      <div style="height:4px;background:rgba(255,255,255,.07);border-radius:100px;overflow:hidden">
+        <div style="height:100%;width:${s.level}%;background:linear-gradient(90deg,var(--acc),var(--acc2));border-radius:100px;transition:width 1.2s"></div>
+      </div>
+    </div>
+  `).join('');
+}
+
+// ══════════════════════════════════════════
+// TIMELINE
+// ══════════════════════════════════════════
+let timelineItems = [];
+function addTimelineItem() {
+  const event = document.getElementById('iTimelineEvent').value.trim();
+  if (!event) { showToast('Enter an event name!'); return; }
+  const item = {
+    event,
+    date: document.getElementById('iTimelineDate').value.trim(),
+    icon: document.getElementById('iTimelineIcon').value.trim() || '📌',
+    desc: document.getElementById('iTimelineDesc').value.trim(),
+  };
+  timelineItems.push(item);
+  state.timeline = timelineItems;
+  renderTimelineList();
+  ['iTimelineEvent','iTimelineDate','iTimelineIcon','iTimelineDesc'].forEach(id => document.getElementById(id).value = '');
+  showToast('✅ Timeline event added!');
+}
+function removeTimelineItem(i) {
+  timelineItems.splice(i, 1);
+  state.timeline = timelineItems;
+  renderTimelineList();
+}
+function renderTimelineList() {
+  const el = document.getElementById('timelineList');
+  if (!timelineItems.length) { el.innerHTML = '<span style="font-size:.72rem;color:var(--mut)">No events yet.</span>'; return; }
+  el.innerHTML = timelineItems.map((t, i) => `
+    <div style="display:flex;align-items:flex-start;gap:8px;background:var(--sur2);border:1px solid var(--brd);border-radius:6px;padding:8px 10px;margin-bottom:4px">
+      <span style="font-size:1rem">${t.icon}</span>
+      <div style="flex:1">
+        <div style="font-size:.8rem;font-weight:600">${t.event}</div>
+        ${t.date ? `<div style="font-size:.65rem;color:var(--mut)">${t.date}</div>` : ''}
+      </div>
+      <button onclick="removeTimelineItem(${i})" style="background:none;border:none;color:var(--mut);cursor:pointer;font-size:.85rem">✕</button>
+    </div>
+  `).join('');
+}
+
+// ══════════════════════════════════════════
+// QUOTE
+// ══════════════════════════════════════════
+function syncQuote() {
+  state.quote = document.getElementById('iQuote').value.trim();
+  state.quoteAuthor = document.getElementById('iQuoteAuthor').value.trim();
+}
+function setQuote(text, author) {
+  document.getElementById('iQuote').value = text;
+  document.getElementById('iQuoteAuthor').value = author;
+  syncQuote();
+  showToast('✅ Quote set!');
+}
+
+// ══════════════════════════════════════════
+// REACTIONS
+// ══════════════════════════════════════════
+function toggleReactions() {
+  state.showReactions = !(state.showReactions !== false);
+  document.getElementById('togReactions').classList.toggle('on', state.showReactions !== false);
+}
+function toggleFloatingEmoji() {
+  state.floatingEmojiReactions = !state.floatingEmojiReactions;
+  document.getElementById('togFloatingEmoji').classList.toggle('on', state.floatingEmojiReactions);
+}
+function toggleConfetti() {
+  state.confettiBurst = !(state.confettiBurst === false);
+  document.getElementById('togConfetti').classList.toggle('on', state.confettiBurst !== false);
+}
+
+// ══════════════════════════════════════════
+// WEATHER
+// ══════════════════════════════════════════
+function toggleWeather() {
+  state.showWeather = !state.showWeather;
+  document.getElementById('togWeather').classList.toggle('on', state.showWeather);
+}
+
+// ══════════════════════════════════════════
+// VISITOR MAP
+// ══════════════════════════════════════════
+function toggleVisitorMap() {
+  state.showVisitorMap = !state.showVisitorMap;
+  document.getElementById('togVisitorMap').classList.toggle('on', state.showVisitorMap);
+}
+function toggleVisitorCounter() {
+  state.showVisitorCounter = !(state.showVisitorCounter === false);
+  document.getElementById('togVisitorCounter').classList.toggle('on', state.showVisitorCounter !== false);
+}
+function toggleAvailable() {
+  state.showAvailable = !state.showAvailable;
+  document.getElementById('togAvailable').classList.toggle('on', state.showAvailable);
+  showToast(state.showAvailable ? '✅ Available indicator on' : 'Available indicator off');
+}
+
+// ══════════════════════════════════════════
+// MARQUEE & ANIMATED TEXT
+// ══════════════════════════════════════════
+function syncBannerMarquee() { state.bannerMarquee = document.getElementById('iBannerMarquee').value; }
+function syncLyricsTicker() { state.lyricsTicker = document.getElementById('iLyricsTicker').value; }
+function syncBannerText() { state.bannerText = document.getElementById('iBannerText').value; }
+function toggleAnimLogo() {
+  state.animLogo = !(state.animLogo === false);
+  document.getElementById('togAnimLogo').classList.toggle('on', state.animLogo !== false);
+}
+function toggleNeonScanline() {
+  state.neonScanline = !state.neonScanline;
+  document.getElementById('togNeonScanline').classList.toggle('on', state.neonScanline);
+}
+function toggleScanlines() {
+  state.scanlines = !state.scanlines;
+  document.getElementById('togScanlines').classList.toggle('on', state.scanlines);
+}
+
+// ══════════════════════════════════════════
+// PARTICLES EXTRA
+// ══════════════════════════════════════════
+function toggleMatrixRain() {
+  state.matrixRain = !state.matrixRain;
+  document.getElementById('togMatrixRain').classList.toggle('on', state.matrixRain);
+  showToast(state.matrixRain ? '🟩 Matrix rain ON' : 'Matrix rain off');
+}
+function toggleSnowRain() {
+  state.snowRain = !state.snowRain;
+  document.getElementById('togSnowRain').classList.toggle('on', state.snowRain);
+  showToast(state.snowRain ? '❄️ Snow ON' : 'Snow off');
+}
+function syncFloatingEmoji() {
+  state.floatingEmoji = document.getElementById('iFloatingEmoji').value;
+}
+function toggleFloatingEmojiEffect() {
+  const tog = document.getElementById('togFloatingEmojiEffect');
+  tog.classList.toggle('on');
+  state.floatingEmojiActive = tog.classList.contains('on');
+  if (state.floatingEmojiActive) {
+    state.floatingEmoji = document.getElementById('iFloatingEmoji').value || '🔥,✨,💀';
+  } else {
+    state.floatingEmoji = null;
+  }
+}
+
 
 
 </script>
