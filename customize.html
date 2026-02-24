@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Customize — VLTX</title>
+<title>Customize — VLTX.LOL</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;700;800&family=Outfit:wght@300;400;500;600;700&family=Space+Mono:wght@400;700&family=DM+Sans:wght@300;400;500;600&family=Orbitron:wght@400;700;900&display=swap" rel="stylesheet">
@@ -770,6 +770,39 @@ input[type=range]{width:100%;accent-color:var(--acc);}
   display:none;
 }
 .theme-card.active .theme-apply-badge{display:block;}
+
+/* ─── BORDER STYLE CARDS ─── */
+.border-style-card{border:2px solid var(--brd);border-radius:7px;padding:7px;cursor:pointer;transition:all .18s;}
+.border-style-card:hover{border-color:rgba(124,58,237,.3);}
+.border-style-card.sel{border-color:var(--acc);background:rgba(124,58,237,.08);}
+
+/* ─── STICKER OPTS ─── */
+.sticker-opt{
+  width:100%;aspect-ratio:1;display:flex;align-items:center;justify-content:center;
+  font-size:1.4rem;border-radius:8px;cursor:pointer;
+  background:var(--sur2);border:2px solid var(--brd);
+  transition:all .18s;
+}
+.sticker-opt:hover{transform:scale(1.15);border-color:rgba(124,58,237,.4);background:rgba(124,58,237,.08);}
+
+/* ─── ANIMATED STICKERS ON CARD ─── */
+.card-sticker{
+  position:absolute;font-size:1.4rem;pointer-events:none;user-select:none;z-index:20;
+  animation:stickerFloat var(--dur,4s) ease-in-out infinite;
+  animation-delay:var(--delay,0s);
+}
+@keyframes stickerFloat{
+  0%,100%{transform:translateY(0) rotate(var(--rot,0deg));}
+  50%{transform:translateY(-8px) rotate(calc(var(--rot,0deg) + 5deg));}
+}
+
+/* ─── ANIMATED BORDER STYLES ─── */
+@keyframes rainbowBorder{to{--spin:360deg;}}
+@keyframes fireBorder{0%{border-color:#ff4500;}50%{border-color:#ffd700;}100%{border-color:#ff4500;}}
+
+/* ─── RING CARDS ─── */
+.ring-card.sel{border-color:var(--acc) !important;background:rgba(124,58,237,.1);color:#fff !important;}
+
 </style>
 </head>
 <body>
@@ -810,6 +843,11 @@ input[type=range]{width:100%;accent-color:var(--acc);}
     <div class="ni" onclick="nav(this,'s-links')"><span class="ni-ico">▸</span>Social Links<div class="ni-dot"></div></div>
     <div class="ni" onclick="nav(this,'s-discord')"><span class="ni-ico">⬡</span>Discord<div class="ni-dot" id="discordNavDot"></div></div>
     <div class="ni" onclick="nav(this,'s-spotify')"><span class="ni-ico">▸</span>Spotify<div class="ni-dot"></div></div>
+    <div class="sg">// advanced</div>
+    <div class="ni" onclick="nav(this,'s-borders')"><span class="ni-ico">▸</span>Borders & Glow<span class="ni-badge">NEW</span><div class="ni-dot"></div></div>
+    <div class="ni" onclick="nav(this,'s-stickers')"><span class="ni-ico">▸</span>Stickers<span class="ni-badge">NEW</span><div class="ni-dot"></div></div>
+    <div class="ni" onclick="nav(this,'s-cursor')"><span class="ni-ico">▸</span>Cursor FX<span class="ni-badge">NEW</span><div class="ni-dot"></div></div>
+    <div class="ni" onclick="nav(this,'s-css')"><span class="ni-ico">▸</span>Custom CSS<span class="ni-badge">PRO</span><div class="ni-dot"></div></div>
   </div>
 
   <!-- ══════ PREVIEW ══════ -->
@@ -1010,7 +1048,7 @@ input[type=range]{width:100%;accent-color:var(--acc);}
 
   <!-- SKILLS & WORK -->
   <div class="panel" id="s-skills">
-    <div class="ph">⚙️ Skills & Work <span class="ph-sub">what you do</span></div>
+    <div class="ph">Skills & Work <span class="ph-sub">what you do</span></div>
 
     <!-- SKILL CHIPS -->
     <div class="prow">
@@ -1836,6 +1874,104 @@ input[type=range]{width:100%;accent-color:var(--acc);}
           <div class="theme-apply-badge">ACTIVE</div>
         </div>
 
+        <!-- VAPORWAVE -->
+        <div class="theme-card" id="theme-vaporwave" onclick="applyProfileTheme('vaporwave')">
+          <div class="theme-preview" style="background:linear-gradient(135deg,#1a0033,#0d1a33)">
+            <div style="position:absolute;inset:0;background:repeating-linear-gradient(0deg,rgba(255,0,200,.05) 0px,transparent 2px,transparent 20px)"></div>
+            <div class="theme-preview-av" style="background:linear-gradient(135deg,#ff00cc,#3333ff);border-color:rgba(255,0,200,.5)"></div>
+            <div class="theme-preview-name" style="color:#ff71ce;font-family:'Space Mono',monospace">ａｅｓ</div>
+          </div>
+          <div class="theme-label">
+            <span class="theme-name">VAPORWAVE</span>
+            <span class="theme-tag">retro</span>
+          </div>
+          <div class="theme-apply-badge">ACTIVE</div>
+        </div>
+
+        <!-- AURORA -->
+        <div class="theme-card" id="theme-aurora" onclick="applyProfileTheme('aurora')">
+          <div class="theme-preview" style="background:linear-gradient(135deg,#001a0d,#001533)">
+            <div style="position:absolute;inset:0;background:radial-gradient(ellipse at 30% 60%,rgba(0,255,128,.12),transparent 60%),radial-gradient(ellipse at 70% 30%,rgba(0,200,255,.1),transparent 60%)"></div>
+            <div class="theme-preview-av" style="background:linear-gradient(135deg,#00ff80,#00ccff);border-color:rgba(0,255,128,.5)"></div>
+            <div class="theme-preview-name" style="color:#00ff80;">sky</div>
+          </div>
+          <div class="theme-label">
+            <span class="theme-name">AURORA</span>
+            <span class="theme-tag">northern lights</span>
+          </div>
+          <div class="theme-apply-badge">ACTIVE</div>
+        </div>
+
+        <!-- BLOOD MOON -->
+        <div class="theme-card" id="theme-blood" onclick="applyProfileTheme('blood')">
+          <div class="theme-preview" style="background:linear-gradient(135deg,#0d0000,#1a0505)">
+            <div style="position:absolute;inset:0;background:radial-gradient(ellipse at 80% 20%,rgba(180,0,0,.15),transparent 60%)"></div>
+            <div class="theme-preview-av" style="background:linear-gradient(135deg,#dc2626,#7f1d1d);border-color:rgba(220,38,38,.5)"></div>
+            <div class="theme-preview-name" style="color:#ef4444;">dark</div>
+          </div>
+          <div class="theme-label">
+            <span class="theme-name">BLOOD MOON</span>
+            <span class="theme-tag">dark red</span>
+          </div>
+          <div class="theme-apply-badge">ACTIVE</div>
+        </div>
+
+        <!-- GOLD -->
+        <div class="theme-card" id="theme-gold" onclick="applyProfileTheme('gold')">
+          <div class="theme-preview" style="background:linear-gradient(135deg,#0d0800,#1a1000)">
+            <div style="position:absolute;inset:0;background:radial-gradient(ellipse at 50% 50%,rgba(255,180,0,.1),transparent 70%)"></div>
+            <div class="theme-preview-av" style="background:linear-gradient(135deg,#fbbf24,#92400e);border-color:rgba(251,191,36,.5)"></div>
+            <div class="theme-preview-name" style="color:#fbbf24;">luxe</div>
+          </div>
+          <div class="theme-label">
+            <span class="theme-name">GOLD LUXE</span>
+            <span class="theme-tag">luxury</span>
+          </div>
+          <div class="theme-apply-badge">ACTIVE</div>
+        </div>
+
+        <!-- ICE -->
+        <div class="theme-card" id="theme-ice" onclick="applyProfileTheme('ice')">
+          <div class="theme-preview" style="background:linear-gradient(135deg,#000d1a,#001a2e)">
+            <div style="position:absolute;inset:0;background:radial-gradient(ellipse at 50% 50%,rgba(147,210,255,.08),transparent 70%)"></div>
+            <div class="theme-preview-av" style="background:linear-gradient(135deg,#93c5fd,#bfdbfe);border-color:rgba(147,197,253,.5)"></div>
+            <div class="theme-preview-name" style="color:#bfdbfe;">ice</div>
+          </div>
+          <div class="theme-label">
+            <span class="theme-name">ICE COLD</span>
+            <span class="theme-tag">frost</span>
+          </div>
+          <div class="theme-apply-badge">ACTIVE</div>
+        </div>
+
+        <!-- VOID -->
+        <div class="theme-card" id="theme-void" onclick="applyProfileTheme('void')">
+          <div class="theme-preview" style="background:#000">
+            <div style="position:absolute;inset:0;background:radial-gradient(ellipse at 50% 50%,rgba(80,0,180,.06),transparent 70%)"></div>
+            <div class="theme-preview-av" style="background:linear-gradient(135deg,#4b0082,#1a0033);border-color:rgba(75,0,130,.5)"></div>
+            <div class="theme-preview-name" style="color:rgba(255,255,255,.3);">void</div>
+          </div>
+          <div class="theme-label">
+            <span class="theme-name">THE VOID</span>
+            <span class="theme-tag">minimal dark</span>
+          </div>
+          <div class="theme-apply-badge">ACTIVE</div>
+        </div>
+
+        <!-- SUNSET -->
+        <div class="theme-card" id="theme-sunset" onclick="applyProfileTheme('sunset')">
+          <div class="theme-preview" style="background:linear-gradient(180deg,#0d0010,#1a0820)">
+            <div style="position:absolute;inset:0;background:linear-gradient(180deg,rgba(255,100,0,.08),rgba(255,0,100,.08))"></div>
+            <div class="theme-preview-av" style="background:linear-gradient(135deg,#f97316,#ec4899);border-color:rgba(249,115,22,.5)"></div>
+            <div class="theme-preview-name" style="background:linear-gradient(90deg,#f97316,#ec4899);-webkit-background-clip:text;-webkit-text-fill-color:transparent;">sun</div>
+          </div>
+          <div class="theme-label">
+            <span class="theme-name">SUNSET</span>
+            <span class="theme-tag">warm</span>
+          </div>
+          <div class="theme-apply-badge">ACTIVE</div>
+        </div>
+
       </div>
     </div>
   </div>
@@ -1989,6 +2125,200 @@ input[type=range]{width:100%;accent-color:var(--acc);}
     <div class="prow">
       <div class="plabel">Fallback Text <span>when not playing</span></div>
       <input type="text" id="iSpotifyFallback" placeholder="vibing to the void 🎵" oninput="syncSpotifyFallback()">
+    </div>
+  </div>
+
+
+  <!-- BORDERS & GLOW PANEL -->
+  <div class="panel" id="s-borders">
+    <div class="ph">✦ Borders &amp; Glow <span class="ph-sub">effects</span></div>
+    <div class="prow">
+      <div class="plabel">Border Style</div>
+      <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin-top:4px">
+        <div class="border-style-card sel" id="bs-solid" onclick="setBorderStyle(this,'solid')">
+          <div style="height:24px;border:2px solid #7c3aed;border-radius:5px;margin-bottom:4px"></div>
+          <div style="font-size:.65rem;text-align:center;color:var(--mut)">Solid</div>
+        </div>
+        <div class="border-style-card" id="bs-glow" onclick="setBorderStyle(this,'glow')">
+          <div style="height:24px;border:2px solid #7c3aed;box-shadow:0 0 10px #7c3aed;border-radius:5px;margin-bottom:4px"></div>
+          <div style="font-size:.65rem;text-align:center;color:var(--mut)">Glow</div>
+        </div>
+        <div class="border-style-card" id="bs-rainbow" onclick="setBorderStyle(this,'rainbow')">
+          <div style="height:24px;border:2px solid transparent;background:linear-gradient(#0b0b12,#0b0b12) padding-box,linear-gradient(90deg,#f00,#ff0,#0f0,#0ff,#00f,#f0f,#f00) border-box;border-radius:5px;margin-bottom:4px"></div>
+          <div style="font-size:.65rem;text-align:center;color:var(--mut)">Rainbow</div>
+        </div>
+        <div class="border-style-card" id="bs-fire" onclick="setBorderStyle(this,'fire')">
+          <div style="height:24px;border:2px solid transparent;background:linear-gradient(#0b0b12,#0b0b12) padding-box,linear-gradient(90deg,#ff4500,#ff8c00,#ffd700,#ff4500) border-box;border-radius:5px;margin-bottom:4px"></div>
+          <div style="font-size:.65rem;text-align:center;color:var(--mut)">Fire</div>
+        </div>
+        <div class="border-style-card" id="bs-electric" onclick="setBorderStyle(this,'electric')">
+          <div style="height:24px;border:2px solid transparent;background:linear-gradient(#0b0b12,#0b0b12) padding-box,linear-gradient(90deg,#00ffff,#ffffff,#00ffff) border-box;border-radius:5px;margin-bottom:4px"></div>
+          <div style="font-size:.65rem;text-align:center;color:var(--mut)">Electric</div>
+        </div>
+        <div class="border-style-card" id="bs-none" onclick="setBorderStyle(this,'none')">
+          <div style="height:24px;border:2px solid rgba(255,255,255,.1);border-radius:5px;margin-bottom:4px"></div>
+          <div style="font-size:.65rem;text-align:center;color:var(--mut)">None</div>
+        </div>
+      </div>
+    </div>
+    <div class="prow">
+      <div class="plabel">Card Glow Intensity</div>
+      <input type="range" id="iGlowInt" min="0" max="100" value="45" oninput="syncGlowInt()">
+      <div style="text-align:right;font-size:.7rem;color:var(--mut)" id="glowIntVal">45%</div>
+    </div>
+    <div class="prow">
+      <div class="plabel">Glow Color</div>
+      <div style="display:flex;gap:6px;align-items:center">
+        <input type="text" id="iGlowColor" value="#7c3aed" oninput="syncGlowColor()" style="flex:1">
+        <input type="color" id="iGlowColorPick" value="#7c3aed" oninput="syncGlowColorPick()" style="width:36px;height:36px;border:none;background:none;cursor:pointer;border-radius:6px">
+      </div>
+    </div>
+    <div class="prow">
+      <div class="plabel">Avatar Ring Style</div>
+      <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:5px;margin-top:4px">
+        <div class="ring-card sel" onclick="setRingStyle(this,'solid')" style="border:2px solid var(--brd);border-radius:7px;padding:6px;cursor:pointer;text-align:center;font-size:.65rem;color:var(--mut);transition:all .18s">
+          <div style="width:24px;height:24px;border-radius:50%;border:2px solid #7c3aed;margin:0 auto 3px"></div>Solid
+        </div>
+        <div class="ring-card" onclick="setRingStyle(this,'glow')" style="border:2px solid var(--brd);border-radius:7px;padding:6px;cursor:pointer;text-align:center;font-size:.65rem;color:var(--mut);transition:all .18s">
+          <div style="width:24px;height:24px;border-radius:50%;border:2px solid #7c3aed;box-shadow:0 0 10px #7c3aed;margin:0 auto 3px"></div>Glow
+        </div>
+        <div class="ring-card" onclick="setRingStyle(this,'rainbow')" style="border:2px solid var(--brd);border-radius:7px;padding:6px;cursor:pointer;text-align:center;font-size:.65rem;color:var(--mut);transition:all .18s">
+          <div style="width:24px;height:24px;border-radius:50%;border:2px solid transparent;background:linear-gradient(#0b0b12,#0b0b12) padding-box,linear-gradient(45deg,#f00,#ff0,#0f0,#0ff,#00f,#f0f,#f00) border-box;margin:0 auto 3px"></div>Rainbow
+        </div>
+        <div class="ring-card" onclick="setRingStyle(this,'animated')" style="border:2px solid var(--brd);border-radius:7px;padding:6px;cursor:pointer;text-align:center;font-size:.65rem;color:var(--mut);transition:all .18s">
+          <div style="width:24px;height:24px;border-radius:50%;border:2px dashed #7c3aed;margin:0 auto 3px"></div>Spin
+        </div>
+        <div class="ring-card" onclick="setRingStyle(this,'none')" style="border:2px solid var(--brd);border-radius:7px;padding:6px;cursor:pointer;text-align:center;font-size:.65rem;color:var(--mut);transition:all .18s">
+          <div style="width:24px;height:24px;border-radius:50%;border:2px solid rgba(255,255,255,.1);margin:0 auto 3px"></div>None
+        </div>
+      </div>
+    </div>
+    <div class="prow">
+      <div class="plabel">Name Text Shadow</div>
+      <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:5px">
+        <button class="tbtn ghost sm" onclick="setNameShadow('none')">None</button>
+        <button class="tbtn ghost sm" onclick="setNameShadow('soft')">Soft</button>
+        <button class="tbtn ghost sm" onclick="setNameShadow('neon')">🔆 Neon</button>
+        <button class="tbtn ghost sm" onclick="setNameShadow('fire')">🔥 Fire</button>
+        <button class="tbtn ghost sm" onclick="setNameShadow('ice')">❄️ Ice</button>
+        <button class="tbtn ghost sm" onclick="setNameShadow('gold')">✨ Gold</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- STICKERS PANEL -->
+  <div class="panel" id="s-stickers">
+    <div class="ph">🎨 Stickers <span class="ph-sub">decorate your card</span></div>
+    <div class="prow">
+      <div class="plabel">Add Sticker</div>
+      <div style="display:grid;grid-template-columns:repeat(5,1fr);gap:6px;margin-top:4px" id="stickerPicker">
+        <div class="sticker-opt" onclick="addSticker('🔥')">🔥</div>
+        <div class="sticker-opt" onclick="addSticker('⚡')">⚡</div>
+        <div class="sticker-opt" onclick="addSticker('✨')">✨</div>
+        <div class="sticker-opt" onclick="addSticker('🌙')">🌙</div>
+        <div class="sticker-opt" onclick="addSticker('💀')">💀</div>
+        <div class="sticker-opt" onclick="addSticker('🎮')">🎮</div>
+        <div class="sticker-opt" onclick="addSticker('🌸')">🌸</div>
+        <div class="sticker-opt" onclick="addSticker('👾')">👾</div>
+        <div class="sticker-opt" onclick="addSticker('🎵')">🎵</div>
+        <div class="sticker-opt" onclick="addSticker('💫')">💫</div>
+        <div class="sticker-opt" onclick="addSticker('🦋')">🦋</div>
+        <div class="sticker-opt" onclick="addSticker('🌊')">🌊</div>
+        <div class="sticker-opt" onclick="addSticker('⭐')">⭐</div>
+        <div class="sticker-opt" onclick="addSticker('🔮')">🔮</div>
+        <div class="sticker-opt" onclick="addSticker('💜')">💜</div>
+      </div>
+    </div>
+    <div class="prow">
+      <div class="plabel">Custom Sticker Emoji</div>
+      <div style="display:flex;gap:6px">
+        <input type="text" id="iCustomSticker" placeholder="any emoji..." style="flex:1;font-size:1.2rem">
+        <button class="tbtn acc sm" onclick="addSticker(document.getElementById('iCustomSticker').value)">Add</button>
+      </div>
+    </div>
+    <div class="prow">
+      <div class="plabel">Active Stickers</div>
+      <div id="activeStickersList" style="display:flex;flex-wrap:wrap;gap:6px;margin-top:6px;min-height:30px">
+        <span style="font-size:.72rem;color:var(--mut)">No stickers yet — add some above!</span>
+      </div>
+      <button class="tbtn ghost sm" style="margin-top:8px" onclick="clearStickers()">🗑 Clear All</button>
+    </div>
+    <div class="prow">
+      <div class="pnote">Stickers float around your card as animated decorations ✨</div>
+    </div>
+  </div>
+
+  <!-- CURSOR FX PANEL -->
+  <div class="panel" id="s-cursor">
+    <div class="ph">🖱 Cursor FX <span class="ph-sub">effects</span></div>
+    <div class="prow">
+      <div class="plabel">Cursor Style</div>
+      <select id="iCursorStyle" onchange="syncCursorStyle()">
+        <option value="dot">● Dot</option>
+        <option value="ring">○ Ring</option>
+        <option value="crosshair">+ Crosshair</option>
+        <option value="star">★ Star</option>
+        <option value="heart">♥ Heart</option>
+        <option value="none">Hidden</option>
+      </select>
+    </div>
+    <div class="prow">
+      <div class="plabel">Cursor Color</div>
+      <div style="display:flex;gap:6px;align-items:center">
+        <input type="text" id="iCursorColor" value="#a855f7" oninput="syncCursorColor()" style="flex:1">
+        <input type="color" id="iCursorColorPick" value="#a855f7" oninput="syncCursorColorPick()" style="width:36px;height:36px;border:none;background:none;cursor:pointer;border-radius:6px">
+      </div>
+    </div>
+    <div class="prow">
+      <div class="tog" onclick="toggleClickSparks()"><div class="tog-sw on" id="togClickSparks"></div><span class="tog-label">Click spark effects</span></div>
+    </div>
+    <div class="prow">
+      <div class="plabel">Spark Style</div>
+      <select id="iSparkStyle" onchange="syncSparkStyle()">
+        <option value="sparks">✨ Sparks</option>
+        <option value="hearts">💜 Hearts</option>
+        <option value="stars">⭐ Stars</option>
+        <option value="bubbles">🫧 Bubbles</option>
+        <option value="fire">🔥 Fire</option>
+      </select>
+    </div>
+    <div class="prow">
+      <div class="tog" onclick="toggleTrail()"><div class="tog-sw on" id="togTrail"></div><span class="tog-label">Cursor trail</span></div>
+    </div>
+    <div class="prow">
+      <div class="plabel">Trail Style</div>
+      <select id="iTrailStyle" onchange="syncTrailStyle()">
+        <option value="fade">Fade dots</option>
+        <option value="rainbow">Rainbow</option>
+        <option value="stars">Stars</option>
+        <option value="sparkle">Sparkle</option>
+      </select>
+    </div>
+  </div>
+
+  <!-- CUSTOM CSS PANEL -->
+  <div class="panel" id="s-css">
+    <div class="ph">⚙ Custom CSS <span class="ph-sub" style="color:#f59e0b">pro</span></div>
+    <div class="prow">
+      <div class="pnote yellow">Write raw CSS that gets injected directly into your profile. Target any element. Full power.</div>
+    </div>
+    <div class="prow">
+      <div class="plabel">CSS Editor</div>
+      <textarea id="iCustomCss" rows="16" placeholder="/* write any CSS here */" oninput="syncCustomCss()" style="font-family:'Space Mono',monospace;font-size:.72rem;line-height:1.7;resize:vertical;min-height:240px;background:var(--sur3);color:#a78bfa;border-color:rgba(124,58,237,.25)"></textarea>
+    </div>
+    <div style="padding:0 16px 8px;display:flex;gap:6px">
+      <button class="tbtn acc sm" onclick="syncCustomCss();showToast('✅ CSS applied!')">▶ Apply</button>
+      <button class="tbtn ghost sm" onclick="document.getElementById('iCustomCss').value='';syncCustomCss();showToast('CSS cleared')">🗑 Clear</button>
+    </div>
+    <div class="prow">
+      <div class="plabel" style="margin-bottom:6px">CSS Snippets</div>
+      <div style="display:flex;flex-direction:column;gap:5px">
+        <button class="tbtn ghost sm" style="text-align:left;justify-content:flex-start" onclick="insertCssSnippet('glass')">💎 Frosted Glass Card</button>
+        <button class="tbtn ghost sm" style="text-align:left;justify-content:flex-start" onclick="insertCssSnippet('bounce')">🏀 Bouncy Avatar</button>
+        <button class="tbtn ghost sm" style="text-align:left;justify-content:flex-start" onclick="insertCssSnippet('shake')">💥 Shake Name on Hover</button>
+        <button class="tbtn ghost sm" style="text-align:left;justify-content:flex-start" onclick="insertCssSnippet('scanlines')">📺 Scanlines Overlay</button>
+        <button class="tbtn ghost sm" style="text-align:left;justify-content:flex-start" onclick="insertCssSnippet('float')">🌊 Float Everything</button>
+      </div>
     </div>
   </div>
 
@@ -3601,6 +3931,288 @@ document.getElementById('iDiscordUser').addEventListener('input', () => {
 document.getElementById('iDiscordUrl').addEventListener('input', () => {
   state.discordUrl = document.getElementById('iDiscordUrl').value.trim();
 });
+
+
+// ══════════════════════════════════════════
+// NEW THEME DATA
+// ══════════════════════════════════════════
+Object.assign(profileThemes, {
+  vaporwave: {
+    accent: '#ff00cc', accent2: '#3333ff', cardBg: '#0d0020', blur: 20,
+    font: 'mono', particle: 'network', glitchName: false,
+    gradStart: '#ff71ce', gradMid: '#ff00cc', gradEnd: '#3333ff', gradDir: '135deg',
+    borderGrad: true, nameAnim: 'shimmer', bgColor: '#07000f',
+  },
+  aurora: {
+    accent: '#00ff80', accent2: '#00ccff', cardBg: '#000d0a', blur: 26,
+    font: 'outfit', particle: 'network', glitchName: false,
+    gradStart: '#ccffe8', gradMid: '#00ff80', gradEnd: '#00ccff', gradDir: '135deg',
+    borderGrad: true, nameAnim: 'shimmer', bgColor: '#000805',
+  },
+  blood: {
+    accent: '#ef4444', accent2: '#7f1d1d', cardBg: '#0d0000', blur: 18,
+    font: 'syne', particle: 'dust', glitchName: true,
+    gradStart: '#fca5a5', gradMid: '#ef4444', gradEnd: '#7f1d1d', gradDir: '135deg',
+    borderGrad: true, nameAnim: 'glitch', bgColor: '#060000',
+  },
+  gold: {
+    accent: '#fbbf24', accent2: '#92400e', cardBg: '#0d0800', blur: 20,
+    font: 'syne', particle: 'dust', glitchName: false,
+    gradStart: '#fef3c7', gradMid: '#fbbf24', gradEnd: '#92400e', gradDir: '135deg',
+    borderGrad: true, nameAnim: 'shimmer', bgColor: '#060400',
+  },
+  ice: {
+    accent: '#93c5fd', accent2: '#bfdbfe', cardBg: '#000d1a', blur: 30,
+    font: 'outfit', particle: 'network', glitchName: false,
+    gradStart: '#eff6ff', gradMid: '#93c5fd', gradEnd: '#3b82f6', gradDir: '135deg',
+    borderGrad: true, nameAnim: 'shimmer', bgColor: '#000610',
+  },
+  void: {
+    accent: '#4b0082', accent2: '#1a0033', cardBg: '#030003', blur: 12,
+    font: 'mono', particle: 'none', glitchName: false,
+    gradStart: '#e9d5ff', gradMid: '#7c3aed', gradEnd: '#4b0082', gradDir: '135deg',
+    borderGrad: false, nameAnim: 'shimmer', bgColor: '#000000',
+  },
+  sunset: {
+    accent: '#f97316', accent2: '#ec4899', cardBg: '#0d0008', blur: 22,
+    font: 'syne', particle: 'dust', glitchName: false,
+    gradStart: '#fed7aa', gradMid: '#f97316', gradEnd: '#ec4899', gradDir: '135deg',
+    borderGrad: true, nameAnim: 'shimmer', bgColor: '#060003',
+  },
+});
+
+// ══════════════════════════════════════════
+// BORDER STYLES
+// ══════════════════════════════════════════
+let activeBorderStyle = 'solid';
+function setBorderStyle(el, style) {
+  document.querySelectorAll('.border-style-card').forEach(c => c.classList.remove('sel'));
+  el.classList.add('sel');
+  activeBorderStyle = style;
+  applyCardBorderStyle(style);
+}
+function applyCardBorderStyle(style) {
+  const pc = document.getElementById('pc');
+  pc.style.animation = '';
+  if (style === 'solid') {
+    pc.style.border = '1px solid rgba(255,255,255,.07)';
+    pc.style.boxShadow = '0 32px 80px rgba(0,0,0,.7)';
+  } else if (style === 'glow') {
+    pc.style.border = `1px solid ${state.accent}55`;
+    pc.style.boxShadow = `0 0 30px ${state.accent}44, 0 32px 80px rgba(0,0,0,.7)`;
+  } else if (style === 'rainbow') {
+    pc.style.border = '2px solid transparent';
+    pc.style.backgroundImage = `linear-gradient(${state.cardBg}, ${state.cardBg}), linear-gradient(90deg,#f00,#ff0,#0f0,#0ff,#00f,#f0f,#f00)`;
+    pc.style.backgroundClip = 'padding-box, border-box';
+    pc.style.backgroundOrigin = 'border-box';
+  } else if (style === 'fire') {
+    pc.style.border = '2px solid transparent';
+    pc.style.backgroundImage = `linear-gradient(${state.cardBg}, ${state.cardBg}), linear-gradient(90deg,#ff4500,#ff8c00,#ffd700,#ff4500)`;
+    pc.style.backgroundClip = 'padding-box, border-box';
+    pc.style.backgroundOrigin = 'border-box';
+  } else if (style === 'electric') {
+    pc.style.border = '2px solid transparent';
+    pc.style.backgroundImage = `linear-gradient(${state.cardBg}, ${state.cardBg}), linear-gradient(90deg,#00ffff,#fff,#00ffff)`;
+    pc.style.backgroundClip = 'padding-box, border-box';
+    pc.style.backgroundOrigin = 'border-box';
+  } else if (style === 'none') {
+    pc.style.border = 'none';
+    pc.style.boxShadow = '0 32px 80px rgba(0,0,0,.7)';
+  }
+}
+
+// ══════════════════════════════════════════
+// GLOW CONTROLS
+// ══════════════════════════════════════════
+function syncGlowInt() {
+  const v = document.getElementById('iGlowInt').value;
+  document.getElementById('glowIntVal').textContent = v + '%';
+  state.glowInt = parseInt(v);
+  const pc = document.getElementById('pc');
+  pc.style.boxShadow = `0 0 ${v * 0.8}px ${state.accent}${Math.floor(v * 0.7).toString(16).padStart(2,'0')}, 0 32px 80px rgba(0,0,0,.7)`;
+}
+function syncGlowColor() {
+  state.accent = document.getElementById('iGlowColor').value;
+  document.getElementById('iGlowColorPick').value = state.accent;
+  syncGlowInt();
+}
+function syncGlowColorPick() {
+  const v = document.getElementById('iGlowColorPick').value;
+  document.getElementById('iGlowColor').value = v;
+  state.accent = v; syncGlowInt();
+}
+
+// ══════════════════════════════════════════
+// NAME TEXT SHADOW
+// ══════════════════════════════════════════
+function setNameShadow(style) {
+  const el = document.getElementById('pcUsername');
+  const shadows = {
+    none: '',
+    soft: '0 2px 8px rgba(0,0,0,.5)',
+    neon: `0 0 10px ${state.accent}, 0 0 20px ${state.accent}, 0 0 40px ${state.accent}`,
+    fire: '0 0 10px #ff4500, 0 0 20px #ff8c00, 0 0 40px #ffd700',
+    ice: '0 0 10px #93c5fd, 0 0 20px #bfdbfe',
+    gold: '0 0 10px #fbbf24, 0 0 20px #ffd700, 0 0 40px #fbbf24',
+  };
+  el.style.textShadow = shadows[style] || '';
+  showToast(`✨ ${style} shadow applied!`);
+}
+
+// ══════════════════════════════════════════
+// STICKERS
+// ══════════════════════════════════════════
+let activeStickers = [];
+function addSticker(emoji) {
+  if (!emoji || !emoji.trim()) return;
+  const sticker = { emoji: emoji.trim(), id: Date.now() };
+  activeStickers.push(sticker);
+  renderStickersOnCard();
+  renderActiveStickersList();
+  showToast('✅ Sticker added!');
+}
+function clearStickers() {
+  activeStickers = [];
+  renderStickersOnCard();
+  renderActiveStickersList();
+  showToast('Stickers cleared');
+}
+function removeSticker(id) {
+  activeStickers = activeStickers.filter(s => s.id !== id);
+  renderStickersOnCard();
+  renderActiveStickersList();
+}
+function renderStickersOnCard() {
+  const pc = document.getElementById('pc');
+  pc.querySelectorAll('.card-sticker').forEach(s => s.remove());
+  const positions = [
+    {top:'-10px',left:'-10px'},{top:'-10px',right:'-10px'},
+    {bottom:'10px',left:'-10px'},{bottom:'10px',right:'-10px'},
+    {top:'40%',left:'-15px'},{top:'40%',right:'-15px'},
+    {top:'20%',left:'10px'},{top:'20%',right:'10px'},
+  ];
+  activeStickers.forEach((s, i) => {
+    const el = document.createElement('div');
+    el.className = 'card-sticker';
+    el.textContent = s.emoji;
+    const pos = positions[i % positions.length];
+    Object.assign(el.style, pos);
+    el.style.setProperty('--dur', (3 + (i * 0.7)) + 's');
+    el.style.setProperty('--delay', (i * 0.3) + 's');
+    el.style.setProperty('--rot', (i % 2 === 0 ? -5 : 5) + 'deg');
+    pc.appendChild(el);
+  });
+}
+function renderActiveStickersList() {
+  const el = document.getElementById('activeStickersList');
+  if (!activeStickers.length) {
+    el.innerHTML = '<span style="font-size:.72rem;color:var(--mut)">No stickers yet — add some above!</span>';
+    return;
+  }
+  el.innerHTML = activeStickers.map(s =>
+    `<div style="display:inline-flex;align-items:center;gap:4px;background:var(--sur2);border:1px solid var(--brd);border-radius:6px;padding:4px 8px;font-size:1rem;cursor:pointer" onclick="removeSticker(${s.id})" title="Click to remove">${s.emoji} <span style="font-size:.6rem;color:var(--mut)">✕</span></div>`
+  ).join('');
+}
+
+// ══════════════════════════════════════════
+// CURSOR FX CONTROLS
+// ══════════════════════════════════════════
+function syncCursorStyle() {
+  state.cursor = document.getElementById('iCursorStyle').value;
+  showToast('Cursor style: ' + state.cursor);
+}
+function syncCursorColor() {
+  const v = document.getElementById('iCursorColor').value;
+  document.getElementById('iCursorColorPick').value = v;
+}
+function syncCursorColorPick() {
+  const v = document.getElementById('iCursorColorPick').value;
+  document.getElementById('iCursorColor').value = v;
+}
+function syncSparkStyle() { showToast('Spark style: ' + document.getElementById('iSparkStyle').value); }
+function syncTrailStyle() { showToast('Trail style: ' + document.getElementById('iTrailStyle').value); }
+function toggleClickSparks() {
+  state.clickSparks = !state.clickSparks;
+  document.getElementById('togClickSparks').classList.toggle('on', state.clickSparks);
+  showToast(state.clickSparks ? '✅ Click sparks on' : 'Click sparks off');
+}
+function toggleTrail() {
+  const tog = document.getElementById('togTrail');
+  tog.classList.toggle('on');
+  showToast('Trail ' + (tog.classList.contains('on') ? 'enabled' : 'disabled'));
+}
+
+// ══════════════════════════════════════════
+// CUSTOM CSS
+// ══════════════════════════════════════════
+let _customStyleEl = null;
+function syncCustomCss() {
+  const css = document.getElementById('iCustomCss').value;
+  state.customCss = css;
+  if (!_customStyleEl) {
+    _customStyleEl = document.createElement('style');
+    _customStyleEl.id = 'custom-css-preview';
+    document.head.appendChild(_customStyleEl);
+  }
+  // Scope it to the preview card
+  const scoped = css.replace(/([^{}]+){/g, (match, selector) => {
+    if (selector.trim().startsWith('@')) return match;
+    return selector.split(',').map(s => `#pc ${s.trim()}`).join(',') + '{';
+  });
+  _customStyleEl.textContent = scoped;
+}
+const CSS_SNIPPETS = {
+  glass: `.card {
+  background: rgba(255,255,255,0.05) !important;
+  backdrop-filter: blur(40px) !important;
+  border: 1px solid rgba(255,255,255,0.1) !important;
+}`,
+  bounce: `.avatar {
+  animation: bounceAv 0.8s ease infinite alternate;
+}
+@keyframes bounceAv {
+  from { transform: translateY(0); }
+  to { transform: translateY(-12px); }
+}`,
+  shake: `.username:hover {
+  animation: shakeIt 0.3s ease;
+}
+@keyframes shakeIt {
+  0%,100%{transform:translateX(0)}
+  25%{transform:translateX(-4px)}
+  75%{transform:translateX(4px)}
+}`,
+  scanlines: `.card::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: repeating-linear-gradient(
+    0deg,
+    rgba(0,0,0,0.04) 0px,
+    rgba(0,0,0,0.04) 1px,
+    transparent 1px,
+    transparent 4px
+  );
+  pointer-events: none;
+  z-index: 100;
+}`,
+  float: `* {
+  animation: floatAll 3s ease-in-out infinite alternate;
+}
+@keyframes floatAll {
+  from { transform: translateY(0); }
+  to { transform: translateY(-4px); }
+}`,
+};
+function insertCssSnippet(key) {
+  const el = document.getElementById('iCustomCss');
+  const snippet = CSS_SNIPPETS[key] || '';
+  el.value = (el.value ? el.value + String.fromCharCode(10) : '') + snippet;
+  syncCustomCss();
+  showToast('Snippet inserted!');
+}
+
+
 </script>
 </body>
 </html>
