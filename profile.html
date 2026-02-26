@@ -6,7 +6,7 @@
 <title>Loading... — VLTX</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=Outfit:wght@300;400;500;600;700&family=Space+Mono:wght@400;700&family=DM+Sans:wght@300;400;500;600&family=Orbitron:wght@400;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Syne:wght@400;600;700;800&family=Outfit:wght@300;400;500;600;700&family=Space+Mono:wght@400;700&family=DM+Sans:wght@300;400;500;600&family=Orbitron:wght@400;600;700&display=swap" rel="stylesheet">
 <style>
 @property --spin { syntax: '<angle>'; inherits: false; initial-value: 0deg; }
 @property --hue  { syntax: '<number>'; inherits: true; initial-value: 0; }
@@ -495,6 +495,69 @@ body.cursor-none #cur,body.cursor-none #cur-trail{display:none}
 .skin-terminal{background:rgba(0,8,0,.96)!important;border-color:rgba(0,255,65,.3)!important}
 .layout-modern .banner{display:none}
 .layout-modern .avatar-wrap{margin-top:28px}
+
+/* ═══════════════════════════════════════════════
+   GUNS.LOL LAYOUT — exact 1:1
+   No card. Content floats on background.
+   Font: Inter (fonts.googleapis.com)
+   ═══════════════════════════════════════════════ */
+body.layout-gunslol{font-family:'Inter',sans-serif!important;}
+body.layout-gunslol .card{
+  background:transparent!important;backdrop-filter:none!important;-webkit-backdrop-filter:none!important;
+  border:none!important;box-shadow:none!important;border-radius:0!important;
+}
+body.layout-gunslol .card::before,body.layout-gunslol .card::after{display:none!important;}
+body.layout-gunslol .banner,body.layout-gunslol .animated-logo,body.layout-gunslol .lyrics-ticker,
+body.layout-gunslol .bio,body.layout-gunslol .tags,body.layout-gunslol .badges-row,
+body.layout-gunslol .stats,body.layout-gunslol .reaction-bar,body.layout-gunslol .share-card-btn,
+body.layout-gunslol .music-player,body.layout-gunslol .weather-widget,body.layout-gunslol .skill-bars,
+body.layout-gunslol .skills-row,body.layout-gunslol .open-to-row,body.layout-gunslol .timeline,
+body.layout-gunslol .quote-section,body.layout-gunslol .project-card,body.layout-gunslol .visitor-map,
+body.layout-gunslol .github-widget,body.layout-gunslol .profile-tabs,body.layout-gunslol #activityTagsRow,
+body.layout-gunslol .available-indicator,body.layout-gunslol .copy-username-btn,body.layout-gunslol .pronouns,
+body.layout-gunslol .status-badge,body.layout-gunslol #profileDcBadge,body.layout-gunslol .dc-presence,
+body.layout-gunslol .spotify-card,body.layout-gunslol .link-buttons,body.layout-gunslol .discord-server-widget,
+body.layout-gunslol .views-badge,body.layout-gunslol .mode-toggle{display:none!important;}
+body.layout-gunslol .avatar-wrap{margin-top:0!important;animation:none!important;width:116px!important;height:116px!important;}
+body.layout-gunslol .avatar{width:112px!important;height:112px!important;border:none!important;box-shadow:0 3px 22px rgba(0,0,0,.55)!important;border-radius:50%!important;}
+body.layout-gunslol .avatar:hover{transform:scale(1.04)!important;}
+body.layout-gunslol .online-dot{display:none!important;}
+body.layout-gunslol .username{
+  font-family:'Inter',sans-serif!important;font-size:2rem!important;font-weight:700!important;
+  letter-spacing:-.025em!important;background:none!important;-webkit-background-clip:unset!important;
+  -webkit-text-fill-color:#9b59b6!important;color:#9b59b6!important;animation:none!important;text-shadow:none!important;
+}
+body.layout-gunslol .role-line{font-family:'Inter',sans-serif!important;font-size:.92rem!important;font-weight:400!important;color:rgba(255,255,255,.85)!important;letter-spacing:.01em!important;}
+body.layout-gunslol .location-line{font-family:'Inter',sans-serif!important;font-size:.8rem!important;color:rgba(255,255,255,.55)!important;margin-bottom:16px!important;}
+body.layout-gunslol .discord-profile-card{
+  background:rgba(14,15,24,.58)!important;backdrop-filter:blur(20px) saturate(1.2)!important;
+  -webkit-backdrop-filter:blur(20px) saturate(1.2)!important;border:1px solid rgba(255,255,255,.1)!important;
+  border-radius:18px!important;max-width:290px;margin:0 auto 16px!important;
+  box-shadow:0 4px 20px rgba(0,0,0,.22)!important;
+}
+body.layout-gunslol .discord-profile-card::before,body.layout-gunslol .discord-profile-card::after{display:none!important;}
+body.layout-gunslol .card-body{padding:14px 28px 22px!important;text-align:center;}
+body.layout-gunslol .socials{justify-content:center!important;gap:12px!important;margin-bottom:14px!important;}
+body.layout-gunslol .soc{width:52px!important;height:52px!important;background:rgba(255,255,255,.14)!important;border:none!important;border-radius:50%!important;box-shadow:0 2px 10px rgba(0,0,0,.25)!important;backdrop-filter:blur(6px)!important;}
+body.layout-gunslol .soc:hover{background:rgba(255,255,255,.26)!important;transform:scale(1.1) translateY(-2px)!important;}
+body.layout-gunslol .soc img{width:26px!important;height:26px!important;filter:brightness(0) invert(1)!important;}
+body.layout-gunslol .card-foot{background:transparent!important;border-top:none!important;padding:4px 20px 80px!important;}
+body.layout-gunslol .vcnt,body.layout-gunslol .credit{display:none!important;}
+/* view count repositioned */
+body.layout-gunslol #glViews{position:fixed;bottom:72px;left:14px;font-family:'Inter',sans-serif;font-size:.72rem;color:rgba(255,255,255,.45);z-index:9998;display:flex;align-items:center;gap:4px;background:rgba(0,0,0,.25);padding:4px 9px;border-radius:100px;backdrop-filter:blur(8px);}
+/* music bar fixed bottom */
+body.layout-gunslol #glMusicBar{position:fixed;bottom:0;left:0;right:0;background:rgba(8,8,12,.9);backdrop-filter:blur(24px) saturate(1.3);border-top:1px solid rgba(255,255,255,.07);z-index:9999;display:flex;align-items:center;gap:14px;padding:10px 20px 14px;font-family:'Inter',sans-serif;}
+body.layout-gunslol #glMusicBar .gl-prog{position:absolute;top:0;left:0;right:0;height:2px;background:rgba(255,255,255,.07);}
+body.layout-gunslol #glMusicBar .gl-fill{height:2px;background:rgba(255,255,255,.4);width:3%;transition:width .4s linear;}
+body.layout-gunslol #glMusicBar .gl-cover{width:42px;height:42px;border-radius:8px;overflow:hidden;background:rgba(255,255,255,.08);flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:1.1rem;}
+body.layout-gunslol #glMusicBar .gl-cover img{width:100%;height:100%;object-fit:cover;}
+body.layout-gunslol #glMusicBar .gl-info{flex:1;min-width:0;}
+body.layout-gunslol #glMusicBar .gl-title{font-size:.85rem;font-weight:600;color:#fff;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+body.layout-gunslol #glMusicBar .gl-time{font-size:.65rem;color:rgba(255,255,255,.35);margin-top:2px;}
+body.layout-gunslol #glMusicBar .gl-ctls{display:flex;gap:14px;align-items:center;flex-shrink:0;}
+body.layout-gunslol #glMusicBar .gl-btn{background:none;border:none;color:rgba(255,255,255,.5);cursor:pointer;font-size:1rem;padding:4px;transition:color .15s;line-height:1;}
+body.layout-gunslol #glMusicBar .gl-btn:hover{color:#fff;}
+body.layout-gunslol #glMusicBar .gl-btn.play{color:#fff;font-size:1.15rem;}
 .layout-wide{max-width:600px!important}
 .mono-icons .soc img,.mono-icons .link-btn img{filter:grayscale(1)}
 .mono-icons .soc:hover img,.mono-icons .link-btn:hover img{filter:grayscale(0)}
@@ -799,6 +862,7 @@ body.cursor-none #cur,body.cursor-none #cur-trail{display:none}
 <audio id="audioEl" style="display:none"></audio>
 
 <script>
+function escHtml(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
 const username = location.pathname.replace(/^\//, '').split('/')[0].toLowerCase();
 let profileData = null;
 
@@ -842,6 +906,7 @@ function applyProfile(p) {
 
   // ── FONT ──
   const FONT_MAP = {
+    inter: "'Inter',sans-serif",
     outfit: "'Outfit',sans-serif", syne: "'Syne',sans-serif",
     mono: "'Space Mono',monospace", dm: "'DM Sans',sans-serif",
     orbitron: "'Orbitron',sans-serif", serif: "Georgia,serif"
@@ -875,7 +940,7 @@ function applyProfile(p) {
   // ── BADGES ──
   const bRow=document.getElementById('profileBadges');
   if ((p.badges&&p.badges.length)||p.showVerified) {
-    bRow.innerHTML=(p.badges||[]).map(b=>`<span class="badge" title="${b}">${b}<span class="badge-tooltip">${b}</span></span>`).join('');
+    bRow.innerHTML=(p.badges||[]).map(b=>{const s=escHtml(b);return`<span class="badge" title="${s}">${s}<span class="badge-tooltip">${s}</span></span>`;}).join('');
     if (p.showVerified) bRow.innerHTML+=`<span class="badge" title="Verified">✅<span class="badge-tooltip">Verified</span></span>`;
     bRow.style.display='flex';
   }
@@ -901,8 +966,11 @@ function applyProfile(p) {
     wrap.style.marginTop=-(p.avSize/2)+'px';
   }
   if (p.avBorderColor) av.style.borderColor=p.avBorderColor;
-  if (p.avRingStyle==='glow') av.style.boxShadow=`0 0 0 3px rgba(168,85,247,.08),0 0 30px ${p.avBorderColor||'var(--accent)'},0 0 60px ${p.avBorderColor||'var(--accent)'}40`;
-  else if (p.avRingStyle==='none') av.style.border='none';
+  if (p.avRingStyle==='glow') { av.style.boxShadow=`0 0 0 3px rgba(168,85,247,.08),0 0 30px ${p.avBorderColor||'var(--accent)'},0 0 60px ${p.avBorderColor||'var(--accent)'}40`; }
+  else if (p.avRingStyle==='none') { av.style.border='none'; av.style.boxShadow=''; }
+  else if (p.avRingStyle==='gradient') { av.style.border='2px solid transparent'; av.style.background=`linear-gradient(${p.cardBg||'#0f0f1a'},${p.cardBg||'#0f0f1a'}) padding-box,linear-gradient(135deg,${p.accent||'var(--accent)'},${p.accent2||'var(--accent2)'}) border-box`; }
+  else if (p.avRingStyle==='animated') { av.style.border=`2px dashed ${p.avBorderColor||'var(--accent)'}`; av.style.animation='aSpin 4s linear infinite'; }
+  else if (p.avRingStyle==='rainbow') { av.style.border='3px solid transparent'; av.style.backgroundImage=`linear-gradient(${p.cardBg||'#0f0f1a'},${p.cardBg||'#0f0f1a'}),linear-gradient(45deg,#ff0000,#ff7700,#ffff00,#00ff00,#0000ff,#8b00ff,#ff0000)`; av.style.backgroundClip='padding-box,border-box'; }
   if (p.avatarFloat===false) document.getElementById('avWrap').style.animation='none';
   if (!p.showOnline) document.getElementById('onlineDot').style.display='none';
 
@@ -937,7 +1005,7 @@ function applyProfile(p) {
   }
 
   // ── CONTENT ──
-  document.getElementById('profileTags').innerHTML=(p.tags||[]).map(t=>`<span class="tag">${t}</span>`).join('');
+  document.getElementById('profileTags').innerHTML=(p.tags||[]).map(t=>`<span class="tag">${escHtml(t)}</span>`).join('');
 
   if (p.skillBars && p.skillBars.length) {
     const sb=document.getElementById('profileSkillBars');
@@ -952,23 +1020,23 @@ function applyProfile(p) {
 
   if (p.skills && p.skills.length) {
     const el=document.getElementById('profileSkills');
-    el.innerHTML=p.skills.map(s=>`<span class="skill-chip">${s}</span>`).join('');
+    el.innerHTML=p.skills.map(s=>`<span class="skill-chip">${escHtml(s)}</span>`).join('');
     el.style.display='flex';
   }
   if (p.openTo && p.openTo.length) {
     const el=document.getElementById('profileOpenTo');
-    el.innerHTML=p.openTo.map(o=>`<span class="open-chip">${o}</span>`).join('');
+    el.innerHTML=p.openTo.map(o=>`<span class="open-chip">${escHtml(o)}</span>`).join('');
     el.style.display='flex';
   }
   if (p.timeline && p.timeline.length) {
     const tl=document.getElementById('profileTimeline');
     document.getElementById('timelineItems').innerHTML=p.timeline.map(t=>`
       <div class="timeline-item">
-        <div class="timeline-dot">${t.icon||'📌'}</div>
+        <div class="timeline-dot">${escHtml(t.icon||'📌')}</div>
         <div class="timeline-content">
-          <div class="timeline-event">${t.event}</div>
-          ${t.date?`<div class="timeline-date">${t.date}</div>`:''}
-          ${t.desc?`<div class="timeline-desc">${t.desc}</div>`:''}
+          <div class="timeline-event">${escHtml(t.event)}</div>
+          ${t.date?`<div class="timeline-date">${escHtml(t.date)}</div>`:''}
+          ${t.desc?`<div class="timeline-desc">${escHtml(t.desc)}</div>`:''}
         </div>
       </div>`).join('');
     tl.style.display='block';
@@ -1135,7 +1203,7 @@ function applyProfile(p) {
   else if (p.bgEffect === 'plasma') startPlasma();
 
   // ── USERNAME EFFECTS ──
-  const nameEffects={glitch:'glitch-active',shake:'username-shake',fuzzy:'username-fuzzy',rainbow:'username-rainbow'};
+  const nameEffects={glitch:'glitch-active',shake:'username-shake',fuzzy:'username-fuzzy',rainbow:'username-rainbow',shimmer:'username-shimmer',pulse:'username-pulse'};
   if (p.nameAnim && nameEffects[p.nameAnim]) {
     un.classList.add(nameEffects[p.nameAnim]);
   } else if (p.nameAnim === 'wave') {
@@ -1158,6 +1226,40 @@ function applyProfile(p) {
   const card=document.getElementById('card');
   if (p.layout==='modern') card.classList.add('layout-modern');
   else if (p.layout==='wide') card.classList.add('layout-wide');
+  else if (p.layout==='gunslol') {
+    document.body.classList.add('layout-gunslol');
+    card.classList.add('no-border');
+    document.body.style.fontFamily = "'Inter',sans-serif";
+    // Override username to solid purple, no gradient/animation
+    setTimeout(()=>{
+      const un=document.getElementById('profileUsername');
+      if(un){un.style.cssText+=';background:none!important;-webkit-background-clip:unset!important;-webkit-text-fill-color:#9b59b6!important;color:#9b59b6!important;animation:none!important;';}
+    },100);
+    // View counter
+    const vc=document.createElement('div');vc.id='glViews';
+    vc.innerHTML='👁 <span id="glVcNum">—</span>';
+    document.body.appendChild(vc);
+    const lvEl=document.getElementById('lv');
+    if(lvEl){const ob=new MutationObserver(()=>{const m=lvEl.textContent.match(/[\d,]+/);if(m){const sp=document.getElementById('glVcNum');if(sp)sp.textContent=m[0];}});ob.observe(lvEl,{childList:true,subtree:true,characterData:true});}
+    // Music bar
+    if(p.tracks&&p.tracks.length){
+      const bar=document.createElement('div');bar.id='glMusicBar';
+      const tk=p.tracks[0];
+      bar.innerHTML=`<div class="gl-prog"><div class="gl-fill" id="glFill"></div></div><div class="gl-cover" id="glCover">${tk.cover?`<img src="${tk.cover}">`:'🎵'}</div><div class="gl-info"><div class="gl-title" id="glTitleEl">${escHtml(tk.name||'Track')}</div><div class="gl-time" id="glTimeEl">0:00 ─── 0:00</div></div><div class="gl-ctls"><button class="gl-btn" onclick="prevTrack()">⏮</button><button class="gl-btn play" id="glPlayBtn" onclick="togglePlay()">⏸</button><button class="gl-btn" onclick="nextTrack()">⏭</button></div>`;
+      document.body.appendChild(bar);
+      const fmt=s=>{const m=Math.floor(s/60),ss=Math.floor(s%60);return m+':'+(ss<10?'0':'')+ss;};
+      const audio=document.getElementById('audioEl');
+      audio.addEventListener('timeupdate',function(){
+        if(!this.duration)return;
+        const fill=document.getElementById('glFill');if(fill)fill.style.width=(this.currentTime/this.duration*100)+'%';
+        const t=document.getElementById('glTimeEl');if(t)t.textContent=fmt(this.currentTime)+' ─── '+fmt(this.duration);
+        const pb=document.getElementById('glPlayBtn');if(pb)pb.textContent=this.paused?'▶':'⏸';
+      });
+      // sync title on track change
+      const origTitle=document.getElementById('npTitle');
+      if(origTitle){const ob2=new MutationObserver(()=>{const el=document.getElementById('glTitleEl');if(el)el.textContent=origTitle.textContent;const cv=document.getElementById('glCover');const img=document.getElementById('npCover');if(cv&&img&&img.src){cv.innerHTML=`<img src="${img.src}">`;};});ob2.observe(origTitle,{childList:true,characterData:true,subtree:true});}
+    }
+  }
   const skinMap={frosted:'skin-frosted',solid:'skin-solid',neon:'skin-neon',terminal:'skin-terminal'};
   if (p.cardSkin && skinMap[p.cardSkin]) card.classList.add(skinMap[p.cardSkin]);
   if (p.monoIcons) card.classList.add('mono-icons');
@@ -1194,7 +1296,8 @@ function trackClick() {
 let isDark=true;
 function toggleDarkLight() {
   isDark=!isDark;
-  document.body.className=isDark?'dark-mode':'light-mode';
+  document.body.classList.remove('dark-mode','light-mode');
+  document.body.classList.add(isDark?'dark-mode':'light-mode');
   document.getElementById('modeToggle').textContent=isDark?'🌙':'☀️';
   showToast(isDark?'🌙 Dark mode':'☀️ Light mode');
 }
