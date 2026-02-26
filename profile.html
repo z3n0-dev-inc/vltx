@@ -6,7 +6,7 @@
 <title>Loading... — VLTX</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Syne:wght@400;600;700;800&family=Outfit:wght@300;400;500;600;700&family=Space+Mono:wght@400;700&family=DM+Sans:wght@300;400;500;600&family=Orbitron:wght@400;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800;900&family=Syne:wght@400;600;700;800&family=Outfit:wght@300;400;500;600;700&family=Space+Mono:wght@400;700&family=DM+Sans:wght@300;400;500;600&family=Orbitron:wght@400;600;700&display=swap" rel="stylesheet">
 <style>
 @property --spin { syntax: '<angle>'; inherits: false; initial-value: 0deg; }
 @property --hue  { syntax: '<number>'; inherits: true; initial-value: 0; }
@@ -25,7 +25,7 @@
 
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 html{scroll-behavior:smooth}
-body{min-height:100vh;font-family:'Outfit',sans-serif;color:var(--text);overflow-x:hidden;background:var(--bg)}
+body{min-height:100vh;font-family:'Outfit',sans-serif;color:var(--text);overflow-x:hidden;background:var(--bg);overflow:hidden;}
 body.has-mouse{cursor:none}
 body.light-mode{filter:invert(1) hue-rotate(180deg)}
 
@@ -45,8 +45,8 @@ body.cursor-none #cur,body.cursor-none #cur-trail{display:none}
 /* BACKGROUNDS */
 #bg-video{position:fixed;inset:0;width:100%;height:100%;object-fit:cover;z-index:0;pointer-events:none}
 #bg-image{position:fixed;inset:0;width:100%;height:100%;object-fit:cover;z-index:0;pointer-events:none;display:none}
-.bg-overlay{position:fixed;inset:0;z-index:1;background:radial-gradient(ellipse 70% 55% at 15% 15%,rgba(168,85,247,.1) 0%,transparent 60%),radial-gradient(ellipse 55% 70% at 85% 85%,rgba(34,211,238,.06) 0%,transparent 60%),var(--bg);animation:bgPulse 12s ease-in-out infinite alternate}
-@keyframes bgPulse{from{filter:hue-rotate(0deg)}to{filter:hue-rotate(12deg)}}
+.bg-overlay{position:fixed;inset:0;z-index:1;background:linear-gradient(180deg,#8a9faf 0%,#6b8292 8%,#556878 18%,#3e5060 30%,#2b3c48 45%,#182530 62%,#0e1820 78%,#080f16 92%,#050a10 100%);animation:none;}
+@keyframes bgPulse{from{filter:none}to{filter:none}}
 .gradient-mesh{position:fixed;inset:0;z-index:1;pointer-events:none;opacity:0;background:radial-gradient(circle at 20% 30%,rgba(168,85,247,.14) 0%,transparent 40%),radial-gradient(circle at 80% 60%,rgba(34,211,238,.09) 0%,transparent 35%),radial-gradient(circle at 50% 80%,rgba(244,63,94,.07) 0%,transparent 40%);animation:meshFloat 9s ease-in-out infinite alternate;transition:opacity .5s}
 .gradient-mesh.on{opacity:1}
 @keyframes meshFloat{0%{background-position:0% 0%,100% 0%,50% 100%}100%{background-position:5% 5%,95% 5%,55% 95%}}
@@ -62,71 +62,44 @@ body.cursor-none #cur,body.cursor-none #cur-trail{display:none}
 #spotlight.on{opacity:1}
 #confetti-canvas{position:fixed;inset:0;z-index:4;pointer-events:none}
 
-/* PAGE */
-.page{position:relative;z-index:10;min-height:100vh;display:flex;align-items:center;justify-content:center;padding:50px 20px}
+/* PAGE — guns.lol: full screen, card is transparent, content floats */
+.page{
+  position:fixed;inset:0;z-index:10;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  overflow-y:auto;overflow-x:hidden;
+  padding:0 20px 90px;
+  scrollbar-width:none;
+}
+.page::-webkit-scrollbar{display:none}
 
-/* CARD */
+/* CARD — fully transparent, no borders, just a width-limiter */
 .card{
-  width:100%;max-width:460px;
-  background:var(--card-bg);
-  backdrop-filter:blur(32px) saturate(1.6);
-  -webkit-backdrop-filter:blur(32px) saturate(1.6);
-  border-radius:var(--radius);
-  overflow:hidden;position:relative;
-  box-shadow:0 0 0 1px rgba(255,255,255,.04),0 40px 100px rgba(0,0,0,.75),0 0 80px rgba(168,85,247,.05);
+  width:100%;max-width:480px;
+  background:transparent!important;
+  backdrop-filter:none!important;
+  -webkit-backdrop-filter:none!important;
+  border-radius:0!important;
+  overflow:visible!important;
+  position:relative;
+  box-shadow:none!important;
   animation:cardIn .9s cubic-bezier(.16,1,.3,1) both;
-  transform-style:preserve-3d;
-  border:1px solid rgba(255,255,255,.06);
+  border:none!important;
 }
 @keyframes spinBorder{to{--spin:360deg}}
 @keyframes cardIn{from{opacity:0;transform:translateY(36px) scale(.96)}to{opacity:1;transform:translateY(0) scale(1)}}
 
-/* SPINNING CONIC GRADIENT BORDER — always on, stunning */
-@supports(background:conic-gradient(red,blue)){
-  .card::before{
-    content:'';position:absolute;inset:-1px;
-    border-radius:calc(var(--radius) + 1px);
-    background:conic-gradient(from var(--spin,0deg),
-      transparent 20%,
-      rgba(168,85,247,.9) 36%,rgba(34,211,238,.7) 50%,
-      rgba(244,63,94,.6) 64%,rgba(251,191,36,.5) 72%,
-      rgba(168,85,247,.9) 82%,transparent 92%
-    );
-    z-index:-1;animation:spinBorder 5s linear infinite;
-  }
-  .card.rainbow-border::before{
-    background:conic-gradient(from var(--spin,0deg),#f43f5e,#f97316,#eab308,#22c55e,#06b6d4,#a855f7,#f43f5e)!important;
-    animation:spinBorder 3s linear infinite!important;
-  }
-  .card.no-border::before{display:none}
-  .card.glow-border::before{
-    background:conic-gradient(from var(--spin,0deg),transparent 30%,var(--accent) 50%,transparent 70%)!important;
-    filter:blur(2px);
-  }
-  .card.solid-border::before{display:none}
-  .card.solid-border{border:1px solid var(--accent)!important}
-  .card.neon-border-css::before{
-    background:conic-gradient(from var(--spin,0deg),transparent 30%,var(--accent) 50%,transparent 70%)!important;
-  }
-  .card.fire-border::before{
-    background:conic-gradient(from var(--spin,0deg),#f97316,#ef4444,#fbbf24,#f97316)!important;
-    animation:spinBorder 2s linear infinite!important;
-  }
-  .card.electric-border::before{
-    background:conic-gradient(from var(--spin,0deg),transparent 25%,#06b6d4 45%,#a855f7 55%,transparent 75%)!important;
-    animation:spinBorder 2.5s linear infinite!important;
-  }
-}
+/* SPINNING BORDER — disabled on card (guns.lol style), kept for widgets */
+.card::before{display:none!important;}
 
 /* BANNER */
-.banner{height:148px;position:relative;overflow:hidden;background:linear-gradient(135deg,#0d0520,#0a1628,#150526)}
+.banner{display:none!important;}
 .banner canvas{position:absolute;inset:0;width:100%;height:100%;display:block}
 .banner::after{content:'';position:absolute;bottom:0;left:0;right:0;height:80px;background:linear-gradient(transparent,rgba(5,5,10,.98));pointer-events:none;z-index:2}
 .banner-overlay-text{position:absolute;inset:0;z-index:3;display:flex;align-items:center;justify-content:center;font-family:'Syne',sans-serif;font-size:1.1rem;font-weight:800;letter-spacing:.15em;text-transform:uppercase;color:rgba(255,255,255,.07);pointer-events:none;text-shadow:0 0 30px rgba(168,85,247,.18)}
 .banner-marquee{position:absolute;bottom:12px;left:0;right:0;z-index:3;overflow:hidden;pointer-events:none}
 .banner-marquee-inner{display:flex;gap:40px;white-space:nowrap;animation:marqueeScroll 18s linear infinite;font-size:.62rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:rgba(168,85,247,.45)}
 @keyframes marqueeScroll{from{transform:translateX(0)}to{transform:translateX(-50%)}}
-.views-badge{position:absolute;top:12px;left:12px;z-index:6;background:rgba(0,0,0,.55);backdrop-filter:blur(8px);border:1px solid rgba(255,255,255,.09);padding:2px 8px;border-radius:100px;font-size:.6rem;color:rgba(255,255,255,.55);display:none;gap:4px;align-items:center}
+.views-badge{position:fixed;bottom:80px;left:16px;z-index:9998;background:rgba(0,0,0,.3);backdrop-filter:blur(10px);border:1px solid rgba(255,255,255,.09);padding:3px 10px;border-radius:100px;font-size:.72rem;color:rgba(255,255,255,.5);display:none;gap:5px;align-items:center;}
 .views-badge.show{display:flex}
 
 /* LYRICS TICKER */
@@ -135,20 +108,20 @@ body.cursor-none #cur,body.cursor-none #cur-trail{display:none}
 .lyrics-ticker-inner{display:flex;white-space:nowrap;gap:60px;animation:marqueeScroll 22s linear infinite;font-size:.7rem;color:rgba(168,85,247,.65);letter-spacing:.04em}
 
 /* AVATAR */
-.avatar-wrap{position:relative;width:100px;height:100px;margin:-50px auto 0;display:flex;align-items:center;justify-content:center;z-index:5;animation:avatarFloat 3.8s ease-in-out infinite}
+.avatar-wrap{position:relative;width:120px;height:120px;margin:0 auto 18px;display:flex;align-items:center;justify-content:center;z-index:5;animation:avatarFloat 3.8s ease-in-out infinite}
 @keyframes avatarFloat{0%,100%{transform:translateY(0)}50%{transform:translateY(-7px)}}
 .avatar{
-  width:96px;height:96px;border-radius:50%;
-  background:linear-gradient(135deg,var(--accent),var(--accent2),#f43f5e);
+  width:112px;height:112px;border-radius:50%;
+  background:linear-gradient(135deg,#2a1a40,#1a1530);
   display:flex;align-items:center;justify-content:center;
-  font-size:2.8rem;line-height:1;
-  border:3px solid rgba(168,85,247,.55);
-  box-shadow:0 0 0 5px rgba(168,85,247,.08),0 0 30px rgba(168,85,247,.35),0 0 60px rgba(168,85,247,.1);
+  font-size:3rem;line-height:1;
+  border:none;
+  box-shadow:0 4px 28px rgba(0,0,0,.6),0 0 0 3px rgba(255,255,255,.06);
   overflow:hidden;user-select:none;
-  transition:transform .28s ease,box-shadow .28s ease;
+  transition:transform .3s cubic-bezier(.34,1.56,.64,1),box-shadow .3s;
 }
 .avatar img{width:100%;height:100%;object-fit:cover}
-.avatar:hover{transform:scale(1.1) rotate(-5deg);box-shadow:0 0 0 5px rgba(168,85,247,.2),0 0 44px rgba(168,85,247,.5),0 0 70px rgba(168,85,247,.18)}
+.avatar:hover{transform:scale(1.06);box-shadow:0 8px 36px rgba(0,0,0,.65),0 0 0 3px rgba(255,255,255,.1)}
 .online-dot{position:absolute;bottom:3px;right:3px;width:18px;height:18px;background:#22c55e;border-radius:50%;border:3px solid var(--bg);animation:dotPulse 2.4s ease-in-out infinite}
 @keyframes dotPulse{0%,100%{box-shadow:0 0 6px rgba(34,197,94,.5)}50%{box-shadow:0 0 18px rgba(34,197,94,.9),0 0 30px rgba(34,197,94,.22)}}
 .online-dot.idle{background:#f59e0b;animation:none}
@@ -156,13 +129,20 @@ body.cursor-none #cur,body.cursor-none #cur-trail{display:none}
 .online-dot.offline{background:#6b7280;animation:none}
 
 /* CARD BODY */
-.card-body{padding:16px 24px 26px}
-.name-row{text-align:center;margin-bottom:4px}
+.card-body{padding:0 16px 20px;display:flex;flex-direction:column;align-items:center;}
+.name-row{text-align:center;margin-bottom:6px;width:100%;}
 .username{
-  font-family:'Syne',sans-serif;font-size:1.72rem;font-weight:800;letter-spacing:-.025em;
+  font-family:'Outfit',sans-serif;font-size:2.2rem;font-weight:800;letter-spacing:-.025em;
+  color:var(--accent);
+  -webkit-text-fill-color:var(--accent);
+  display:inline-block;
+  filter:drop-shadow(0 2px 10px rgba(0,0,0,.35));
+}
+/* Shimmer variant — applied via .username-shimmer class */
+.username.username-shimmer{
   background:linear-gradient(135deg,#fff 18%,var(--accent) 58%,var(--accent2) 100%);
   -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
-  background-size:200% 100%;animation:nameShimmer 4s ease-in-out infinite;display:inline-block;
+  background-size:200% 100%;animation:nameShimmer 4s ease-in-out infinite;
 }
 @keyframes nameShimmer{0%,100%{background-position:0%}50%{background-position:100%}}
 @keyframes glitchAnim{0%,96%{clip-path:none;transform:none}97%{clip-path:polygon(0 0,100% 0,100% 35%,0 35%);transform:translate(-3px,2px)}98%{clip-path:polygon(0 55%,100% 55%,100% 100%,0 100%);transform:translate(3px,-2px)}99%{clip-path:polygon(0 25%,100% 25%,100% 60%,0 60%);transform:translate(1px,1px)}100%{clip-path:none;transform:none}}
@@ -177,9 +157,9 @@ body.cursor-none #cur,body.cursor-none #cur-trail{display:none}
 @keyframes waveChar{0%,100%{transform:translateY(0)}50%{transform:translateY(-8px)}}
 
 .pronouns{display:inline-block;background:rgba(168,85,247,.1);border:1px solid rgba(168,85,247,.28);color:var(--accent);font-size:.68rem;font-weight:700;letter-spacing:.07em;text-transform:uppercase;padding:2px 9px;border-radius:100px;margin-left:7px;vertical-align:middle}
-.role-line{text-align:center;font-size:.74rem;color:var(--muted);margin-bottom:8px;letter-spacing:.02em}
+.role-line{text-align:center;font-size:.95rem;color:rgba(255,255,255,.82);margin-bottom:6px;letter-spacing:.01em;text-shadow:0 1px 6px rgba(0,0,0,.5)}
 .status-badge{display:block;width:fit-content;margin:0 auto 10px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);padding:3px 11px;border-radius:100px;font-size:.73rem;color:var(--text);text-align:center}
-.location-line{text-align:center;font-size:.72rem;color:var(--muted);margin-bottom:10px;display:flex;align-items:center;justify-content:center;gap:5px}
+.location-line{text-align:center;font-size:.82rem;color:rgba(255,255,255,.5);margin-bottom:20px;display:flex;align-items:center;justify-content:center;gap:5px;text-shadow:0 1px 4px rgba(0,0,0,.4)}
 .available-indicator{display:none;align-items:center;gap:5px;font-size:.66rem;font-weight:700;color:#22c55e;background:rgba(34,197,94,.08);border:1px solid rgba(34,197,94,.2);padding:3px 10px;border-radius:100px;margin:0 auto 8px;width:fit-content}
 .available-indicator.on{display:flex}
 .avail-dot{width:6px;height:6px;border-radius:50%;background:#22c55e;animation:dotPulse 2s ease-in-out infinite;flex-shrink:0}
@@ -196,8 +176,8 @@ body.cursor-none #cur,body.cursor-none #cur-trail{display:none}
 .badge:hover .badge-tooltip{opacity:1}
 
 /* TAGS & SKILLS */
-.tags{display:flex;gap:5px;flex-wrap:wrap;justify-content:center;margin-bottom:14px}
-.tag{font-size:.73rem;color:var(--muted);background:rgba(255,255,255,.035);border:1px solid rgba(255,255,255,.065);padding:3px 11px;border-radius:100px;transition:color .2s,border-color .2s;cursor:default}
+.tags{display:flex;gap:5px;flex-wrap:wrap;justify-content:center;margin-bottom:14px;width:100%;}
+.tag{font-size:.73rem;color:rgba(255,255,255,.75);background:rgba(255,255,255,.07);backdrop-filter:blur(8px);border:1px solid rgba(255,255,255,.12);padding:3px 12px;border-radius:100px;transition:all .2s;cursor:default;text-shadow:0 1px 4px rgba(0,0,0,.3)}
 .tag:hover{color:var(--text);border-color:rgba(255,255,255,.16)}
 .skills-row{display:flex;gap:5px;flex-wrap:wrap;justify-content:center;margin-bottom:14px}
 .skill-chip{font-size:.7rem;font-weight:600;padding:3px 10px;border-radius:100px;background:rgba(168,85,247,.09);border:1px solid rgba(168,85,247,.2);color:#c4b5fd;letter-spacing:.01em;transition:all .2s}
@@ -222,7 +202,7 @@ body.cursor-none #cur,body.cursor-none #cur-trail{display:none}
 .activity-tag.purple{background:rgba(168,85,247,.1);border:1px solid rgba(168,85,247,.22);color:#c4b5fd}
 
 /* BIO */
-.bio{text-align:center;font-size:.92rem;color:var(--muted);line-height:1.7;margin-bottom:18px;min-height:48px;display:flex;align-items:center;justify-content:center}
+.bio{text-align:center;font-size:.92rem;color:rgba(255,255,255,.65);line-height:1.7;margin-bottom:18px;min-height:0;display:flex;align-items:center;justify-content:center;text-shadow:0 1px 6px rgba(0,0,0,.4)}
 .tw{color:var(--text)}
 .caret{display:inline-block;width:2px;height:.88em;background:var(--accent);margin-left:2px;vertical-align:text-bottom;animation:blink .7s step-end infinite}
 @keyframes blink{0%,100%{opacity:1}50%{opacity:0}}
@@ -256,16 +236,25 @@ body.cursor-none #cur,body.cursor-none #cur-trail{display:none}
 .project-link:hover{opacity:1}
 
 /* MUSIC PLAYER */
-.music-player{background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.065);border-radius:16px;padding:13px 15px 15px;display:flex;align-items:center;gap:13px;margin-bottom:14px;position:relative;overflow:hidden;transition:border-color .2s}
-.music-player:hover{border-color:rgba(168,85,247,.3)}
-.prog-bg{position:absolute;bottom:0;left:0;height:3px;width:100%;background:rgba(255,255,255,.05)}
-.prog{position:absolute;bottom:0;left:0;height:3px;width:0%;background:linear-gradient(90deg,var(--accent),var(--accent2));border-radius:0 2px 2px 0;transition:width .5s linear}
-.waveform-bars{display:flex;align-items:flex-end;gap:2px;height:24px;flex-shrink:0}
+.music-player{
+  position:fixed!important;bottom:0!important;left:0!important;right:0!important;
+  background:rgba(8,8,14,.92)!important;
+  backdrop-filter:blur(28px) saturate(1.4)!important;
+  -webkit-backdrop-filter:blur(28px) saturate(1.4)!important;
+  border:none!important;border-top:1px solid rgba(255,255,255,.07)!important;
+  border-radius:0!important;
+  padding:9px 24px 14px!important;
+  display:flex!important;align-items:center;gap:16px;
+  margin:0!important;z-index:9999;
+}
+.prog-bg{position:absolute;top:0;left:0;height:2px;width:100%;background:rgba(255,255,255,.06)}
+.prog{position:absolute;top:0;left:0;height:2px;width:0%;background:rgba(255,255,255,.38);border-radius:0 2px 2px 0;transition:width .5s linear}
+.waveform-bars{display:none}
 .wave-bar{width:3px;background:linear-gradient(to top,var(--accent),var(--accent2));border-radius:2px;animation:wavePulse 1.2s ease-in-out infinite}
 .wave-bar:nth-child(1){height:8px;animation-delay:0s}.wave-bar:nth-child(2){height:14px;animation-delay:.1s}.wave-bar:nth-child(3){height:20px;animation-delay:.2s}.wave-bar:nth-child(4){height:16px;animation-delay:.05s}.wave-bar:nth-child(5){height:10px;animation-delay:.15s}
 @keyframes wavePulse{0%,100%{transform:scaleY(.5);opacity:.6}50%{transform:scaleY(1);opacity:1}}
 .waveform-bars.paused .wave-bar{animation-play-state:paused}
-.album{width:48px;height:48px;border-radius:11px;background:linear-gradient(135deg,#2d1060,#0c2a50);display:flex;align-items:center;justify-content:center;font-size:1.3rem;flex-shrink:0;overflow:hidden;transition:box-shadow .2s}
+.album{width:44px;height:44px;border-radius:9px;background:rgba(255,255,255,.06);display:flex;align-items:center;justify-content:center;font-size:1.2rem;flex-shrink:0;overflow:hidden}
 .album img{width:100%;height:100%;object-fit:cover;border-radius:11px}
 .album.spin{animation:aSpin 8s linear infinite}
 @keyframes aSpin{to{transform:rotate(360deg)}}
@@ -278,7 +267,7 @@ body.cursor-none #cur,body.cursor-none #cur-trail{display:none}
 .mbtn.play{background:var(--accent)!important;box-shadow:0 0 16px rgba(168,85,247,.4);width:40px;height:40px;font-size:1rem}
 
 /* STATS */
-.stats{display:flex;gap:1px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.06);border-radius:14px;overflow:hidden;margin-bottom:16px}
+.stats{display:flex;gap:1px;background:rgba(255,255,255,.04);backdrop-filter:blur(12px);border:1px solid rgba(255,255,255,.08);border-radius:14px;overflow:hidden;margin-bottom:16px;width:100%;max-width:340px;}
 .stat{flex:1;padding:12px 8px;background:rgba(10,10,20,.6);text-align:center;transition:background .2s;cursor:default}
 .stat:hover{background:rgba(168,85,247,.07)}
 .snum{font-family:'Syne',sans-serif;font-size:1.22rem;font-weight:800;color:var(--accent)}
@@ -342,11 +331,14 @@ body.cursor-none #cur,body.cursor-none #cur-trail{display:none}
    ══════════════════════════════════ */
 .discord-profile-card{
   display:none;position:relative;overflow:hidden;
-  background:linear-gradient(135deg,rgba(88,101,242,.12) 0%,rgba(114,137,218,.06) 100%);
-  border:1px solid rgba(88,101,242,.25);
-  border-radius:var(--inner-r);padding:16px;margin-bottom:14px;gap:14px;
+  background:rgba(14,16,28,.58);
+  backdrop-filter:blur(22px) saturate(1.3);
+  -webkit-backdrop-filter:blur(22px) saturate(1.3);
+  border:1px solid rgba(255,255,255,.13);
+  border-radius:18px;padding:14px 18px;margin-bottom:20px;gap:14px;
   align-items:center;transition:all .25s;
-  box-shadow:0 0 0 1px rgba(88,101,242,.05),0 8px 32px rgba(88,101,242,.09);
+  box-shadow:0 4px 24px rgba(0,0,0,.2);
+  width:100%;max-width:340px;
 }
 .discord-profile-card::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at 0% 100%,rgba(88,101,242,.1) 0%,transparent 65%);pointer-events:none}
 .discord-profile-card::after{content:'DISCORD';position:absolute;top:10px;right:13px;font-size:.5rem;font-weight:800;letter-spacing:.13em;color:rgba(165,180,252,.25);font-family:'Space Mono',monospace;pointer-events:none}
@@ -435,7 +427,7 @@ body.cursor-none #cur,body.cursor-none #cur-trail{display:none}
 
 /* SOCIALS */
 .socials{display:flex;gap:9px;flex-wrap:wrap;justify-content:center;margin-bottom:14px}
-.soc{display:flex;align-items:center;justify-content:center;width:50px;height:50px;border-radius:13px;background:rgba(255,255,255,.044);border:1px solid rgba(255,255,255,.08);transition:transform .18s,border-color .2s,box-shadow .2s;position:relative;text-decoration:none;flex-shrink:0}
+.soc{display:flex;align-items:center;justify-content:center;width:52px;height:52px;border-radius:50%;background:rgba(255,255,255,.15);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border:1px solid rgba(255,255,255,.18);transition:transform .22s cubic-bezier(.34,1.56,.64,1),border-color .2s,background .2s;position:relative;text-decoration:none;flex-shrink:0;}
 .soc:hover{transform:translateY(-4px) scale(1.1);border-color:rgba(168,85,247,.42);box-shadow:0 8px 24px rgba(0,0,0,.32)}
 .soc img{width:26px;height:26px;object-fit:contain;border-radius:4px}
 .soc .fallback{font-size:1.4rem}
@@ -457,7 +449,28 @@ body.cursor-none #cur,body.cursor-none #cur-trail{display:none}
 .weather-loc{font-size:.62rem;color:var(--muted)}
 
 /* FOOTER */
-.card-foot{padding:12px 24px;border-top:1px solid rgba(255,255,255,.042);display:flex;align-items:center;justify-content:space-between}
+.card-foot{background:transparent!important;border-top:none!important;padding:8px 16px 16px;display:flex;align-items:center;justify-content:center;gap:16px;}
+/* guns.lol social icon style — circular, white, frosted */
+.soc-link{
+  width:52px;height:52px;border-radius:50%!important;
+  background:rgba(255,255,255,.15)!important;
+  backdrop-filter:blur(12px);
+  border:1px solid rgba(255,255,255,.18)!important;
+  display:flex!important;align-items:center;justify-content:center;
+  transition:background .2s,transform .22s cubic-bezier(.34,1.56,.64,1),border-color .2s;
+  cursor:pointer;text-decoration:none;
+  flex-shrink:0;
+}
+.soc-link:hover{
+  background:rgba(255,255,255,.3)!important;
+  border-color:rgba(255,255,255,.35)!important;
+  transform:scale(1.12) translateY(-3px)!important;
+}
+.soc-link img,.soc-link svg{
+  width:24px!important;height:24px!important;
+  filter:brightness(0) invert(1)!important;
+}
+.soc-link .soc-emoji{font-size:1.1rem;}
 .credit{font-size:.75rem;color:var(--muted);text-decoration:none;display:flex;align-items:center;gap:5px;transition:color .2s}
 .credit:hover{color:var(--accent)}
 .vcnt{font-size:.75rem;color:var(--muted)}
@@ -495,69 +508,6 @@ body.cursor-none #cur,body.cursor-none #cur-trail{display:none}
 .skin-terminal{background:rgba(0,8,0,.96)!important;border-color:rgba(0,255,65,.3)!important}
 .layout-modern .banner{display:none}
 .layout-modern .avatar-wrap{margin-top:28px}
-
-/* ═══════════════════════════════════════════════
-   GUNS.LOL LAYOUT — exact 1:1
-   No card. Content floats on background.
-   Font: Inter (fonts.googleapis.com)
-   ═══════════════════════════════════════════════ */
-body.layout-gunslol{font-family:'Inter',sans-serif!important;}
-body.layout-gunslol .card{
-  background:transparent!important;backdrop-filter:none!important;-webkit-backdrop-filter:none!important;
-  border:none!important;box-shadow:none!important;border-radius:0!important;
-}
-body.layout-gunslol .card::before,body.layout-gunslol .card::after{display:none!important;}
-body.layout-gunslol .banner,body.layout-gunslol .animated-logo,body.layout-gunslol .lyrics-ticker,
-body.layout-gunslol .bio,body.layout-gunslol .tags,body.layout-gunslol .badges-row,
-body.layout-gunslol .stats,body.layout-gunslol .reaction-bar,body.layout-gunslol .share-card-btn,
-body.layout-gunslol .music-player,body.layout-gunslol .weather-widget,body.layout-gunslol .skill-bars,
-body.layout-gunslol .skills-row,body.layout-gunslol .open-to-row,body.layout-gunslol .timeline,
-body.layout-gunslol .quote-section,body.layout-gunslol .project-card,body.layout-gunslol .visitor-map,
-body.layout-gunslol .github-widget,body.layout-gunslol .profile-tabs,body.layout-gunslol #activityTagsRow,
-body.layout-gunslol .available-indicator,body.layout-gunslol .copy-username-btn,body.layout-gunslol .pronouns,
-body.layout-gunslol .status-badge,body.layout-gunslol #profileDcBadge,body.layout-gunslol .dc-presence,
-body.layout-gunslol .spotify-card,body.layout-gunslol .link-buttons,body.layout-gunslol .discord-server-widget,
-body.layout-gunslol .views-badge,body.layout-gunslol .mode-toggle{display:none!important;}
-body.layout-gunslol .avatar-wrap{margin-top:0!important;animation:none!important;width:116px!important;height:116px!important;}
-body.layout-gunslol .avatar{width:112px!important;height:112px!important;border:none!important;box-shadow:0 3px 22px rgba(0,0,0,.55)!important;border-radius:50%!important;}
-body.layout-gunslol .avatar:hover{transform:scale(1.04)!important;}
-body.layout-gunslol .online-dot{display:none!important;}
-body.layout-gunslol .username{
-  font-family:'Inter',sans-serif!important;font-size:2rem!important;font-weight:700!important;
-  letter-spacing:-.025em!important;background:none!important;-webkit-background-clip:unset!important;
-  -webkit-text-fill-color:#9b59b6!important;color:#9b59b6!important;animation:none!important;text-shadow:none!important;
-}
-body.layout-gunslol .role-line{font-family:'Inter',sans-serif!important;font-size:.92rem!important;font-weight:400!important;color:rgba(255,255,255,.85)!important;letter-spacing:.01em!important;}
-body.layout-gunslol .location-line{font-family:'Inter',sans-serif!important;font-size:.8rem!important;color:rgba(255,255,255,.55)!important;margin-bottom:16px!important;}
-body.layout-gunslol .discord-profile-card{
-  background:rgba(14,15,24,.58)!important;backdrop-filter:blur(20px) saturate(1.2)!important;
-  -webkit-backdrop-filter:blur(20px) saturate(1.2)!important;border:1px solid rgba(255,255,255,.1)!important;
-  border-radius:18px!important;max-width:290px;margin:0 auto 16px!important;
-  box-shadow:0 4px 20px rgba(0,0,0,.22)!important;
-}
-body.layout-gunslol .discord-profile-card::before,body.layout-gunslol .discord-profile-card::after{display:none!important;}
-body.layout-gunslol .card-body{padding:14px 28px 22px!important;text-align:center;}
-body.layout-gunslol .socials{justify-content:center!important;gap:12px!important;margin-bottom:14px!important;}
-body.layout-gunslol .soc{width:52px!important;height:52px!important;background:rgba(255,255,255,.14)!important;border:none!important;border-radius:50%!important;box-shadow:0 2px 10px rgba(0,0,0,.25)!important;backdrop-filter:blur(6px)!important;}
-body.layout-gunslol .soc:hover{background:rgba(255,255,255,.26)!important;transform:scale(1.1) translateY(-2px)!important;}
-body.layout-gunslol .soc img{width:26px!important;height:26px!important;filter:brightness(0) invert(1)!important;}
-body.layout-gunslol .card-foot{background:transparent!important;border-top:none!important;padding:4px 20px 80px!important;}
-body.layout-gunslol .vcnt,body.layout-gunslol .credit{display:none!important;}
-/* view count repositioned */
-body.layout-gunslol #glViews{position:fixed;bottom:72px;left:14px;font-family:'Inter',sans-serif;font-size:.72rem;color:rgba(255,255,255,.45);z-index:9998;display:flex;align-items:center;gap:4px;background:rgba(0,0,0,.25);padding:4px 9px;border-radius:100px;backdrop-filter:blur(8px);}
-/* music bar fixed bottom */
-body.layout-gunslol #glMusicBar{position:fixed;bottom:0;left:0;right:0;background:rgba(8,8,12,.9);backdrop-filter:blur(24px) saturate(1.3);border-top:1px solid rgba(255,255,255,.07);z-index:9999;display:flex;align-items:center;gap:14px;padding:10px 20px 14px;font-family:'Inter',sans-serif;}
-body.layout-gunslol #glMusicBar .gl-prog{position:absolute;top:0;left:0;right:0;height:2px;background:rgba(255,255,255,.07);}
-body.layout-gunslol #glMusicBar .gl-fill{height:2px;background:rgba(255,255,255,.4);width:3%;transition:width .4s linear;}
-body.layout-gunslol #glMusicBar .gl-cover{width:42px;height:42px;border-radius:8px;overflow:hidden;background:rgba(255,255,255,.08);flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:1.1rem;}
-body.layout-gunslol #glMusicBar .gl-cover img{width:100%;height:100%;object-fit:cover;}
-body.layout-gunslol #glMusicBar .gl-info{flex:1;min-width:0;}
-body.layout-gunslol #glMusicBar .gl-title{font-size:.85rem;font-weight:600;color:#fff;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
-body.layout-gunslol #glMusicBar .gl-time{font-size:.65rem;color:rgba(255,255,255,.35);margin-top:2px;}
-body.layout-gunslol #glMusicBar .gl-ctls{display:flex;gap:14px;align-items:center;flex-shrink:0;}
-body.layout-gunslol #glMusicBar .gl-btn{background:none;border:none;color:rgba(255,255,255,.5);cursor:pointer;font-size:1rem;padding:4px;transition:color .15s;line-height:1;}
-body.layout-gunslol #glMusicBar .gl-btn:hover{color:#fff;}
-body.layout-gunslol #glMusicBar .gl-btn.play{color:#fff;font-size:1.15rem;}
 .layout-wide{max-width:600px!important}
 .mono-icons .soc img,.mono-icons .link-btn img{filter:grayscale(1)}
 .mono-icons .soc:hover img,.mono-icons .link-btn:hover img{filter:grayscale(0)}
@@ -604,6 +554,28 @@ body.layout-gunslol #glMusicBar .gl-btn.play{color:#fff;font-size:1.15rem;}
   .card-body{padding:14px 18px 22px}
   .socials{gap:7px}
 }
+
+/* ── GUNS.LOL SCENE LAYERS ── */
+#glSnowCanvas{position:fixed;inset:0;z-index:3;pointer-events:none;}
+#glTreeLayer{position:fixed;bottom:0;left:0;right:0;z-index:4;pointer-events:none;height:55vh;}
+#glTreeLayer svg{width:100%;height:100%;}
+/* Ensure page content is above trees */
+.page{z-index:10;}
+/* Reaction bar glass style */
+.reaction{background:rgba(255,255,255,.06)!important;border:1px solid rgba(255,255,255,.1)!important;backdrop-filter:blur(8px);}
+/* Project card glass */
+.project-card{background:rgba(255,255,255,.04)!important;backdrop-filter:blur(12px);border-color:rgba(255,255,255,.1)!important;}
+/* Quote glass */
+.quote-section{background:rgba(255,255,255,.04)!important;backdrop-filter:blur(10px);border-left-color:var(--accent);}
+/* Timeline dots glass */
+.timeline-dot{background:rgba(168,85,247,.15)!important;backdrop-filter:blur(6px);}
+/* Skill bars glass */
+.skill-bars{width:100%;}
+/* Discord server widget glass */
+.discord-server-widget{background:rgba(88,101,242,.08)!important;backdrop-filter:blur(14px);border-color:rgba(88,101,242,.2)!important;}
+/* Scrollable content properly padded from music bar */
+body{padding-bottom:0;}
+
 </style>
 </head>
 <body>
@@ -623,10 +595,54 @@ body.layout-gunslol #glMusicBar .gl-btn.play{color:#fff;font-size:1.15rem;}
 
 <button class="mode-toggle" id="modeToggle" onclick="toggleDarkLight()" title="Toggle theme">🌙</button>
 
+
+<!-- GUNS.LOL SNOW + TREES -->
+<canvas id="glSnowCanvas"></canvas>
+<div id="glTreeLayer">
+  <svg viewBox="0 0 1440 500" preserveAspectRatio="xMidYMax meet" xmlns="http://www.w3.org/2000/svg">
+    <g opacity=".3" fill="#0c1620">
+      <polygon points="60,500 100,360 140,500"/>
+      <polygon points="130,500 175,295 220,500"/>
+      <polygon points="320,500 370,278 420,500"/>
+      <polygon points="530,500 575,258 620,500"/>
+      <polygon points="680,500 720,300 760,500"/>
+      <polygon points="920,500 965,272 1010,500"/>
+      <polygon points="1180,500 1220,290 1260,500"/>
+      <polygon points="1380,500 1415,278 1450,500"/>
+    </g>
+    <g opacity=".55" fill="#09121a">
+      <polygon points="0,500 55,308 110,500"/>
+      <polygon points="90,500 150,238 210,500"/>
+      <polygon points="275,500 310,378 345,500"/>
+      <polygon points="360,500 415,198 470,500"/>
+      <polygon points="480,500 520,278 560,500"/>
+      <polygon points="610,500 660,218 710,500"/>
+      <polygon points="870,500 920,238 970,500"/>
+      <polygon points="1120,500 1170,222 1220,500"/>
+      <polygon points="1350,500 1395,262 1440,500"/>
+    </g>
+    <g opacity=".92" fill="#060c12">
+      <polygon points="-10,500 55,228 120,500"/>
+      <polygon points="80,500 140,318 200,500"/>
+      <polygon points="170,500 215,268 260,500"/>
+      <polygon points="260,500 310,178 360,500"/>
+      <polygon points="380,500 430,298 480,500"/>
+      <polygon points="490,500 550,192 610,500"/>
+      <polygon points="640,500 690,248 740,500"/>
+      <polygon points="760,500 810,308 860,500"/>
+      <polygon points="890,500 950,198 1010,500"/>
+      <polygon points="1050,500 1095,278 1140,500"/>
+      <polygon points="1160,500 1215,218 1270,500"/>
+      <polygon points="1290,500 1340,268 1390,500"/>
+      <polygon points="1380,500 1430,238 1480,500"/>
+    </g>
+    <rect x="0" y="472" width="1440" height="28" fill="#040a0e" opacity=".75"/>
+  </svg>
+</div>
 <div class="page">
   <div class="card" id="card">
-    <div class="animated-logo" id="animLogo"></div>
-    <div class="views-badge" id="viewsBadge">👁 <span id="viewsBadgeNum">—</span></div>
+    <div class="animated-logo" id="animLogo" style="display:none"></div>
+    <div class="views-badge show" id="viewsBadge">👁 <span id="viewsBadgeNum">—</span></div>
     <div class="banner" id="profileBanner">
       <canvas id="bnr"></canvas>
       <div class="banner-overlay-text" id="bannerText"></div>
@@ -906,7 +922,6 @@ function applyProfile(p) {
 
   // ── FONT ──
   const FONT_MAP = {
-    inter: "'Inter',sans-serif",
     outfit: "'Outfit',sans-serif", syne: "'Syne',sans-serif",
     mono: "'Space Mono',monospace", dm: "'DM Sans',sans-serif",
     orbitron: "'Orbitron',sans-serif", serif: "Georgia,serif"
@@ -1226,40 +1241,6 @@ function applyProfile(p) {
   const card=document.getElementById('card');
   if (p.layout==='modern') card.classList.add('layout-modern');
   else if (p.layout==='wide') card.classList.add('layout-wide');
-  else if (p.layout==='gunslol') {
-    document.body.classList.add('layout-gunslol');
-    card.classList.add('no-border');
-    document.body.style.fontFamily = "'Inter',sans-serif";
-    // Override username to solid purple, no gradient/animation
-    setTimeout(()=>{
-      const un=document.getElementById('profileUsername');
-      if(un){un.style.cssText+=';background:none!important;-webkit-background-clip:unset!important;-webkit-text-fill-color:#9b59b6!important;color:#9b59b6!important;animation:none!important;';}
-    },100);
-    // View counter
-    const vc=document.createElement('div');vc.id='glViews';
-    vc.innerHTML='👁 <span id="glVcNum">—</span>';
-    document.body.appendChild(vc);
-    const lvEl=document.getElementById('lv');
-    if(lvEl){const ob=new MutationObserver(()=>{const m=lvEl.textContent.match(/[\d,]+/);if(m){const sp=document.getElementById('glVcNum');if(sp)sp.textContent=m[0];}});ob.observe(lvEl,{childList:true,subtree:true,characterData:true});}
-    // Music bar
-    if(p.tracks&&p.tracks.length){
-      const bar=document.createElement('div');bar.id='glMusicBar';
-      const tk=p.tracks[0];
-      bar.innerHTML=`<div class="gl-prog"><div class="gl-fill" id="glFill"></div></div><div class="gl-cover" id="glCover">${tk.cover?`<img src="${tk.cover}">`:'🎵'}</div><div class="gl-info"><div class="gl-title" id="glTitleEl">${escHtml(tk.name||'Track')}</div><div class="gl-time" id="glTimeEl">0:00 ─── 0:00</div></div><div class="gl-ctls"><button class="gl-btn" onclick="prevTrack()">⏮</button><button class="gl-btn play" id="glPlayBtn" onclick="togglePlay()">⏸</button><button class="gl-btn" onclick="nextTrack()">⏭</button></div>`;
-      document.body.appendChild(bar);
-      const fmt=s=>{const m=Math.floor(s/60),ss=Math.floor(s%60);return m+':'+(ss<10?'0':'')+ss;};
-      const audio=document.getElementById('audioEl');
-      audio.addEventListener('timeupdate',function(){
-        if(!this.duration)return;
-        const fill=document.getElementById('glFill');if(fill)fill.style.width=(this.currentTime/this.duration*100)+'%';
-        const t=document.getElementById('glTimeEl');if(t)t.textContent=fmt(this.currentTime)+' ─── '+fmt(this.duration);
-        const pb=document.getElementById('glPlayBtn');if(pb)pb.textContent=this.paused?'▶':'⏸';
-      });
-      // sync title on track change
-      const origTitle=document.getElementById('npTitle');
-      if(origTitle){const ob2=new MutationObserver(()=>{const el=document.getElementById('glTitleEl');if(el)el.textContent=origTitle.textContent;const cv=document.getElementById('glCover');const img=document.getElementById('npCover');if(cv&&img&&img.src){cv.innerHTML=`<img src="${img.src}">`;};});ob2.observe(origTitle,{childList:true,characterData:true,subtree:true});}
-    }
-  }
   const skinMap={frosted:'skin-frosted',solid:'skin-solid',neon:'skin-neon',terminal:'skin-terminal'};
   if (p.cardSkin && skinMap[p.cardSkin]) card.classList.add(skinMap[p.cardSkin]);
   if (p.monoIcons) card.classList.add('mono-icons');
@@ -1780,6 +1761,32 @@ function applyLanyardData(d, discordId) {
 }
 
 loadProfile();
+
+// ── GUNS.LOL SNOW ENGINE ──────────────────────────
+(function(){
+  var c=document.getElementById('glSnowCanvas');
+  if(!c)return;
+  var ctx=c.getContext('2d');
+  var W,H,flakes=[];
+  function resize(){W=c.width=window.innerWidth;H=c.height=window.innerHeight;}
+  resize();
+  window.addEventListener('resize',resize);
+  function mk(){return{x:Math.random()*W,y:Math.random()*-20,r:Math.random()*2.2+0.4,speed:Math.random()*1.1+0.25,drift:(Math.random()-.5)*.35,op:Math.random()*.65+.2,wobble:Math.random()*Math.PI*2,ws:Math.random()*.018+.004};}
+  for(var i=0;i<160;i++){var f=mk();f.y=Math.random()*H;flakes.push(f);}
+  function draw(){
+    ctx.clearRect(0,0,W,H);
+    for(var i=0;i<flakes.length;i++){
+      var f=flakes[i];
+      f.wobble+=f.ws;f.x+=Math.sin(f.wobble)*.35+f.drift;f.y+=f.speed;
+      if(f.y>H+8){var nf=mk();flakes[i]=nf;continue;}
+      ctx.beginPath();ctx.arc(f.x,f.y,f.r,0,Math.PI*2);
+      ctx.fillStyle='rgba(255,255,255,'+f.op+')';ctx.fill();
+    }
+    requestAnimationFrame(draw);
+  }
+  draw();
+})();
+
 </script>
 </body>
 </html>
