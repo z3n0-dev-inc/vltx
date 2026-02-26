@@ -6,7 +6,8 @@
 <title>Customize — VLTX</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Geist+Mono:wght@300;400;500;600;700&family=Geist:wght@300;400;500;600;700;800;900&family=Syne:wght@700;800&family=Outfit:wght@300;400;500;600;700&family=Space+Mono:wght@400;700&family=DM+Sans:wght@300;400;500;600&family=Orbitron:wght@400;700;900&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Geist+Mono:wght@300;400;500;600;700&family=Geist:wght@300;400;500;600;700;800;900&family=Syne:wght@700;800&family=Outfit:wght@300;400;500;600;700&family=Space+Mono:wght@400;700&family=DM+Sans:wght@300;400;500;600&family=Orbitron:wght@400;700;900&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
 <style>
 /* ════════════════════════════════════
    VLTX CUSTOMIZE — DESIGN SYSTEM
@@ -197,6 +198,16 @@ body::after{content:'';position:fixed;inset:0;pointer-events:none;z-index:9999;o
 }
 @keyframes spinBorder{to{--spin:360deg;}}
 #pc.desktop-view{max-width:480px;}
+/* guns.lol cardless preview */
+#pc.glp-mode,#pc.glp-mode::before{background:transparent!important;border:none!important;box-shadow:none!important;backdrop-filter:none!important;border-radius:0!important;animation:none!important;}
+#pc.glp-mode .pc-banner-wrap,#pc.glp-mode canvas{display:none!important;}
+#pc.glp-mode .pc-av-wrap{margin-top:16px!important;animation:none!important;}
+#pc.glp-mode .pc-avatar{border:none!important;box-shadow:0 3px 16px rgba(0,0,0,.55)!important;border-radius:50%!important;}
+#pc.glp-mode .pc-username{font-family:'Inter',sans-serif!important;font-size:1.35rem!important;font-weight:700!important;background:none!important;-webkit-background-clip:unset!important;-webkit-text-fill-color:#9b59b6!important;color:#9b59b6!important;animation:none!important;letter-spacing:-.02em!important;}
+#pc.glp-mode .pc-stats-row,#pc.glp-mode .pc-music,#pc.glp-mode .pc-np,#pc.glp-mode .pc-project,#pc.glp-mode .pc-activity{display:none!important;}
+#pc.glp-mode .pc-discord-card{background:rgba(15,16,25,.6)!important;backdrop-filter:blur(14px)!important;border:1px solid rgba(255,255,255,.1)!important;border-radius:13px!important;}
+#pc.glp-mode .pc-soc{width:42px!important;height:42px!important;background:rgba(255,255,255,.14)!important;border:none!important;border-radius:50%!important;}
+#pc.glp-mode .pc-soc img{filter:brightness(0) invert(1)!important;}
 
 /* bg layers */
 .pc-bg-video,.pc-bg-img-el{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:0;pointer-events:none;}
@@ -476,6 +487,8 @@ input[type=color]::-webkit-color-swatch{border:none;border-radius:2px;}
 .theme-tag{font-size:.52rem;color:var(--txt3);background:rgba(255,255,255,.04);padding:1px 4px;border-radius:3px;}
 .theme-apply-badge{position:absolute;top:4px;right:4px;font-size:.44rem;font-weight:800;letter-spacing:.05em;background:var(--acc);color:#fff;padding:1.5px 5px;border-radius:3px;display:none;text-transform:uppercase;}
 .theme-card.active .theme-apply-badge{display:block;}
+/* JS preset hero cards */
+.js-preset-card{cursor:pointer;border-radius:14px;overflow:hidden;border:1px solid transparent;transition:all .22s cubic-bezier(.16,1,.3,1);background:rgba(8,8,14,.95);position:relative;user-select:none;}
 
 /* koraz hero preset card */
 .koraz-hero{
@@ -1416,6 +1429,7 @@ input[type=color]::-webkit-color-swatch{border:none;border-radius:2px;}
     <div class="prow">
       <div class="plabel">Font</div>
       <select id="iFont" onchange="syncFont()">
+        <option value="inter">Inter ★ guns.lol</option>
         <option value="outfit">Outfit (default)</option>
         <option value="syne">Syne (bold/techy)</option>
         <option value="mono">Space Mono (hacker)</option>
@@ -1730,6 +1744,7 @@ input[type=color]::-webkit-color-swatch{border:none;border-radius:2px;}
         <option value="">Standard (with banner)</option>
         <option value="modern">Modern (no banner, centered)</option>
         <option value="wide">Wide (600px max)</option>
+        <option value="gunslol">🔫 guns.lol (cardless)</option>
       </select>
     </div>
     <div class="prow">
@@ -1875,7 +1890,7 @@ input[type=color]::-webkit-color-swatch{border:none;border-radius:2px;}
     </div>
     <div class="prow">
       <div class="plabel">Hover Effect</div>
-      <select id="iLinkHover" onchange="syncLinkHover()">
+      <select id="iLinkHover2" onchange="syncLinkHover()">
         <option value="lift" selected>↑ Lift</option>
         <option value="glow">✦ Glow</option>
         <option value="fill">█ Fill slide</option>
@@ -1998,50 +2013,218 @@ input[type=color]::-webkit-color-swatch{border:none;border-radius:2px;}
           JS Presets — 1-click complete looks
           <div style="flex:1;height:1px;background:rgba(255,255,255,.05)"></div>
         </div>
-        <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:12px">
+        <!-- ═══════════════════════════════════════
+             PRESET CARDS — full mini-profile previews
+             ═══════════════════════════════════════ -->
+        <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin-bottom:14px">
 
-          <!-- KORAZ JS PRESET -->
-          <div onclick="applyKorazPreset()" style="cursor:pointer;border-radius:12px;overflow:hidden;border:1px solid rgba(168,85,247,.3);transition:all .18s;background:rgba(5,3,12,.8);position:relative" onmouseover="this.style.borderColor='rgba(168,85,247,.7)';this.style.transform='translateY(-2px)';this.style.boxShadow='0 8px 24px rgba(168,85,247,.25)'" onmouseout="this.style.borderColor='rgba(168,85,247,.3)';this.style.transform='';this.style.boxShadow=''">
-            <div style="position:absolute;top:7px;right:8px;font-size:.48rem;background:rgba(168,85,247,.8);color:#fff;padding:2px 6px;border-radius:3px;font-weight:800;letter-spacing:.06em;text-transform:uppercase">featured</div>
-            <div style="height:70px;background:linear-gradient(135deg,#04040a,#080812);position:relative;overflow:hidden">
-              <div style="position:absolute;inset:0;background:radial-gradient(ellipse at 70% 30%,rgba(168,85,247,.2),transparent 60%)"></div>
-              <div style="position:absolute;inset:0;opacity:.35;background:repeating-linear-gradient(0deg,rgba(168,85,247,.04) 0,transparent 2px,transparent 6px),repeating-linear-gradient(90deg,rgba(168,85,247,.03) 0,transparent 2px,transparent 6px)"></div>
-              <div style="position:absolute;bottom:10px;left:10px">
-                <div style="width:30px;height:30px;border-radius:50%;background:linear-gradient(135deg,rgba(168,85,247,.4),rgba(34,211,238,.2));border:1.5px solid rgba(168,85,247,.5);display:flex;align-items:center;justify-content:center;font-size:.8rem;box-shadow:0 0 10px rgba(168,85,247,.4)">🐱</div>
+          <!-- ══ GUNS.LOL PRESET ══ -->
+          <div onclick="applyGunsLolPreset()" class="js-preset-card" style="border-color:rgba(155,89,182,.35)" onmouseover="this.style.borderColor='rgba(155,89,182,.75)';this.style.transform='translateY(-3px)';this.style.boxShadow='0 12px 32px rgba(155,89,182,.22)'" onmouseout="this.style.borderColor='rgba(155,89,182,.35)';this.style.transform='';this.style.boxShadow=''">
+            <!-- badge -->
+            <div style="position:absolute;top:8px;right:8px;z-index:10;font-size:.42rem;font-weight:800;letter-spacing:.07em;text-transform:uppercase;background:rgba(155,89,182,.9);color:#fff;padding:2px 6px;border-radius:3px">NEW</div>
+            <!-- mini profile: cardless, background image, floats -->
+            <div style="height:220px;position:relative;overflow:hidden;background:linear-gradient(180deg,#1a1a2e 0%,#0f0f1a 40%,#0a0a12 100%)">
+              <!-- simulated snowy bg like z3n0tbh -->
+              <div style="position:absolute;inset:0;background:radial-gradient(ellipse at 50% 30%,rgba(200,210,240,.04) 0%,transparent 60%),radial-gradient(ellipse at 20% 70%,rgba(100,120,180,.06) 0%,transparent 50%)"></div>
+              <!-- snow particles -->
+              <div style="position:absolute;inset:0;overflow:hidden">
+                <div style="position:absolute;width:1.5px;height:1.5px;border-radius:50%;background:rgba(255,255,255,.7);top:8%;left:18%"></div>
+                <div style="position:absolute;width:1px;height:1px;border-radius:50%;background:rgba(255,255,255,.5);top:15%;left:55%"></div>
+                <div style="position:absolute;width:2px;height:2px;border-radius:50%;background:rgba(255,255,255,.6);top:22%;left:80%"></div>
+                <div style="position:absolute;width:1px;height:1px;border-radius:50%;background:rgba(255,255,255,.4);top:30%;left:32%"></div>
+                <div style="position:absolute;width:1.5px;height:1.5px;border-radius:50%;background:rgba(255,255,255,.65);top:12%;left:70%"></div>
+                <div style="position:absolute;width:1px;height:1px;border-radius:50%;background:rgba(255,255,255,.5);top:40%;left:10%"></div>
+                <div style="position:absolute;width:2px;height:2px;border-radius:50%;background:rgba(255,255,255,.5);top:5%;left:42%"></div>
+                <div style="position:absolute;width:1px;height:1px;border-radius:50%;background:rgba(255,255,255,.4);top:35%;left:90%"></div>
               </div>
-              <div style="position:absolute;bottom:14px;left:48px">
-                <div style="font-size:.65rem;font-weight:800;background:linear-gradient(135deg,#fff,#a855f7,#22d3ee);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;font-family:'Syne',sans-serif">Koraz</div>
-                <div style="font-size:.44rem;color:rgba(168,85,247,.5);margin-top:1px">Unity Dev · Developer @ LAR</div>
+              <!-- tree silhouettes -->
+              <div style="position:absolute;bottom:0;left:0;right:0;height:55px;background:linear-gradient(180deg,transparent,rgba(10,14,22,.7));z-index:2"></div>
+              <div style="position:absolute;bottom:0;left:-5px;width:28px;height:52px;background:linear-gradient(180deg,#0e1620,#0a0e14);clip-path:polygon(50% 0%,100% 100%,0% 100%);opacity:.8"></div>
+              <div style="position:absolute;bottom:0;right:10px;width:22px;height:44px;background:linear-gradient(180deg,#0e1620,#0a0e14);clip-path:polygon(50% 0%,100% 100%,0% 100%);opacity:.7"></div>
+              <div style="position:absolute;bottom:0;left:30px;width:18px;height:36px;background:#0d1419;clip-path:polygon(50% 0%,100% 100%,0% 100%);opacity:.6"></div>
+              <!-- floating content — no card, just elements -->
+              <div style="position:absolute;inset:0;z-index:5;display:flex;flex-direction:column;align-items:center;padding-top:22px;gap:5px">
+                <!-- avatar -->
+                <div style="width:52px;height:52px;border-radius:50%;background:linear-gradient(135deg,#2a1540,#1a2040);border:none;box-shadow:0 3px 14px rgba(0,0,0,.6);overflow:hidden;display:flex;align-items:center;justify-content:center;font-size:1.3rem;flex-shrink:0">🧑</div>
+                <!-- username — plain purple Inter -->
+                <div style="font-family:'Inter',sans-serif;font-size:.8rem;font-weight:700;color:#9b59b6;letter-spacing:-.01em;margin-top:1px">Z3N0</div>
+                <!-- role dots -->
+                <div style="font-family:'Inter',sans-serif;font-size:.48rem;color:rgba(255,255,255,.7);letter-spacing:.01em">Z3NO • JS Coder • Dev</div>
+                <!-- location -->
+                <div style="font-family:'Inter',sans-serif;font-size:.44rem;color:rgba(255,255,255,.45);display:flex;align-items:center;gap:2px">📍 Canada</div>
+                <!-- discord frosted pill -->
+                <div style="background:rgba(15,16,25,.6);backdrop-filter:blur(8px);border:1px solid rgba(255,255,255,.11);border-radius:10px;padding:5px 8px;display:flex;align-items:center;gap:6px;width:88%;margin-top:3px">
+                  <div style="width:20px;height:20px;border-radius:50%;background:rgba(88,101,242,.3);display:flex;align-items:center;justify-content:center;font-size:.55rem;flex-shrink:0">🧑</div>
+                  <div style="flex:1;min-width:0">
+                    <div style="font-size:.5rem;font-weight:600;color:#e8eaf6;font-family:'Inter',sans-serif">z3n0tbh</div>
+                    <div style="font-size:.41rem;color:rgba(255,255,255,.38);font-family:'Inter',sans-serif;margin-top:1px">currently doing nothing</div>
+                  </div>
+                  <div style="width:7px;height:7px;border-radius:50%;background:#ef4444;flex-shrink:0"></div>
+                </div>
+                <!-- social icons — circular white -->
+                <div style="display:flex;gap:7px;margin-top:4px">
+                  <div style="width:22px;height:22px;border-radius:50%;background:rgba(255,255,255,.14);display:flex;align-items:center;justify-content:center;font-size:.55rem">🐱</div>
+                  <div style="width:22px;height:22px;border-radius:50%;background:rgba(255,255,255,.14);display:flex;align-items:center;justify-content:center;font-size:.55rem">💬</div>
+                </div>
+                <!-- views bottom left -->
+                <div style="position:absolute;bottom:6px;left:8px;font-size:.4rem;color:rgba(255,255,255,.4);font-family:'Inter',sans-serif;display:flex;align-items:center;gap:2px">👁 15</div>
+                <!-- bottom music bar -->
+                <div style="position:absolute;bottom:0;left:0;right:0;background:rgba(8,8,12,.88);border-top:1px solid rgba(255,255,255,.07);display:flex;align-items:center;gap:5px;padding:5px 7px">
+                  <div style="width:18px;height:18px;border-radius:4px;background:rgba(255,255,255,.1);flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:.5rem">🎵</div>
+                  <div style="flex:1;min-width:0">
+                    <div style="font-size:.42rem;font-weight:600;color:#fff;font-family:'Inter',sans-serif;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">Virginia Beach - King Drake</div>
+                    <div style="font-size:.37rem;color:rgba(255,255,255,.35);font-family:'Inter',sans-serif;margin-top:1px">0:07 ─── 4:11</div>
+                  </div>
+                  <div style="font-size:.55rem;color:rgba(255,255,255,.6)">⏸</div>
+                </div>
               </div>
             </div>
-            <div style="padding:8px 10px">
-              <div style="font-size:.7rem;font-weight:700;color:#c084fc;margin-bottom:2px">KORAZ PRESET</div>
-              <div style="font-size:.58rem;color:rgba(255,255,255,.3);line-height:1.5">Purple glass · particles · shimmer name · icon links · glow border</div>
+            <!-- label -->
+            <div style="padding:8px 10px;background:rgba(155,89,182,.07);border-top:1px solid rgba(155,89,182,.15)">
+              <div style="font-size:.69rem;font-weight:800;color:#c084fc;letter-spacing:.03em;font-family:'Geist Mono',monospace">GUNS.LOL</div>
+              <div style="font-size:.55rem;color:rgba(255,255,255,.35);margin-top:2px;line-height:1.5">Cardless · Inter font · plain purple · frosted Discord · music bar</div>
             </div>
           </div>
 
-          <!-- JOE JS PRESET -->
-          <div onclick="applyJoePreset()" style="cursor:pointer;border-radius:12px;overflow:hidden;border:1px solid rgba(88,101,242,.3);transition:all .18s;background:rgba(3,3,14,.8);position:relative" onmouseover="this.style.borderColor='rgba(88,101,242,.7)';this.style.transform='translateY(-2px)';this.style.boxShadow='0 8px 24px rgba(88,101,242,.25)'" onmouseout="this.style.borderColor='rgba(88,101,242,.3)';this.style.transform='';this.style.boxShadow=''">
-            <div style="height:70px;background:linear-gradient(135deg,#04040e,#0a0a18);position:relative;overflow:hidden">
-              <div style="position:absolute;inset:0;background:repeating-linear-gradient(0deg,rgba(255,255,255,.018) 0,transparent 2px,transparent 4px)"></div>
-              <div style="position:absolute;bottom:10px;left:10px">
-                <div style="width:30px;height:30px;border-radius:50%;background:conic-gradient(#f43f5e,#f97316,#eab308,#22c55e,#06b6d4,#a855f7,#f43f5e);padding:2px;display:flex;align-items:center;justify-content:center;box-shadow:0 0 10px rgba(168,85,247,.5)">
-                  <div style="width:24px;height:24px;border-radius:50%;background:#0a0a18;display:flex;align-items:center;justify-content:center;font-size:.55rem;font-weight:800;color:#fff;font-family:'Space Mono',monospace">&lt;J&gt;</div>
+          <!-- ══ KORAZ PRESET ══ -->
+          <div onclick="applyKorazPreset()" class="js-preset-card" style="border-color:rgba(168,85,247,.35)" onmouseover="this.style.borderColor='rgba(168,85,247,.8)';this.style.transform='translateY(-3px)';this.style.boxShadow='0 12px 32px rgba(168,85,247,.28)'" onmouseout="this.style.borderColor='rgba(168,85,247,.35)';this.style.transform='';this.style.boxShadow=''">
+            <div style="position:absolute;top:8px;right:8px;z-index:10;font-size:.42rem;font-weight:800;letter-spacing:.07em;text-transform:uppercase;background:rgba(168,85,247,.9);color:#fff;padding:2px 6px;border-radius:3px">★ FEATURED</div>
+            <!-- full card mini profile -->
+            <div style="height:220px;position:relative;overflow:hidden;background:#030308">
+              <!-- bg particle network dots -->
+              <div style="position:absolute;inset:0;overflow:hidden;opacity:.5">
+                <div style="position:absolute;width:2px;height:2px;border-radius:50%;background:rgba(168,85,247,.6);top:10%;left:15%"></div>
+                <div style="position:absolute;width:1.5px;height:1.5px;border-radius:50%;background:rgba(168,85,247,.5);top:25%;left:72%"></div>
+                <div style="position:absolute;width:1px;height:1px;border-radius:50%;background:rgba(34,211,238,.6);top:60%;left:30%"></div>
+                <div style="position:absolute;width:2px;height:2px;border-radius:50%;background:rgba(168,85,247,.4);top:75%;left:80%"></div>
+                <div style="position:absolute;width:1.5px;height:1.5px;border-radius:50%;background:rgba(34,211,238,.5);top:45%;left:55%"></div>
+                <!-- connecting lines -->
+                <svg style="position:absolute;inset:0;width:100%;height:100%" viewBox="0 0 100 220" preserveAspectRatio="none">
+                  <line x1="15" y1="22" x2="72" y2="55" stroke="rgba(168,85,247,.12)" stroke-width=".5"/>
+                  <line x1="72" y1="55" x2="30" y2="132" stroke="rgba(168,85,247,.1)" stroke-width=".5"/>
+                  <line x1="30" y1="132" x2="80" y2="165" stroke="rgba(34,211,238,.1)" stroke-width=".5"/>
+                  <line x1="55" y1="99" x2="15" y2="22" stroke="rgba(168,85,247,.08)" stroke-width=".5"/>
+                </svg>
+              </div>
+              <!-- purple glow -->
+              <div style="position:absolute;top:-20px;left:50%;transform:translateX(-50%);width:120px;height:80px;background:radial-gradient(ellipse,rgba(168,85,247,.18),transparent 70%);pointer-events:none"></div>
+              <!-- the actual card -->
+              <div style="position:absolute;inset:8px;border-radius:14px;background:rgba(12,12,22,.94);border:1px solid rgba(168,85,247,.18);overflow:hidden;box-shadow:0 0 0 1px rgba(255,255,255,.03)">
+                <!-- spinning conic border glow -->
+                <div style="position:absolute;inset:-1px;border-radius:15px;background:conic-gradient(from 45deg,transparent 20%,rgba(168,85,247,.7) 36%,rgba(34,211,238,.5) 50%,rgba(168,85,247,.7) 66%,transparent 80%);z-index:-1;animation:spinBorder 5s linear infinite"></div>
+                <!-- banner -->
+                <div style="height:36px;background:linear-gradient(135deg,#0d0220,#0a1628,#150526);position:relative;overflow:hidden">
+                  <div style="position:absolute;inset:0;background:radial-gradient(ellipse at 70% 50%,rgba(168,85,247,.2),transparent 60%)"></div>
+                  <!-- star particles in banner -->
+                  <div style="position:absolute;top:4px;left:14px;width:1px;height:1px;border-radius:50%;background:rgba(255,255,255,.7)"></div>
+                  <div style="position:absolute;top:8px;left:40px;width:1.5px;height:1.5px;border-radius:50%;background:rgba(255,255,255,.5)"></div>
+                  <div style="position:absolute;top:3px;right:20px;width:1px;height:1px;border-radius:50%;background:rgba(255,255,255,.6)"></div>
+                  <div style="position:absolute;top:12px;right:35px;width:1px;height:1px;border-radius:50%;background:rgba(168,85,247,.8)"></div>
+                </div>
+                <!-- avatar overlapping banner -->
+                <div style="display:flex;flex-direction:column;align-items:center;margin-top:-14px;padding:0 8px 8px">
+                  <div style="width:28px;height:28px;border-radius:50%;background:linear-gradient(135deg,rgba(168,85,247,.5),rgba(34,211,238,.3));border:2px solid rgba(168,85,247,.6);box-shadow:0 0 12px rgba(168,85,247,.5),0 0 24px rgba(168,85,247,.2);display:flex;align-items:center;justify-content:center;font-size:.7rem;flex-shrink:0">🐱</div>
+                  <!-- shimmer gradient name -->
+                  <div style="font-family:'Syne',sans-serif;font-size:.7rem;font-weight:800;background:linear-gradient(135deg,#fff 20%,#a855f7 55%,#22d3ee 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;margin-top:3px;letter-spacing:-.01em">koraz</div>
+                  <!-- role -->
+                  <div style="font-size:.42rem;color:rgba(168,85,247,.6);margin-top:1px">Unity Dev · Developer @ LAR</div>
+                  <!-- tags -->
+                  <div style="display:flex;gap:3px;margin-top:5px">
+                    <span style="font-size:.38rem;color:rgba(255,255,255,.4);background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.07);padding:1px 5px;border-radius:100px">dev</span>
+                    <span style="font-size:.38rem;color:rgba(255,255,255,.4);background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.07);padding:1px 5px;border-radius:100px">unity</span>
+                  </div>
+                  <!-- bio typewriter -->
+                  <div style="font-size:.44rem;color:rgba(255,255,255,.38);margin-top:5px;text-align:center;line-height:1.5">building the future<span style="display:inline-block;width:1px;height:.6em;background:#a855f7;margin-left:1px;vertical-align:middle"></span></div>
+                  <!-- stats mini -->
+                  <div style="display:flex;width:100%;gap:1px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.06);border-radius:8px;overflow:hidden;margin-top:6px">
+                    <div style="flex:1;text-align:center;padding:3px 0;background:rgba(10,10,20,.6)">
+                      <div style="font-size:.52rem;font-weight:800;color:#a855f7;font-family:'Syne',sans-serif">12K</div>
+                      <div style="font-size:.36rem;color:rgba(255,255,255,.3)">views</div>
+                    </div>
+                    <div style="flex:1;text-align:center;padding:3px 0;background:rgba(10,10,20,.6)">
+                      <div style="font-size:.52rem;font-weight:800;color:#a855f7;font-family:'Syne',sans-serif">847</div>
+                      <div style="font-size:.36rem;color:rgba(255,255,255,.3)">followers</div>
+                    </div>
+                    <div style="flex:1;text-align:center;padding:3px 0;background:rgba(10,10,20,.6)">
+                      <div style="font-size:.52rem;font-weight:800;color:#a855f7;font-family:'Syne',sans-serif">2.1K</div>
+                      <div style="font-size:.36rem;color:rgba(255,255,255,.3)">clicks</div>
+                    </div>
+                  </div>
+                  <!-- social icons -->
+                  <div style="display:flex;gap:5px;margin-top:6px">
+                    <div style="width:18px;height:18px;border-radius:5px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.09);display:flex;align-items:center;justify-content:center;font-size:.5rem">🐱</div>
+                    <div style="width:18px;height:18px;border-radius:5px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.09);display:flex;align-items:center;justify-content:center;font-size:.5rem">💬</div>
+                    <div style="width:18px;height:18px;border-radius:5px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.09);display:flex;align-items:center;justify-content:center;font-size:.5rem">🎮</div>
+                  </div>
                 </div>
               </div>
-              <div style="position:absolute;bottom:14px;left:48px">
-                <div style="font-size:.65rem;font-weight:800;color:#fff;font-family:'Syne',sans-serif">Joe</div>
-                <div style="font-size:.44rem;color:rgba(255,255,255,.35);margin-top:1px">200K Installs · rainbow border</div>
-              </div>
-              <div style="position:absolute;top:7px;right:8px;display:flex;gap:3px">
-                <div style="width:5px;height:5px;border-radius:50%;background:#f43f5e"></div>
-                <div style="width:5px;height:5px;border-radius:50%;background:#22c55e"></div>
-                <div style="width:5px;height:5px;border-radius:50%;background:#06b6d4"></div>
+            </div>
+            <div style="padding:8px 10px;background:rgba(168,85,247,.07);border-top:1px solid rgba(168,85,247,.18)">
+              <div style="font-size:.69rem;font-weight:800;color:#c084fc;letter-spacing:.03em;font-family:'Geist Mono',monospace">KORAZ</div>
+              <div style="font-size:.55rem;color:rgba(255,255,255,.35);margin-top:2px;line-height:1.5">Glass card · Syne font · particles · shimmer name · glow border</div>
+            </div>
+          </div>
+
+          <!-- ══ JOE PRESET ══ -->
+          <div onclick="applyJoePreset()" class="js-preset-card" style="border-color:rgba(99,102,241,.35)" onmouseover="this.style.borderColor='rgba(99,102,241,.8)';this.style.transform='translateY(-3px)';this.style.boxShadow='0 12px 32px rgba(99,102,241,.25)'" onmouseout="this.style.borderColor='rgba(99,102,241,.35)';this.style.transform='';this.style.boxShadow=''">
+            <div style="position:absolute;top:8px;right:8px;z-index:10;font-size:.42rem;font-weight:800;letter-spacing:.07em;text-transform:uppercase;background:linear-gradient(90deg,#f43f5e,#a855f7);color:#fff;padding:2px 6px;border-radius:3px">🌈 RAINBOW</div>
+            <div style="height:220px;position:relative;overflow:hidden;background:#020210">
+              <!-- gradient mesh bg -->
+              <div style="position:absolute;inset:0;background:radial-gradient(circle at 20% 30%,rgba(168,85,247,.1) 0%,transparent 40%),radial-gradient(circle at 80% 60%,rgba(34,211,238,.07) 0%,transparent 35%),radial-gradient(circle at 50% 80%,rgba(244,63,94,.06) 0%,transparent 40%)"></div>
+              <!-- card with rainbow spinning border -->
+              <div style="position:absolute;inset:8px;border-radius:14px;background:rgba(8,8,20,.9);overflow:hidden;box-shadow:0 0 0 1px rgba(255,255,255,.03)">
+                <!-- rainbow border simulation -->
+                <div style="position:absolute;inset:0;border-radius:14px;padding:1.5px;background:conic-gradient(from 0deg,#f43f5e,#f97316,#eab308,#22c55e,#06b6d4,#a855f7,#f43f5e);-webkit-mask:linear-gradient(#fff 0 0) content-box,linear-gradient(#fff 0 0);-webkit-mask-composite:xor;mask-composite:exclude;pointer-events:none"></div>
+                <!-- banner -->
+                <div style="height:34px;background:linear-gradient(135deg,#03030f,#080818);position:relative;overflow:hidden">
+                  <div style="position:absolute;inset:0;background:radial-gradient(ellipse at 30% 50%,rgba(168,85,247,.12),transparent 60%),radial-gradient(ellipse at 70% 50%,rgba(34,211,238,.08),transparent 60%)"></div>
+                </div>
+                <div style="display:flex;flex-direction:column;align-items:center;margin-top:-13px;padding:0 8px 8px">
+                  <!-- rainbow gradient avatar border -->
+                  <div style="width:28px;height:28px;border-radius:50%;background:conic-gradient(#f43f5e,#f97316,#eab308,#22c55e,#06b6d4,#a855f7,#f43f5e);padding:2px;display:flex;align-items:center;justify-content:center;flex-shrink:0">
+                    <div style="width:22px;height:22px;border-radius:50%;background:#0a0a18;display:flex;align-items:center;justify-content:center;font-size:.6rem">🦊</div>
+                  </div>
+                  <!-- Syne font shimmer name -->
+                  <div style="font-family:'Syne',sans-serif;font-size:.7rem;font-weight:800;background:linear-gradient(135deg,#fff 15%,#a855f7 55%,#22d3ee 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;margin-top:3px">Joe</div>
+                  <div style="font-size:.42rem;color:rgba(255,255,255,.35);margin-top:1px">200K installs worldwide</div>
+                  <!-- bio -->
+                  <div style="font-size:.43rem;color:rgba(255,255,255,.36);margin-top:4px;text-align:center">just vibing 🌊<span style="display:inline-block;width:1px;height:.55em;background:#a855f7;margin-left:1px;vertical-align:middle"></span></div>
+                  <!-- discord server widget -->
+                  <div style="width:100%;background:linear-gradient(135deg,rgba(88,101,242,.1),rgba(88,101,242,.04));border:1px solid rgba(88,101,242,.22);border-radius:8px;padding:4px 6px;display:flex;align-items:center;gap:5px;margin-top:5px">
+                    <div style="width:16px;height:16px;border-radius:4px;background:linear-gradient(135deg,#5865f2,#7289da);display:flex;align-items:center;justify-content:center;font-size:.4rem;flex-shrink:0">💬</div>
+                    <div style="flex:1;min-width:0">
+                      <div style="font-size:.46rem;font-weight:700;color:#e2e8f0">Joe's Server</div>
+                      <div style="font-size:.38rem;color:#6b7280;display:flex;gap:3px;align-items:center"><span style="width:4px;height:4px;border-radius:50%;background:#22c55e;display:inline-block"></span>238 Online</div>
+                    </div>
+                    <div style="font-size:.4rem;font-weight:800;background:#57f287;color:#000;padding:2px 4px;border-radius:3px">Join</div>
+                  </div>
+                  <!-- stats -->
+                  <div style="display:flex;width:100%;gap:1px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.06);border-radius:8px;overflow:hidden;margin-top:5px">
+                    <div style="flex:1;text-align:center;padding:3px 0;background:rgba(8,8,20,.8)">
+                      <div style="font-size:.52rem;font-weight:800;color:#a855f7;font-family:'Syne',sans-serif">200K</div>
+                      <div style="font-size:.36rem;color:rgba(255,255,255,.3)">views</div>
+                    </div>
+                    <div style="flex:1;text-align:center;padding:3px 0;background:rgba(8,8,20,.8)">
+                      <div style="font-size:.52rem;font-weight:800;color:#a855f7;font-family:'Syne',sans-serif">5.2K</div>
+                      <div style="font-size:.36rem;color:rgba(255,255,255,.3)">followers</div>
+                    </div>
+                    <div style="flex:1;text-align:center;padding:3px 0;background:rgba(8,8,20,.8)">
+                      <div style="font-size:.52rem;font-weight:800;color:#a855f7;font-family:'Syne',sans-serif">18K</div>
+                      <div style="font-size:.36rem;color:rgba(255,255,255,.3)">clicks</div>
+                    </div>
+                  </div>
+                  <!-- icon socials -->
+                  <div style="display:flex;gap:5px;margin-top:6px">
+                    <div style="width:18px;height:18px;border-radius:5px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.09);display:flex;align-items:center;justify-content:center;font-size:.5rem">💬</div>
+                    <div style="width:18px;height:18px;border-radius:5px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.09);display:flex;align-items:center;justify-content:center;font-size:.5rem">🐱</div>
+                    <div style="width:18px;height:18px;border-radius:5px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.09);display:flex;align-items:center;justify-content:center;font-size:.5rem">🎵</div>
+                  </div>
+                </div>
               </div>
             </div>
-            <div style="padding:8px 10px">
-              <div style="font-size:.7rem;font-weight:700;color:#8b9df7;margin-bottom:2px">JOE PRESET</div>
-              <div style="font-size:.58rem;color:rgba(255,255,255,.3);line-height:1.5">Rainbow border · frosted glass · Syne font · Discord widget</div>
+            <div style="padding:8px 10px;background:rgba(99,102,241,.07);border-top:1px solid rgba(99,102,241,.18)">
+              <div style="font-size:.69rem;font-weight:800;color:#818cf8;letter-spacing:.03em;font-family:'Geist Mono',monospace">JOE</div>
+              <div style="font-size:.55rem;color:rgba(255,255,255,.35);margin-top:2px;line-height:1.5">Rainbow border · gradient mesh bg · Syne font · Discord server widget</div>
             </div>
           </div>
 
@@ -2228,7 +2411,7 @@ input[type=color]::-webkit-color-swatch{border:none;border-radius:2px;}
         </div>
 
         <!-- BLOOD MOON -->
-        <div class="theme-card" id="theme-blood" onclick="applyProfileTheme('blood')">
+        <div class="theme-card" id="theme-blood2" onclick="applyProfileTheme('blood')">
           <div class="theme-preview" style="background:linear-gradient(135deg,#0d0000,#1a0505)">
             <div style="position:absolute;inset:0;background:radial-gradient(ellipse at 80% 20%,rgba(180,0,0,.15),transparent 60%)"></div>
             <div class="theme-preview-av" style="background:linear-gradient(135deg,#dc2626,#7f1d1d);border-color:rgba(220,38,38,.5)"></div>
@@ -2242,7 +2425,7 @@ input[type=color]::-webkit-color-swatch{border:none;border-radius:2px;}
         </div>
 
         <!-- GOLD -->
-        <div class="theme-card" id="theme-gold" onclick="applyProfileTheme('gold')">
+        <div class="theme-card" id="theme-gold2" onclick="applyProfileTheme('gold')">
           <div class="theme-preview" style="background:linear-gradient(135deg,#0d0800,#1a1000)">
             <div style="position:absolute;inset:0;background:radial-gradient(ellipse at 50% 50%,rgba(255,180,0,.1),transparent 70%)"></div>
             <div class="theme-preview-av" style="background:linear-gradient(135deg,#fbbf24,#92400e);border-color:rgba(251,191,36,.5)"></div>
@@ -2256,7 +2439,7 @@ input[type=color]::-webkit-color-swatch{border:none;border-radius:2px;}
         </div>
 
         <!-- ICE -->
-        <div class="theme-card" id="theme-ice" onclick="applyProfileTheme('ice')">
+        <div class="theme-card" id="theme-ice2" onclick="applyProfileTheme('ice')">
           <div class="theme-preview" style="background:linear-gradient(135deg,#000d1a,#001a2e)">
             <div style="position:absolute;inset:0;background:radial-gradient(ellipse at 50% 50%,rgba(147,210,255,.08),transparent 70%)"></div>
             <div class="theme-preview-av" style="background:linear-gradient(135deg,#93c5fd,#bfdbfe);border-color:rgba(147,197,253,.5)"></div>
@@ -2270,7 +2453,7 @@ input[type=color]::-webkit-color-swatch{border:none;border-radius:2px;}
         </div>
 
         <!-- VOID -->
-        <div class="theme-card" id="theme-void" onclick="applyProfileTheme('void')">
+        <div class="theme-card" id="theme-void2" onclick="applyProfileTheme('void')">
           <div class="theme-preview" style="background:#000">
             <div style="position:absolute;inset:0;background:radial-gradient(ellipse at 50% 50%,rgba(80,0,180,.06),transparent 70%)"></div>
             <div class="theme-preview-av" style="background:linear-gradient(135deg,#4b0082,#1a0033);border-color:rgba(75,0,130,.5)"></div>
@@ -2548,14 +2731,14 @@ input[type=color]::-webkit-color-swatch{border:none;border-radius:2px;}
     </div>
     <div class="prow">
       <div class="plabel">Card Glow Intensity</div>
-      <input type="range" id="iGlowInt" min="0" max="100" value="45" oninput="syncGlowInt()">
-      <div style="text-align:right;font-size:.7rem;color:var(--mut)" id="glowIntVal">45%</div>
+      <input type="range" id="iGlowInt2" min="0" max="100" value="45" oninput="syncGlowInt()">
+      <div style="text-align:right;font-size:.7rem;color:var(--mut)" id="glowIntVal2">45%</div>
     </div>
     <div class="prow">
       <div class="plabel">Glow Color</div>
       <div style="display:flex;gap:6px;align-items:center">
-        <input type="text" id="iGlowColor" value="#7c3aed" oninput="syncGlowColor()" style="flex:1">
-        <input type="color" id="iGlowColorPick" value="#7c3aed" oninput="syncGlowColorPick()" style="width:36px;height:36px;border:none;background:none;cursor:pointer;border-radius:6px">
+        <input type="text" id="iGlowColor2" value="#7c3aed" oninput="syncGlowColor()" style="flex:1">
+        <input type="color" id="iGlowColorPick2" value="#7c3aed" oninput="syncGlowColorPick()" style="width:36px;height:36px;border:none;background:none;cursor:pointer;border-radius:6px">
       </div>
     </div>
     <div class="prow">
@@ -2846,7 +3029,7 @@ input[type=color]::-webkit-color-swatch{border:none;border-radius:2px;}
     </div>
     <div class="prow">
       <div class="plabel">Banner Watermark Text</div>
-      <input type="text" id="iBannerText" placeholder="VLTX.LOL" oninput="syncBannerText()" maxlength="20">
+      <input type="text" id="iBannerWatermark" placeholder="VLTX.LOL" oninput="syncBannerText()" maxlength="20">
     </div>
     <div class="prow">
       <div class="plabel">Animated Logo/Watermark</div>
@@ -2858,11 +3041,11 @@ input[type=color]::-webkit-color-swatch{border:none;border-radius:2px;}
     </div>
     <div class="prow">
       <div class="plabel">Scanline Overlay (CRT)</div>
-      <div class="tog" onclick="toggleScanlines()"><div class="tog-sw" id="togScanlines"></div><span class="tog-label">CRT scanlines overlay</span></div>
+      <div class="tog" onclick="toggleScanlines()"><div class="tog-sw" id="togScanlines2"></div><span class="tog-label">CRT scanlines overlay</span></div>
     </div>
     <div class="prow">
       <div class="plabel">Animated Gradient Mesh</div>
-      <div class="tog" onclick="toggle('bgGrad','togBgGrad')"><div class="tog-sw" id="togBgGrad"></div><span class="tog-label">Floating gradient mesh behind card</span></div>
+      <div class="tog" onclick="toggle('bgGrad','togBgGrad')"><div class="tog-sw" id="togBgGrad2"></div><span class="tog-label">Floating gradient mesh behind card</span></div>
     </div>
   </div>
 
@@ -2978,7 +3161,7 @@ input[type=color]::-webkit-color-swatch{border:none;border-radius:2px;}
     </div>
     <div class="prow">
       <div class="plabel">Banner Color Override</div>
-      <select id="iBannerColor" onchange="syncBannerColor()">
+      <select id="iBannerColorFx" onchange="syncBannerColor()">
         <option value="">Default (canvas animation)</option>
         <option value="gradient">Accent Gradient</option>
         <option value="solid">Solid Accent</option>
@@ -3219,7 +3402,7 @@ input[type=color]::-webkit-color-swatch{border:none;border-radius:2px;}
     <!-- COUNTDOWN WIDGET -->
     <div class="prow">
       <div class="plabel">Countdown Timer</div>
-      <div class="tog" style="margin-bottom:8px" onclick="toggleCountdown()"><div class="tog-sw" id="togCountdown"></div><span class="tog-label">Show countdown</span></div>
+      <div class="tog" style="margin-bottom:8px" onclick="toggleCountdown()"><div class="tog-sw" id="togCountdownWidget2"></div><span class="tog-label">Show countdown</span></div>
       <input type="text" id="iCountdownTitle" placeholder="Countdown title..." oninput="syncCountdown()" maxlength="40" style="margin-bottom:5px">
       <input type="datetime-local" id="iCountdownDate" onchange="syncCountdown()">
       <div style="font-size:.68rem;color:var(--mut);margin-top:4px">Set a target date/time to countdown to.</div>
@@ -3485,7 +3668,7 @@ input[type=color]::-webkit-color-swatch{border:none;border-radius:2px;}
     </div>
     <div class="prow">
       <div class="plabel">Custom Blur Amount <span id="glassBlurVal">28px</span></div>
-      <input type="range" min="0" max="80" value="28" id="iGlassBlur" oninput="state.blur=+this.value;document.getElementById('glassBlurVal').textContent=this.value+'px';syncBlur()">
+      <input type="range" min="0" max="80" value="28" id="iGlassBlur" oninput="state.glassBlur=+this.value;document.getElementById('glassBlurVal').textContent=this.value+'px';applyGlassBlur()">
     </div>
     <div class="prow">
       <div class="plabel">Glass Saturation <span id="glassSatVal">100%</span></div>
@@ -3500,13 +3683,13 @@ input[type=color]::-webkit-color-swatch{border:none;border-radius:2px;}
     <div class="prow">
       <div class="plabel">Inner glow color</div>
       <div style="display:flex;gap:6px">
-        <input type="text" id="iGlowColor" value="#a855f7" placeholder="#a855f7" oninput="syncGlowColor();" style="flex:1">
-        <input type="color" id="iGlowColorPick" value="#a855f7" oninput="document.getElementById('iGlowColor').value=this.value;syncGlowColor()">
+        <input type="text" id="iGlowColor3" value="#a855f7" placeholder="#a855f7" oninput="syncGlowColor();" style="flex:1">
+        <input type="color" id="iGlowColorPick3" value="#a855f7" oninput="document.getElementById('iGlowColor3').value=this.value;syncGlowColor()">
       </div>
     </div>
     <div class="prow">
-      <div class="plabel">Glow Intensity <span id="glowIntVal">45%</span></div>
-      <input type="range" min="0" max="100" value="45" id="iGlowInt2" oninput="state.glowInt=+this.value;document.getElementById('glowIntVal').textContent=this.value+'%'">
+      <div class="plabel">Glow Intensity <span id="glowIntVal3">45%</span></div>
+      <input type="range" min="0" max="100" value="45" id="iGlowInt3" oninput="state.glowInt=+this.value;document.getElementById('glowIntVal3').textContent=this.value+'%'">
     </div>
   </div>
 
@@ -3684,8 +3867,8 @@ input[type=color]::-webkit-color-swatch{border:none;border-radius:2px;}
       <div class="plabel">Card Banner</div>
       <div class="tog" style="margin-bottom:8px" onclick="toggle('showBanner','togCardBanner')"><div class="tog-sw" id="togCardBanner"></div><span class="tog-label">Show banner strip at top of card</span></div>
       <div style="display:flex;gap:6px;margin-bottom:6px">
-        <input type="text" id="iBannerColor" value="#a855f7" placeholder="#a855f7" oninput="syncBannerColor()" style="flex:1">
-        <input type="color" id="iBannerColorPick" value="#a855f7" oninput="document.getElementById('iBannerColor').value=this.value;syncBannerColor()">
+        <input type="text" id="iBannerColor3" value="#a855f7" placeholder="#a855f7" oninput="syncBannerColor()" style="flex:1">
+        <input type="color" id="iBannerColorPick3" value="#a855f7" oninput="document.getElementById('iBannerColor3').value=this.value;syncBannerColor()">
       </div>
       <input type="url" id="iBannerImg" placeholder="Banner image URL (optional)" oninput="state.bannerImg=this.value.trim()">
     </div>
@@ -3886,7 +4069,7 @@ input[type=color]::-webkit-color-swatch{border:none;border-radius:2px;}
     </div>
     <div class="prow">
       <div class="plabel">Profile Stats on Card</div>
-      <div class="tog" onclick="toggle('showViewsBadge','togViewsBadge')"><div class="tog-sw on" id="togViewsBadge"></div><span class="tog-label">Show live view counter</span></div>
+      <div class="tog" onclick="toggle('showViewsBadge','togViewsBadge')"><div class="tog-sw on" id="togViewsBadge2"></div><span class="tog-label">Show live view counter</span></div>
     </div>
     <div class="prow">
       <div class="plabel">Link Click Tracking</div>
@@ -3952,7 +4135,7 @@ input[type=color]::-webkit-color-swatch{border:none;border-radius:2px;}
       </div>
     </div>
     <div class="prow" style="text-align:center;">
-      <canvas id="qrCanvas" width="150" height="150" style="border-radius:10px;border:2px solid var(--line2);background:#fff;max-width:100%;display:block;margin:0 auto;"></canvas>
+      <div id="qrCanvas" style="border-radius:10px;border:2px solid var(--line2);background:#fff;max-width:150px;min-height:150px;display:flex;align-items:center;justify-content:center;margin:0 auto;overflow:hidden;"></div>
       <div style="font-size:.63rem;color:var(--txt3);margin-top:6px" id="qrStatusText">Enter a username or URL above to generate your QR code.</div>
     </div>
     <div class="prow" style="display:flex;gap:7px;justify-content:center;">
@@ -4229,9 +4412,10 @@ function addCustomBadge() {
 function renderBadges() {
   const row = document.getElementById('pcBadgeRow');
   row.style.display = state.badges.length ? 'flex' : 'none';
-  row.innerHTML = state.badges.map(b =>
-    `<span style="font-size:1.1rem;padding:2px 5px;border-radius:6px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.08);title='${b}'">${b}</span>`
-  ).join('');
+  row.innerHTML = state.badges.map(b => {
+    const safe = escHtml(b);
+    return `<span style="font-size:1.1rem;padding:2px 5px;border-radius:6px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.08)" title="${safe}">${safe}</span>`;
+  }).join('');
 }
 
 // ══════════════════════════════════════════
@@ -4262,7 +4446,7 @@ function _stepTW() {
   }
 }
 function syncTags() { state.tags = document.getElementById('iTags').value.split(',').map(s => s.trim()).filter(Boolean); renderTags(); }
-function renderTags() { document.getElementById('pcTags').innerHTML = state.tags.map(t => `<span class="pc-tag">${t}</span>`).join(''); }
+function renderTags() { document.getElementById('pcTags').innerHTML = state.tags.map(t => `<span class="pc-tag">${escHtml(t)}</span>`).join(''); }
 function syncEmoji() { state.avatarEmoji = document.getElementById('iEmoji').value || '👾'; if (!state.avatar) renderAvatar(); }
 
 // ══════════════════════════════════════════
@@ -4734,9 +4918,11 @@ function syncAccent2Pick() { const v = document.getElementById('iAccent2Pick').v
 function syncCardBg() { state.cardBg = document.getElementById('iCardBg').value; document.getElementById('iCardBgPick').value = tryHex(state.cardBg) || '#0f0f1a'; applyCardBgRender(); }
 function syncCardBgPick() { const v = document.getElementById('iCardBgPick').value; document.getElementById('iCardBg').value = v; state.cardBg = v; applyCardBgRender(); }
 function syncBlur() { state.blur = document.getElementById('iBlur').value; document.getElementById('blurVal').textContent = state.blur + 'px'; document.getElementById('pc').style.backdropFilter = `blur(${state.blur}px)`; }
+function applyGlassBlur() { /* glass-specific blur override applied to card only */ document.getElementById('pc').style.backdropFilter = `blur(${state.glassBlur||state.blur||28}px) saturate(${state.glassSat||100}%)`; }
 function syncCardOpacity() { state.cardOpacity = document.getElementById('iCardOpacity').value; document.getElementById('cardOpacityVal').textContent = state.cardOpacity + '%'; applyCardBgRender(); }
-function syncGlowInt() { state.glowInt = document.getElementById('iGlowInt').value; document.getElementById('glowIntVal').textContent = state.glowInt + '%'; }
+// syncGlowInt defined below with full implementation
 const FONT_MAP = {
+  inter: "'Inter',sans-serif",
   outfit: "'Outfit',sans-serif",
   syne: "'Syne',sans-serif",
   mono: "'Space Mono',monospace",
@@ -4849,7 +5035,7 @@ function syncNameAnim() {
   };
   un.style.animation = anims[state.nameAnim] || anims.shimmer;
 }
-function syncLinkHover() { state.linkHover = document.getElementById('iLinkHover').value; }
+function syncLinkHover() { const v = document.getElementById('iLinkHover').value; state.linkHover = v; state.linkBtnHover = v; }
 function syncAvHover() { state.avHover = document.getElementById('iAvHover').value; }
 function syncAnimSpeed() { state.animSpeed = document.getElementById('iAnimSpeed').value; }
 
@@ -5397,6 +5583,14 @@ function toggleLanyard() {
 // PROFILE THEMES
 // ══════════════════════════════════════════
 const profileThemes = {
+  gunslol: {
+    accent: '#9b59b6', accent2: '#a855f7', cardBg: '#0f0f16', blur: 0,
+    font: 'inter', particle: 'none', glitchName: false, symbolRain: false,
+    gradStart: '#9b59b6', gradMid: '#9b59b6', gradEnd: '#9b59b6', gradDir: '135deg',
+    borderGrad: false, bgGrad: false, nameAnim: 'none', bgColor: '#09090e',
+    textColor: '#ffffff', cardOpacity: 0, linkStyle: 'icons',
+    cardTilt: false, glow: false, borderStyle: 'none', layout: 'gunslol',
+  },
   koraz: {
     accent: '#a855f7', accent2: '#22d3ee', cardBg: '#080810', blur: 28,
     font: 'syne', particle: 'network', glitchName: false, symbolRain: false,
@@ -5487,6 +5681,20 @@ const profileThemes = {
     nameAnim: 'rainbow',
     bgColor: '#000208',
   },
+  joe: {
+    accent: '#a855f7', accent2: '#22d3ee', cardBg: '#03030e', blur: 28,
+    font: 'syne', particle: 'network', glitchName: false, symbolRain: false,
+    gradStart: '#ffffff', gradMid: '#a855f7', gradEnd: '#22d3ee', gradDir: '135deg',
+    borderGrad: false, bgGrad: true,
+    nameAnim: 'shimmer',
+    bgColor: '#020210',
+    textColor: '#f0f0fa',
+    cardOpacity: 90,
+    linkStyle: 'icons',
+    cardTilt: true,
+    glow: false,
+    description: 'guns.lol/joe style. Rainbow border, dark card, gradient mesh background.',
+  },
 };
 
 // ── JS PRESETS ──
@@ -5507,8 +5715,12 @@ function _applyThemeFull(themeId, overrides) {
   // 3. Card skin
   if (t.cardSkin !== undefined) {
     state.cardSkin = t.cardSkin;
-    const csEl = document.getElementById('iCardSkin');
-    if (csEl) { csEl.value = t.cardSkin; syncCardSkin(); }
+    // Highlight matching skin-* card; iCardSkin select doesn't exist
+    const skinKey = t.cardSkin || 'default';
+    document.querySelectorAll('[id^="skin-"]').forEach(c => c.classList.remove('sel'));
+    const skinEl = document.getElementById('skin-' + skinKey);
+    if (skinEl) skinEl.classList.add('sel');
+    else { const defEl = document.getElementById('skin-default'); if (defEl) defEl.classList.add('sel'); }
   }
 
   // 4. Particles
@@ -5521,7 +5733,7 @@ function _applyThemeFull(themeId, overrides) {
   // 5. Symbol rain toggle
   if (t.symbolRain !== undefined) {
     state.symbolRain = t.symbolRain;
-    const togEl = document.getElementById('togSymbolRain');
+    const togEl = document.getElementById('togSymbols');
     if (togEl) togEl.classList.toggle('on', t.symbolRain);
   }
 
@@ -5535,8 +5747,11 @@ function _applyThemeFull(themeId, overrides) {
   // 7. Avatar ring style
   if (t.avRingStyle) {
     state.avRingStyle = t.avRingStyle;
-    const rEl = document.getElementById('iAvRingStyle');
-    if (rEl) { rEl.value = t.avRingStyle; syncAvRingStyle && syncAvRingStyle(); }
+    // Update ring-card selection UI
+    document.querySelectorAll('.ring-card').forEach(c => {
+      c.classList.toggle('sel', c.getAttribute('onclick')?.includes(`'${t.avRingStyle}'`));
+    });
+    applyRingStyle();
   }
 
   // 8. Link style
@@ -5568,6 +5783,20 @@ function _applyThemeFull(themeId, overrides) {
   }
 }
 
+function applyGunsLolPreset() {
+  applyProfileTheme('gunslol');
+  state.font = 'inter'; state.layout = 'gunslol';
+  const fEl = document.getElementById('iFont'); if (fEl) { fEl.value = 'inter'; syncFont(); }
+  const lEl = document.getElementById('iCardLayout'); if (lEl) lEl.value = 'gunslol';
+  // Kill border, kill bg
+  applyCardBorderStyle('none'); activeBorderStyle = 'none';
+  const pc = document.getElementById('pc');
+  pc.classList.add('glp-mode');
+  pc.style.background = 'transparent';
+  pc.style.backdropFilter = 'none';
+  showToast('🔫 guns.lol — cardless, Inter font, plain purple name!');
+}
+
 function applyKorazPreset() {
   _applyThemeFull('koraz', {
     borderStyle: 'glow',
@@ -5582,7 +5811,7 @@ function applyKorazPreset() {
 }
 
 function applyJoePreset() {
-  _applyThemeFull('koraz', {
+  _applyThemeFull('joe', {
     borderStyle: 'rainbow',
     cardSkin: 'frosted',
     symbolRain: false,
@@ -5615,6 +5844,9 @@ function applyProfileTheme(themeId) {
   document.querySelectorAll('.theme-card').forEach(c => c.classList.remove('active'));
   const card = document.getElementById(`theme-${themeId}`);
   if (card) card.classList.add('active');
+  // Also activate the variant card if it exists (for duplicate IDs that were renamed)
+  const card2 = document.getElementById(`theme-${themeId}2`);
+  if (card2) card2.classList.add('active');
   
   // Apply colors
   if (theme.accent) { state.accent = theme.accent; document.getElementById('iAccent').value = theme.accent; document.getElementById('iAccentPick').value = theme.accent; applyAccent(); }
@@ -5637,7 +5869,7 @@ function applyProfileTheme(themeId) {
   if (theme.cardOpacity !== undefined) { state.cardOpacity = theme.cardOpacity; document.getElementById('iCardOpacity').value = theme.cardOpacity; document.getElementById('cardOpacityVal').textContent = theme.cardOpacity + '%'; }
   
   // Apply card bg + accent to preview card
-  document.getElementById('pc').style.background = `rgba(${hexToRgb(theme.cardBg)}, 0.${state.cardOpacity})`;
+  document.getElementById('pc').style.background = `rgba(${hexToRgb(theme.cardBg)}, ${(state.cardOpacity / 100).toFixed(2)})`;
   document.getElementById('pc').style.backdropFilter = `blur(${theme.blur}px)`;
   
   showToast(`✅ Theme applied: ${themeId.toUpperCase()}`);
@@ -5686,7 +5918,12 @@ function setBgEffect(val, el) {
   el.classList.add('sel');
   // Also handle bgGrad for mesh
   if (val === 'mesh') { state.bgGrad = true; document.getElementById('togBgGrad')?.classList.add('on'); }
-  updatePreview();
+  // Apply bg effect to preview
+  const pscroll = document.querySelector('.prevscroll');
+  if (pscroll) {
+    pscroll.classList.remove('bg-aurora','bg-plasma','bg-mesh');
+    if (val !== 'none') pscroll.classList.add('bg-' + val);
+  }
 }
 
 function syncCursorFx() {
@@ -5708,6 +5945,16 @@ function setCardSkin(val, el) {
 
 function syncCardLayout() {
   state.layout = document.getElementById('iCardLayout').value;
+  const pc = document.getElementById('pc');
+  if (state.layout === 'gunslol') {
+    pc.classList.add('glp-mode');
+    pc.style.cssText += ';background:transparent!important;backdrop-filter:none!important;';
+  } else {
+    pc.classList.remove('glp-mode');
+    pc.style.background = '';
+    pc.style.backdropFilter = '';
+    syncCardBg();
+  }
 }
 
 function toggleMonoIcons() {
@@ -6042,16 +6289,19 @@ function applyCardBorderStyle(style) {
 // ══════════════════════════════════════════
 function syncGlowInt() {
   const v = document.getElementById('iGlowInt').value;
-  document.getElementById('glowIntVal').textContent = v + '%';
+  // Sync all glow intensity display labels
+  ['glowIntVal','glowIntVal2','glowIntVal3'].forEach(id => {
+    const el = document.getElementById(id); if (el) el.textContent = v + '%';
+  });
+  // Also sync secondary range inputs for visual consistency
+  ['iGlowInt2','iGlowInt3'].forEach(id => {
+    const el = document.getElementById(id); if (el) el.value = v;
+  });
   state.glowInt = parseInt(v);
   const pc = document.getElementById('pc');
-  pc.style.boxShadow = `0 0 ${v * 0.8}px ${state.accent}${Math.floor(v * 0.7).toString(16).padStart(2,'0')}, 0 32px 80px rgba(0,0,0,.7)`;
+  if (pc) pc.style.boxShadow = `0 0 ${v * 0.8}px ${state.accent}${Math.floor(v * 0.7).toString(16).padStart(2,'0')}, 0 32px 80px rgba(0,0,0,.7)`;
 }
-function syncGlowColor() {
-  state.accent = document.getElementById('iGlowColor').value;
-  document.getElementById('iGlowColorPick').value = state.accent;
-  syncGlowInt();
-}
+// syncGlowColor defined below with full sync
 function syncGlowColorPick() {
   const v = document.getElementById('iGlowColorPick').value;
   document.getElementById('iGlowColor').value = v;
@@ -6061,19 +6311,7 @@ function syncGlowColorPick() {
 // ══════════════════════════════════════════
 // NAME TEXT SHADOW
 // ══════════════════════════════════════════
-function setNameShadow(style) {
-  const el = document.getElementById('pcUsername');
-  const shadows = {
-    none: '',
-    soft: '0 2px 8px rgba(0,0,0,.5)',
-    neon: `0 0 10px ${state.accent}, 0 0 20px ${state.accent}, 0 0 40px ${state.accent}`,
-    fire: '0 0 10px #ff4500, 0 0 20px #ff8c00, 0 0 40px #ffd700',
-    ice: '0 0 10px #93c5fd, 0 0 20px #bfdbfe',
-    gold: '0 0 10px #fbbf24, 0 0 20px #ffd700, 0 0 40px #fbbf24',
-  };
-  el.style.textShadow = shadows[style] || '';
-  showToast(`✨ ${style} shadow applied!`);
-}
+// setNameShadow defined below (merged)
 
 // ══════════════════════════════════════════
 // STICKERS
@@ -6430,7 +6668,7 @@ function toggleAvailable() {
 // ══════════════════════════════════════════
 function syncBannerMarquee() { state.bannerMarquee = document.getElementById('iBannerMarquee').value; }
 function syncLyricsTicker() { state.lyricsTicker = document.getElementById('iLyricsTicker').value; }
-function syncBannerText() { state.bannerText = document.getElementById('iBannerText').value; }
+// syncBannerText defined below
 function toggleAnimLogo() {
   state.animLogo = !(state.animLogo === false);
   document.getElementById('togAnimLogo').classList.toggle('on', state.animLogo !== false);
@@ -6520,14 +6758,18 @@ function syncTiltAmount() {
 
 // BANNER STYLE
 function syncBannerStyle() { state.bannerStyle = document.getElementById('iBannerStyle').value; }
-function syncBannerColor() { state.bannerColor = document.getElementById('iBannerColor').value; }
+// syncBannerColor defined later with full implementation
 
 // BACKGROUND PATTERN
 function setBgPattern(val, el) {
   state.bgPattern = val === 'none' ? '' : val;
+  state.bgPatternId = val;
+  if (_bgPat) _bgPat.id = val;
+  // Clear selection on both panel types
   document.querySelectorAll('[id^="bgpat-"]').forEach(c => c.classList.remove('sel'));
-  el.classList.add('sel');
-  showToast('Pattern: ' + val);
+  document.querySelectorAll('[id^="pat-"]').forEach(c => c.classList.remove('on','sel'));
+  if (el) { el.classList.add('sel'); el.classList.add('on'); }
+  if (typeof applyBgPattern === 'function') applyBgPattern();
 }
 
 // HOLO CARD
@@ -6567,11 +6809,24 @@ function syncAvFilter() {
 function setNameShadow(val, el) {
   state.nameShadow = val === 'none' ? '' : val;
   document.querySelectorAll('[id^="nshadow-"]').forEach(c => c.classList.remove('sel'));
-  el.classList.add('sel');
+  if (el) el.classList.add('sel');
   const un = document.getElementById('pcUsername');
   if (!un) return;
+  // Remove old shadow classes
   un.className = un.className.replace(/\bshadow-\S+/g, '');
   if (val !== 'none') un.classList.add('shadow-' + val);
+  // Also apply inline textShadow for immediate preview
+  const shadows = {
+    none: '', soft: '0 2px 8px rgba(0,0,0,.5)',
+    neon: `0 0 10px ${state.accent}, 0 0 20px ${state.accent}, 0 0 40px ${state.accent}`,
+    fire: '0 0 10px #ff4500, 0 0 20px #ff8c00, 0 0 40px #ffd700',
+    ice: '0 0 10px #93c5fd, 0 0 20px #bfdbfe',
+    gold: '0 0 10px #fbbf24, 0 0 20px #ffd700, 0 0 40px #fbbf24',
+    retro: '2px 2px 0 #ff0080, 4px 4px 0 #00ffff',
+    glow3: `0 0 8px ${state.accent}, 0 0 24px ${state.accent}88`,
+    chroma: '0 0 10px #ff0080, 0 0 20px #00ffff, 0 0 30px #ffff00',
+  };
+  if (val in shadows) un.style.textShadow = shadows[val];
 }
 
 // USERNAME SIZE
@@ -6680,7 +6935,7 @@ Object.assign(state, {
   nameFx2: '', bioStyle: 'normal', lsName: 0, fsName: 28,
   tagPrefix: '', bioCursor: 'block', textShadow: false,
   nameBold: true, tagUppercase: false,
-  glassStyle: 'default', glassSat: 100, glassReflection: false,
+  glassStyle: 'default', glassSat: 100, glassBlur: 28, glassReflection: false,
   glassNoise: true, glowColor: '#a855f7',
   neonText: '', neonPos: 'top', neonColor: '#ff0080', neonFont: 'orbitron',
   neonSize: 28, neonFlicker: true, neonBuzz: false,
@@ -6774,7 +7029,13 @@ function setGlassStyle(val, el) {
 function syncGlowColor() {
   const v = document.getElementById('iGlowColor').value;
   state.glowColor = v;
-  document.getElementById('iGlowColorPick').value = v.length === 7 ? v : '#a855f7';
+  const safeColor = v.length === 7 ? v : '#a855f7';
+  document.getElementById('iGlowColorPick').value = safeColor;
+  // Sync secondary glow color inputs
+  const g2 = document.getElementById('iGlowColor2'); if (g2) g2.value = v;
+  const g3 = document.getElementById('iGlowColor3'); if (g3) g3.value = v;
+  const gp2 = document.getElementById('iGlowColorPick2'); if (gp2) gp2.value = safeColor;
+  const gp3 = document.getElementById('iGlowColorPick3'); if (gp3) gp3.value = safeColor;
 }
 
 // ── Neon Signs ────────────────────────────────────────────────────
@@ -6827,10 +7088,7 @@ function syncVidBgUrl() {
 }
 
 // ── Profile Card+ ─────────────────────────────────────────────────
-function syncBannerColor() {
-  state.bannerColor = document.getElementById('iBannerColor').value;
-  document.getElementById('iBannerColorPick').value = state.bannerColor;
-}
+// syncBannerColor defined below with full implementation
 function setCardTexture(val, el) {
   state.cardTexture = val;
   document.querySelectorAll('[id^="tex-"]').forEach(c => c.classList.remove('sel'));
@@ -7063,7 +7321,7 @@ function toggleLinkIcons() {
   state.linkBtnIcons = !state.linkBtnIcons;
   document.getElementById('togLinkIcons').classList.toggle('on', state.linkBtnIcons);
 }
-function syncLinkHover() { state.linkBtnHover = document.getElementById('iLinkHover').value; }
+// syncLinkHover already defined above
 function syncLinkBtnClr() {
   const v = document.getElementById('iLinkBtnClr').value;
   state.linkBtnColor = v;
@@ -7089,12 +7347,7 @@ const BG_PAT_CSS = {
 };
 let _bgPat = { id: 'none', op: 0.25, scale: 1, color: '#ffffff' };
 
-function setBgPattern(id, el) {
-  _bgPat.id = id; state.bgPatternId = id;
-  document.querySelectorAll('[id^="pat-"]').forEach(c => c.classList.remove('on'));
-  el.classList.add('on');
-  applyBgPattern();
-}
+// setBgPattern defined above (merged)
 function syncBgPatOp() {
   _bgPat.op = parseInt(document.getElementById('iBgPatOp').value) / 100;
   state.bgPatternOp = _bgPat.op;
@@ -7435,97 +7688,48 @@ function setQrSize(size, el) {
   _qrSize = size;
   document.querySelectorAll('[id^="qrs-"]').forEach(c => c.classList.remove('on'));
   el.classList.add('on');
+  const container = document.getElementById('qrCanvas');
+  if (container) { container.style.maxWidth = size + 'px'; container.style.minHeight = size + 'px'; }
   generateQR();
 }
 
+let _qrInstance = null;
 function generateQR() {
   let url = document.getElementById('iQrUrl').value.trim();
   if (!url) {
     url = `vltx-adoe.onrender.com/${state.username || 'yourname'}`;
     document.getElementById('iQrUrl').placeholder = url;
   }
-  const color = document.getElementById('iQrColor').value || '#c084fc';
-  const canvas = document.getElementById('qrCanvas');
-  if (!canvas) return;
-  canvas.width = _qrSize;
-  canvas.height = _qrSize;
-  const ctx = canvas.getContext('2d');
-  // Simple QR code using a grid-based approach (we embed it as data URL via a basic QR library substitute)
-  // Since we can't load external libraries in standalone HTML, we'll use a canvas drawing
-  drawSimpleQR(ctx, url, _qrSize, color);
+  const color = (document.getElementById('iQrColor').value || '#c084fc').replace(/[^#0-9a-fA-F]/g,'').slice(0,7) || '#c084fc';
+  const container = document.getElementById('qrCanvas');
+  if (!container) return;
+  // Clear previous QR
+  container.innerHTML = '';
+  try {
+    _qrInstance = new QRCode(container, {
+      text: url,
+      width: _qrSize,
+      height: _qrSize,
+      colorDark: color,
+      colorLight: '#ffffff',
+      correctLevel: QRCode.CorrectLevel.M,
+    });
+    // Style the generated canvas/img
+    const inner = container.querySelector('canvas,img');
+    if (inner) { inner.style.borderRadius = '8px'; inner.style.maxWidth = '100%'; }
+  } catch(e) {
+    container.textContent = 'QR generation failed';
+  }
   const statusEl = document.getElementById('qrStatusText');
-  if (statusEl) statusEl.textContent = `QR code for: ${url.length > 45 ? url.slice(0,42)+'...' : url}`;
+  if (statusEl) statusEl.textContent = `QR for: ${url.length > 45 ? url.slice(0,42)+'...' : url}`;
 }
 
-function drawSimpleQR(ctx, text, size, fgColor) {
-  // Embed a simple QR-like pattern using a deterministic hash-based grid
-  // For a real QR code, you'd use a library. This creates a visually convincing demo.
-  ctx.fillStyle = '#ffffff';
-  ctx.fillRect(0, 0, size, size);
-  
-  // Use a small grid (21x21 like QR version 1)
-  const GRID = 21;
-  const cell = Math.floor(size / (GRID + 2));
-  const offset = Math.floor((size - cell * GRID) / 2);
-  
-  ctx.fillStyle = fgColor || '#000000';
-  
-  // Generate pseudo-deterministic cells from text
-  let hash = 0;
-  for (let i = 0; i < text.length; i++) {
-    hash = ((hash << 5) - hash) + text.charCodeAt(i);
-    hash |= 0;
-  }
-  
-  const filled = new Set();
-  
-  // Finder patterns (top-left, top-right, bottom-left) — always filled
-  const drawFinder = (row, col) => {
-    for (let r = 0; r < 7; r++) {
-      for (let c = 0; c < 7; c++) {
-        const outer = r === 0 || r === 6 || c === 0 || c === 6;
-        const inner = r >= 2 && r <= 4 && c >= 2 && c <= 4;
-        if (outer || inner) {
-          ctx.fillRect(offset + (col + c) * cell, offset + (row + r) * cell, cell - 1, cell - 1);
-          filled.add(`${row+r},${col+c}`);
-        } else {
-          filled.add(`${row+r},${col+c}`);
-        }
-      }
-    }
-  };
-  drawFinder(0, 0); drawFinder(0, 14); drawFinder(14, 0);
-  
-  // Timing patterns
-  for (let i = 8; i < 13; i++) {
-    if (i % 2 === 0) {
-      ctx.fillRect(offset + 6 * cell, offset + i * cell, cell - 1, cell - 1);
-      ctx.fillRect(offset + i * cell, offset + 6 * cell, cell - 1, cell - 1);
-    }
-    filled.add(`6,${i}`); filled.add(`${i},6`);
-  }
-  
-  // Data modules — pseudo-random based on hash
-  let seed = Math.abs(hash);
-  for (let r = 0; r < GRID; r++) {
-    for (let c = 0; c < GRID; c++) {
-      if (filled.has(`${r},${c}`)) continue;
-      seed = (seed * 1103515245 + 12345) & 0x7fffffff;
-      if (seed % 2 === 0) {
-        ctx.fillRect(offset + c * cell, offset + r * cell, cell - 1, cell - 1);
-      }
-    }
-  }
-  
-  // Quiet zone indicator (thin border)
-  ctx.strokeStyle = 'rgba(0,0,0,.06)';
-  ctx.lineWidth = 1;
-  ctx.strokeRect(0.5, 0.5, size - 1, size - 1);
-}
 
 function downloadQR() {
   generateQR();
-  const canvas = document.getElementById('qrCanvas');
+  const container = document.getElementById('qrCanvas');
+  const canvas = container.querySelector('canvas');
+  if (!canvas) { showToast('⚠️ Generate a QR first'); return; }
   const link = document.createElement('a');
   link.download = `vltx-qr-${state.username || 'profile'}.png`;
   link.href = canvas.toDataURL('image/png');
@@ -7534,7 +7738,9 @@ function downloadQR() {
 }
 
 function copyQRToClipboard() {
-  const canvas = document.getElementById('qrCanvas');
+  const container = document.getElementById('qrCanvas');
+  const canvas = container.querySelector('canvas');
+  if (!canvas) { showToast('⚠️ Generate a QR first'); return; }
   canvas.toBlob(blob => {
     try {
       navigator.clipboard.write([new ClipboardItem({ 'image/png': blob })]);
