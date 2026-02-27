@@ -177,6 +177,7 @@ body::after{content:'';position:fixed;inset:0;pointer-events:none;z-index:9999;o
 .prevscroll{
   flex:1;overflow-y:auto;display:flex;align-items:flex-start;
   justify-content:center;padding:26px 14px 60px;position:relative;z-index:1;
+  background:#0a0a0f;
 }
 
 /* ════════════════════════════════════
@@ -184,37 +185,59 @@ body::after{content:'';position:fixed;inset:0;pointer-events:none;z-index:9999;o
 ════════════════════════════════════ */
 @property --spin{syntax:'<angle>';inherits:false;initial-value:0deg;}
 #pc{
-  width:100%;max-width:370px;border-radius:16px;overflow:hidden;
-  /* guns.lol default: transparent — background shows through */
-  background:linear-gradient(180deg,#8a9faf 0%,#6b8292 8%,#556878 18%,#3e5060 30%,#2b3c48 45%,#182530 62%,#0e1820 78%,#080f16 100%);
-  backdrop-filter:none;
-  color:#f0f0fa;font-family:'Outfit',sans-serif;
-  position:relative;transition:max-width .22s,background .4s;
-  border:none;
-  box-shadow:0 12px 40px rgba(0,0,0,.6);
+  width:100%;max-width:370px;border-radius:18px;overflow:hidden;
+  background:rgba(14,14,24,0.96);
+  backdrop-filter:blur(40px) saturate(1.8);
+  -webkit-backdrop-filter:blur(40px) saturate(1.8);
+  color:#f2f2ff;font-family:'Outfit',sans-serif;
+  position:relative;transition:max-width .22s,background .4s,border-color .4s;
+  border:1px solid rgba(168,85,247,.15);
+  box-shadow:0 0 0 1px rgba(255,255,255,.04), 0 20px 60px rgba(0,0,0,.7), 0 0 40px rgba(168,85,247,.06);
   min-height:420px;
 }
+/* Mesh layer — subtle accent tint */
+.pc-mesh-layer{
+  position:absolute;inset:0;z-index:1;pointer-events:none;
+  background:
+    radial-gradient(ellipse 80% 40% at 50% 0%, rgba(168,85,247,.14) 0%, transparent 70%),
+    radial-gradient(ellipse 60% 60% at 0% 100%, rgba(34,211,238,.08) 0%, transparent 60%);
+  transition:opacity .4s;
+}
+/* Dots pattern overlay - full card */
+.pc-dots-layer{
+  position:absolute;inset:0;z-index:2;pointer-events:none;
+  background-image:radial-gradient(circle,rgba(255,255,255,0.07) 1px,transparent 1px);
+  background-size:22px 22px;
+}
 #pc::before{display:none;}
+/* Spinning border via pseudo on wrapper */
+#pc-spin-ring{
+  position:absolute;inset:-2px;border-radius:calc(var(--pc-radius,16px) + 2px);
+  background:conic-gradient(from var(--spin),transparent 0deg,#a855f7 60deg,#22d3ee 120deg,transparent 200deg);
+  filter:blur(4px);opacity:0;pointer-events:none;z-index:-1;
+  animation:spinBorder 3s linear infinite;transition:opacity .3s;
+}
+#pc-spin-ring.on{opacity:.85;}
 @keyframes spinBorder{to{--spin:360deg;}}
 #pc.desktop-view{max-width:480px;}
 
 /* bg layers */
 .pc-bg-video,.pc-bg-img-el{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:0;pointer-events:none;}
-.pc-bg-overlay{position:absolute;inset:0;z-index:1;pointer-events:none;}
-#pc>*:not(.pc-bg-video):not(.pc-bg-img-el):not(.pc-bg-overlay){position:relative;z-index:2;}
+.pc-bg-overlay{position:absolute;inset:0;z-index:3;pointer-events:none;}
+#pc>*:not(.pc-bg-video):not(.pc-bg-img-el):not(.pc-bg-overlay):not(.pc-mesh-layer):not(.pc-dots-layer):not(#pc-spin-ring):not(.pc-trees){position:relative;z-index:4;}
 
 /* avatar */
-.pc-av-wrap{width:90px;height:90px;margin:30px auto 16px;position:relative;animation:avFloat 3.5s ease-in-out infinite;}
+.pc-av-wrap{width:82px;height:82px;margin:-41px auto 12px;position:relative;animation:avFloat 3.5s ease-in-out infinite;z-index:5;}
 @keyframes avFloat{0%,100%{transform:translateY(0)}50%{transform:translateY(-5px)}}
 .pc-avatar{
-  width:84px;height:84px;border-radius:50%;overflow:hidden;cursor:pointer;
+  width:78px;height:78px;border-radius:50%;overflow:hidden;cursor:pointer;
   background:linear-gradient(135deg,#2a1a40,#1a1530);
-  display:flex;align-items:center;justify-content:center;font-size:2.2rem;
-  border:none;
-  box-shadow:0 4px 24px rgba(0,0,0,.6),0 0 0 2px rgba(255,255,255,.06);
-  transition:transform .2s,box-shadow .2s;
+  display:flex;align-items:center;justify-content:center;font-size:2rem;
+  border:2.5px solid rgba(14,14,24,1);
+  box-shadow:0 4px 20px rgba(0,0,0,.5),0 0 0 1px rgba(255,255,255,.08);
+  transition:transform .2s;
 }
-.pc-avatar:hover{transform:scale(1.06) rotate(-3deg);}
+.pc-avatar:hover{transform:scale(1.05);}
 .pc-avatar img{width:100%;height:100%;object-fit:cover;}
 .pc-online{
   position:absolute;bottom:1px;right:1px;width:14px;height:14px;
@@ -229,14 +252,13 @@ body::after{content:'';position:fixed;inset:0;pointer-events:none;z-index:9999;o
 #pcBadgeRow{display:flex;justify-content:center;gap:4px;padding:5px 0 1px;flex-wrap:wrap;}
 
 /* body */
-.pc-body{padding:8px 14px 14px;}
-.pc-name-row{text-align:center;margin-bottom:3px;}
+.pc-body{padding:6px 16px 18px;}
+.pc-name-row{display:flex;align-items:center;justify-content:center;flex-wrap:wrap;gap:4px;text-align:center;margin-bottom:4px;}
 .pc-username{
   font-family:'Syne',sans-serif;font-size:1.3rem;font-weight:800;
-  letter-spacing:-.025em;display:inline-block;
-  background:linear-gradient(135deg,#fff 15%,#a855f7 55%,#22d3ee 100%);
-  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
-  background-size:200%;animation:nameShimmer 3.5s ease-in-out infinite;
+  letter-spacing:-.03em;display:inline-block;
+  color:#f2f2ff;
+  -webkit-text-fill-color:#f2f2ff;
 }
 @keyframes nameShimmer{0%,100%{background-position:0%}50%{background-position:100%}}
 .pc-pronouns{
@@ -253,13 +275,13 @@ body::after{content:'';position:fixed;inset:0;pointer-events:none;z-index:9999;o
 }
 #statusBr{display:none;}
 .pc-tags{display:flex;gap:4px;flex-wrap:wrap;justify-content:center;margin:5px 0 7px;}
-.pc-tag{font-size:.64rem;color:rgba(255,255,255,.35);background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.055);padding:2px 8px;border-radius:100px;}
-.pc-bio{text-align:center;font-size:.82rem;color:rgba(255,255,255,.4);line-height:1.65;margin-bottom:10px;min-height:36px;display:flex;align-items:center;justify-content:center;}
+.pc-tag{font-size:.64rem;color:rgba(255,255,255,.6);background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);padding:2px 9px;border-radius:100px;font-weight:500;}
+.pc-bio{text-align:center;font-size:.82rem;color:rgba(255,255,255,.55);line-height:1.65;margin-bottom:10px;min-height:36px;display:flex;align-items:center;justify-content:center;}
 .tw{}.caret{display:inline-block;width:2px;height:.75em;background:#a855f7;margin-left:1.5px;vertical-align:text-bottom;animation:blink .75s step-end infinite;}
 @keyframes blink{0%,100%{opacity:1}50%{opacity:0}}
 
 /* skills/open to */
-.pc-role{font-size:.67rem;color:rgba(255,255,255,.35);background:rgba(255,255,255,.035);border:1px solid rgba(255,255,255,.055);padding:2px 9px;border-radius:100px;}
+.pc-role{font-size:.72rem;color:rgba(255,255,255,.45);font-weight:500;text-align:center;margin-bottom:5px;}
 .pc-open-chip{font-size:.59rem;font-weight:700;padding:2px 7px;border-radius:100px;background:rgba(34,197,94,.09);border:1px solid rgba(34,197,94,.18);color:#86efac;}
 .pc-skill-chip{font-size:.64rem;font-weight:600;padding:2px 8px;border-radius:100px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.08);color:#d4d4e8;}
 
@@ -319,9 +341,10 @@ body::after{content:'';position:fixed;inset:0;pointer-events:none;z-index:9999;o
 /* socials */
 .pc-socials{display:flex;flex-wrap:wrap;gap:5px;justify-content:center;margin-bottom:8px;}
 .pc-soc{
-  display:flex;align-items:center;justify-content:center;width:38px;height:38px;
-  border-radius:8px;background:rgba(255,255,255,.045);border:1px solid rgba(255,255,255,.07);
-  transition:transform .14s,border-color .14s;text-decoration:none;position:relative;
+  display:flex;align-items:center;justify-content:center;width:40px;height:40px;
+  border-radius:50%;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.12);
+  transition:transform .16s,background .16s;text-decoration:none;position:relative;
+  backdrop-filter:blur(8px);flex-shrink:0;
 }
 .pc-soc:hover{transform:translateY(-2px) scale(1.07);}
 .pc-soc img{width:17px;height:17px;object-fit:contain;border-radius:3px;}
@@ -329,6 +352,8 @@ body::after{content:'';position:fixed;inset:0;pointer-events:none;z-index:9999;o
 .pc-soc:hover .pc-tip{opacity:1;}
 
 /* link buttons */
+#pcLinkBtns{display:none;flex-direction:column;width:100%;gap:6px;padding:0 0 8px;}
+
 .pc-link-btn{display:flex;align-items:center;gap:7px;width:100%;padding:8px 11px;border-radius:8px;background:rgba(255,255,255,.045);border:1px solid rgba(255,255,255,.07);color:#f0f0fa;font-size:.77rem;font-weight:600;text-decoration:none;transition:background .13s,transform .13s;margin-bottom:4px;}
 .pc-link-btn:hover{background:rgba(255,255,255,.08);transform:translateY(-1px);}
 .pc-link-btn img{width:15px;height:15px;object-fit:contain;border-radius:3px;}
@@ -829,8 +854,18 @@ input[type=color]::-webkit-color-swatch{border:none;border-radius:2px;}
       </div>
       <button class="tbtn ghost sm" onclick="document.querySelectorAll('.ni').forEach(n=>n.classList.remove('on'));document.querySelectorAll('.panel').forEach(p=>p.classList.remove('on'));document.getElementById('s-shortcuts').classList.add('on');" title="Keyboard shortcuts ?" style="font-size:.8rem;padding:3px 7px;">?</button>
     </div>
-    <div class="prevscroll">
-      <div id="pc">
+    <div class="prevscroll" id="prevscrollWrap" style="position:relative;overflow:hidden;">
+  <!-- Page background layers (behind the card) -->
+  <div id="previewPageBg" style="position:absolute;inset:0;z-index:0;pointer-events:none;overflow:hidden;">
+    <video id="previewBgVideo" autoplay muted loop playsinline style="display:none;position:absolute;inset:0;width:100%;height:100%;object-fit:cover;"></video>
+    <img id="previewBgImg" style="display:none;position:absolute;inset:0;width:100%;height:100%;object-fit:cover;" alt="">
+    <div id="previewBgColor" style="position:absolute;inset:0;background:#0a0a0f;"></div>
+    <div id="previewBgPattern" style="position:absolute;inset:0;pointer-events:none;"></div>
+  </div>
+  <div id="pc" style="position:relative;overflow:hidden;z-index:1;">
+  <div id="pc-spin-ring"></div>
+  <div class="pc-mesh-layer" id="pcMeshLayer"></div>
+  <div class="pc-dots-layer" id="pcDotsLayer"></div>
   <!-- guns.lol trees -->
   <div class="pc-trees" style="position:absolute;bottom:0;left:0;right:0;height:48%;pointer-events:none;z-index:1;overflow:hidden">
     <svg viewBox="0 0 400 200" preserveAspectRatio="xMidYMax meet" style="width:100%;height:100%">
@@ -848,10 +883,14 @@ input[type=color]::-webkit-color-swatch{border:none;border-radius:2px;}
   <div class="pc-snow-dot" style="width:1.5px;height:1.5px;top:0%;left:65%;animation-duration:4.8s;animation-delay:.4s"></div>
   <div class="pc-snow-dot" style="width:1px;height:1px;top:5%;left:88%;animation-duration:5.2s;animation-delay:1.8s;opacity:.65"></div>
 
-        <video class="pc-bg-video" id="bgVideo" autoplay muted loop playsinline style="display:none;opacity:.4"></video>
-        <img class="pc-bg-img-el" id="bgImgEl" style="display:none;opacity:.4">
         <div class="pc-bg-overlay" id="bgOverlay"></div>
         <div class="pc-bg-noise" id="bgNoise" style="display:none"></div>
+
+        <!-- Banner element inside card -->
+        <div id="pcBanner" style="display:none;height:130px;position:relative;overflow:hidden;flex-shrink:0;">
+          <canvas id="pcBnrCanvas" style="position:absolute;inset:0;width:100%;height:100%;"></canvas>
+          <div style="position:absolute;bottom:0;left:0;right:0;height:60px;background:linear-gradient(transparent,rgba(10,10,18,.98));pointer-events:none;z-index:2;"></div>
+        </div>
 
         <div class="pc-av-wrap" id="pcAvWrap">
           <div class="pc-avatar" id="pcAvatar" onclick="document.getElementById('avatarFileInput').click()" title="Click to upload avatar">👾</div>
@@ -1590,7 +1629,7 @@ input[type=color]::-webkit-color-swatch{border:none;border-radius:2px;}
     </div>
     <div class="prow"><div class="tog" onclick="toggle('symbolRain','togSymbols')"><div class="tog-sw on" id="togSymbols"></div><span class="tog-label">Falling symbols</span></div></div>
     <div class="prow"><div class="tog" onclick="toggle('cardTilt','togTilt')"><div class="tog-sw on" id="togTilt"></div><span class="tog-label">3D card tilt on hover</span></div></div>
-    <div class="prow"><div class="tog" onclick="toggle('glow','togGlow')"><div class="tog-sw on" id="togGlow"></div><span class="tog-label">Spinning border glow</span></div></div>
+    <div class="prow"><div class="tog" onclick="toggle('spinBorder','togGlow')"><div class="tog-sw on" id="togGlow"></div><span class="tog-label">Spinning border glow</span></div></div>
     <div class="prow"><div class="tog" onclick="toggle('clickSparks','togSparks')"><div class="tog-sw on" id="togSparks"></div><span class="tog-label">Click spark particles</span></div></div>
     <div class="prow"><div class="tog" onclick="toggle('avatarGlow','togAvGlow')"><div class="tog-sw on" id="togAvGlow"></div><span class="tog-label">Avatar glow pulse</span></div></div>
     <div class="prow"><div class="tog" onclick="toggle('cardEntrance','togEntrance')"><div class="tog-sw on" id="togEntrance"></div><span class="tog-label">Card entrance animation</span></div></div>
@@ -4670,22 +4709,46 @@ function animateBgBar(barId) {
 }
 
 function applyBgMedia(url, isVideo) {
-  const vid = document.getElementById('bgVideo'), img = document.getElementById('bgImgEl');
+  // Route to PAGE background layer (behind the card), matching real profile.html
+  const pageVid = document.getElementById('previewBgVideo');
+  const pageImg = document.getElementById('previewBgImg');
+  const op = (bgState.opacity || 40) / 100;
+  const blur = bgState.blur || 0;
+  const filterStr = `opacity(${op}) blur(${blur}px) brightness(${bgState.brightness||100}%) saturate(${bgState.saturation||100}%)`;
   if (isVideo) {
-    vid.src = url;
-    vid.style.display = 'block';
-    vid.style.mixBlendMode = bgState.blend;
-    img.style.display = 'none';
-    applyBgFilters(vid);
+    if (pageVid) {
+      pageVid.src = url;
+      pageVid.style.display = 'block';
+      pageVid.style.filter = filterStr;
+      pageVid.style.objectPosition = bgState.pos || 'center';
+    }
+    if (pageImg) pageImg.style.display = 'none';
   } else {
-    img.src = url;
-    img.style.display = 'block';
-    img.style.mixBlendMode = bgState.blend;
-    vid.style.display = 'none';
-    applyBgFilters(img);
+    if (pageImg) {
+      pageImg.src = url;
+      pageImg.style.display = 'block';
+      pageImg.style.filter = filterStr;
+      pageImg.style.objectPosition = bgState.pos || 'center';
+    }
+    if (pageVid) pageVid.style.display = 'none';
   }
+  // Hide the bg pattern when a media bg is set (matches real profile behavior)
+  const patEl = document.getElementById('previewBgPattern');
+  if (patEl) patEl.style.opacity = '0';
 }
 
+function applyAllBgFilters() {
+  const op = (bgState.opacity || 40) / 100;
+  const blur = bgState.blur || 0;
+  const scale = (bgState.scale || 100) / 100;
+  const bri = bgState.brightness || 100;
+  const sat = bgState.saturation || 100;
+  const filterStr = `blur(${blur}px) brightness(${bri}%) saturate(${sat}%)`;
+  const pageVid = document.getElementById('previewBgVideo');
+  const pageImg = document.getElementById('previewBgImg');
+  if (pageVid) { pageVid.style.filter = filterStr; pageVid.style.opacity = op; pageVid.style.transform = `scale(${scale})`; }
+  if (pageImg) { pageImg.style.filter = filterStr; pageImg.style.opacity = op; pageImg.style.transform = `scale(${scale})`; }
+}
 function applyBgFilters(el) {
   el.style.opacity = bgState.opacity / 100;
   el.style.filter = `blur(${bgState.blur}px) brightness(${bgState.brightness}%) saturate(${bgState.saturation}%)`;
@@ -4694,12 +4757,7 @@ function applyBgFilters(el) {
   el.style.mixBlendMode = bgState.blend;
 }
 
-function applyAllBgFilters() {
-  const vid = document.getElementById('bgVideo');
-  const img = document.getElementById('bgImgEl');
-  if (vid.style.display !== 'none') applyBgFilters(vid);
-  if (img.style.display !== 'none') applyBgFilters(img);
-}
+// applyAllBgFilters: defined above, this duplicate removed
 
 function showBgCurrentRow(url, isVideo, isGif, fname, fsize) {
   const row = document.getElementById('bgCurrentRow');
@@ -4716,13 +4774,26 @@ function showBgCurrentRow(url, isVideo, isGif, fname, fsize) {
 
 function clearBg() {
   state.bgVideo = null; state.bgImage = null;
+  // Clear page-level background (correct location)
+  const pageVid = document.getElementById('previewBgVideo');
+  const pageImg = document.getElementById('previewBgImg');
+  if (pageVid) { pageVid.style.display = 'none'; pageVid.src = ''; }
+  if (pageImg) { pageImg.style.display = 'none'; pageImg.src = ''; }
+  // Also clear legacy elements if present
   const vid = document.getElementById('bgVideo'), img = document.getElementById('bgImgEl');
-  vid.style.display = 'none'; vid.src = '';
-  img.style.display = 'none'; img.src = '';
-  document.getElementById('bgCurrentRow').style.display = 'none';
-  document.getElementById('bgVideoControls').style.display = 'none';
-  document.getElementById('bgDropText').textContent = 'Drop your file here or click to browse';
-  document.getElementById('bgFileInput').value = '';
+  if (vid) { vid.style.display = 'none'; vid.src = ''; }
+  if (img) { img.style.display = 'none'; img.src = ''; }
+  // Restore bg pattern if one is set
+  const patEl = document.getElementById('previewBgPattern');
+  if (patEl) patEl.style.opacity = '1';
+  const bgCurRow = document.getElementById('bgCurrentRow');
+  const bgVideoCtrl = document.getElementById('bgVideoControls');
+  if (bgCurRow) bgCurRow.style.display = 'none';
+  if (bgVideoCtrl) bgVideoCtrl.style.display = 'none';
+  const bgDropText = document.getElementById('bgDropText');
+  if (bgDropText) bgDropText.textContent = 'Drop your file here or click to browse';
+  const bgFileInput = document.getElementById('bgFileInput');
+  if (bgFileInput) bgFileInput.value = '';
   showToast('🗑 Background removed');
 }
 
@@ -4759,6 +4830,10 @@ function setBgPos(el, pos) {
   document.querySelectorAll('.bg-pos-btn').forEach(b => b.classList.remove('sel'));
   el.classList.add('sel');
   bgState.pos = pos;
+  const pageImg = document.getElementById('previewBgImg');
+  const pageVid = document.getElementById('previewBgVideo');
+  if (pageImg) pageImg.style.objectPosition = pos;
+  if (pageVid) pageVid.style.objectPosition = pos;
   applyAllBgFilters();
 }
 
@@ -4843,8 +4918,23 @@ function applyAesthetic(name, el) {
   applyCardBgRender();
 }
 function applyCardBgRender() {
-  const r = parseInt(state.cardBg.slice(1, 3), 16) || 15, g = parseInt(state.cardBg.slice(3, 5), 16) || 15, b = parseInt(state.cardBg.slice(5, 7), 16) || 26;
-  document.getElementById('pc').style.background = `rgba(${r},${g},${b},${state.cardOpacity / 100})`;
+  const r = parseInt(state.cardBg.slice(1, 3), 16) || 14, g = parseInt(state.cardBg.slice(3, 5), 16) || 14, b = parseInt(state.cardBg.slice(5, 7), 16) || 24;
+  const a1 = state.accent || '#a855f7';
+  const a2 = state.accent2 || '#22d3ee';
+  const op = state.cardOpacity / 100;
+  const pc = document.getElementById('pc');
+  // Glass base matching real profile
+  pc.style.background = `rgba(${r},${g},${b},${op})`;
+  pc.style.backdropFilter = 'blur(40px) saturate(1.8)';
+  pc.style.border = `1px solid rgba(168,85,247,.15)`;
+  // Subtle mesh tint
+  const meshLayer = document.getElementById('pcMeshLayer');
+  if (meshLayer) {
+    meshLayer.style.background = `
+      radial-gradient(ellipse 80% 40% at 50% 0%, ${a1}20 0%, transparent 70%),
+      radial-gradient(ellipse 60% 60% at 0% 100%, ${a2}0e 0%, transparent 60%)
+    `;
+  }
 }
 
 // ══════════════════════════════════════════
@@ -5084,7 +5174,31 @@ function toggleBgGrad() { state.bgGrad = !state.bgGrad; document.getElementById(
 // ══════════════════════════════════════════
 function syncParticle() { state.particle = document.getElementById('iParticle').value; }
 function syncCursor() { state.cursor = document.getElementById('iCursor').value; }
-function toggle(key, togId) { state[key] = !state[key]; document.getElementById(togId).classList.toggle('on', state[key]); }
+function toggle(key, togId) {
+  state[key] = !state[key];
+  document.getElementById(togId).classList.toggle('on', state[key]);
+  // Wire up visual effects in preview
+  if (key === 'spinBorder' || key === 'spinningBorder') {
+    const ring = document.getElementById('pc-spin-ring');
+    if (ring) ring.classList.toggle('on', state[key]);
+  }
+  if (key === 'avatarGlow') {
+    const av = document.querySelector('.pc-avatar');
+    if (av) av.style.animation = state[key] ? 'avFloat 3.5s ease-in-out infinite, avGlowPulse 2.5s ease-in-out infinite' : 'avFloat 3.5s ease-in-out infinite';
+    if (av) av.style.boxShadow = state[key] ? '0 0 0 3px rgba(168,85,247,.15), 0 0 30px var(--acc), 0 0 60px var(--acc)' : '';
+  }
+  if (key === 'showFooter') {
+    const foot = document.querySelector('#pc .pc-foot');
+    if (foot) foot.style.display = state[key] ? 'flex' : 'none';
+  }
+  if (key === 'showViewsBadge') {
+    const vb = document.getElementById('pcViewsBadge');
+    if (vb) vb.style.display = state[key] ? 'flex' : 'none';
+  }
+  if (key === 'animTitle') {
+    // Visual indicator only
+  }
+}
 
 // ══════════════════════════════════════════
 // ANIMATIONS
@@ -5115,11 +5229,32 @@ function setLinkStyle(s) {
   document.getElementById('ls-icons').classList.toggle('sel', s === 'icons');
   document.getElementById('ls-buttons').classList.toggle('sel', s === 'buttons');
   renderLinks();
+  // Force correct visibility of containers
+  const socials = document.getElementById('pcSocials');
+  const btns = document.getElementById('pcLinkBtns');
+  if (s === 'icons') {
+    if (socials) socials.style.display = 'flex';
+    if (btns) btns.style.display = 'none';
+    // Show link button options panel
+    document.querySelectorAll('.link-btn-options').forEach(el => el.style.display = 'none');
+  } else {
+    if (socials) socials.style.display = 'none';
+    if (btns) { btns.style.display = 'flex'; btns.style.flexDirection = 'column'; btns.style.width = '100%'; btns.style.gap = '6px'; }
+    // Show link button customization options
+    document.querySelectorAll('.link-btn-options').forEach(el => el.style.display = '');
+  }
 }
-function toggleStats() { state.showStats = !state.showStats; document.getElementById('togStats').classList.toggle('on', state.showStats); document.getElementById('pcStatsRow').style.display = state.showStats ? 'flex' : 'none'; }
-function syncCardWidth() { const v = document.getElementById('iCardWidth').value; state.cardWidth = v; document.getElementById('cardWidthVal').textContent = v + 'px'; document.getElementById('pc').style.maxWidth = v + 'px'; }
+function toggleStats() { state.showStats = !state.showStats; document.getElementById('togStats').classList.toggle('on', state.showStats); const sr = document.getElementById('pcStatsRow'); if (sr) sr.style.display = state.showStats ? 'flex' : 'none'; }
+function syncCardWidth() { const v = document.getElementById('iCardWidth').value; state.cardWidth = v; document.getElementById('cardWidthVal').textContent = v + 'px'; document.getElementById('pc').style.maxWidth = v + 'px'; if (state.bannerFill && state.bannerFill !== 'none') setTimeout(renderPreviewBanner, 50); }
 function syncCardRadius() { const v = document.getElementById('iCardRadius').value; state.cardRadius = v; document.getElementById('cardRadiusVal').textContent = v + 'px'; document.getElementById('pc').style.borderRadius = v + 'px'; }
-function syncSpacing() { state.spacing = document.getElementById('iSpacing').value; }
+function syncSpacing() {
+  state.spacing = document.getElementById('iSpacing').value;
+  const pc = document.getElementById('pc');
+  if (!pc) return;
+  const spacingMap = { compact: '12px', normal: '20px', spacious: '32px' };
+  const gap = spacingMap[state.spacing] || '20px';
+  pc.querySelectorAll('.pc-body > *').forEach(el => el.style.marginBottom = gap);
+}
 function toggleVerifiedBadge() { state.showVerified = !state.showVerified; document.getElementById('togVerified').classList.toggle('on', state.showVerified); document.getElementById('pcVerified').style.display = state.showVerified ? '' : 'none'; }
 
 // ══════════════════════════════════════════
@@ -5161,11 +5296,20 @@ function renderLinks() {
     document.getElementById('pcLinkBtns').innerHTML = '';
   } else {
     document.getElementById('pcSocials').style.display = 'none';
-    document.getElementById('pcLinkBtns').style.display = 'block';
-    document.getElementById('pcLinkBtns').innerHTML = state.links.map(l => {
+    const btnsContainer = document.getElementById('pcLinkBtns');
+    btnsContainer.style.display = 'flex';
+    btnsContainer.style.flexDirection = 'column';
+    btnsContainer.style.width = '100%';
+    btnsContainer.style.gap = '6px';
+    btnsContainer.innerHTML = state.links.map(l => {
       const fav = getFavicon(l.label, l.url);
-      return `<a href="${l.url}" class="pc-link-btn" target="_blank" rel="noopener">${fav ? `<img src="${fav}">` : '🔗'}<span>${l.label}</span></a>`;
+      const arrow = state.linkBtnArrow !== false ? '<span style="margin-left:auto;opacity:.4;font-size:.7rem">→</span>' : '';
+      const iconHtml = (state.linkBtnIcons !== false && fav) ? `<img src="${fav}" style="width:16px;height:16px;object-fit:contain;border-radius:3px;" onerror="this.style.display='none'">` : '';
+      return `<a href="${l.url}" class="pc-link-btn" target="_blank" rel="noopener">${iconHtml}<span>${l.label}</span>${arrow}</a>`;
     }).join('');
+    // Re-apply current shape/fill
+    if (state.linkBtnShape) setLinkBtnShape(state.linkBtnShape, document.getElementById('lbs-'+state.linkBtnShape) || {classList:{add:()=>{},remove:()=>{}}});
+    if (state.linkBtnFill) setLinkBtnFill(state.linkBtnFill, document.getElementById('lbf-'+state.linkBtnFill) || {classList:{add:()=>{},remove:()=>{}}});
   }
 }
 
@@ -5783,6 +5927,7 @@ function _applyThemeFull(themeId, overrides) {
   // 3. Card skin
   if (t.cardSkin !== undefined) {
     state.cardSkin = t.cardSkin;
+    applyCardSkinToPreview(t.cardSkin || '');
     // Highlight matching skin-* card; iCardSkin select doesn't exist
     const skinKey = t.cardSkin || 'default';
     document.querySelectorAll('[id^="skin-"]').forEach(c => c.classList.remove('sel'));
@@ -5823,7 +5968,7 @@ function _applyThemeFull(themeId, overrides) {
   }
 
   // 8. Link style
-  if (t.linkStyle) { setLinkStyle(t.linkStyle); }
+  if (t.linkStyle) { setLinkStyle(t.linkStyle); renderLinks(); }
 
   // 9. Glow
   if (t.glow !== undefined) {
@@ -6002,11 +6147,84 @@ function toggleSpotlight() {
 function setCardSkin(val, el) {
   state.cardSkin = val;
   document.querySelectorAll('[id^="skin-"]').forEach(c => c.classList.remove('sel'));
-  el.classList.add('sel');
+  if (el) el.classList.add('sel');
+  applyCardSkinToPreview(val);
+}
+function applyCardSkinToPreview(val) {
+  const pc = document.getElementById('pc');
+  if (!pc) return;
+  // Remove old skin classes
+  pc.classList.remove('skin-frosted','skin-solid','skin-neon','skin-terminal','skin-paper','skin-chalk','skin-brutal','skin-grain','skin-ink');
+  // Reset inline styles to defaults
+  pc.style.background = '';
+  pc.style.backdropFilter = '';
+  pc.style.border = '';
+  pc.style.color = '';
+  pc.style.fontFamily = '';
+  // Apply new skin
+  const skins = {
+    '': { bg:'rgba(14,14,24,0.96)', bd:'blur(40px) saturate(1.8)', border:'1px solid rgba(168,85,247,.15)', color:'#f2f2ff' },
+    'frosted': { bg:'rgba(255,255,255,.07)', bd:'blur(44px) saturate(2)', border:'1px solid rgba(255,255,255,.14)', color:'#f2f2ff' },
+    'solid': { bg:'#0d0d1a', bd:'none', border:'1px solid rgba(255,255,255,.07)', color:'#f2f2ff' },
+    'neon': { bg:'rgba(10,10,20,.95)', bd:'blur(20px)', border:'1px solid var(--acc)', color:'#f2f2ff',
+      shadow:'0 0 0 1px var(--acc), 0 0 40px rgba(168,85,247,.2)' },
+    'terminal': { bg:'rgba(0,8,0,.97)', bd:'none', border:'1px solid rgba(0,255,65,.3)', color:'#00ff41',
+      fontFamily:"'Space Mono',monospace" },
+    'paper': { bg:'#f5f0e8', bd:'none', border:'1px solid #d4c9a8', color:'#1a1a1a' },
+    'chalk': { bg:'#1a1a2e', bd:'none', border:'1px solid rgba(255,255,255,.2)', color:'#f0f0f0' },
+    'brutal': { bg:'#fff', bd:'none', border:'4px solid #000', color:'#000' },
+    'grain': { bg:'rgba(12,12,18,.98)', bd:'none', border:'1px solid rgba(255,255,255,.06)', color:'#f2f2ff' },
+    'ink': { bg:'#050505', bd:'none', border:'1px solid rgba(255,255,255,.04)', color:'#e8e8e8' },
+  };
+  const skin = skins[val] || skins[''];
+  pc.style.background = skin.bg;
+  pc.style.backdropFilter = skin.bd;
+  pc.style.webkitBackdropFilter = skin.bd;
+  pc.style.border = skin.border;
+  pc.style.color = skin.color;
+  pc.style.boxShadow = skin.shadow || '0 0 0 1px rgba(255,255,255,.04), 0 20px 60px rgba(0,0,0,.7)';
+  if (skin.fontFamily) pc.style.fontFamily = skin.fontFamily;
+  else pc.style.fontFamily = '';
 }
 
 function syncCardLayout() {
   state.layout = document.getElementById('iCardLayout').value;
+  applyLayoutToPreview(state.layout);
+}
+function applyLayoutToPreview(layout) {
+  const pc = document.getElementById('pc');
+  const prevWrap = document.getElementById('prevscrollWrap');
+  const bannerEl = document.getElementById('pcBanner');
+  const avWrap = document.getElementById('pcAvWrap');
+  if (!pc) return;
+  // Reset
+  pc.style.maxWidth = '';
+  pc.style.background = '';
+  pc.style.border = '';
+  pc.style.boxShadow = '';
+  pc.style.borderRadius = '';
+  if (prevWrap) prevWrap.style.background = '';
+  if (layout === 'gunslol') {
+    // Cardless: transparent card, full-page dark bg
+    pc.style.background = 'transparent';
+    pc.style.border = 'none';
+    pc.style.boxShadow = 'none';
+    pc.style.backdropFilter = 'none';
+    pc.style.borderRadius = '0';
+    if (prevWrap) prevWrap.style.background = 'linear-gradient(180deg,#8a9faf 0%,#6b8292 8%,#3e5060 30%,#0e1820 78%,#050a10 100%)';
+  } else if (layout === 'modern') {
+    if (bannerEl) bannerEl.style.display = 'none';
+    if (avWrap) avWrap.style.marginTop = '28px';
+    applyCardSkinToPreview(state.cardSkin || '');
+  } else if (layout === 'wide') {
+    pc.style.maxWidth = '520px';
+    applyCardSkinToPreview(state.cardSkin || '');
+  } else {
+    // Standard — re-apply current skin
+    applyCardSkinToPreview(state.cardSkin || '');
+    // Restore banner if fill is set
+    if (state.bannerFill && state.bannerFill !== 'none') renderPreviewBanner();
+  }
 }
 
 function toggleMonoIcons() {
@@ -6911,7 +7129,25 @@ function setSocIconStyle(val, el) {
 function setLinkStylePreset(val, el) {
   state.linkStylePreset = val === 'default' ? '' : val;
   document.querySelectorAll('[id^="lstyle-"]').forEach(c => c.classList.remove('sel'));
-  el.classList.add('sel');
+  if (el) el.classList.add('sel');
+  applyLinkStylePreset(val);
+}
+function applyLinkStylePreset(val) {
+  const btns = document.querySelectorAll('#pcLinkBtns .pc-link-btn');
+  btns.forEach(btn => {
+    btn.style.cssText = '';
+    btn.className = 'pc-link-btn';
+  });
+  const styles = {
+    'fill':     'background:var(--acc);border:none;color:#fff;font-weight:700;',
+    'pill':     'border-radius:100px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);',
+    'flat':     'background:transparent;border:none;border-bottom:1px solid rgba(255,255,255,.12);border-radius:0;padding-left:0;padding-right:0;',
+    'shadow':   'background:rgba(10,10,20,.9);box-shadow:0 4px 20px rgba(0,0,0,.5);border:none;',
+    'gradient': 'background:linear-gradient(135deg,var(--acc),var(--acc2));border:none;color:#fff;font-weight:700;',
+    'default':  '',
+  };
+  const css = styles[val] || '';
+  if (css) btns.forEach(btn => btn.style.cssText = css);
 }
 
 // TAG STYLE
@@ -7265,9 +7501,81 @@ function setBannerFill(val, el) {
   bannerFillMode = val;
   state.bannerFill = val;
   document.querySelectorAll('[id^="bfill-"]').forEach(c => c.classList.remove('on'));
-  el.classList.add('on');
+  if (el) el.classList.add('on');
   const cr = document.getElementById('bannerColorRow');
   if (cr) cr.style.display = (val === 'solid' || val === 'gradient' || val === 'mesh') ? '' : 'none';
+  renderPreviewBanner();
+}
+function renderPreviewBanner() {
+  const bannerEl = document.getElementById('pcBanner');
+  const canvas = document.getElementById('pcBnrCanvas');
+  if (!bannerEl) return;
+  const val = state.bannerFill || bannerFillMode || 'stars';
+  const color = state.bannerColor || '#0d0220';
+  const color2 = state.bannerColor2 || '#1a0535';
+  if (val === 'none') {
+    bannerEl.style.display = 'none';
+    // When no banner, avatar goes to top
+    const avWrap = document.getElementById('pcAvWrap');
+    if (avWrap) avWrap.style.marginTop = '28px';
+    return;
+  }
+  bannerEl.style.display = 'block';
+  // Avatar overlaps banner bottom
+  const avWrap = document.getElementById('pcAvWrap');
+  if (avWrap) avWrap.style.marginTop = '-46px';
+  if (val === 'stars' || val === 'default') {
+    // Animated stars canvas
+    bannerEl.style.background = '';
+    if (canvas) {
+      canvas.style.display = 'block';
+      startBannerStars(canvas, color);
+    }
+  } else {
+    if (canvas) { canvas.style.display = 'none'; stopBannerStars(); }
+    if (val === 'solid') {
+      bannerEl.style.background = color;
+    } else if (val === 'gradient') {
+      bannerEl.style.background = `linear-gradient(135deg, ${color}, ${color2})`;
+    } else if (val === 'mesh') {
+      bannerEl.style.background = [
+        `radial-gradient(ellipse 120% 200% at 20% 50%, ${color}cc 0%, transparent 60%)`,
+        `radial-gradient(ellipse 80% 150% at 80% 30%, ${color}88 0%, transparent 60%)`,
+        color
+      ].join(', ');
+    } else if (val === 'noise') {
+      bannerEl.style.background = `linear-gradient(135deg, ${color}99, ${color2}66)`;
+    }
+  }
+}
+let _bannerRaf = null;
+function stopBannerStars() { if (_bannerRaf) { cancelAnimationFrame(_bannerRaf); _bannerRaf = null; } }
+function startBannerStars(cv, baseColor) {
+  stopBannerStars();
+  // Wait a frame so offsetWidth is available after display:block
+  requestAnimationFrame(() => {
+  cv.width = cv.offsetWidth || 370; cv.height = cv.offsetHeight || 130;
+  const ctx = cv.getContext('2d');
+  const stars = Array.from({length:60}, () => ({
+    x: Math.random(), y: Math.random(), r: Math.random()*1.2+.3,
+    a: Math.random(), spd: Math.random()*.25+.05
+  }));
+  function draw() {
+    const W = cv.width, H = cv.height;
+    ctx.clearRect(0,0,W,H);
+    const g = ctx.createLinearGradient(0,0,W,H);
+    g.addColorStop(0, baseColor || '#0d0220');
+    g.addColorStop(.5, '#0a1628'); g.addColorStop(1, '#150526');
+    ctx.fillStyle = g; ctx.fillRect(0,0,W,H);
+    stars.forEach(s => {
+      s.a += s.spd * .02; if (s.a > 1) { s.a = 0; s.x = Math.random(); s.y = Math.random(); }
+      ctx.beginPath(); ctx.arc(s.x*W, s.y*H, s.r, 0, Math.PI*2);
+      ctx.fillStyle = `rgba(255,255,255,${(s.a*.8).toFixed(2)})`; ctx.fill();
+    });
+    _bannerRaf = requestAnimationFrame(draw);
+  }
+  draw();
+  }); // end rAF
 }
 function syncBannerH() {
   const v = document.getElementById('iBannerH').value;
@@ -7279,6 +7587,12 @@ function syncBannerH() {
 function syncBannerColor() {
   state.bannerColor = document.getElementById('iBannerColor').value;
   document.getElementById('iBannerColorPick').value = state.bannerColor.startsWith('#') && state.bannerColor.length === 7 ? state.bannerColor : '#0d0220';
+  renderPreviewBanner();
+}
+function syncBannerColor2() {
+  const el = document.getElementById('iBannerColor2');
+  if (el) state.bannerColor2 = el.value;
+  renderPreviewBanner();
 }
 function syncBannerText() { state.bannerText = document.getElementById('iBannerText').value; }
 function toggleBannerTicker() {
@@ -7348,14 +7662,14 @@ function syncSocIconSz() {
 function setLinkBtnShape(val, el) {
   state.linkBtnShape = val;
   document.querySelectorAll('[id^="lbs-"]').forEach(c => c.classList.remove('on'));
-  el.classList.add('on');
+  if (el && el.classList) el.classList.add('on');
   const r = { pill: '100px', rounded: '10px', sharp: '3px' }[val] || '10px';
   document.querySelectorAll('.pc-link-btn').forEach(b => b.style.borderRadius = r);
 }
 function setLinkBtnFill(val, el) {
   state.linkBtnFill = val;
   document.querySelectorAll('[id^="lbf-"]').forEach(c => c.classList.remove('on'));
-  el.classList.add('on');
+  if (el && el.classList) el.classList.add('on');
   const styles = {
     ghost:   { bg: 'rgba(255,255,255,.04)',  border: '1px solid rgba(255,255,255,.08)' },
     accent:  { bg: 'rgba(192,132,252,.12)',  border: '1px solid rgba(192,132,252,.25)' },
@@ -7420,8 +7734,14 @@ function syncBgPatColor() {
 }
 function applyBgPattern() {
   const { id, op, scale, color } = _bgPat;
-  const overlay = document.getElementById('bgOverlay');
-  if (!overlay || id === 'none') { if (overlay) overlay.style.backgroundImage = ''; return; }
+  // Write to PAGE background layer, not card interior overlay
+  const overlay = document.getElementById('previewBgPattern');
+  const cardOverlay = document.getElementById('bgOverlay');
+  if (cardOverlay) cardOverlay.style.backgroundImage = ''; // clear card overlay
+  if (!overlay || id === 'none') {
+    if (overlay) { overlay.style.backgroundImage = ''; overlay.style.opacity = ''; }
+    return;
+  }
   const sz = Math.round(14 * scale);
   const hex = color.replace('#','');
   const r = parseInt(hex.slice(0,2),16), g = parseInt(hex.slice(2,4),16), b = parseInt(hex.slice(4,6),16);
@@ -7441,6 +7761,8 @@ function applyBgPattern() {
   let css = BG_PAT_CSS[id] || '';
   css = css.replace(/COLOR/g, rgba).replace(/CSTRONG/g, rgbaStrong).replace(/SZ2/g, sz+1).replace(/SZ/g, sz);
   overlay.style.backgroundImage = css;
+  overlay.style.backgroundRepeat = 'repeat';
+  overlay.style.opacity = '1';
   const szStr = id === 'cross' ? `${sz*1.5}px ${sz*1.5}px` : `${sz}px ${sz}px`;
   overlay.style.backgroundSize = szStr;
 }
@@ -7583,6 +7905,12 @@ function restoreFromState() {
   if (state.badges) renderBadges();
   if (state.links) renderLinks();
   if (state.bioLines) syncBio();
+  // Re-apply visual preview elements
+  applyCardSkinToPreview(state.cardSkin || '');
+  applyLayoutToPreview(state.layout || '');
+  if (state.bannerFill && state.bannerFill !== 'none') {
+    renderPreviewBanner();
+  }
   showToast('State restored');
 }
 
@@ -7972,6 +8300,29 @@ autosaveNow = function() {
   _origAutoSave.apply(this, arguments);
   if (typeof _markSaved === 'function') _markSaved();
 };
+
+// ── INITIAL PREVIEW RENDER ──────────────────────────
+document.addEventListener('DOMContentLoaded', () => {
+  setTimeout(() => {
+    applyCardSkinToPreview(state.cardSkin || '');
+    applyLayoutToPreview(state.layout || '');
+    const bfillEl = document.getElementById('bfill-stars');
+    setBannerFill(state.bannerFill || 'stars', bfillEl || {classList:{add:()=>{},remove:()=>{}}});
+    if (state.bgPattern) applyBgPattern();
+    const prevWrap = document.getElementById('prevscrollWrap');
+    if (prevWrap) prevWrap.style.background = '#0a0a0f';
+    if (state.linkStylePreset) applyLinkStylePreset(state.linkStylePreset);
+    // Initialize link style display
+    setLinkStyle(state.linkStyle || 'icons');
+    renderLinks();
+    // Stats row visibility
+    const sr = document.getElementById('pcStatsRow');
+    if (sr) sr.style.display = state.showStats ? 'flex' : 'none';
+    // Footer visibility  
+    const foot = document.querySelector('#pc .pc-foot');
+    if (foot) foot.style.display = state.showFooter !== false ? 'flex' : 'none';
+  }, 200);
+});
 
 </script>
 </body>
