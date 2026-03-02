@@ -25,7 +25,7 @@
 
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 html{scroll-behavior:smooth}
-body{min-height:100vh;font-family:'Outfit',sans-serif;color:var(--text);overflow-x:hidden;background:var(--bg);overflow:hidden;}
+body{min-height:100vh;font-family:'Outfit',sans-serif;color:var(--text);overflow-x:hidden;background:#0a0a0f;overflow:hidden;}
 body,body *{cursor:none !important;}
 body.light-mode{filter:invert(1) hue-rotate(180deg)}
 
@@ -45,7 +45,7 @@ body.cursor-none #cur,body.cursor-none #cur-trail{display:none}
 /* BACKGROUNDS */
 #bg-video{position:fixed;inset:0;width:100%;height:100%;object-fit:cover;z-index:0;pointer-events:none}
 #bg-image{position:fixed;inset:0;width:100%;height:100%;object-fit:cover;z-index:0;pointer-events:none;display:none}
-.bg-overlay{position:fixed;inset:0;z-index:1;background:#0a0a0f;}
+.bg-overlay{position:fixed;inset:0;z-index:1;background:transparent;}
 @keyframes bgPulse{from{filter:none}to{filter:none}}
 .gradient-mesh{position:fixed;inset:0;z-index:1;pointer-events:none;opacity:0;background:radial-gradient(circle at 20% 30%,rgba(168,85,247,.14) 0%,transparent 40%),radial-gradient(circle at 80% 60%,rgba(34,211,238,.09) 0%,transparent 35%),radial-gradient(circle at 50% 80%,rgba(244,63,94,.07) 0%,transparent 40%);animation:meshFloat 9s ease-in-out infinite alternate;transition:opacity .5s}
 .gradient-mesh.on{opacity:1}
@@ -139,8 +139,46 @@ body.cursor-none #cur,body.cursor-none #cur-trail{display:none}
   50%{box-shadow:0 4px 28px rgba(0,0,0,.6),0 0 0 3px rgba(255,255,255,.1),0 0 50px var(--accent),0 0 80px var(--accent);}
 }
 
-/* SCROLL REVEAL */
-.scroll-reveal{
+/* CARD BORDER STYLES */
+.rainbow-border{border:2px solid transparent!important;background-image:linear-gradient(var(--card-bg),var(--card-bg)),linear-gradient(90deg,#f43f5e,#f97316,#eab308,#22c55e,#06b6d4,#a855f7,#f43f5e)!important;background-origin:border-box!important;background-clip:padding-box,border-box!important;background-size:200%!important;animation:rbSpin 2.5s linear infinite!important;}
+@keyframes rbSpin{to{background-position:200% 50%}}
+.glow-border{border:1px solid var(--accent)55!important;box-shadow:0 0 30px var(--accent)44,0 30px 80px rgba(0,0,0,.6)!important;}
+.fire-border{border:2px solid transparent!important;background-image:linear-gradient(var(--card-bg),var(--card-bg)),linear-gradient(90deg,#ff4500,#ff8c00,#ffd700,#ff4500)!important;background-origin:border-box!important;background-clip:padding-box,border-box!important;}
+.electric-border{border:2px solid transparent!important;background-image:linear-gradient(var(--card-bg),var(--card-bg)),linear-gradient(90deg,#00ffff,#fff,#00ffff)!important;background-origin:border-box!important;background-clip:padding-box,border-box!important;}
+.no-border{border:none!important;}
+/* TAG STYLES */
+.tag-glow{box-shadow:0 0 8px rgba(168,85,247,.3);border-color:rgba(168,85,247,.4)!important;}
+.tag-outline{background:transparent!important;border:1.5px solid rgba(255,255,255,.3)!important;}
+.tag-pill{border-radius:100px!important;}
+.tag-solid{background:rgba(168,85,247,.15)!important;border-color:rgba(168,85,247,.3)!important;color:#d8b4fe!important;}
+/* AVATAR FRAMES */
+.avatar-frame-glow{box-shadow:0 0 20px var(--accent),0 0 40px var(--accent)44!important;}
+.avatar-frame-neon{box-shadow:0 0 0 2px var(--accent),0 0 20px var(--accent)!important;}
+.avatar-frame-double{box-shadow:0 0 0 3px var(--accent),0 0 0 6px rgba(168,85,247,.2)!important;}
+.avatar-frame-dashed{border:2.5px dashed var(--accent)!important;}
+.avatar-frame-rainbow{border:3px solid transparent!important;background-image:linear-gradient(var(--card-bg),var(--card-bg)),linear-gradient(45deg,#f43f5e,#f97316,#eab308,#22c55e,#06b6d4,#a855f7,#f43f5e)!important;background-origin:border-box!important;background-clip:padding-box,border-box!important;background-size:200%!important;animation:rbSpin 2s linear infinite!important;}
+/* AVATAR FILTERS */
+.av-grayscale{filter:grayscale(1)!important;}
+.av-sepia{filter:sepia(.8)!important;}
+.av-invert{filter:invert(1)!important;}
+.av-hue{filter:hue-rotate(180deg)!important;}
+.av-saturate{filter:saturate(2.5)!important;}
+.av-neon{filter:brightness(1.2) contrast(1.3) saturate(2)!important;}
+/* CARD ANIMATIONS */
+.anim-slideup{animation:slideUpCard .6s cubic-bezier(.16,1,.3,1) both!important;}
+@keyframes slideUpCard{from{opacity:0;transform:translateY(60px)}to{opacity:1;transform:translateY(0)}}
+.anim-zoom{animation:zoomInCard .5s cubic-bezier(.16,1,.3,1) both!important;}
+@keyframes zoomInCard{from{opacity:0;transform:scale(.8)}to{opacity:1;transform:scale(1)}}
+.anim-flip{animation:flipCard .6s cubic-bezier(.16,1,.3,1) both!important;}
+@keyframes flipCard{from{opacity:0;transform:perspective(800px) rotateX(-30deg)}to{opacity:1;transform:perspective(800px) rotateX(0)}}
+.anim-bounce{animation:bounceCard .7s cubic-bezier(.34,1.56,.64,1) both!important;}
+@keyframes bounceCard{from{opacity:0;transform:translateY(-40px)}to{opacity:1;transform:translateY(0)}}
+.anim-none{animation:none!important;}
+/* HOLO CARD */
+.holo-card{background:linear-gradient(135deg,rgba(255,255,255,.07) 0%,rgba(168,85,247,.05) 50%,rgba(34,211,238,.05) 100%)!important;border:1px solid rgba(255,255,255,.15)!important;}
+.holo-card::after{content:'';position:absolute;inset:0;background:linear-gradient(135deg,rgba(255,255,255,.04) 0%,transparent 50%,rgba(168,85,247,.04) 100%);pointer-events:none;border-radius:inherit;}
+/* BARB OUNCE for now playing */
+@keyframes barBounce{0%,100%{transform:scaleY(.25)}50%{transform:scaleY(1)}}
   opacity:0;transform:translateY(30px);transition:opacity .7s cubic-bezier(.16,1,.3,1),transform .7s cubic-bezier(.16,1,.3,1);
 }
 .scroll-reveal.revealed{opacity:1;transform:translateY(0);}
@@ -873,6 +911,38 @@ body{padding-bottom:0;}
         </div>
       </div>
 
+      <!-- NOW PLAYING STATIC WIDGET -->
+      <div id="nowPlayingWidget" style="display:none;align-items:center;gap:10px;background:rgba(30,215,96,.06);border:1px solid rgba(30,215,96,.14);border-radius:12px;padding:10px 14px;margin-bottom:10px;">
+        <div style="display:flex;align-items:flex-end;gap:2px;flex-shrink:0;">
+          <div style="width:3px;height:8px;background:#1ed760;border-radius:2px;animation:barBounce 1s ease-in-out infinite;animation-delay:0s"></div>
+          <div style="width:3px;height:14px;background:#1ed760;border-radius:2px;animation:barBounce 1s ease-in-out infinite;animation-delay:.16s"></div>
+          <div style="width:3px;height:10px;background:#1ed760;border-radius:2px;animation:barBounce 1s ease-in-out infinite;animation-delay:.3s"></div>
+          <div style="width:3px;height:16px;background:#1ed760;border-radius:2px;animation:barBounce 1s ease-in-out infinite;animation-delay:.1s"></div>
+        </div>
+        <div style="flex:1;min-width:0;">
+          <div style="font-size:.66rem;color:#1ed760;font-weight:700;letter-spacing:.05em;margin-bottom:2px">NOW PLAYING</div>
+          <div id="npWidgetTitle" style="font-size:.82rem;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">—</div>
+          <div id="npWidgetArtist" style="font-size:.65rem;color:rgba(255,255,255,.45);margin-top:1px;"></div>
+        </div>
+      </div>
+
+      <!-- COUNTDOWN WIDGET -->
+      <div id="countdownWidget" style="display:none;background:rgba(168,85,247,.06);border:1px solid rgba(168,85,247,.15);border-radius:12px;padding:12px 14px;margin-bottom:10px;text-align:center;">
+        <div id="countdownLabel" style="font-size:.6rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:rgba(168,85,247,.7);margin-bottom:8px;">Countdown</div>
+        <div id="countdownTimer" style="font-size:1rem;font-weight:800;font-family:'Space Mono',monospace;color:#f0f0ff;letter-spacing:.04em;">—</div>
+      </div>
+
+      <!-- GOAL WIDGET -->
+      <div id="goalWidget" style="display:none;background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.07);border-radius:12px;padding:12px 14px;margin-bottom:10px;">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px;">
+          <div id="goalLabel" style="font-size:.76rem;font-weight:700;">Goal</div>
+          <div id="goalSub" style="font-size:.64rem;color:rgba(255,255,255,.4);"></div>
+        </div>
+        <div style="height:6px;background:rgba(255,255,255,.07);border-radius:100px;overflow:hidden;">
+          <div id="goalFill" style="height:100%;width:0%;background:linear-gradient(90deg,var(--accent),var(--accent2));border-radius:100px;transition:width 1.2s cubic-bezier(.16,1,.3,1);"></div>
+        </div>
+      </div>
+
       <!-- STATS -->
       <div class="stats" id="statsRow">
         <div class="stat"><div class="snum" id="vcnt">0</div><div class="slabel">profile views</div></div>
@@ -1119,17 +1189,27 @@ function applyProfile(p) {
   if (!p.showOnline) document.getElementById('onlineDot').style.display='none';
 
   // ── BACKGROUND ──
+  // Apply page background color first
+  if (p.bgColor) document.body.style.background = p.bgColor;
   if (p.bgVideo) {
     const vid=document.getElementById('bg-video');
-    vid.src=p.bgVideo; vid.style.display='block'; vid.style.opacity=(p.bgOpacity||40)/100;
+    vid.src=p.bgVideo; vid.style.display='block'; vid.style.opacity=(p.bgOpacity||70)/100;
     if (p.bgBlur) vid.style.filter=`blur(${p.bgBlur}px)`;
   } else if (p.bgImage) {
     const img=document.getElementById('bg-image');
-    img.src=p.bgImage; img.style.display='block'; img.style.opacity=(p.bgOpacity||40)/100;
+    img.src=p.bgImage; img.style.display='block'; img.style.opacity=(p.bgOpacity||70)/100;
     if (p.bgBlur) img.style.filter=`blur(${p.bgBlur}px)`;
     if (p.bgPosition) img.style.objectPosition=p.bgPosition;
   }
+  // Gradient mesh overlay on top of bg image
   if (p.bgGrad) document.getElementById('gradientMesh').classList.add('on');
+  else {
+    // Add a subtle dark vignette overlay so card stays readable
+    const bgLayer = document.getElementById('bgLayer');
+    if (bgLayer && (p.bgImage || p.bgVideo)) {
+      bgLayer.style.background = 'radial-gradient(ellipse at center, transparent 30%, rgba(0,0,0,0.45) 100%)';
+    }
+  }
   if (p.scanlines) document.getElementById('scanlines').classList.add('on');
   if (p.neonScanline) document.getElementById('neonScanline').classList.add('on');
 
@@ -1428,6 +1508,165 @@ function applyProfile(p) {
   // ── AVATAR GLOW PULSE ──
   if (p.avatarGlowPulse === true) {
     document.getElementById('avWrap').classList.add('avatar-glow-pulse');
+  }
+
+  // ── BIO STYLE ──
+  const bioEl = document.querySelector('.bio');
+  if (bioEl) {
+    if (p.bioGlow)   bioEl.style.textShadow = '0 0 14px rgba(168,85,247,.5)';
+    if (p.bioItalic) bioEl.style.fontStyle = 'italic';
+    if (p.bioFontSize) bioEl.style.fontSize = p.bioFontSize + 'rem';
+    if (p.bioTextAlign) bioEl.style.textAlign = p.bioTextAlign;
+  }
+
+  // ── USERNAME TYPOGRAPHY ──
+  if (p.usernameSize)       un.style.fontSize = p.usernameSize + 'rem';
+  if (p.nameLetterSpacing)  un.style.letterSpacing = p.nameLetterSpacing;
+  if (p.nameTextTransform)  un.style.textTransform = p.nameTextTransform;
+  if (p.nameFontWeight)     un.style.fontWeight = p.nameFontWeight;
+  if (p.nameShadow) {
+    const shadows = {
+      soft:  '0 2px 8px rgba(0,0,0,.5)',
+      neon:  `0 0 10px ${p.accent||'#a855f7'}, 0 0 20px ${p.accent||'#a855f7'}, 0 0 40px ${p.accent||'#a855f7'}`,
+      fire:  '0 0 10px #ff4500, 0 0 20px #ff8c00, 0 0 40px #ffd700',
+      ice:   '0 0 10px #93c5fd, 0 0 20px #bfdbfe',
+      gold:  '0 0 10px #fbbf24, 0 0 20px #ffd700, 0 0 40px #fbbf24',
+      retro: '2px 2px 0 #ff0080, 4px 4px 0 #00ffff',
+      glow3: `0 0 8px ${p.accent||'#a855f7'}, 0 0 24px ${p.accent||'#a855f7'}88`,
+      chroma:'0 0 10px #ff0080, 0 0 20px #00ffff, 0 0 30px #ffff00',
+    };
+    if (shadows[p.nameShadow]) { un.style.textShadow = shadows[p.nameShadow]; un.style.webkitTextFillColor = 'unset'; }
+  }
+
+  // ── AVATAR FX ──
+  const avEl = document.getElementById('av');
+  if (p.avFrame && p.avFrame !== 'none') avEl.classList.add('avatar-frame-' + p.avFrame);
+  if (p.avFilter) avEl.classList.add('av-' + p.avFilter);
+
+  // ── CARD BORDER STYLE ──
+  const cardBorderEl = document.getElementById('card');
+  if (p.borderStyle) {
+    const bsMap = { rainbow:'rainbow-border', glow:'glow-border', solid:'solid-border', fire:'fire-border', electric:'electric-border', none:'no-border' };
+    if (bsMap[p.borderStyle]) cardBorderEl.classList.add(bsMap[p.borderStyle]);
+  }
+
+  // ── SOCIAL ICON SIZE ──
+  if (p.socIconSize) {
+    document.querySelectorAll('.soc').forEach(s => { s.style.width = p.socIconSize+'px'; s.style.height = p.socIconSize+'px'; });
+  }
+
+  // ── LINK BUTTON STYLES ──
+  const applyLinkBtnStyles = () => {
+    const btns = document.querySelectorAll('.link-btn');
+    if (!btns.length) return;
+    if (p.linkBtnShape) {
+      const r = { pill:'100px', rounded:'10px', sharp:'3px' }[p.linkBtnShape] || '10px';
+      btns.forEach(b => b.style.borderRadius = r);
+    }
+    if (p.linkBtnFill) {
+      const s = { ghost:{bg:'rgba(255,255,255,.04)',border:'1px solid rgba(255,255,255,.08)'}, accent:{bg:'rgba(192,132,252,.12)',border:'1px solid rgba(192,132,252,.25)'}, solid:{bg:'rgba(255,255,255,.08)',border:'1px solid transparent'}, outline:{bg:'transparent',border:'1.5px solid rgba(255,255,255,.3)'} }[p.linkBtnFill];
+      if (s) btns.forEach(b => { b.style.background = s.bg; b.style.border = s.border; });
+    }
+    if (p.linkBtnColor) btns.forEach(b => b.style.color = p.linkBtnColor);
+    if (p.linkBtnHeight) btns.forEach(b => b.style.minHeight = p.linkBtnHeight+'px');
+    if (p.linkBtnArrow) btns.forEach(b => { const arrow=document.createElement('span'); arrow.textContent='→'; arrow.style.marginLeft='auto'; arrow.style.opacity='.5'; b.appendChild(arrow); });
+  };
+  setTimeout(applyLinkBtnStyles, 100);
+
+  // ── TAG STYLE ──
+  if (p.tagStyle) {
+    const tagMap = { glow:'tag-glow', outline:'tag-outline', pill:'tag-pill', solid:'tag-solid' };
+    if (tagMap[p.tagStyle]) document.querySelectorAll('.tag').forEach(t => t.classList.add(tagMap[p.tagStyle]));
+  }
+
+  // ── NOW PLAYING STATIC WIDGET ──
+  if (p.npTrack) {
+    const np = document.getElementById('nowPlayingWidget');
+    if (np) {
+      np.style.display = 'flex';
+      const t = document.getElementById('npWidgetTitle'); if (t) t.textContent = p.npTrack;
+      const a = document.getElementById('npWidgetArtist'); if (a) a.textContent = p.npArtist || '';
+    }
+  }
+
+  // ── COUNTDOWN WIDGET ──
+  if (p.countdown && p.countdown.show && p.countdown.date) {
+    const cw = document.getElementById('countdownWidget');
+    if (cw) {
+      cw.style.display = '';
+      const lbl = document.getElementById('countdownLabel'); if (lbl) lbl.textContent = p.countdown.label || 'Countdown';
+      const startCountdown = () => {
+        const target = new Date(p.countdown.date);
+        const timer = document.getElementById('countdownTimer');
+        if (!timer) return;
+        const update = () => {
+          const diff = target - new Date();
+          if (diff <= 0) { timer.textContent = '🎉 Event started!'; return; }
+          const d=Math.floor(diff/86400000),h=Math.floor((diff%86400000)/3600000),m=Math.floor((diff%3600000)/60000),s=Math.floor((diff%60000)/1000);
+          timer.textContent = `${d}d ${h}h ${m}m ${s}s`;
+        };
+        update(); setInterval(update, 1000);
+      };
+      startCountdown();
+    }
+  }
+
+  // ── GOAL WIDGET ──
+  if (p.goalLabel) {
+    const gw = document.getElementById('goalWidget');
+    if (gw) {
+      gw.style.display = '';
+      const gl = document.getElementById('goalLabel'); if (gl) gl.textContent = p.goalLabel;
+      const gs = document.getElementById('goalSub'); if (gs) gs.textContent = p.goalSub || '';
+      const gf = document.getElementById('goalFill');
+      if (gf) setTimeout(() => { gf.style.width = (p.goalPct || 0) + '%'; }, 400);
+    }
+  }
+
+  // ── CUSTOM CSS ──
+  if (p.customCss) {
+    const style = document.createElement('style');
+    style.textContent = p.customCss;
+    document.head.appendChild(style);
+  }
+
+  // ── PAGE ANIMATION ──
+  if (p.pageAnim && p.pageAnim !== 'default') {
+    const animMap = { slideup:'anim-slideup', zoom:'anim-zoom', flip:'anim-flip', bounce:'anim-bounce', none:'anim-none' };
+    const cardAnimEl = document.getElementById('card');
+    if (animMap[p.pageAnim]) cardAnimEl.classList.add(animMap[p.pageAnim]);
+  }
+
+  // ── HOLO CARD ──
+  if (p.holoCard) document.getElementById('card').classList.add('holo-card');
+
+  // ── DISCORD CARD (guns.lol style — from stored OAuth, no Lanyard needed) ──
+  if (p.discordId || p.discordUser) {
+    const dcCard = document.getElementById('discordProfileCard');
+    if (dcCard) {
+      dcCard.classList.add('show');
+      // Set stored avatar from OAuth
+      const pfpEl = document.getElementById('discordPfp');
+      if (pfpEl && p.discordAvatar) {
+        pfpEl.innerHTML = `<img src="${p.discordAvatar}" alt="Discord PFP" style="width:100%;height:100%;object-fit:cover;border-radius:50%;" onerror="this.parentElement.innerHTML='🎮'">`;
+      }
+      // Set name
+      const nameEl = document.getElementById('discordPfpNameText');
+      if (nameEl) nameEl.textContent = p.discordUser || 'Unknown';
+      // Set stored status (online/idle/dnd/offline) — live via Lanyard if discordId present
+      const statusTxtEl = document.getElementById('discordStatusTxt');
+      const statusLabels = { online:'🟢 Online', idle:'🌙 Idle', dnd:'🔴 Do Not Disturb', offline:'⚫ Offline' };
+      const storedStatus = p.discordStatus || 'offline';
+      if (statusTxtEl) {
+        statusTxtEl.className = `discord-pfp-status-txt ${storedStatus}`;
+        statusTxtEl.textContent = statusLabels[storedStatus] || 'Offline';
+      }
+      // Online dot
+      const statusDot = document.getElementById('discordPfpStatus');
+      if (statusDot) statusDot.className = `discord-pfp-status ${storedStatus}`;
+      // If discordId is present, try real-time Lanyard update (non-blocking, graceful fallback)
+      if (p.discordId) loadLanyardPresence(p.discordId);
+    }
   }
 
   // ── SCROLL REVEAL ──
@@ -1950,12 +2189,13 @@ async function loadGitHubContrib(user){
 async function loadLanyardPresence(discordId) {
   try {
     const res=await fetch(`https://api.lanyard.rest/v1/users/${discordId}`);
+    if (!res.ok) return; // User not on Lanyard - silently ignore
     const data=await res.json();
     if (!data.success) return;
     applyLanyardData(data.data, discordId);
     // Poll every 30s
     setTimeout(()=>loadLanyardPresence(discordId),30000);
-  } catch(e){}
+  } catch(e){} // Silently fail - stored status will show
 }
 
 function applyLanyardData(d, discordId) {
