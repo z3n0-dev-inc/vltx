@@ -977,6 +977,23 @@ input[type=color]::-webkit-color-swatch{border:none;border-radius:2px;}
             <span id="pcDcText">Discord</span>
           </div>
 
+          <!-- GUNS.LOL STYLE DISCORD CARD PREVIEW -->
+          <div id="pcDiscordCard" style="display:none;align-items:center;gap:10px;background:linear-gradient(135deg,rgba(88,101,242,.1),rgba(88,101,242,.04));border:1px solid rgba(88,101,242,.22);border-radius:14px;padding:10px 12px;margin-bottom:10px;position:relative;overflow:hidden">
+            <div style="position:relative;flex-shrink:0;">
+              <div id="pcDiscordCardAvatar" style="width:42px;height:42px;border-radius:50%;background:linear-gradient(135deg,#5865f2,#7289da);display:flex;align-items:center;justify-content:center;overflow:hidden;box-shadow:0 3px 12px rgba(88,101,242,.4);">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="#fff"><path d="M20.317 4.37a19.791 19.791 0 0 0-4.885-1.515.074.074 0 0 0-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 0 0-5.487 0 12.64 12.64 0 0 0-.617-1.25.077.077 0 0 0-.079-.037A19.736 19.736 0 0 0 3.677 4.37a.07.07 0 0 0-.032.027C.533 9.046-.32 13.58.099 18.057a.082.082 0 0 0 .031.057 19.9 19.9 0 0 0 5.993 3.03.078.078 0 0 0 .084-.028c.462-.63.874-1.295 1.226-1.994a.076.076 0 0 0-.041-.106 13.107 13.107 0 0 1-1.872-.892.077.077 0 0 1-.008-.128 10.2 10.2 0 0 0 .372-.292.074.074 0 0 1 .077-.01c3.928 1.793 8.18 1.793 12.062 0a.074.074 0 0 1 .078.01c.12.098.246.198.373.292a.077.077 0 0 1-.006.127 12.299 12.299 0 0 1-1.873.892.077.077 0 0 0-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.028 19.839 19.839 0 0 0 6.002-3.03.077.077 0 0 0 .032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 0 0-.031-.03z"/></svg>
+              </div>
+              <div id="pcDiscordCardStatusDot" style="position:absolute;bottom:1px;right:1px;width:11px;height:11px;border-radius:50%;background:#22c55e;border:2px solid rgba(14,14,24,.96);box-shadow:0 0 5px rgba(34,197,94,.7);"></div>
+            </div>
+            <div style="flex:1;min-width:0;">
+              <div style="display:flex;align-items:center;gap:5px;margin-bottom:2px;">
+                <svg width="11" height="11" viewBox="0 0 24 24" fill="#5865F2"><path d="M20.317 4.37a19.791 19.791 0 0 0-4.885-1.515.074.074 0 0 0-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 0 0-5.487 0 12.64 12.64 0 0 0-.617-1.25.077.077 0 0 0-.079-.037A19.736 19.736 0 0 0 3.677 4.37a.07.07 0 0 0-.032.027C.533 9.046-.32 13.58.099 18.057a.082.082 0 0 0 .031.057 19.9 19.9 0 0 0 5.993 3.03.078.078 0 0 0 .084-.028c.462-.63.874-1.295 1.226-1.994a.076.076 0 0 0-.041-.106 13.107 13.107 0 0 1-1.872-.892.077.077 0 0 1-.008-.128 10.2 10.2 0 0 0 .372-.292.074.074 0 0 1 .077-.01c3.928 1.793 8.18 1.793 12.062 0a.074.074 0 0 1 .078.01c.12.098.246.198.373.292a.077.077 0 0 1-.006.127 12.299 12.299 0 0 1-1.873.892.077.077 0 0 0-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.028 19.839 19.839 0 0 0 6.002-3.03.077.077 0 0 0 .032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 0 0-.031-.03z"/></svg>
+                <span id="pcDiscordCardName" style="font-size:.77rem;font-weight:700;color:#e2e8f0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">Username</span>
+              </div>
+              <div id="pcDiscordCardStatus" style="font-size:.62rem;color:#6b7280;font-weight:500;">🟢 Online</div>
+            </div>
+          </div>
+
           <!-- DISCORD SERVER WIDGET PREVIEW -->
           <div id="pcDiscordServerWidget" style="display:none;align-items:center;gap:10px;background:linear-gradient(135deg,rgba(88,101,242,.1),rgba(88,101,242,.04));border:1px solid rgba(88,101,242,.22);border-radius:14px;padding:10px 12px;margin-bottom:10px;position:relative;overflow:hidden">
             <div style="position:absolute;top:6px;right:10px;font-size:.42rem;font-weight:800;letter-spacing:.14em;color:rgba(165,180,252,.2);font-family:'Space Mono',monospace">Discord</div>
@@ -4422,7 +4439,7 @@ const state = {
   linkStyle:'icons', showStats:true, showFooter:true, spacing:'normal',
   links:[],
   discordUrl:'', discordUser:'', discordUserId:'', discordStatus:'online',
-  discordBadge:true, lanyardUserId:'', discordId:'',
+  discordBadge:true, lanyardUserId:'', discordId:'', discordAvatar:'',
   discordServerInvite:'', discordServerId:'', discordServerName:'', discordServerIcon:'',
   discordOnline:'', discordMembers:'', showDiscordServerWidget:true,
   spotifyUser:'', showSpotify:false, spotifyFallback:'',
@@ -5485,6 +5502,7 @@ const DC_STATUS_LABELS = { online:'online', idle:'idle', dnd:'do not disturb', o
 
 function syncDiscordUser() {
   dcState.user = document.getElementById('iDiscordUser').value.trim();
+  state.discordUser = dcState.user;
   const badge = document.getElementById('pcDcBadge');
   const dot = document.getElementById('pcDcStatusDot');
   if (dcState.user && dcState.badge) {
@@ -5494,14 +5512,42 @@ function syncDiscordUser() {
   } else if (!dcState.user) {
     badge.style.display = 'none';
   }
+  // Update guns.lol style Discord card
+  updatePreviewDiscordCard();
 }
 function syncDiscordStatus() {
   dcState.status = document.getElementById('iDiscordStatus').value;
+  state.discordStatus = dcState.status;
   const dot = document.getElementById('pcDcStatusDot');
   dot.style.background = DC_STATUS_COLORS[dcState.status] || '#22c55e';
   // Update nav dot color
   const navDot = document.getElementById('discordNavDot');
   if (navDot) navDot.style.background = DC_STATUS_COLORS[dcState.status];
+  // Update guns.lol card
+  updatePreviewDiscordCard();
+}
+
+function updatePreviewDiscordCard() {
+  const card = document.getElementById('pcDiscordCard');
+  if (!card) return;
+  const user = dcState.user || state.discordUser;
+  const status = dcState.status || state.discordStatus || 'online';
+  const avatar = state.discordAvatar || '';
+  const statusLabels = { online:'🟢 Online', idle:'🌙 Idle', dnd:'🔴 Do Not Disturb', offline:'⚫ Offline' };
+  const statusColors = { online:'#22c55e', idle:'#f59e0b', dnd:'#ef4444', offline:'#6b7280' };
+  if (user) {
+    card.style.display = 'flex';
+    const nameEl = document.getElementById('pcDiscordCardName');
+    if (nameEl) nameEl.textContent = user;
+    const statusEl = document.getElementById('pcDiscordCardStatus');
+    if (statusEl) statusEl.textContent = statusLabels[status] || '🟢 Online';
+    const sdot = document.getElementById('pcDiscordCardStatusDot');
+    if (sdot) sdot.style.background = statusColors[status] || '#22c55e';
+    const avEl = document.getElementById('pcDiscordCardAvatar');
+    if (avEl && avatar) avEl.innerHTML = `<img src="${avatar}" style="width:100%;height:100%;object-fit:cover;" onerror="this.remove()">`;
+  } else {
+    card.style.display = 'none';
+  }
 }
 function syncDiscordUrl() {
   dcState.url = document.getElementById('iDiscordUrl').value.trim();
@@ -6283,10 +6329,10 @@ function hideProgress(wId) {
 function showPublish() {
   document.getElementById('publishUsername').value = state.username || '';
   document.getElementById('publishUrlPreview').textContent = `vltx-adoe.onrender.com/${state.username || 'yourname'}`;
-  document.getElementById('publishModal').classList.add('show');
+  document.getElementById('publishModal').classList.add('on');
 }
-function hidePublish() { document.getElementById('publishModal').classList.remove('show'); }
-function hideSuccess() { document.getElementById('successModal').classList.remove('show'); }
+function hidePublish() { document.getElementById('publishModal').classList.remove('on'); }
+function hideSuccess() { document.getElementById('successModal').classList.remove('on'); }
 async function publishProfile() {
   const username = document.getElementById('publishUsername').value.trim().toLowerCase().replace(/[^a-z0-9_.\-]/g, '');
   if (!username || username.length < 2) { showToast('❌ Username too short'); return; }
@@ -6306,7 +6352,7 @@ async function publishProfile() {
     if (json.error) { showToast('❌ ' + json.error); return; }
     publishedUrl = json.url; hidePublish();
     document.getElementById('successUrl').textContent = window.location.host + json.url;
-    document.getElementById('successModal').classList.add('show'); showToast('🎉 Published!');
+    document.getElementById('successModal').classList.add('on'); showToast('🎉 Published!');
     // Update topbar
     document.getElementById('topbarInfo').textContent = `live: ${username}`;
     document.getElementById('topbarDot').style.background = '#22c55e';
@@ -6321,9 +6367,9 @@ async function publishProfile() {
 
 function showBackendError(errMsg) {
   document.getElementById('backendErrorMsg').textContent = errMsg || 'Unknown error';
-  document.getElementById('backendErrorModal').classList.add('show');
+  document.getElementById('backendErrorModal').classList.add('on');
 }
-function hideBackendError() { document.getElementById('backendErrorModal').classList.remove('show'); }
+function hideBackendError() { document.getElementById('backendErrorModal').classList.remove('on'); }
 function copyUrl() { navigator.clipboard.writeText(window.location.host + publishedUrl).then(() => showToast('📋 Copied!')); }
 function visitProfile() { window.open(publishedUrl, '_blank'); hideSuccess(); }
 function resetProfile() { if (!confirm('Reset everything?')) return; location.reload(); }
@@ -6363,6 +6409,7 @@ renderBadges();
     state.discordUserId = id;
     state.discordId = id;
     state.discordUser   = username;
+    state.discordAvatar = avatar;
 
     // Show live card
     document.getElementById('dcLiveCard').style.display = '';
@@ -6381,6 +6428,8 @@ renderBadges();
 
     // Update badge on preview card
     syncDiscordUser();
+    // Update guns.lol discord card preview
+    updatePreviewDiscordCard();
 
     // Update nav dot
     const navDot = document.getElementById('discordNavDot');
